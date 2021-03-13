@@ -1,0 +1,26 @@
+{
+  "ambient.herobrine": {
+    "sounds": [
+      "ambient/cave/cave8",
+      "ambient/cave/cave17",
+      "ambient/cave/cave18",
+      "ambient/cave/cave19",
+      "ambient/underwater/additions/crackles2",
+      "ambient/nether/basalt_deltas/click1",
+      "ambient/nether/basalt_deltas/twist4",
+      "ambient/nether/crimson_forest/addition3",
+      "ambient/nether/crimson_forest/voom2",
+      "ambient/nether/nether_wastes/dark2",
+      "ambient/nether/nether_wastes/ground4",
+      "ambient/nether/soulsand_valley/voices1",
+      "ambient/nether/soulsand_valley/voices4",
+      "ambient/nether/soulsand_valley/whisper1",
+      "ambient/nether/soulsand_valley/whisper2",
+      "ambient/nether/soulsand_valley/whisper5",
+      "ambient/nether/soulsand_valley/whisper7",
+      "ambient/nether/warped_forest/help1",
+      "ambient/nether/warped_forest/mood9",
+      "ambient/nether/warped_forest/creak3"
+    ]
+  }
+}

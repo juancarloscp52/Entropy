@@ -1,0 +1,22 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.juancarloscp52.entropy.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BackgroundRendererMixin",
+    "BlockMixin",
+    "ClientPlayerInteractionManagerMixin",
+    "ClientWorldMixin",
+    "EntityMixin",
+    "GameRendererMixin",
+    "KeyboardInputMixin",
+    "MouseMixin",
+    "SoundSystemMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
