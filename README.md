@@ -7,7 +7,13 @@ General Event Duration and timer duration can be configured from the Settings me
 ## Features
 
 #### ScreenShots:
-![]()
+![Demo 1 - Twitch Chat Integration](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img4.png)
+![Demo 2 - Blur](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img1.png)
+![Demo 3 - Upside Down](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img2.png)
+![Demo 4 - Meteor Rain](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img3.png)
+![Demo 5 - Settings](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img5.png)
+
+
 
 ## Installation:
 This mod requires [Fabric](https://fabricmc.net/use/) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api). You can download Entropy from the _[releases](https://github.com/juancarloscp52/Entropy/releases)_ tab in github or through the CurseForge page.
