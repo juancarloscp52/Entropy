@@ -2,6 +2,7 @@ package me.juancarloscp52.entropy.client.integrations;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
+import net.minecraft.util.math.MathHelper;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.cap.EnableCapHandler;
@@ -36,7 +37,7 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration{
             .addServer("irc.chat.twitch.tv", 6697)
             .setSocketFactory(SSLSocketFactory.getDefault())
             .setName(settings.channel.toLowerCase())
-            .setServerPassword("oauth:"+settings.authToken)
+            .setServerPassword(settings.authToken.startsWith("oauth:") ? settings.authToken : "oauth:"+settings.authToken)
             .addAutoJoinChannel("#"+settings.channel.toLowerCase())
             .addListener(this)
             .setAutoSplitMessage(false)
@@ -96,4 +97,9 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration{
         ircChatBot.sendIRC().message("#"+settings.channel.toLowerCase(),"/me [Entropy Bot] "+message);
     }
 
+    @Override
+    public int getColor() {
+        int color = MathHelper.packRgb(145,70,255);
+        return color;
+    }
 }

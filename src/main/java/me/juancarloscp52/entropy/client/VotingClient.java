@@ -1,7 +1,7 @@
 package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.NetworkingConstants;
-import me.juancarloscp52.entropy.client.integrations.TwitchIntegrations;
+import me.juancarloscp52.entropy.client.integrations.Integration;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
@@ -25,7 +25,7 @@ public class VotingClient {
     int voteID = -1;
     int totalVotesCount=0;
     boolean enabled = false;
-    TwitchIntegrations integrations;
+    Integration integrations;
     MinecraftClient client = MinecraftClient.getInstance();
 
 
@@ -73,8 +73,8 @@ public class VotingClient {
         }
     }
 
-    public void setIntegrations(TwitchIntegrations twitchIntegrations){
-        this.integrations = twitchIntegrations;
+    public void setIntegrations(Integration integration){
+        this.integrations = integration;
     }
 
     public void render(MatrixStack matrixStack){
@@ -93,7 +93,7 @@ public class VotingClient {
         int altOffset = this.voteID%2==0? 4:0;
 
         DrawableHelper.fill(matrixStack,10,31+(i*18),195+10+45,35+(i*18)+10, MathHelper.packRgb(155,22,217) + 150<<24);
-        DrawableHelper.fill(matrixStack,10,31+(i*18),10+MathHelper.floor((195+45)*ratio),(35+(i*18)+10), MathHelper.packRgb(155,22,217) + (150 << 24));
+        DrawableHelper.fill(matrixStack,10,31+(i*18),10+MathHelper.floor((195+45)*ratio),(35+(i*18)+10), this.getColor()+(150<<24));
         DrawableHelper.drawTextWithShadow(matrixStack,client.textRenderer,new LiteralText((1+i+altOffset)+": ").append(new TranslatableText(this.events.get(i))),15,34+(i*18),MathHelper.packRgb(255,255,255));
 
         Text percentage = new LiteralText(MathHelper.floor(ratio*100)+" %");
@@ -115,4 +115,7 @@ public class VotingClient {
         ClientPlayNetworking.send(NetworkingConstants.POLL_STATUS,buf);
     }
 
+    public int getColor() {
+        return integrations.getColor();
+    }
 }

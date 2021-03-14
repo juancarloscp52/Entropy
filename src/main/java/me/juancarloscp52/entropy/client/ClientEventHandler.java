@@ -63,7 +63,7 @@ public class ClientEventHandler {
         double time = timerDuration - eventCountDown;
         int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
         DrawableHelper.fill(matrixStack,0,0,width,10, 150<<24);
-        DrawableHelper.fill(matrixStack,0,0, MathHelper.floor(width*(time/ timerDuration)),10, MathHelper.packRgb(70,150,70) + (255 << 24));
+        DrawableHelper.fill(matrixStack,0,0, MathHelper.floor(width*(time/ timerDuration)),10, (votingClient!=null? votingClient.getColor():MathHelper.packRgb(70,150,70)) + (255 << 24));
 
         // Render Event Queue...
         for (int i=0; i<currentEvents.size();i++){

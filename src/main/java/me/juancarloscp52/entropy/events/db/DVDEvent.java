@@ -64,7 +64,7 @@ public class DVDEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration *2);
+        return (short)(Entropy.getInstance().settings.baseEventDuration);
     }
 
     private void renderDVDOverlay(MatrixStack matrixStack, float tickdelta) {
@@ -74,11 +74,11 @@ public class DVDEvent extends AbstractTimedEvent {
         int width= client.getWindow().getScaledWidth();
         int topSize = MathHelper.floor(y);
         int leftSize = MathHelper.floor(x);
-        int bottonSize = MathHelper.floor(y+size);
+        int bottomSize = MathHelper.floor(y+size);
         int rightSize = MathHelper.floor(x+size);
         DrawableHelper.fill(matrixStack,0,0,width,topSize,MathHelper.packRgb(0,0,0)+ 255<<24);
         DrawableHelper.fill(matrixStack,0,0,leftSize,height,MathHelper.packRgb(0,0,0)+ 255<<24);
-        DrawableHelper.fill(matrixStack,0,height,width,bottonSize,MathHelper.packRgb(0,0,0)+ 255<<24);
+        DrawableHelper.fill(matrixStack,0,height,width,bottomSize,MathHelper.packRgb(0,0,0)+ 255<<24);
         DrawableHelper.fill(matrixStack,width,0,rightSize,height,MathHelper.packRgb(0,0,0)+ 255<<24);
 
     }

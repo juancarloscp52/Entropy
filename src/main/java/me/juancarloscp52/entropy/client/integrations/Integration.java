@@ -5,5 +5,6 @@ public interface Integration {
     void start();
     void stop();
     void sendChatMessage(String message);
+    int getColor();
 
 }

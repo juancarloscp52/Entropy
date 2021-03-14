@@ -1,8 +1,8 @@
 # Entropy: Chaos Mod
-Entropy is a Chaos Mod where random events happen every 30 seconds. The events are selected randomly from a pool of 53 (and growing) events that can be anything from meteor rain, physics changes and much more. General Event Duration and timer duration can be configured from the Settings menu!
+Entropy is a Chaos Mod where random events happen every 30 seconds. The events are selected randomly from a pool of 53 (and growing) events that can be anything from meteor rain, physics changes and much more.
 
 Entropy includes integration with Twitch! Viewers of a streamer can vote the next event using the streams chat! (Integration for more platforms like Youtube streaming and Discord is planned).
-
+General Event Duration and timer duration can be configured from the Settings menu!
 
 ## Features
 

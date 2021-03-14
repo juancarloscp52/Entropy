@@ -66,6 +66,7 @@ public class EntropyConfigurationScreen extends Screen {
 
 
         authToken = new TextFieldWidget(this.textRenderer,this.width/2+10,120,125,20,new TranslatableText("entropy.options.twitchIntegrations.OAuthToken"));
+        authToken.setMaxLength(64);
         authToken.setText(integrationsSettings.authToken);
         authToken.setRenderTextProvider((s, integer) -> {
             StringBuilder hiddenString= new StringBuilder();
