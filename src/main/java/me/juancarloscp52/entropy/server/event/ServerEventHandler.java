@@ -3,7 +3,6 @@ package me.juancarloscp52.entropy.server.event;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.NetworkingConstants;
-import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.server.VotingServer;
@@ -70,7 +69,7 @@ public class ServerEventHandler {
                     else    // Get winner
                         event = voting.events.get(winner);
 
-                    EntropyClient.LOGGER.info("[Chat Integrations] Winner event: "+ event.getLeft().getTranslationKey());
+                    Entropy.LOGGER.info("[Chat Integrations] Winner event: "+ event.getLeft().getTranslationKey());
                     voting.newPoll();
 
 

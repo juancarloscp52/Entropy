@@ -97,5 +97,8 @@ public class ClientEventHandler {
 
         if(votingClient!=null && votingClient.enabled)
             votingClient.disable();
+
+        // Reload settings, removing downloaded settings in constructor from the server.
+        EntropyClient.getInstance().loadSettings();
     }
 }

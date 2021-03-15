@@ -59,6 +59,8 @@
   "entropy.voting.total": "Total Votes: %d",
   "entropy.voting.randomEvent": "Random Event",
 
+  "entropy.options.error": "Entropy settings cannot be opened during gameplay. Please close your world or disconnect from the current server before editing entropy settings.",
+  "entropy.options.title": "Entropy Settings",
   "entropy.options.eventDuration": "Base Event Duration: %ds",
   "entropy.options.timerDuration": "Timer Duration: %ds",
   "entropy.options.questionMark": "?",

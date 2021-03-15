@@ -4,17 +4,18 @@
   "package": "me.juancarloscp52.entropy.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BackgroundRendererMixin",
     "BlockMixin",
-    "ClientPlayerInteractionManagerMixin",
-    "ClientWorldMixin",
-    "EntityMixin",
-    "GameRendererMixin",
-    "KeyboardInputMixin",
-    "MouseMixin",
-    "SoundSystemMixin"
+    "EntityMixin"
   ],
   "client": [
+    "BackgroundRendererMixin",
+    "ClientPlayerInteractionManagerMixin",
+    "ClientWorldMixin",
+    "GameRendererMixin",
+    "KeyboardInputMixin",
+    "OptionsScreenMixin",
+    "MouseMixin",
+    "SoundSystemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

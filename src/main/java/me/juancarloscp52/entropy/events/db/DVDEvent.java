@@ -15,7 +15,7 @@ public class DVDEvent extends AbstractTimedEvent {
     double y = 0;
     double velX=0;
     double velY=0;
-    int size = 100;
+    int size = 150;
     Random random = new Random();
     MinecraftClient client;
     public DVDEvent() {
@@ -24,8 +24,8 @@ public class DVDEvent extends AbstractTimedEvent {
 
     @Override
     public void initClient() {
-        velX=random.nextDouble()*2+0.8d;
-        velY=random.nextDouble()*2+0.8d;
+        velX=random.nextDouble()*4+0.9d;
+        velY=random.nextDouble()*4+0.9d;
         client=MinecraftClient.getInstance();
     }
 

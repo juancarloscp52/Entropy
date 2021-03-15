@@ -24,7 +24,7 @@ public class EntropyErrorScreen extends Screen {
     protected void init() {
         super.init();
         this.addButton(new ButtonWidget(this.width/2-100,this.height-40,200,20, ScreenTexts.BACK,
-                (buttonWidget) -> client.openScreen(parent)));
+                button -> onClose()));
     }
 
     @Override
@@ -36,5 +36,10 @@ public class EntropyErrorScreen extends Screen {
             textRenderer.drawWithShadow(matrices,line,this.width/4f,this.height/2f-(lines.size()*9/2f)+i*9,16777215);
         }
         super.render(matrices, mouseX, mouseY, delta);
+    }
+
+    @Override
+    public void onClose() {
+        this.client.openScreen(this.parent);
     }
 }
