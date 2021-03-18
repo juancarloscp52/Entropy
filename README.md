@@ -3,6 +3,8 @@ Entropy is a Chaos Mod where random events happen every 30 seconds. The events a
 
 Event and timer duration can be configured from the Settings menu!
 
+Entropy was heavily inspired on the excellent work of pongo1231's [**Chaos Mod V**](https://github.com/gta-chaos-mod/ChaosModV) for Grand Theft Auto V!
+
 ## Multiplayer:
 Play Entropy with friends! Each random event happens around each player. Each connected client can configure Twitch Integrations independently and will send poll results to the server.
 
