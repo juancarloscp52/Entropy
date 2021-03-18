@@ -39,7 +39,6 @@ public abstract class AbstractTimedEvent implements Event{
         if(tickCount>=this.getDuration()){
             List<Pair<Event,Short>> currentEvents = Entropy.getInstance().eventHandler.currentEvents;
             for (byte i = 0; i < currentEvents.size(); i++) {
-                System.out.println("CHECKING EQUAL: " + currentEvents.get(i).getLeft().equals(this));
                 if(currentEvents.get(i).getLeft().equals(this)){
                     byte finalI = i;
                     PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {

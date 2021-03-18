@@ -1,10 +1,16 @@
 # Entropy: Chaos Mod
 Entropy is a Chaos Mod where random events happen every 30 seconds. The events are selected randomly from a pool of 53 (and growing) events that can be anything from meteor rain, physics changes and much more.
 
-Entropy includes integration with Twitch! Viewers of a streamer can vote the next event using the streams chat! (Integration for more platforms like Youtube streaming and Discord is planned).
-General Event Duration and timer duration can be configured from the Settings menu!
+Event and timer duration can be configured from the Settings menu!
 
-## Features
+## Multiplayer:
+Play Entropy with friends! Each random event happens around each player. Each connected client can configure Twitch Integrations independently and will send poll results to the server.
+
+## Twitch Integration:
+Entropy includes integration with Twitch! Viewers of a streamer can vote the next event using the stream chat! (Integration for more platforms like Youtube streaming and Discord is planned).
+
+To enable Twitch Integration you'll need a Twitch OAuth Access token, you can generate using [this tool](https://twitchtokengenerator.com/) (or any other OAuth token generator tool).
+Enable Twitch Integrations write your OAuth Access Token and your channel name in Entropy Settings.
 
 #### ScreenShots:
 ![Demo 1 - Twitch Chat Integration](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img4.png)
@@ -13,6 +19,12 @@ General Event Duration and timer duration can be configured from the Settings me
 ![Demo 4 - Meteor Rain](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img3.png)
 ![Demo 5 - Settings](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img5.png)
 
+## Roadmap:
+
+Entropy is in early development, and some features are planned but not yet implemented:
+ - Youtube Live Chat Integration.
+ - Discord Chat Integration.
+ - Configurable Events (Enable/Disable, Custom Timing...)
 
 
 ## Installation:

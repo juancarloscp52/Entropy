@@ -2,7 +2,7 @@ package me.juancarloscp52.entropy;
 
 import com.google.gson.Gson;
 import me.juancarloscp52.entropy.events.Event;
-import me.juancarloscp52.entropy.server.event.ServerEventHandler;
+import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;

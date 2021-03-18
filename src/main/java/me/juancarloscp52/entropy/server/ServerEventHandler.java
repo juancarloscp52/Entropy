@@ -1,4 +1,4 @@
-package me.juancarloscp52.entropy.server.event;
+package me.juancarloscp52.entropy.server;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;

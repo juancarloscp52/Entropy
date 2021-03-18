@@ -99,7 +99,6 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration{
 
     @Override
     public int getColor() {
-        int color = MathHelper.packRgb(145,70,255);
-        return color;
+        return MathHelper.packRgb(145,70,255);
     }
 }

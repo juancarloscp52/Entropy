@@ -130,7 +130,6 @@ public class HerobrineEvent extends AbstractTimedEvent {
         RenderSystem.depthMask(false);
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
         float sin = 0.75f + MathHelper.abs(0.25f*MathHelper.sin(getTickCount()*0.0625f));
-        System.out.println(sin);
         RenderSystem.color4f(sin, sin, sin, 1.0f);
         int scaledHeight = client.getWindow().getScaledHeight();
         int scaledWidth = client.getWindow().getScaledWidth();
