@@ -10,7 +10,7 @@ Play Entropy with friends! Each random event happens around each player. Each co
 Entropy includes integration with Twitch! Viewers of a streamer can vote the next event using the stream chat! (Integration for more platforms like Youtube streaming and Discord is planned).
 
 To enable Twitch Integration you'll need a Twitch OAuth Access token, you can generate using [this tool](https://twitchtokengenerator.com/) (or any other OAuth token generator tool).
-Enable Twitch Integrations write your OAuth Access Token and your channel name in Entropy Settings.
+Write your OAuth Access Token and your channel name in Entropy Settings.
 
 #### ScreenShots:
 ![Demo 1 - Twitch Chat Integration](https://github.com/juancarloscp52/Entropy/blob/master/readme%20images/img4.png)
