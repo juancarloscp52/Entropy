@@ -1,9 +1,9 @@
 package me.juancarloscp52.entropy.client;
 
-import me.juancarloscp52.entropy.events.Event;
-import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.client.integrations.TwitchIntegrations;
+import me.juancarloscp52.entropy.events.Event;
+import me.juancarloscp52.entropy.events.EventRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;

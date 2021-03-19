@@ -104,7 +104,6 @@ public class EntropyClient implements ClientModInitializer {
             if(clientEventHandler==null)
                 return;
             client.execute(() -> {
-                LOGGER.info("PACKET RECEIVED, remove first");
                 clientEventHandler.remove((byte) 0);
             });
         });
@@ -114,7 +113,6 @@ public class EntropyClient implements ClientModInitializer {
                 return;
             short index = buf.readShort();
             client.execute(() -> {
-                LOGGER.info("PACKET RECEIVED, add event: "+index);
                 clientEventHandler.addEvent(index);
             });
         });
@@ -124,7 +122,6 @@ public class EntropyClient implements ClientModInitializer {
                 return;
             byte index = buf.readByte();
             client.execute(() -> {
-                LOGGER.info("PACKET RECEIVED, end event: "+index);
                 clientEventHandler.currentEvents.get(index).getLeft().endClient();
             });
         });

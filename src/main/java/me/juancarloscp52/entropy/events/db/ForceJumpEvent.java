@@ -1,8 +1,8 @@
 package me.juancarloscp52.entropy.events.db;
 
+import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import me.juancarloscp52.entropy.Entropy;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class ForceJumpEvent extends AbstractTimedEvent {

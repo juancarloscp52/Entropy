@@ -1,7 +1,7 @@
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.attribute.EntityAttributes;

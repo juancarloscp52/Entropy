@@ -13,8 +13,8 @@
     "ClientWorldMixin",
     "GameRendererMixin",
     "KeyboardInputMixin",
-    "OptionsScreenMixin",
     "MouseMixin",
+    "OptionsScreenMixin",
     "SoundSystemMixin"
   ],
   "injectors": {

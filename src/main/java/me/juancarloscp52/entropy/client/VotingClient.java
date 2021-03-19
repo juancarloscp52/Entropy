@@ -37,7 +37,6 @@ public class VotingClient {
         integrations.stop();
     }
     public void processVote(String string){
-        System.out.println("processing vote :" + string);
         if(enabled && string.trim().length()==1){
             int voteIndex = Integer.parseInt(string.trim()) + (voteID%2==0? -4:0);
             if(voteIndex>0 && voteIndex<5){
