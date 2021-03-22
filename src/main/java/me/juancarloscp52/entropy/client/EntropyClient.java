@@ -197,6 +197,7 @@ public class EntropyClient implements ClientModInitializer {
             }
         } else {
             integrationsSettings = new EntropyIntegrationsSettings();
+            saveSettings();
         }
     }
 

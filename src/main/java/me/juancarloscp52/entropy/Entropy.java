@@ -117,6 +117,7 @@ public class Entropy implements ModInitializer {
             }
         } else {
             settings = new EntropySettings();
+            saveSettings();
         }
     }
 
