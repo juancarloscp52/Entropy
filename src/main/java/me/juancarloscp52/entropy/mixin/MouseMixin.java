@@ -13,22 +13,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Mouse.class)
 public class MouseMixin {
 
-    @Shadow private double cursorDeltaX;
+    @Shadow
+    private double cursorDeltaX;
 
-    @Shadow private double cursorDeltaY;
+    @Shadow
+    private double cursorDeltaY;
 
-    @Inject(method = "updateMouse",at = @At("HEAD"))
-    private void driftMouse(CallbackInfo ci){
-        if(Variables.mouseDrifting){
-            this.cursorDeltaX+= Variables.mouseDriftingSignX *1.5d;
-            this.cursorDeltaY+= Variables.mouseDriftingSignY *0.1d;
+    @Inject(method = "updateMouse", at = @At("HEAD"))
+    private void driftMouse(CallbackInfo ci) {
+        if (Variables.mouseDrifting) {
+            this.cursorDeltaX += Variables.mouseDriftingSignX * 1.5d;
+            this.cursorDeltaY += Variables.mouseDriftingSignY * 0.1d;
         }
     }
 
-    @Redirect(method = "updateMouse", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
+    @Redirect(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
     public void changeLookDirection(ClientPlayerEntity clientPlayerEntity, double cursorDeltaX, double cursorDeltaY) {
-        int i = Variables.invertedControls? -1:1;
-        clientPlayerEntity.changeLookDirection(i*cursorDeltaX,i*cursorDeltaY);
+        int i = Variables.invertedControls ? -1 : 1;
+        clientPlayerEntity.changeLookDirection(i * cursorDeltaX, i * cursorDeltaY);
     }
 
 }

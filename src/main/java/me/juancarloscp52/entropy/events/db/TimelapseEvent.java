@@ -7,21 +7,18 @@ import net.minecraft.server.world.ServerWorld;
 
 public class TimelapseEvent extends AbstractTimedEvent {
 
-    public TimelapseEvent() {
-        this.translationKey="entropy.events.timelapse";
-    }
-
     @Override
     public void init() {
     }
 
     @Override
     public void end() {
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {

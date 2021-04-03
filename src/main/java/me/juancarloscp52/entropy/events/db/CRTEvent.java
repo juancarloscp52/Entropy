@@ -7,24 +7,20 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class CRTEvent extends AbstractTimedEvent {
 
-
-    public CRTEvent() {
-        this.translationKey="entropy.events.CRT";
-    }
-
     @Override
     public void initClient() {
-        Variables.monitor =true;
+        Variables.monitor = true;
     }
 
     @Override
     public void endClient() {
-        Variables.monitor =false;
-        this.hasEnded=true;
+        Variables.monitor = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public String type() {

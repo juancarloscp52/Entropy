@@ -7,24 +7,20 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class LSDEvent extends AbstractTimedEvent {
 
-
-    public LSDEvent() {
-        this.translationKey="entropy.events.LSD";
-    }
-
     @Override
     public void initClient() {
-        Variables.wobble=true;
+        Variables.wobble = true;
     }
 
     @Override
     public void endClient() {
-        Variables.wobble=false;
-        this.hasEnded=true;
+        Variables.wobble = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public String type() {

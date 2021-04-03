@@ -31,12 +31,12 @@ import java.util.Random;
 
 public class HerobrineEvent extends AbstractTimedEvent {
 
-    private static final Identifier VIGNETTE_TEXTURE = new Identifier("entropy","textures/vignette.png");
+    private static final Identifier VIGNETTE_TEXTURE = new Identifier("entropy", "textures/vignette.png");
     Random random;
     MinecraftClient client;
+
     public HerobrineEvent() {
-        this.translationKey="entropy.events.herobrine";
-        random= new Random();
+        random = new Random();
     }
 
 
@@ -44,7 +44,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void initClient() {
         client = MinecraftClient.getInstance();
-        Variables.customFog=true;
+        Variables.customFog = true;
         client.getSoundManager().pauseAll();
 
     }
@@ -52,10 +52,10 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void endClient() {
-        Variables.customFog=false;
-        client.getSoundManager().stopSounds(EntropyClient.herobrineAmbienceID,SoundCategory.BLOCKS);
+        Variables.customFog = false;
+        client.getSoundManager().stopSounds(EntropyClient.herobrineAmbienceID, SoundCategory.BLOCKS);
         client.getSoundManager().resumeAll();
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
 
     @Override
@@ -66,10 +66,10 @@ public class HerobrineEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        if(getTickCount()%10 ==0)
+        if (getTickCount() % 10 == 0)
             PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                if(random.nextInt(100) >=95)
-                    serverPlayerEntity.damage(DamageSource.GENERIC,1);
+                if (random.nextInt(100) >= 95)
+                    serverPlayerEntity.damage(DamageSource.GENERIC, 1);
             });
 
         super.tick();
@@ -79,12 +79,12 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void tickClient() {
         PlayerEntity player = client.player;
-        if(getTickCount() %10 == 0){
-            playStepSound(getLandingPos(),player.getEntityWorld().getBlockState(getLandingPos()));
+        if (getTickCount() % 10 == 0) {
+            playStepSound(getLandingPos(), player.getEntityWorld().getBlockState(getLandingPos()));
         }
 
-        if(getTickCount() %70 == 0){
-            player.getEntityWorld().playSound(player,player.getBlockPos(), EntropyClient.herobrineAmbience, SoundCategory.BLOCKS,1,0.9f);
+        if (getTickCount() % 70 == 0) {
+            player.getEntityWorld().playSound(player, player.getBlockPos(), EntropyClient.herobrineAmbience, SoundCategory.BLOCKS, 1, 0.9f);
         }
 
         super.tickClient();
@@ -92,12 +92,12 @@ public class HerobrineEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration *2);
+        return (short) (Entropy.getInstance().settings.baseEventDuration * 2);
     }
 
 
     @Environment(EnvType.CLIENT)
-    private BlockPos getLandingPos (){
+    private BlockPos getLandingPos() {
         PlayerEntity player = client.player;
         int i = MathHelper.floor(player.getPos().x);
         int j = MathHelper.floor(player.getPos().y - 0.20000000298023224D);
@@ -115,7 +115,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
     }
 
     @Environment(EnvType.CLIENT)
-    private void playStepSound(BlockPos pos, BlockState state){
+    private void playStepSound(BlockPos pos, BlockState state) {
         PlayerEntity player = client.player;
         if (!state.getMaterial().isLiquid()) {
             BlockState blockState = player.getEntityWorld().getBlockState(pos.up());
@@ -123,13 +123,14 @@ public class HerobrineEvent extends AbstractTimedEvent {
             player.playSound(blockSoundGroup.getStepSound(), blockSoundGroup.getVolume() * 0.25F, blockSoundGroup.getPitch());
         }
     }
+
     @Environment(EnvType.CLIENT)
     private void renderVignetteOverlay() {
         RenderSystem.enableBlend();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
-        float sin = 0.75f + MathHelper.abs(0.25f*MathHelper.sin(getTickCount()*0.0625f));
+        float sin = 0.75f + MathHelper.abs(0.25f * MathHelper.sin(getTickCount() * 0.0625f));
         RenderSystem.color4f(sin, sin, sin, 1.0f);
         int scaledHeight = client.getWindow().getScaledHeight();
         int scaledWidth = client.getWindow().getScaledWidth();

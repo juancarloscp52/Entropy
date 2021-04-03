@@ -7,25 +7,22 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class HighPitchEvent extends AbstractTimedEvent {
 
-    public HighPitchEvent() {
-        this.translationKey="entropy.events.highPitch";
-    }
-
     @Override
     public void initClient() {
-        Variables.forcePitch=true;
-        Variables.forcedPitch=3;
+        Variables.forcePitch = true;
+        Variables.forcedPitch = 3;
     }
 
     @Override
     public void endClient() {
-        Variables.forcePitch=false;
-        Variables.forcedPitch=0;
-        this.hasEnded=true;
+        Variables.forcePitch = false;
+        Variables.forcedPitch = 0;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public String type() {
@@ -39,6 +36,6 @@ public class HighPitchEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration *2);
+        return (short) (Entropy.getInstance().settings.baseEventDuration * 2);
     }
 }

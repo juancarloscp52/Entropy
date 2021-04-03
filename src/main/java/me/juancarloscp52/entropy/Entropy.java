@@ -2,6 +2,7 @@ package me.juancarloscp52.entropy;
 
 import com.google.gson.Gson;
 import me.juancarloscp52.entropy.events.Event;
+import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -13,7 +14,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.LiteralText;
-import net.minecraft.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,9 +24,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class Entropy implements ModInitializer {
-    public static Entropy instance;
-
     public static final Logger LOGGER = LogManager.getLogger();
+    public static Entropy instance;
     public ServerEventHandler eventHandler;
     public EntropySettings settings;
 
@@ -34,71 +33,73 @@ public class Entropy implements ModInitializer {
     public static Entropy getInstance() {
         return instance;
     }
+
     @Override
     public void onInitialize() {
         instance = this;
         loadSettings();
         LOGGER.info("Entropy Started");
+        EventRegistry.register();
 
-        ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE,(server, player, handler, buf, responseSender) -> {
+        ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (server, player, handler, buf, responseSender) -> {
             String clientVersion = buf.readString(32767);
             String version = FabricLoader.getInstance().getModContainer("entropy").get().getMetadata().getVersion().getFriendlyString();
-            if(version.equals(clientVersion)){
+            if (version.equals(clientVersion)) {
                 PacketByteBuf buf1 = PacketByteBufs.create();
                 buf1.writeShort(settings.timerDuration);
                 buf1.writeShort(settings.baseEventDuration);
                 buf1.writeBoolean(settings.integrations);
-                ServerPlayNetworking.send(player,NetworkingConstants.JOIN_CONFIRM,buf1);
-                if(PlayerLookup.all(server).size()==1){
+                ServerPlayNetworking.send(player, NetworkingConstants.JOIN_CONFIRM, buf1);
+                if (PlayerLookup.all(server).size() == 1) {
                     eventHandler = new ServerEventHandler();
                     eventHandler.init(server);
                 }
 
-                List<Pair<Event,Short>> currentEvents = eventHandler.currentEvents;
-                if(currentEvents.size()>0){
+                List<Event> currentEvents = eventHandler.currentEvents;
+                if (currentEvents.size() > 0) {
                     PacketByteBuf packet = PacketByteBufs.create();
                     packet.writeInt(currentEvents.size());
-                    currentEvents.forEach(eventIntegerPair -> {
-                        packet.writeShort(eventIntegerPair.getRight());
-                        packet.writeBoolean(eventIntegerPair.getLeft().hasEnded());
-                        packet.writeShort(eventIntegerPair.getLeft().getTickCount());
+                    currentEvents.forEach(currentEvent -> {
+                        packet.writeString(EventRegistry.getEventId(currentEvent));
+                        packet.writeBoolean(currentEvent.hasEnded());
+                        packet.writeShort(currentEvent.getTickCount());
                     });
-                    ServerPlayNetworking.send(handler.player, NetworkingConstants.JOIN_SYNC,packet);
+                    ServerPlayNetworking.send(handler.player, NetworkingConstants.JOIN_SYNC, packet);
                 }
 
-                if(settings.integrations && eventHandler.voting!=null){
+                if (settings.integrations && eventHandler.voting != null) {
                     eventHandler.voting.sendNewPollToPlayer(handler.player);
                 }
-            }else{
-                LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...",player.getEntityName(),player.getUuidAsString(),clientVersion,version));
-                player.networkHandler.disconnect(new LiteralText(String.format("Client entropy version (%s) does not match server version (%s).",clientVersion,version)));
+            } else {
+                LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...", player.getEntityName(), player.getUuidAsString(), clientVersion, version));
+                player.networkHandler.disconnect(new LiteralText(String.format("Client entropy version (%s) does not match server version (%s).", clientVersion, version)));
             }
         });
 
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
-            if(eventHandler==null)
+            if (eventHandler == null)
                 return;
             eventHandler.endChaosPlayer(handler.player);
-            if(PlayerLookup.all(server).size()<=1){
+            if (PlayerLookup.all(server).size() <= 1) {
                 eventHandler.endChaos();
                 eventHandler = null;
             }
         });
 
-        ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.POLL_STATUS,(server, player, handler, buf, responseSender) -> {
-            if(eventHandler==null || eventHandler.voting==null)
+        ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.POLL_STATUS, (server, player, handler, buf, responseSender) -> {
+            if (eventHandler == null || eventHandler.voting == null)
                 return;
-            int voteID=buf.readInt();
-            int [] votes = buf.readIntArray();
-            server.execute(() -> eventHandler.voting.receiveVotes(voteID,votes));
+            int voteID = buf.readInt();
+            int[] votes = buf.readIntArray();
+            server.execute(() -> eventHandler.voting.receiveVotes(voteID, votes));
         });
 
         ServerTickEvents.START_SERVER_TICK.register(server -> {
-            if(eventHandler!=null)
+            if (eventHandler != null)
                 eventHandler.tick(false);
         });
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
-            if(eventHandler!=null)
+            if (eventHandler != null)
                 eventHandler.endChaos();
         });
     }

@@ -7,24 +7,20 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class InvertedColorsEvent extends AbstractTimedEvent {
 
-
-    public InvertedColorsEvent() {
-        this.translationKey="entropy.events.invertedColor";
-    }
-
     @Override
     public void initClient() {
-        Variables.invertedShader=true;
+        Variables.invertedShader = true;
     }
 
     @Override
     public void endClient() {
-        Variables.invertedShader=false;
-        this.hasEnded=true;
+        Variables.invertedShader = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public String type() {

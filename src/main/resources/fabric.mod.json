@@ -22,7 +22,9 @@
     "main": [
       "me.juancarloscp52.entropy.Entropy"
     ],
-    "modmenu": ["me.juancarloscp52.entropy.client.EntropyModMenu"]
+    "modmenu": [
+      "me.juancarloscp52.entropy.client.EntropyModMenu"
+    ]
   },
   "mixins": [
     "entropy.mixins.json"

@@ -17,20 +17,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
 
-    @Shadow @Final private MinecraftClient client;
+    @Shadow
+    @Final
+    private MinecraftClient client;
 
-    @Shadow private float lastMovementFovMultiplier;
+    @Shadow
+    private float lastMovementFovMultiplier;
 
-    @Shadow private float movementFovMultiplier;
+    @Shadow
+    private float movementFovMultiplier;
 
-    @Inject(method = "getFov",at=@At("RETURN"), cancellable = true)
-    public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir){
-        if(Variables.invertedFov) {
+    @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
+    public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
+        if (Variables.invertedFov) {
             cir.setReturnValue(updateFov(camera, tickDelta, changingFov, -client.options.fov));
-        } else if(Variables.forcedFov) {
-            if(Variables.ignoreVariableFov){
-                cir.setReturnValue((double)Variables.fov);
-            }else{
+        } else if (Variables.forcedFov) {
+            if (Variables.ignoreVariableFov) {
+                cir.setReturnValue((double) Variables.fov);
+            } else {
                 cir.setReturnValue(updateFov(camera, tickDelta, changingFov, Variables.fov));
             }
         }
@@ -38,7 +42,7 @@ public class GameRendererMixin {
     }
 
 
-    private double updateFov(Camera camera, float tickDelta, boolean changingFov, double fovValue){
+    private double updateFov(Camera camera, float tickDelta, boolean changingFov, double fovValue) {
         {
             double fov = 70.0D;
             if (changingFov) {
@@ -46,8 +50,8 @@ public class GameRendererMixin {
                 fov *= MathHelper.lerp(tickDelta, this.lastMovementFovMultiplier, this.movementFovMultiplier);
             }
 
-            if (camera.getFocusedEntity() instanceof LivingEntity && ((LivingEntity)camera.getFocusedEntity()).isDead()) {
-                float f = Math.min((float)((LivingEntity)camera.getFocusedEntity()).deathTime + tickDelta, 20.0F);
+            if (camera.getFocusedEntity() instanceof LivingEntity && ((LivingEntity) camera.getFocusedEntity()).isDead()) {
+                float f = Math.min((float) ((LivingEntity) camera.getFocusedEntity()).deathTime + tickDelta, 20.0F);
                 fov /= ((1.0F - 500.0F / (f + 500.0F)) * 2.0F + 1.0F);
             }
 

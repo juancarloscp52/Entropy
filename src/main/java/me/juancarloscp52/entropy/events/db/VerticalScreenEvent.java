@@ -10,25 +10,22 @@ import net.minecraft.util.math.MathHelper;
 public class VerticalScreenEvent extends AbstractTimedEvent {
 
     MinecraftClient client;
-    public VerticalScreenEvent() {
-        this.translationKey="entropy.events.verticalScreen";
-    }
 
     @Override
     public void initClient() {
-        client=MinecraftClient.getInstance();
+        client = MinecraftClient.getInstance();
     }
 
     @Override
     public void endClient() {
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
 
     @Override
     public void render(MatrixStack matrixStack, float tickdelta) {
-        int borderWidth = MathHelper.floor(client.getWindow().getScaledWidth()*0.341f);
-        DrawableHelper.fill(matrixStack,0,0, borderWidth,client.getWindow().getScaledHeight(),255<<24);
-        DrawableHelper.fill(matrixStack,client.getWindow().getScaledWidth(),0,client.getWindow().getScaledWidth()-borderWidth,client.getWindow().getScaledHeight(),255<<24);
+        int borderWidth = MathHelper.floor(client.getWindow().getScaledWidth() * 0.341f);
+        DrawableHelper.fill(matrixStack, 0, 0, borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
+        DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth(), 0, client.getWindow().getScaledWidth() - borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
     }
 
     @Override

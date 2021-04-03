@@ -7,12 +7,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 
 public class TntEvent extends AbstractInstantEvent {
-    public TntEvent() {
-        this.translationKey="entropy.events.tnt";
-    }
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> EntityType.TNT.spawn(serverPlayerEntity.getServerWorld(),null,null,null,serverPlayerEntity.getBlockPos().north(), SpawnReason.COMMAND, true,false).setFuse(40));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> EntityType.TNT.spawn(serverPlayerEntity.getServerWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.COMMAND, true, false).setFuse(40));
     }
 }

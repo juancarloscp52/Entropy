@@ -10,15 +10,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin {
 
-    @Inject(method = "hasExtendedReach", at=@At("RETURN"),cancellable = true)
-    private void hasExtendedReach(CallbackInfoReturnable<Boolean> cir){
-        if(Variables.reducedReachDistance)
+    @Inject(method = "hasExtendedReach", at = @At("RETURN"), cancellable = true)
+    private void hasExtendedReach(CallbackInfoReturnable<Boolean> cir) {
+        if (Variables.reducedReachDistance)
             cir.setReturnValue(false);
     }
 
-    @Inject(method = "getReachDistance", at=@At("RETURN"),cancellable = true)
-    private void getReachDistance(CallbackInfoReturnable<Float> cir){
-        if(Variables.reducedReachDistance)
+    @Inject(method = "getReachDistance", at = @At("RETURN"), cancellable = true)
+    private void getReachDistance(CallbackInfoReturnable<Float> cir) {
+        if (Variables.reducedReachDistance)
             cir.setReturnValue(1.5f);
     }
 

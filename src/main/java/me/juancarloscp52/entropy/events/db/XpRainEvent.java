@@ -11,30 +11,28 @@ import java.util.Random;
 public class XpRainEvent extends AbstractTimedEvent {
 
     Random random;
-    public XpRainEvent() {
-        this.translationKey="entropy.events.xpRain";
-    }
 
     @Override
     public void init() {
-        random=new Random();
+        random = new Random();
     }
 
     @Override
     public void end() {
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {
 
-        if(getTickCount() % 10 == 0){
-            for(int i = 0; i< 7; i++){
+        if (getTickCount() % 10 == 0) {
+            for (int i = 0; i < 7; i++) {
                 PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                    ExperienceOrbEntity orb = new ExperienceOrbEntity(serverPlayerEntity.getServerWorld(),serverPlayerEntity.getX()+(random.nextInt(100)-50),serverPlayerEntity.getY()+50+(random.nextInt(10)-5),serverPlayerEntity.getZ()+(random.nextInt(100)-50), random.nextInt(20)+1);
+                    ExperienceOrbEntity orb = new ExperienceOrbEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), random.nextInt(20) + 1);
                     serverPlayerEntity.getServerWorld().spawnEntity(orb);
                 });
 

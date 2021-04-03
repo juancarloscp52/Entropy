@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientWorld.class)
 public class ClientWorldMixin {
 
-    @Inject(method = "disconnect",at=@At("HEAD"))
-    private void onDisconnect(CallbackInfo ci){
-        if(EntropyClient.getInstance().clientEventHandler==null)
+    @Inject(method = "disconnect", at = @At("HEAD"))
+    private void onDisconnect(CallbackInfo ci) {
+        if (EntropyClient.getInstance().clientEventHandler == null)
             return;
         EntropyClient.getInstance().clientEventHandler.endChaos();
         EntropyClient.getInstance().clientEventHandler = null;

@@ -7,23 +7,20 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class UpsideDownEvent extends AbstractTimedEvent {
 
-    public UpsideDownEvent() {
-        this.translationKey="entropy.events.upsideDown";
-    }
-
     @Override
     public void initClient() {
-        Variables.invertedFov=true;
+        Variables.invertedFov = true;
     }
 
     @Override
     public void endClient() {
-        Variables.invertedFov=false;
-        this.hasEnded=true;
+        Variables.invertedFov = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {

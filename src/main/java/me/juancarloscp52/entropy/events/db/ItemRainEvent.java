@@ -14,23 +14,20 @@ import java.util.Random;
 public class ItemRainEvent extends AbstractTimedEvent {
 
     Random random;
-    public ItemRainEvent() {
-        this.translationKey="entropy.events.randomItemRain";
-    }
-
 
     @Override
     public void init() {
-        random=new Random();
+        random = new Random();
     }
 
     @Override
     public void end() {
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public String type() {
@@ -39,10 +36,10 @@ public class ItemRainEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        if(getTickCount() % 10 == 0){
-            for(int i = 0; i< 7; i++){
+        if (getTickCount() % 10 == 0) {
+            for (int i = 0; i < 7; i++) {
                 PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                    ItemEntity item = new ItemEntity(serverPlayerEntity.getServerWorld(),serverPlayerEntity.getX()+(random.nextInt(100)-50),serverPlayerEntity.getY()+50+(random.nextInt(10)-5),serverPlayerEntity.getZ()+(random.nextInt(100)-50),new ItemStack(getRandomItem(),1));
+                    ItemEntity item = new ItemEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), new ItemStack(getRandomItem(), 1));
                     serverPlayerEntity.getServerWorld().spawnEntity(item);
                 });
             }
@@ -50,9 +47,9 @@ public class ItemRainEvent extends AbstractTimedEvent {
         super.tick();
     }
 
-    private Item getRandomItem(){
+    private Item getRandomItem() {
         Item item = Registry.ITEM.getRandom(new Random());
-        if(item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")){
+        if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
             item = getRandomItem();
         }
         return item;

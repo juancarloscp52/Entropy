@@ -7,24 +7,21 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class ReducedReachEvent extends AbstractTimedEvent {
 
-    public ReducedReachEvent() {
-        this.translationKey="entropy.events.reducedReach";
-    }
-
     @Override
     public void initClient() {
-        Variables.reducedReachDistance=true;
+        Variables.reducedReachDistance = true;
     }
 
     @Override
     public void endClient() {
-        Variables.reducedReachDistance=false;
-        this.hasEnded=true;
+        Variables.reducedReachDistance = false;
+        this.hasEnded = true;
 
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {

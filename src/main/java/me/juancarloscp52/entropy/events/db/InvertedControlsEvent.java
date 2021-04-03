@@ -7,27 +7,26 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class InvertedControlsEvent extends AbstractTimedEvent {
 
-    public InvertedControlsEvent() {
-        this.translationKey="entropy.events.invertedControls";
-    }
-
     @Override
     public void initClient() {
-        Variables.invertedControls=true;
+        Variables.invertedControls = true;
     }
 
     @Override
     public void endClient() {
-        Variables.invertedControls=false;
-        this.hasEnded=true;
+        Variables.invertedControls = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
+
     @Override
     public String type() {
         return "movement";
     }
+
     @Override
     public void tick() {
         super.tick();

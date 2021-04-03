@@ -11,42 +11,40 @@ import java.util.Random;
 public class MeteorRainEvent extends AbstractTimedEvent {
 
     Random random;
-    public MeteorRainEvent() {
-        this.translationKey="entropy.events.meteorRain";
-    }
 
     @Override
     public void init() {
-        random=new Random();
+        random = new Random();
     }
 
     @Override
     public void end() {
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {
 
-        if(getTickCount() % 20 == 0){
-            for(int i = 0; i< 7; i++){
+        if (getTickCount() % 20 == 0) {
+            for (int i = 0; i < 7; i++) {
                 PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                    FireballEntity meteor = new FireballEntity(serverPlayerEntity.getServerWorld(),serverPlayerEntity,0,-1*(random.nextInt(4)+1),0);
-                    meteor.refreshPositionAndAngles(serverPlayerEntity.getX()+(random.nextInt(100)-50),serverPlayerEntity.getY()+50+(random.nextInt(10)-5),serverPlayerEntity.getZ()+(random.nextInt(100)-50),meteor.yaw,meteor.pitch);
-                    meteor.explosionPower=2;
+                    FireballEntity meteor = new FireballEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity, 0, -1 * (random.nextInt(4) + 1), 0);
+                    meteor.refreshPositionAndAngles(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.yaw, meteor.pitch);
+                    meteor.explosionPower = 2;
                     serverPlayerEntity.getServerWorld().spawnEntity(meteor);
                 });
 
             }
         }
-        if(getTickCount() == getTickCount()/2){
+        if (getTickCount() == getTickCount() / 2) {
             PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                FireballEntity meteor = new FireballEntity(serverPlayerEntity.getServerWorld(),serverPlayerEntity,0,-1*(random.nextInt(4)+1),0);
-                meteor.refreshPositionAndAngles(serverPlayerEntity.getX()+(random.nextInt(100)-50),serverPlayerEntity.getY()+50+(random.nextInt(10)-5),serverPlayerEntity.getZ()+(random.nextInt(100)-50),meteor.yaw,meteor.pitch);
-                meteor.explosionPower=4;
+                FireballEntity meteor = new FireballEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity, 0, -1 * (random.nextInt(4) + 1), 0);
+                meteor.refreshPositionAndAngles(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.yaw, meteor.pitch);
+                meteor.explosionPower = 4;
                 serverPlayerEntity.getServerWorld().spawnEntity(meteor);
             });
         }

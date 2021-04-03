@@ -7,24 +7,20 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class NoJumpEvent extends AbstractTimedEvent {
 
-
-    public NoJumpEvent() {
-        this.translationKey="entropy.events.noJump";
-    }
-
     @Override
     public void initClient() {
-        Variables.noJump=true;
+        Variables.noJump = true;
     }
 
     @Override
     public void endClient() {
-        Variables.noJump=false;
-        this.hasEnded=true;
+        Variables.noJump = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public String type() {

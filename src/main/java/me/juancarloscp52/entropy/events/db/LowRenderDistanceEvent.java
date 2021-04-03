@@ -9,25 +9,23 @@ public class LowRenderDistanceEvent extends AbstractTimedEvent {
 
     MinecraftClient client;
     private int viewDistance = 0;
-    public LowRenderDistanceEvent() {
-        this.translationKey="entropy.events.lowRenderDistance";
-    }
 
     @Override
     public void initClient() {
-        client=MinecraftClient.getInstance();
-        viewDistance =this.client.options.viewDistance;
+        client = MinecraftClient.getInstance();
+        viewDistance = this.client.options.viewDistance;
         this.client.options.viewDistance = 1;
     }
 
     @Override
     public void endClient() {
-        this.hasEnded=true;
-        this.client.options.viewDistance= viewDistance;
+        this.hasEnded = true;
+        this.client.options.viewDistance = viewDistance;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {

@@ -8,32 +8,35 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 
-public abstract class AbstractInstantEvent implements Event{
+public abstract class AbstractInstantEvent implements Event {
 
-    public String translationKey;
+    public void end() {
+    }
 
-    public void end(){}
     @Override
     @Environment(EnvType.CLIENT)
-    public void endClient() {}
+    public void endClient() {
+    }
 
     @Environment(EnvType.CLIENT)
-    public void render(MatrixStack matrixStack, float tickdelta){}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
+
     @Environment(EnvType.CLIENT)
     public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
         MinecraftClient client = MinecraftClient.getInstance();
-        int size = client.textRenderer.getWidth(new TranslatableText(translationKey));
-        DrawableHelper.drawTextWithShadow(matrixStack,MinecraftClient.getInstance().textRenderer, new TranslatableText(translationKey),client.getWindow().getScaledWidth()-size-40,y, MathHelper.packRgb(255,255,255));
-    }
-    @Override
-    public String getTranslationKey() {
-        return translationKey;
+        int size = client.textRenderer.getWidth(new TranslatableText(EventRegistry.getTranslationKey(this)));
+        DrawableHelper.drawTextWithShadow(matrixStack, MinecraftClient.getInstance().textRenderer, new TranslatableText(EventRegistry.getTranslationKey(this)), client.getWindow().getScaledWidth() - size - 40, y, MathHelper.packRgb(255, 255, 255));
     }
 
-    public void tick(){}
+    public void tick() {
+    }
+
     @Environment(EnvType.CLIENT)
-    public void tickClient(){}
-    public short getTickCount(){
+    public void tickClient() {
+    }
+
+    public short getTickCount() {
         return 0;
     }
 
@@ -41,13 +44,15 @@ public abstract class AbstractInstantEvent implements Event{
     public void setTickCount(short index) {
     }
 
-    public short getDuration(){
+    public short getDuration() {
         return 0;
     }
+
     public boolean hasEnded() {
         return true;
     }
 
     @Override
-    public void setEnded(boolean ended) {}
+    public void setEnded(boolean ended) {
+    }
 }

@@ -12,30 +12,28 @@ import java.util.Random;
 public class ChickenRainEvent extends AbstractTimedEvent {
 
     Random random;
-    public ChickenRainEvent() {
-        this.translationKey="entropy.events.chickenRain";
-    }
 
     @Override
     public void init() {
-        random=new Random();
- }
-
-    @Override
-    public void end() {
-        this.hasEnded=true;
+        random = new Random();
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void end() {
+        this.hasEnded = true;
+    }
+
+    @Override
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {
 
-        if(getTickCount() % 20 == 0){
-            for(int i = 0; i< 5; i++){
+        if (getTickCount() % 20 == 0) {
+            for (int i = 0; i < 5; i++) {
                 PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
-                        EntityType.CHICKEN.spawn(serverPlayerEntity.getServerWorld(),null,null,null,serverPlayerEntity.getBlockPos().add((random.nextInt(100)-50),50,(random.nextInt(100)-50)), SpawnReason.COMMAND,false,false));
+                        EntityType.CHICKEN.spawn(serverPlayerEntity.getServerWorld(), null, null, null, serverPlayerEntity.getBlockPos().add((random.nextInt(100) - 50), 50, (random.nextInt(100) - 50)), SpawnReason.COMMAND, false, false));
             }
         }
         super.tick();

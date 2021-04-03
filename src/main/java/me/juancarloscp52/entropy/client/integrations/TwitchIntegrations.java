@@ -18,50 +18,50 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TwitchIntegrations extends ListenerAdapter implements Integration{
+public class TwitchIntegrations extends ListenerAdapter implements Integration {
 
+    private final Configuration config;
     EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
     private PircBotX ircChatBot;
     private ExecutorService botExecutor;
-    private final Configuration config;
 
-    public TwitchIntegrations (){
+    public TwitchIntegrations() {
         config = new Configuration.Builder()
-            .setAutoNickChange(false)
-            .setOnJoinWhoEnabled(false)
-            .setCapEnabled(true)
-            .addCapHandler(new EnableCapHandler("twitch.tv/tags"))
-            .addCapHandler(new EnableCapHandler("twitch.tv/commands"))
-            .addCapHandler(new EnableCapHandler("twitch.tv/membership"))
-            .setEncoding(StandardCharsets.UTF_8)
-            .addServer("irc.chat.twitch.tv", 6697)
-            .setSocketFactory(SSLSocketFactory.getDefault())
-            .setName(settings.channel.toLowerCase())
-            .setServerPassword(settings.authToken.startsWith("oauth:") ? settings.authToken : "oauth:"+settings.authToken)
-            .addAutoJoinChannel("#"+settings.channel.toLowerCase())
-            .addListener(this)
-            .setAutoSplitMessage(false)
-            .buildConfiguration();
+                .setAutoNickChange(false)
+                .setOnJoinWhoEnabled(false)
+                .setCapEnabled(true)
+                .addCapHandler(new EnableCapHandler("twitch.tv/tags"))
+                .addCapHandler(new EnableCapHandler("twitch.tv/commands"))
+                .addCapHandler(new EnableCapHandler("twitch.tv/membership"))
+                .setEncoding(StandardCharsets.UTF_8)
+                .addServer("irc.chat.twitch.tv", 6697)
+                .setSocketFactory(SSLSocketFactory.getDefault())
+                .setName(settings.channel.toLowerCase())
+                .setServerPassword(settings.authToken.startsWith("oauth:") ? settings.authToken : "oauth:" + settings.authToken)
+                .addAutoJoinChannel("#" + settings.channel.toLowerCase())
+                .addListener(this)
+                .setAutoSplitMessage(false)
+                .buildConfiguration();
 
 
         this.start();
     }
 
     @Override
-    public void start(){
+    public void start() {
 
 
-        this.ircChatBot=new PircBotX(config);
+        this.ircChatBot = new PircBotX(config);
 
-        botExecutor= Executors.newCachedThreadPool();
+        botExecutor = Executors.newCachedThreadPool();
         botExecutor.execute(() -> {
             try {
                 this.ircChatBot.startBot();
             } catch (IOException e) {
-                EntropyClient.LOGGER.error("IO Exception while starting bot: "+e.getMessage());
+                EntropyClient.LOGGER.error("IO Exception while starting bot: " + e.getMessage());
                 e.printStackTrace();
             } catch (IrcException e) {
-                EntropyClient.LOGGER.error("IRC Exception while starting bot: "+e.getMessage());
+                EntropyClient.LOGGER.error("IRC Exception while starting bot: " + e.getMessage());
                 e.printStackTrace();
             }
         });
@@ -69,7 +69,7 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration{
     }
 
     @Override
-    public void stop(){
+    public void stop() {
 
         ircChatBot.stopBotReconnect();
         ircChatBot.close();
@@ -93,12 +93,12 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration{
     }
 
     @Override
-    public void sendChatMessage(String message){
-        ircChatBot.sendIRC().message("#"+settings.channel.toLowerCase(),"/me [Entropy Bot] "+message);
+    public void sendChatMessage(String message) {
+        ircChatBot.sendIRC().message("#" + settings.channel.toLowerCase(), "/me [Entropy Bot] " + message);
     }
 
     @Override
     public int getColor() {
-        return MathHelper.packRgb(145,70,255);
+        return MathHelper.packRgb(145, 70, 255);
     }
 }

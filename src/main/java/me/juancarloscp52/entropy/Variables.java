@@ -7,7 +7,7 @@ public class Variables {
     public static boolean forceJump = false;
     public static boolean blur = false;
     public static boolean invertedShader = false;
-    public static boolean invertedFov=false;
+    public static boolean invertedFov = false;
     public static boolean wobble = false;
     public static boolean monitor = false;
     public static boolean customFog = false;
@@ -19,10 +19,10 @@ public class Variables {
     public static boolean invertedControls = false;
     public static boolean forcePitch = false;
     public static float forcedPitch = 0;
-    public static boolean randomDrops=false;
+    public static boolean randomDrops = false;
     public static boolean mouseDrifting = false;
-    public static int mouseDriftingSignX =0;
-    public static int mouseDriftingSignY =0;
+    public static int mouseDriftingSignX = 0;
+    public static int mouseDriftingSignY = 0;
     public static boolean luckyDrops = false;
     public static boolean noDrops = false;
     public static boolean noJump = false;

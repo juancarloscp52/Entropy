@@ -7,12 +7,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 
 public class CreeperEvent extends AbstractInstantEvent {
-    public CreeperEvent() {
-        this.translationKey="entropy.events.creeper";
-    }
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> EntityType.CREEPER.spawn(serverPlayerEntity.getServerWorld(),null,null,null,serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG, true,false));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> EntityType.CREEPER.spawn(serverPlayerEntity.getServerWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG, true, false));
     }
 }

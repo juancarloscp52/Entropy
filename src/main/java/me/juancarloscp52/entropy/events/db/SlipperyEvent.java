@@ -7,34 +7,31 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class SlipperyEvent extends AbstractTimedEvent {
 
-    public SlipperyEvent() {
-        this.translationKey="entropy.events.slippery";
-    }
-
     @Override
     public void init() {
-        Variables.slippery=true;
+        Variables.slippery = true;
     }
 
     @Override
     public void end() {
-        this.hasEnded=true;
-        Variables.slippery=false;
+        this.hasEnded = true;
+        Variables.slippery = false;
     }
 
     @Override
     public void initClient() {
-        Variables.slippery=true;
+        Variables.slippery = true;
     }
 
     @Override
     public void endClient() {
-        this.hasEnded=true;
-        Variables.slippery=false;
+        this.hasEnded = true;
+        Variables.slippery = false;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {

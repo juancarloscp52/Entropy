@@ -7,24 +7,20 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class LuckyDropsEvent extends AbstractTimedEvent {
 
-    public LuckyDropsEvent() {
-        this.translationKey="entropy.events.luckyDrops";
-    }
-
-
     @Override
     public void init() {
-        Variables.luckyDrops=true;
+        Variables.luckyDrops = true;
     }
 
     @Override
     public void end() {
-        Variables.luckyDrops=false;
-        this.hasEnded=true;
+        Variables.luckyDrops = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public String type() {

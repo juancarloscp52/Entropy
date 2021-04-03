@@ -18,17 +18,21 @@ import java.util.Random;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
-    @Shadow public World world;
+    @Shadow
+    public World world;
 
-    @Shadow public abstract double getX();
+    @Shadow
+    public abstract double getX();
 
-    @Shadow public abstract double getY();
+    @Shadow
+    public abstract double getY();
 
-    @Shadow public abstract double getZ();
+    @Shadow
+    public abstract double getZ();
 
-    @Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at=@At("HEAD"),cancellable = true)
+    @Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
     private void randomDrops(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir) {
-        if(Variables.noDrops){
+        if (Variables.noDrops) {
             cir.setReturnValue(null);
             cir.cancel();
         }
@@ -50,18 +54,19 @@ public abstract class EntityMixin {
         }
     }
 
-    private ItemStack computeItemStack(ItemStack itemStack){
-        if(Variables.luckyDrops){
-            itemStack.setCount(itemStack.getCount()*5);
+    private ItemStack computeItemStack(ItemStack itemStack) {
+        if (Variables.luckyDrops) {
+            itemStack.setCount(itemStack.getCount() * 5);
             return itemStack;
-        }else if(Variables.randomDrops){
+        } else if (Variables.randomDrops) {
             return new ItemStack(getRandomItem(), itemStack.getCount());
         }
         return null;
     }
-    private Item getRandomItem(){
+
+    private Item getRandomItem() {
         Item item = Registry.ITEM.getRandom(new Random());
-        if(item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")){
+        if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
             item = getRandomItem();
         }
         return item;

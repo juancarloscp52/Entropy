@@ -11,33 +11,32 @@ import net.minecraft.server.network.ServerPlayerEntity;
 public class HyperSlowEvent extends AbstractTimedEvent {
     EntityAttributeModifier modifier;
 
-    public HyperSlowEvent() {
-        this.translationKey="entropy.events.hyperSlowEvent";
-    }
-
     @Override
     public void init() {
-        modifier = new EntityAttributeModifier("hyperSpeed",-0.8d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
+        modifier = new EntityAttributeModifier("hyperSpeed", -0.8d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).addTemporaryModifier(modifier));
     }
 
     @Override
     public void end() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).removeModifier(modifier.getId()));
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
+
     @Override
     public void endPlayer(ServerPlayerEntity player) {
         player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).removeModifier(modifier.getId());
     }
+
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {
-        if(getTickCount()%20==0){
+        if (getTickCount() % 20 == 0) {
             PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                if(serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).getModifier(modifier.getId())==null)
+                if (serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).getModifier(modifier.getId()) == null)
                     serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).addTemporaryModifier(modifier);
             });
         }
@@ -51,6 +50,6 @@ public class HyperSlowEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration *2);
+        return (short) (Entropy.getInstance().settings.baseEventDuration * 2);
     }
 }

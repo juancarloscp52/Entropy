@@ -7,24 +7,20 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class ForceJumpEvent extends AbstractTimedEvent {
 
-
-    public ForceJumpEvent() {
-        this.translationKey="entropy.events.forceJump";
-    }
-
     @Override
     public void initClient() {
-        Variables.forceJump=true;
+        Variables.forceJump = true;
     }
 
     @Override
     public void endClient() {
-        Variables.forceJump=false;
-        this.hasEnded=true;
+        Variables.forceJump = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public String type() {

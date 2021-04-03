@@ -52,23 +52,18 @@
   "entropy.events.explodeNearbyEntities": "Explotar entidades cercanas",
   "entropy.events.noDrops": "No Drops",
   "entropy.events.noJump": "Prohibido saltar",
-
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
-
   "entropy.voting.total": "Votos totales: %d",
   "entropy.voting.randomEvent": "Evento aleatorio",
-
   "entropy.options.error": "Los ajustes de Entropy no pueden ser abiertos mientras un mundo esté abierto. Por favor, cierre el mundo o desconéctese del servidor antes de editar los ajustes.",
   "entropy.options.title": "Ajustes Entropy",
   "entropy.options.eventDuration": "Duración base de eventos: %ds",
   "entropy.options.timerDuration": "Duración del contador: %ds",
   "entropy.options.questionMark": "?",
-
   "entropy.options.twitchIntegrations": "Habilitar integración con Twitch",
   "entropy.options.twitchIntegrations.OAuthToken": "Twitch OAuth Token:",
   "entropy.options.twitchIntegrations.channelName": "Nombre de canal de Twitch:",
   "entropy.options.twitchIntegrations.sendChatFeedBack": "Mostrar encuesta actual en el chat",
   "entropy.options.twitchIntegrations.help": "La integración con Twitch permite que el chat vote durante el directo cual será el próximo evento. Los usuarios podrán escribir numeros en el chat que representarán un evento especifico. Los diferentes eventos por los que se pueden votar se mostrarán en pantalla con su correspondiente número durante la encuesta. Para usar esta función, el streamer debe poner un OAuth Token con permisos de \"Chat Login\" y el nombre del canal de Twitch."
-
 }

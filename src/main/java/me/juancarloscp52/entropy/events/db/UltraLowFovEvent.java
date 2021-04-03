@@ -7,29 +7,25 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class UltraLowFovEvent extends AbstractTimedEvent {
 
-    public UltraLowFovEvent() {
-        this.translationKey="entropy.events.ultraLowFov";
-    }
-
     @Override
     public void initClient() {
-        Variables.forcedFov=true;
-        Variables.ignoreVariableFov =true;
-        Variables.fov=10;
+        Variables.forcedFov = true;
+        Variables.ignoreVariableFov = true;
+        Variables.fov = 10;
     }
 
     @Override
     public void endClient() {
-        Variables.forcedFov=false;
-        Variables.ignoreVariableFov =false;
-        Variables.fov=0;
-        this.hasEnded=true;
+        Variables.forcedFov = false;
+        Variables.ignoreVariableFov = false;
+        Variables.fov = 0;
+        this.hasEnded = true;
     }
 
 
-
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {

@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(SoundSystem.class)
 public class SoundSystemMixin {
 
-    @Inject(method = "getAdjustedPitch",at = @At("RETURN"),cancellable = true)
-    private void forcePitch(SoundInstance soundInstance, CallbackInfoReturnable<Float> cir){
-        if(Variables.forcePitch){
+    @Inject(method = "getAdjustedPitch", at = @At("RETURN"), cancellable = true)
+    private void forcePitch(SoundInstance soundInstance, CallbackInfoReturnable<Float> cir) {
+        if (Variables.forcePitch) {
             cir.setReturnValue(Variables.forcedPitch);
         }
     }

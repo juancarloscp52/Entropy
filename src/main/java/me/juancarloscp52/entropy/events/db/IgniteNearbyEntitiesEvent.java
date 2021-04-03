@@ -7,10 +7,6 @@ import net.minecraft.util.math.Box;
 
 public class IgniteNearbyEntitiesEvent extends AbstractInstantEvent {
 
-    public IgniteNearbyEntitiesEvent() {
-        this.translationKey="entropy.events.igniteEntities";
-    }
-
     @Override
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getServerWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getBlockPos().add(50, 50, 50), serverPlayerEntity.getBlockPos().add(-50, -50, -50))).forEach(entity -> entity.setOnFireFor(30)));

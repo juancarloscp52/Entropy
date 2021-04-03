@@ -1,4 +1,3 @@
-
 {
   "entropy.events.upsideDown": "上下颠倒",
   "entropy.events.creeper": "苦力怕！",
@@ -53,23 +52,18 @@
   "entropy.events.explodeNearbyEntities": "实体爆炸",
   "entropy.events.noDrops": "无掉落物",
   "entropy.events.noJump": "断腿",
-
   "entropy.title": "熵：混乱 模组",
   "entropy.errorScreen.title": "熵模组出错",
-
   "entropy.voting.total": "总计票数：%d",
   "entropy.voting.randomEvent": "随机事件",
-
   "entropy.options.error": "熵设置不能在游戏中打开。请回到主菜单。",
   "entropy.options.title": "熵设置",
   "entropy.options.eventDuration": "基础事件持续时间：%ds",
   "entropy.options.timerDuration": "定时器持续时间：%ds",
   "entropy.options.questionMark": "?",
-
   "entropy.options.twitchIntegrations": "开启Twitch关联",
   "entropy.options.twitchIntegrations.OAuthToken": "Twitch OAuth认证Token：",
   "entropy.options.twitchIntegrations.channelName": "Twitch频道名：",
   "entropy.options.twitchIntegrations.sendChatFeedBack": "在Twitch聊天框显示当前事件投票",
   "entropy.options.twitchIntegrations.help": "Twitch关联可让直播间观众在聊天框内投票决定事件。每个事件对应的序号会显示在直播屏幕上。主播需要设置OAuth token才能给予模组访问Twitch频道的权限。"
-
 }

@@ -11,32 +11,29 @@ import net.minecraft.util.math.MathHelper;
 public class CinematicScreenEvent extends AbstractTimedEvent {
 
     MinecraftClient client;
-    public CinematicScreenEvent() {
-        this.translationKey="entropy.events.cinematicScreen";
-    }
 
     @Override
     public void initClient() {
-        client=MinecraftClient.getInstance();
-        client.options.smoothCameraEnabled=true;
-        Variables.forcedFov=true;
-        Variables.fov=60;
+        client = MinecraftClient.getInstance();
+        client.options.smoothCameraEnabled = true;
+        Variables.forcedFov = true;
+        Variables.fov = 60;
     }
 
     @Override
     public void endClient() {
-        this.hasEnded=true;
-        client.options.smoothCameraEnabled=false;
-        Variables.forcedFov=false;
-        Variables.fov=0;
+        this.hasEnded = true;
+        client.options.smoothCameraEnabled = false;
+        Variables.forcedFov = false;
+        Variables.fov = 0;
     }
 
     @Override
     public void render(MatrixStack matrixStack, float tickdelta) {
-        client=MinecraftClient.getInstance();
-        int borderHeight = MathHelper.floor(client.getWindow().getScaledHeight()*0.12f);
-        DrawableHelper.fill(matrixStack,0,0, client.getWindow().getScaledWidth(),borderHeight,255<<24);
-        DrawableHelper.fill(matrixStack,0,client.getWindow().getScaledHeight()-borderHeight,client.getWindow().getScaledWidth(),client.getWindow().getScaledHeight(),255<<24);
+        client = MinecraftClient.getInstance();
+        int borderHeight = MathHelper.floor(client.getWindow().getScaledHeight() * 0.12f);
+        DrawableHelper.fill(matrixStack, 0, 0, client.getWindow().getScaledWidth(), borderHeight, 255 << 24);
+        DrawableHelper.fill(matrixStack, 0, client.getWindow().getScaledHeight() - borderHeight, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(), 255 << 24);
     }
 
     @Override

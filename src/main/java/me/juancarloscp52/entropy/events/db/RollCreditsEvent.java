@@ -12,9 +12,6 @@ import net.minecraft.util.math.MathHelper;
 public class RollCreditsEvent extends AbstractTimedEvent {
 
     MinecraftClient client;
-    public RollCreditsEvent() {
-        this.translationKey="entropy.events.rollCredits";
-    }
 
     @Override
     @Environment(EnvType.CLIENT)
@@ -26,24 +23,27 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void endClient() {
-        if(client.currentScreen instanceof EntropyCreditsScreen){
+        if (client.currentScreen instanceof EntropyCreditsScreen) {
             client.currentScreen.onClose();
             this.client.mouse.lockCursor();
         }
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
+
     @Override
     public String type() {
         return "credits";
     }
+
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     @Environment(EnvType.CLIENT)
     public void tickClient() {
-        if(getTickCount()%20==0 && client.currentScreen==null){
+        if (getTickCount() % 20 == 0 && client.currentScreen == null) {
             client.openScreen(new EntropyCreditsScreen(this));
         }
         super.tickClient();
@@ -51,6 +51,6 @@ public class RollCreditsEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) MathHelper.ceil(Entropy.getInstance().settings.baseEventDuration *1.25f);
+        return (short) MathHelper.ceil(Entropy.getInstance().settings.baseEventDuration * 1.25f);
     }
 }

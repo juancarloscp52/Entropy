@@ -7,9 +7,10 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class EntropyCreditsScreen extends CreditsScreen {
     Event currentEvent;
+
     public EntropyCreditsScreen(Event currentEvent) {
         super(true, () -> {});
-        this.currentEvent=currentEvent;
+        this.currentEvent = currentEvent;
     }
 
     @Override
@@ -20,7 +21,7 @@ public class EntropyCreditsScreen extends CreditsScreen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         super.render(matrices, mouseX, mouseY, delta);
-        EntropyClient.getInstance().clientEventHandler.render(matrices,delta);
+        EntropyClient.getInstance().clientEventHandler.render(matrices, delta);
     }
 
     @Override

@@ -10,32 +10,29 @@ import net.minecraft.entity.effect.StatusEffects;
 
 public class ForceJump2Event extends AbstractTimedEvent {
 
-    public ForceJump2Event() {
-        this.translationKey="entropy.events.forceJump2";
-    }
-
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST,getDuration(),3,true,false,false)));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, getDuration(), 3, true, false, false)));
     }
 
-    public void initClient(){
-        Variables.forceJump=true;
+    public void initClient() {
+        Variables.forceJump = true;
     }
 
     @Override
     public void endClient() {
-        Variables.forceJump=false;
-        this.hasEnded=true;
+        Variables.forceJump = false;
+        this.hasEnded = true;
     }
 
     @Override
     public void end() {
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {

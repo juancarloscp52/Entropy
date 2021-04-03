@@ -1,39 +1,39 @@
 {
-    "targets": [
-        "swap",
-        "swap2"
-    ],
-    "passes": [
+  "targets": [
+    "swap",
+    "swap2"
+  ],
+  "passes": [
+    {
+      "name": "ntsc_encode",
+      "intarget": "minecraft:main",
+      "outtarget": "swap"
+    },
+    {
+      "name": "ntsc_decode",
+      "intarget": "swap",
+      "outtarget": "swap2",
+      "auxtargets": [
         {
-            "name": "ntsc_encode",
-            "intarget": "minecraft:main",
-            "outtarget": "swap"
-        },
-        {
-            "name": "ntsc_decode",
-            "intarget": "swap",
-            "outtarget": "swap2",
-            "auxtargets": [
-                {
-                    "name": "BaseSampler",
-                    "id": "minecraft:main"
-                }
-            ]
-        },
-        {
-            "name": "bits",
-            "intarget": "swap2",
-            "outtarget": "swap"
-        },
-        {
-            "name": "scan_pincushion",
-            "intarget": "swap",
-            "outtarget": "minecraft:main"
-        },
-        {
-            "name": "blit",
-            "intarget": "minecraft:main",
-            "outtarget": "swap"
+          "name": "BaseSampler",
+          "id": "minecraft:main"
         }
-    ]
+      ]
+    },
+    {
+      "name": "bits",
+      "intarget": "swap2",
+      "outtarget": "swap"
+    },
+    {
+      "name": "scan_pincushion",
+      "intarget": "swap",
+      "outtarget": "minecraft:main"
+    },
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "swap"
+    }
+  ]
 }

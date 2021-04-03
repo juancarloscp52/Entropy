@@ -7,27 +7,25 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class ForceForwardEvent extends AbstractTimedEvent {
 
-
-    public ForceForwardEvent() {
-        this.translationKey="entropy.events.forceForward";
-    }
-
     @Override
     public void initClient() {
-        Variables.forceForward=true;
+        Variables.forceForward = true;
     }
 
     @Override
     public void endClient() {
-        Variables.forceForward=false;
-        this.hasEnded=true;
+        Variables.forceForward = false;
+        this.hasEnded = true;
     }
+
     @Override
     public String type() {
         return "movement";
     }
+
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {

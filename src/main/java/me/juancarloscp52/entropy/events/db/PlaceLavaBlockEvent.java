@@ -7,10 +7,6 @@ import net.minecraft.block.Blocks;
 
 public class PlaceLavaBlockEvent extends AbstractInstantEvent {
 
-    public PlaceLavaBlockEvent() {
-        this.translationKey="entropy.events.placeLava";
-    }
-
     @Override
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getServerWorld().setBlockState(serverPlayerEntity.getBlockPos(), Blocks.LAVA.getDefaultState()));

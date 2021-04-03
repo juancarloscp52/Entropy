@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,64 +18,64 @@ import java.util.List;
 public class ServerEventHandler {
 
     private final EntropySettings settings = Entropy.getInstance().settings;
-    public List<Pair<Event,Short>> currentEvents = new ArrayList<>();
+    public List<Event> currentEvents = new ArrayList<>();
     public MinecraftServer server;
     public VotingServer voting;
     private boolean started = false;
     private short eventCountDown = settings.timerDuration;
 
 
-    public void init(MinecraftServer server){
-        this.server=server;
+    public void init(MinecraftServer server) {
+        this.server = server;
 
-        if(settings.integrations){
+        if (settings.integrations) {
             voting = new VotingServer();
             voting.enable();
         }
 
-        this.started=true;
+        this.started = true;
     }
 
-    public void tick(boolean noNewEvents){
+    public void tick(boolean noNewEvents) {
 
-        if(!this.started)
+        if (!this.started)
             return;
 
-        if(eventCountDown == 0){
+        if (eventCountDown == 0) {
 
-            if(currentEvents.size()>3){
+            if (currentEvents.size() > 3) {
 
-                if(currentEvents.get(0).getLeft().hasEnded()){
+                if (currentEvents.get(0).hasEnded()) {
                     PlayerLookup.all(server).forEach(serverPlayerEntity ->
                             ServerPlayNetworking.send(serverPlayerEntity,
-                                                    NetworkingConstants.REMOVE_FIRST,
-                                                    PacketByteBufs.empty()));
+                                    NetworkingConstants.REMOVE_FIRST,
+                                    PacketByteBufs.empty()));
 
                     currentEvents.remove(0);
                 }
             }
 
 
-            if(!noNewEvents){
+            if (!noNewEvents) {
                 // Get next Event from chat votes (if enabled) or randomly
-                Pair<Event,Short> event;
-                if(settings.integrations){
+                Event event;
+                if (settings.integrations) {
 
                     int winner = voting.getWinner();
-                    if(winner==-1 || winner == 3)    // -1 - no winner, 3 - Random Event : Get Random Event.
-                        event = getRandomEvent(currentEvents,false);
+                    if (winner == -1 || winner == 3)    // -1 - no winner, 3 - Random Event : Get Random Event.
+                        event = getRandomEvent(currentEvents);
                     else    // Get winner
                         event = voting.events.get(winner);
 
-                    Entropy.LOGGER.info("[Chat Integrations] Winner event: "+ event.getLeft().getTranslationKey());
+                    Entropy.LOGGER.info("[Chat Integrations] Winner event: " + EventRegistry.getTranslationKey(event));
                     voting.newPoll();
 
 
-                }else
-                    event = getRandomEvent(currentEvents,false);
+                } else
+                    event = getRandomEvent(currentEvents);
 
                 // Start the event and add it to the list.
-                event.getLeft().init();
+                event.init();
                 currentEvents.add(event);
 
                 sendEventToPlayers(event);
@@ -84,52 +83,52 @@ public class ServerEventHandler {
                 // Reset timer.
                 eventCountDown = settings.timerDuration;
 
-                Entropy.LOGGER.info("New Event: "+event.getLeft().getTranslationKey() + " total duration: " + event.getLeft().getDuration());
+                Entropy.LOGGER.info("New Event: " + EventRegistry.getTranslationKey(event) + " total duration: " + event.getDuration());
             }
         }
 
         // Tick all events.
-        for(Pair<Event,Short> event : currentEvents){
-            if(!event.getLeft().hasEnded())
-                event.getLeft().tick();
+        for (Event event : currentEvents) {
+            if (!event.hasEnded())
+                event.tick();
         }
 
         // Send tick to clients.
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeShort(eventCountDown);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity,NetworkingConstants.TICK,buf));
+                ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.TICK, buf));
 
 
         eventCountDown--;
     }
 
-    private void sendEventToPlayers(Pair<Event, Short> event) {
-        short eventIndex = event.getRight();
+    private void sendEventToPlayers(Event event) {
+        String eventName = EventRegistry.getEventId(event);
 
         PacketByteBuf packetByteBuf = PacketByteBufs.create();
-        packetByteBuf.writeShort(eventIndex);
+        packetByteBuf.writeString(eventName);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity,NetworkingConstants.ADD_EVENT,packetByteBuf));
+                ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.ADD_EVENT, packetByteBuf));
 
     }
 
-    private Pair<Event,Short> getRandomEvent(List<Pair<Event,Short>> eventArray,boolean isVoting){
+    private Event getRandomEvent(List<Event> eventArray) {
         //return new Pair<>(new HerobrineEvent(), (short) 16);
-        return EventRegistry.getRandomDifferentEvent(eventArray,isVoting);
+        return EventRegistry.getRandomDifferentEvent(eventArray, false);
     }
 
-    public void endChaos(){
-        if(voting!=null)
+    public void endChaos() {
+        if (voting != null)
             voting.disable();
 
-        currentEvents.forEach(eventIntegerPair -> eventIntegerPair.getLeft().end());
+        currentEvents.forEach(Event::end);
     }
 
-    public void endChaosPlayer(ServerPlayerEntity player){
+    public void endChaosPlayer(ServerPlayerEntity player) {
         currentEvents.forEach(event -> {
-            if(!event.getLeft().hasEnded())
-                event.getLeft().endPlayer(player);
+            if (!event.hasEnded())
+                event.endPlayer(player);
         });
     }
 }

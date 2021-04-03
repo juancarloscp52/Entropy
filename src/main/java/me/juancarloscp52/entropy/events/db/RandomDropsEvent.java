@@ -7,28 +7,26 @@ import net.minecraft.client.util.math.MatrixStack;
 
 public class RandomDropsEvent extends AbstractTimedEvent {
 
-    public RandomDropsEvent() {
-        this.translationKey="entropy.events.randomDrops";
-    }
-
-
     @Override
     public void init() {
-        Variables.randomDrops=true;
+        Variables.randomDrops = true;
     }
 
     @Override
     public void end() {
-        Variables.randomDrops=false;
-        this.hasEnded=true;
+        Variables.randomDrops = false;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
+
     @Override
     public String type() {
         return "drops";
     }
+
     @Override
     public void tick() {
         super.tick();

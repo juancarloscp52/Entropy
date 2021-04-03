@@ -20,23 +20,18 @@ import java.util.Random;
 @Mixin(Block.class)
 public class BlockMixin {
 
-    @Inject(method = "getSlipperiness", at=@At("RETURN"),cancellable = true)
-    private void changeSlipperiness(CallbackInfoReturnable<Float> cir){
-        if(Variables.slippery)
-            cir.setReturnValue(1.02f);
-    }
-    @Inject(method = "dropStack", at=@At("HEAD"),cancellable = true)
-    private static void randomDrops(World world, BlockPos pos, ItemStack stack, CallbackInfo ci){
-        if(Variables.noDrops){
+    @Inject(method = "dropStack", at = @At("HEAD"), cancellable = true)
+    private static void randomDrops(World world, BlockPos pos, ItemStack stack, CallbackInfo ci) {
+        if (Variables.noDrops) {
             ci.cancel();
         }
-        if(Variables.randomDrops || Variables.luckyDrops){
+        if (Variables.randomDrops || Variables.luckyDrops) {
             if (!world.isClient && !stack.isEmpty() && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
                 float radius = 0.5F;
-                double xOffset = (double)(world.random.nextFloat() * radius) + 0.25D;
-                double yOffset = (double)(world.random.nextFloat() * radius) + 0.25D;
-                double zOffset = (double)(world.random.nextFloat() * radius) + 0.25D;
-                ItemEntity itemEntity = new ItemEntity(world, (double)pos.getX() + xOffset, (double)pos.getY() + yOffset, (double)pos.getZ() + zOffset, computeItemStack(stack));
+                double xOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
+                double yOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
+                double zOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
+                ItemEntity itemEntity = new ItemEntity(world, (double) pos.getX() + xOffset, (double) pos.getY() + yOffset, (double) pos.getZ() + zOffset, computeItemStack(stack));
                 itemEntity.setToDefaultPickupDelay();
                 world.spawnEntity(itemEntity);
             }
@@ -44,23 +39,28 @@ public class BlockMixin {
         }
     }
 
-
-    private static ItemStack computeItemStack(ItemStack itemStack){
-        if(Variables.luckyDrops){
-            itemStack.setCount(itemStack.getCount()*5);
+    private static ItemStack computeItemStack(ItemStack itemStack) {
+        if (Variables.luckyDrops) {
+            itemStack.setCount(itemStack.getCount() * 5);
             return itemStack;
-        }else if(Variables.randomDrops){
+        } else if (Variables.randomDrops) {
             return new ItemStack(getRandomItem(), itemStack.getCount());
         }
         return null;
     }
 
-    private static Item getRandomItem(){
+    private static Item getRandomItem() {
         Item item = Registry.ITEM.getRandom(new Random());
-        if(item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")){
+        if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
             item = getRandomItem();
         }
         return item;
+    }
+
+    @Inject(method = "getSlipperiness", at = @At("RETURN"), cancellable = true)
+    private void changeSlipperiness(CallbackInfoReturnable<Float> cir) {
+        if (Variables.slippery)
+            cir.setReturnValue(1.02f);
     }
 
 }

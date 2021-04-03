@@ -15,31 +15,29 @@ import java.util.Random;
 public class IntenseThunderStormEvent extends AbstractTimedEvent {
 
     Random random;
-    public IntenseThunderStormEvent() {
-        this.translationKey="entropy.events.IntenseThunder";
-    }
 
     @Override
     public void init() {
-        random=new Random();
-        Entropy.getInstance().eventHandler.server.getOverworld().setWeather(0,this.getDuration(),true,true);
+        random = new Random();
+        Entropy.getInstance().eventHandler.server.getOverworld().setWeather(0, this.getDuration(), true, true);
     }
 
     @Override
     public void end() {
-        this.hasEnded=true;
+        this.hasEnded = true;
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
 
     @Override
     public void tick() {
 
-        if(getTickCount() % 10 == 0){
+        if (getTickCount() % 10 == 0) {
             PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
                 LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(serverPlayerEntity.getServerWorld());
-                lightningEntity.refreshPositionAfterTeleport(Vec3d.ofCenter(serverPlayerEntity.getServerWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING,new BlockPos(serverPlayerEntity.getX()+(random.nextInt(50)-25),serverPlayerEntity.getY()+50+(random.nextInt(10)-5),serverPlayerEntity.getZ()+(random.nextInt(60)-25)))));
+                lightningEntity.refreshPositionAfterTeleport(Vec3d.ofCenter(serverPlayerEntity.getServerWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, new BlockPos(serverPlayerEntity.getX() + (random.nextInt(50) - 25), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(60) - 25)))));
                 serverPlayerEntity.getServerWorld().spawnEntity(lightningEntity);
             });
         }
@@ -53,6 +51,6 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration *2);
+        return (short) (Entropy.getInstance().settings.baseEventDuration * 2);
     }
 }

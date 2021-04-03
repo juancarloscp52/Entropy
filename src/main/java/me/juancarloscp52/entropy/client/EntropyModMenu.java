@@ -12,11 +12,11 @@ public class EntropyModMenu implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return (parent)-> {
-            if(MinecraftClient.getInstance().getGame().getCurrentSession()==null){
+        return (parent) -> {
+            if (MinecraftClient.getInstance().getGame().getCurrentSession() == null) {
                 return new EntropyConfigurationScreen(parent);
-            }else{
-                return new EntropyErrorScreen(parent,new TranslatableText("entropy.options.error"));
+            } else {
+                return new EntropyErrorScreen(parent, new TranslatableText("entropy.options.error"));
             }
 
         };

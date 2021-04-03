@@ -19,7 +19,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,19 +34,7 @@ import java.util.List;
 public class EntropyClient implements ClientModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
-    public static EntropyClient instance;
-
-    public ClientEventHandler clientEventHandler;
-    public EntropyIntegrationsSettings integrationsSettings;
-
-    public static EntropyClient getInstance() {
-        return instance;
-    }
-
-    public static final Identifier herobrineAmbienceID = new Identifier("entropy","ambient.herobrine");
-    public static SoundEvent herobrineAmbience = new SoundEvent(herobrineAmbienceID);
-
-
+    public static final Identifier herobrineAmbienceID = new Identifier("entropy", "ambient.herobrine");
     private static final ManagedShaderEffect invertedColor = ShaderEffectManager.getInstance()
             .manage(new Identifier("shaders/post/invert.json"));
     private static final ManagedShaderEffect blur = ShaderEffectManager.getInstance()
@@ -55,131 +42,137 @@ public class EntropyClient implements ClientModInitializer {
     private static final ManagedShaderEffect wobble = ShaderEffectManager.getInstance()
             .manage(new Identifier("shaders/post/wobble.json"));
     private static final ManagedShaderEffect monitor = ShaderEffectManager.getInstance()
-            .manage(new Identifier("entropy","shaders/post/crt.json"));
+            .manage(new Identifier("entropy", "shaders/post/crt.json"));
+    public static EntropyClient instance;
+    public static SoundEvent herobrineAmbience = new SoundEvent(herobrineAmbienceID);
+    public ClientEventHandler clientEventHandler;
+    public EntropyIntegrationsSettings integrationsSettings;
 
-
+    public static EntropyClient getInstance() {
+        return instance;
+    }
 
     @Override
     public void onInitializeClient() {
         LOGGER.info("Initializing Entropy Client Mod");
 
-        instance=this;
+        instance = this;
         loadSettings();
         saveSettings();
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_CONFIRM,(client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_CONFIRM, (client, handler, buf, responseSender) -> {
             short timerDuration = buf.readShort();
             short baseEventDuration = buf.readShort();
             boolean serverIntegrationsEnabled = buf.readBoolean();
-            clientEventHandler = new ClientEventHandler(timerDuration,baseEventDuration,serverIntegrationsEnabled);
+            clientEventHandler = new ClientEventHandler(timerDuration, baseEventDuration, serverIntegrationsEnabled);
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_SYNC,(client, handler, buf, responseSender) -> {
-            if(clientEventHandler==null)
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_SYNC, (client, handler, buf, responseSender) -> {
+            if (clientEventHandler == null)
                 return;
             int size = buf.readInt();
-            if(size==clientEventHandler.currentEvents.size())
+            if (size == clientEventHandler.currentEvents.size())
                 return;
             for (int i = 0; i < size; i++) {
-                short index = buf.readShort();
+                String eventName = buf.readString();
                 boolean ended = buf.readBoolean();
                 short tickCount = buf.readShort();
-                Pair<Event,Short> event = EventRegistry.get(index);
-                event.getLeft().setEnded(ended);
-                event.getLeft().setTickCount(tickCount);
-                if(tickCount>0 && !ended)
-                    event.getLeft().initClient();
+                Event event = EventRegistry.get(eventName);
+                event.setEnded(ended);
+                event.setTickCount(tickCount);
+                if (tickCount > 0 && !ended)
+                    event.initClient();
                 client.execute(() -> clientEventHandler.currentEvents.add(event));
             }
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.TICK,(client, handler, buf, responseSender) -> {
-            if(clientEventHandler==null)
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.TICK, (client, handler, buf, responseSender) -> {
+            if (clientEventHandler == null)
                 return;
             short eventCountDown = buf.readShort();
             client.execute(() -> clientEventHandler.tick(eventCountDown));
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.REMOVE_FIRST,(client, handler, buf, responseSender) -> {
-            if(clientEventHandler==null)
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.REMOVE_FIRST, (client, handler, buf, responseSender) -> {
+            if (clientEventHandler == null)
                 return;
             client.execute(() -> {
                 clientEventHandler.remove((byte) 0);
             });
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.ADD_EVENT,(client, handler, buf, responseSender) -> {
-            if(clientEventHandler==null)
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.ADD_EVENT, (client, handler, buf, responseSender) -> {
+            if (clientEventHandler == null)
                 return;
-            short index = buf.readShort();
+            String index = buf.readString();
             client.execute(() -> {
                 clientEventHandler.addEvent(index);
             });
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.END_EVENT,(client, handler, buf, responseSender) -> {
-            if(clientEventHandler==null)
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.END_EVENT, (client, handler, buf, responseSender) -> {
+            if (clientEventHandler == null)
                 return;
             byte index = buf.readByte();
             client.execute(() -> {
-                clientEventHandler.currentEvents.get(index).getLeft().endClient();
+                clientEventHandler.currentEvents.get(index).endClient();
             });
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.NEW_POLL,(client, handler, buf, responseSender) -> {
-            if(clientEventHandler==null || clientEventHandler.votingClient==null)
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.NEW_POLL, (client, handler, buf, responseSender) -> {
+            if (clientEventHandler == null || clientEventHandler.votingClient == null)
                 return;
             int voteID = buf.readInt();
             int size = buf.readInt();
             List<String> events = new ArrayList<>();
-            for (int i = 0; i < size-1; i++) {
+            for (int i = 0; i < size - 1; i++) {
                 events.add(buf.readString());
             }
-            client.execute(() -> clientEventHandler.votingClient.newPoll(voteID,size,events));
+            client.execute(() -> clientEventHandler.votingClient.newPoll(voteID, size, events));
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.POLL_STATUS,(client, handler, buf, responseSender) -> {
-            if(clientEventHandler==null || clientEventHandler.votingClient==null)
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.POLL_STATUS, (client, handler, buf, responseSender) -> {
+            if (clientEventHandler == null || clientEventHandler.votingClient == null)
                 return;
             int voteID = buf.readInt();
-            int [] totalVotes = buf.readIntArray();
+            int[] totalVotes = buf.readIntArray();
             int totalVotesCount = buf.readInt();
-            client.execute(() -> clientEventHandler.votingClient.updatePollStatus(voteID,totalVotes,totalVotesCount));
+            client.execute(() -> clientEventHandler.votingClient.updatePollStatus(voteID, totalVotes, totalVotesCount));
         });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
-            if(clientEventHandler==null)
+            if (clientEventHandler == null)
                 return;
             clientEventHandler.endChaos();
             clientEventHandler = null;
         });
 
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) ->  {
-            if(FabricLoader.getInstance().getModContainer("entropy").isPresent()){
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            if (FabricLoader.getInstance().getModContainer("entropy").isPresent()) {
                 PacketByteBuf buf = PacketByteBufs.create();
                 buf.writeString(FabricLoader.getInstance().getModContainer("entropy").get().getMetadata().getVersion().getFriendlyString());
-                ClientPlayNetworking.send(NetworkingConstants.JOIN_HANDSHAKE,buf);
+                ClientPlayNetworking.send(NetworkingConstants.JOIN_HANDSHAKE, buf);
             }
         });
 
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-            if(clientEventHandler!=null)
-                clientEventHandler.render(matrixStack,tickDelta);
+            if (clientEventHandler != null)
+                clientEventHandler.render(matrixStack, tickDelta);
         });
 
         ShaderEffectRenderCallback.EVENT.register(this::renderShaders);
-        Registry.register(Registry.SOUND_EVENT,herobrineAmbienceID, herobrineAmbience);
+        Registry.register(Registry.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
     }
 
 
-    private void renderShaders(float tickDelta){
-        if(Variables.blur){
+    private void renderShaders(float tickDelta) {
+        if (Variables.blur) {
             blur.render(tickDelta);
-        }else if(Variables.invertedShader){
+        } else if (Variables.invertedShader) {
             invertedColor.render(tickDelta);
-        }else if (Variables.wobble){
+        } else if (Variables.wobble) {
             wobble.render(tickDelta);
-        }else if(Variables.monitor){
+        } else if (Variables.monitor) {
             monitor.render(tickDelta);
         }
     }

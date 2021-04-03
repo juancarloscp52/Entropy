@@ -6,10 +6,6 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 
 public class DropInventoryEvent extends AbstractInstantEvent {
 
-    public DropInventoryEvent() {
-        this.translationKey="entropy.events.dropInventory";
-    }
-
     @Override
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.inventory.dropAll());
