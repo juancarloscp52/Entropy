@@ -52,7 +52,7 @@ You can find the built JARs inside Entropy/build/libs
 
 Copyright (C) 2021 juancarloscp52 and the Entropy contributors
 
-Entropy is released under [`GPL-3.0-or-later`],
+Entropy is released under [GPL-3.0-or-later],
 a free software and Open Source license.
 
-[`GPL-3.0-or-later`]: COPYING "SPDX-License-Identifier: GPL-3.0-or-later"
+[GPL-3.0-or-later]: COPYING "SPDX-License-Identifier: GPL-3.0-or-later"
