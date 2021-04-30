@@ -46,6 +46,11 @@ public class OneHeartEvent extends AbstractTimedEvent {
     }
 
     @Override
+    public String type() {
+        return "health";
+    }
+
+    @Override
     public short getDuration() {
         return (short) (Entropy.getInstance().settings.baseEventDuration * 2);
     }

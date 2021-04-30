@@ -114,7 +114,7 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return new Pair<>(new HerobrineEvent(), (short) 16);
+        //return EventRegistry.get("HealEvent");
         return EventRegistry.getRandomDifferentEvent(eventArray, false);
     }
 

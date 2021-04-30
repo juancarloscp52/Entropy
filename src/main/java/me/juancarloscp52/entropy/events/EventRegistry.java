@@ -125,6 +125,7 @@ public class EventRegistry {
         entropyEvents.put("VerticalScreenEvent", VerticalScreenEvent::new);
         entropyEvents.put("WhereIsEverythingEvent", WhereIsEverythingEvent::new);
         entropyEvents.put("XpRainEvent", XpRainEvent::new);
+        entropyEvents.put("HealEvent", HealEvent::new);
     }
 
 //    public static void removeDisabled() {
