@@ -53,6 +53,7 @@
   "entropy.events.NoDropsEvent": "No Drops",
   "entropy.events.NoJumpEvent": "No Jumping Allowed",
   "entropy.events.HealEvent": "Heal All Players",
+  "entropy.events.RandomizeArmorEvent": "Randomize Armor",
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
   "entropy.voting.total": "Total Votes: %d",

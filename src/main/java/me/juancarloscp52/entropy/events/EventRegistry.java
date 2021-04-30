@@ -126,6 +126,7 @@ public class EventRegistry {
         entropyEvents.put("WhereIsEverythingEvent", WhereIsEverythingEvent::new);
         entropyEvents.put("XpRainEvent", XpRainEvent::new);
         entropyEvents.put("HealEvent", HealEvent::new);
+        entropyEvents.put("RandomizeArmorEvent", RandomizeArmorEvent::new);
     }
 
 //    public static void removeDisabled() {
