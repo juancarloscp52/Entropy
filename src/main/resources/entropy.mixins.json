@@ -15,7 +15,8 @@
     "KeyboardInputMixin",
     "MouseMixin",
     "OptionsScreenMixin",
-    "SoundSystemMixin"
+    "SoundSystemMixin",
+    "PerspectiveMixin"
   ],
   "injectors": {
     "defaultRequire": 1

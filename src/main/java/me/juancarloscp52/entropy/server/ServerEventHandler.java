@@ -114,7 +114,7 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("HealEvent");
+        //return EventRegistry.get("ForceFrontViewEvent");
         return EventRegistry.getRandomDifferentEvent(eventArray, false);
     }
 

@@ -26,4 +26,6 @@ public class Variables {
     public static boolean luckyDrops = false;
     public static boolean noDrops = false;
     public static boolean noJump = false;
+    public static boolean thirdPersonView = false;
+    public static boolean frontView = false;
 }

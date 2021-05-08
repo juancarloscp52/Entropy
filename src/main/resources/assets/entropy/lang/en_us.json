@@ -54,6 +54,8 @@
   "entropy.events.NoJumpEvent": "No Jumping Allowed",
   "entropy.events.HealEvent": "Heal All Players",
   "entropy.events.RandomizeArmorEvent": "Randomize Armor",
+  "entropy.events.ForceFrontViewEvent": "Force Front View",
+  "entropy.events.ForceThirdPersonEvent": "Force Third Person View",
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
   "entropy.voting.total": "Total Votes: %d",
