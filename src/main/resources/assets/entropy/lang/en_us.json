@@ -57,6 +57,7 @@
   "entropy.events.ForceFrontViewEvent": "Force Front View",
   "entropy.events.ForceThirdPersonEvent": "Force Third Person View",
   "entropy.events.HideEventsEvent": "What is happening!???",
+  "entropy.events.TopDownViewEvent": "Top Down View",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

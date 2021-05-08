@@ -75,6 +75,7 @@ public class EventRegistry {
         entropyEvents.put("ForceThirdPersonEvent", ForceThirdPersonEvent::new);
         entropyEvents.put("ForceFrontViewEvent", ForceFrontViewEvent::new);
         entropyEvents.put("HideEventsEvent", HideEventsEvent::new);
+        entropyEvents.put("TopDownViewEvent", TopDownViewEvent::new);
 
     }
 
