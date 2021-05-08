@@ -2,6 +2,7 @@ package me.juancarloscp52.entropy.client.integrations;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
+import me.juancarloscp52.entropy.client.VotingClient;
 import net.minecraft.util.math.MathHelper;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
@@ -24,8 +25,10 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration {
     EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
     private PircBotX ircChatBot;
     private ExecutorService botExecutor;
+    private VotingClient votingClient;
 
-    public TwitchIntegrations() {
+    public TwitchIntegrations(VotingClient votingClient) {
+        this.votingClient = votingClient;
         config = new Configuration.Builder()
                 .setAutoNickChange(false)
                 .setOnJoinWhoEnabled(false)
@@ -84,7 +87,7 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration {
 
     @Override
     public void onJoin(JoinEvent event) {
-        sendChatMessage("Connected to Entropy Mod");
+        votingClient.sendMessage("Connected to Entropy Mod");
     }
 
     @Override

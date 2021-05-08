@@ -114,7 +114,7 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("HideEventsEvent");
+        //return EventRegistry.get("FarRandomTPEvent");
         return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 

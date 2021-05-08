@@ -32,7 +32,7 @@ public class ClientEventHandler {
 
         if (Entropy.getInstance().settings.integrations && integrations) {
             votingClient = new VotingClient();
-            votingClient.setIntegrations(new TwitchIntegrations());
+            votingClient.setIntegrations(new TwitchIntegrations(votingClient));
             votingClient.enable();
         }
     }
