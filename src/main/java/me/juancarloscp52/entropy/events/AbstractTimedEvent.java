@@ -2,6 +2,8 @@ package me.juancarloscp52.entropy.events;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.NetworkingConstants;
+import me.juancarloscp52.entropy.Variables;
+import me.juancarloscp52.entropy.events.db.HideEventsEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -23,6 +25,10 @@ public abstract class AbstractTimedEvent implements Event {
 
     @Environment(EnvType.CLIENT)
     public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
+        if(Variables.doNotShowEvents && !(this instanceof HideEventsEvent))
+            return;
+        if(Variables.doNotShowEvents)
+            y=20;
         MinecraftClient client = MinecraftClient.getInstance();
         int size = client.textRenderer.getWidth(new TranslatableText(EventRegistry.getTranslationKey(this)));
         DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, new TranslatableText(EventRegistry.getTranslationKey(this)), client.getWindow().getScaledWidth() - size - 40, y, MathHelper.packRgb(255, 255, 255));

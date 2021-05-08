@@ -28,4 +28,5 @@ public class Variables {
     public static boolean noJump = false;
     public static boolean thirdPersonView = false;
     public static boolean frontView = false;
+    public static boolean doNotShowEvents = false;
 }

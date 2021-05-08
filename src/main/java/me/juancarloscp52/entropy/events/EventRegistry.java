@@ -129,28 +129,30 @@ public class EventRegistry {
         entropyEvents.put("RandomizeArmorEvent", RandomizeArmorEvent::new);
         entropyEvents.put("ForceThirdPersonEvent", ForceThirdPersonEvent::new);
         entropyEvents.put("ForceFrontViewEvent", ForceFrontViewEvent::new);
+        entropyEvents.put("HideEventsEvent", HideEventsEvent::new);
+
     }
 
 //    public static void removeDisabled() {
 //        Entropy.getInstance().settings.disabledEvents.forEach(eventID -> entropyEvents.remove(eventID));
 //    }
 
-    public static Event getRandomDifferentEvent(List<Event> events, boolean isVoting) {
+    public static Event getRandomDifferentEvent(List<Event> events) {
         short index = (short) random.nextInt(entropyEvents.size());
         String newEventName = (String) entropyEvents.keySet().toArray()[index];
         Event newEvent = entropyEvents.get(newEventName).get();
 
         if (Entropy.getInstance().settings.disabledEvents.contains(newEventName)) {
-            return getRandomDifferentEvent(events, isVoting);
+            return getRandomDifferentEvent(events);
         }
 
         for (Event event : events) {
-            if (event.getClass().getName().contains(newEventName) && (!event.hasEnded() || isVoting)) {
-                return getRandomDifferentEvent(events, isVoting);
+            if (event.getClass().getName().contains(newEventName) && !event.hasEnded()) {
+                return getRandomDifferentEvent(events);
             }
 
-            if (!event.type().equals("none") && event.type().equals(newEvent.type()) && (!event.hasEnded() || isVoting)) {
-                return getRandomDifferentEvent(events, isVoting);
+            if (!event.type().equals("none") && event.type().equals(newEvent.type()) && !event.hasEnded()) {
+                return getRandomDifferentEvent(events);
             }
 
         }

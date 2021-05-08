@@ -1,5 +1,6 @@
 package me.juancarloscp52.entropy.events;
 
+import me.juancarloscp52.entropy.Variables;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -24,6 +25,8 @@ public abstract class AbstractInstantEvent implements Event {
 
     @Environment(EnvType.CLIENT)
     public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
+        if(Variables.doNotShowEvents)
+            return;
         MinecraftClient client = MinecraftClient.getInstance();
         int size = client.textRenderer.getWidth(new TranslatableText(EventRegistry.getTranslationKey(this)));
         DrawableHelper.drawTextWithShadow(matrixStack, MinecraftClient.getInstance().textRenderer, new TranslatableText(EventRegistry.getTranslationKey(this)), client.getWindow().getScaledWidth() - size - 40, y, MathHelper.packRgb(255, 255, 255));

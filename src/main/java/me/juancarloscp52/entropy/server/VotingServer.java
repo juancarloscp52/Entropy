@@ -1,5 +1,6 @@
 package me.juancarloscp52.entropy.server;
 
+import com.google.common.collect.Lists;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.events.Event;
@@ -11,6 +12,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class VotingServer {
@@ -78,8 +80,11 @@ public class VotingServer {
 
     private List<Event> getRandomEvents(int size) {
         List<Event> newEvents = new ArrayList<>();
+        List<Event> currentEvents = new ArrayList<>(Entropy.getInstance().eventHandler.currentEvents);
         for (int i = 0; i < size; i++) {
-            newEvents.add(EventRegistry.getRandomDifferentEvent(newEvents, true));
+            Event newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
+            newEvents.add(newEvent);
+            currentEvents.add(newEvent);
         }
         return newEvents;
     }

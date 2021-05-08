@@ -114,8 +114,8 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("ForceFrontViewEvent");
-        return EventRegistry.getRandomDifferentEvent(eventArray, false);
+        //return EventRegistry.get("HideEventsEvent");
+        return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 
     public void endChaos() {
