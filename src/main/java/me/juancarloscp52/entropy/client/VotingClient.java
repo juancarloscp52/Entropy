@@ -94,11 +94,15 @@ public class VotingClient {
         int altOffset = this.voteID % 2 == 0 ? 4 : 0;
 
         DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 195 + 10 + 45, 35 + (i * 18) + 10, MathHelper.packRgb(155, 22, 217) + 150 << 24);
-        DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 10 + MathHelper.floor((195 + 45) * ratio), (35 + (i * 18) + 10), this.getColor() + (150 << 24));
+        if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
+            DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 10 + MathHelper.floor((195 + 45) * ratio), (35 + (i * 18) + 10), this.getColor() + (150 << 24));
         DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, new LiteralText((1 + i + altOffset) + ": ").append(new TranslatableText(this.events.get(i))), 15, 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
 
-        Text percentage = new LiteralText(MathHelper.floor(ratio * 100) + " %");
-        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, percentage, 195 + 10 + 42 - client.textRenderer.getWidth(percentage), 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
+        if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
+            Text percentage = new LiteralText(MathHelper.floor(ratio * 100) + " %");
+            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, percentage, 195 + 10 + 42 - client.textRenderer.getWidth(percentage), 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
+        }
+
     }
 
     public void sendMessage(String message) {
