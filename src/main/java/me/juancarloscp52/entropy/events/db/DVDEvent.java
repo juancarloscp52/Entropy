@@ -21,8 +21,8 @@ public class DVDEvent extends AbstractTimedEvent {
 
     @Override
     public void initClient() {
-        velX = random.nextDouble() * 4 + 0.9d;
-        velY = random.nextDouble() * 4 + 0.9d;
+        velX = random.nextDouble() * 8 + 2d;
+        velY = random.nextDouble() * 8 + 2d;
         client = MinecraftClient.getInstance();
     }
 
@@ -44,11 +44,11 @@ public class DVDEvent extends AbstractTimedEvent {
         int width = client.getWindow().getScaledWidth();
         if (y + size > height || y < 0) {
             y = MathHelper.clamp(y, 0, height - size);
-            velY = (velY > 0 ? -1 : 1) * (random.nextDouble() * 2 + 0.8d);
+            velY = (velY > 0 ? -1 : 1) * (getRandomSpeed());
         }
         if (x + size > width || x < 0) {
             x = MathHelper.clamp(x, 0, width - size);
-            velX = (velX > 0 ? -1 : 1) * (random.nextDouble() * 2 + 0.8d);
+            velX = (velX > 0 ? -1 : 1) * (getRandomSpeed());
         }
 
         super.tickClient();
@@ -78,6 +78,10 @@ public class DVDEvent extends AbstractTimedEvent {
         DrawableHelper.fill(matrixStack, 0, height, width, bottomSize, MathHelper.packRgb(0, 0, 0) + 255 << 24);
         DrawableHelper.fill(matrixStack, width, 0, rightSize, height, MathHelper.packRgb(0, 0, 0) + 255 << 24);
 
+    }
+
+    private double getRandomSpeed(){
+        return random.nextDouble() * 8 + 2d;
     }
 
 }
