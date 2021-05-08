@@ -8,6 +8,9 @@ public class TeleportHeavenEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.teleport(serverPlayerEntity.getX(), 260, serverPlayerEntity.getZ()));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+            serverPlayerEntity.stopRiding();
+            serverPlayerEntity.teleport(serverPlayerEntity.getX(), 260, serverPlayerEntity.getZ());
+        });
     }
 }

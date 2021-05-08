@@ -22,6 +22,7 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
         BlockPos randomLocation = new BlockPos(random.nextInt(20000) - 10000, 0, random.nextInt(20000) - 10000);
         server = Entropy.getInstance().eventHandler.server;
         PlayerLookup.all(server).forEach(serverPlayerEntity -> {
+            serverPlayerEntity.stopRiding();
             server.getCommandManager().execute(server.getCommandSource(), "/spreadplayers " + randomLocation.getX() + " " + randomLocation.getZ() + " 0 120 false " + serverPlayerEntity.getEntityName());
             serverPlayerEntity.getServerWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
             serverPlayerEntity.getServerWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);

@@ -18,6 +18,7 @@ public class Teleport0Event extends AbstractInstantEvent {
     public void init() {
         server = Entropy.getInstance().eventHandler.server;
         PlayerLookup.all(server).forEach(serverPlayerEntity -> {
+            serverPlayerEntity.stopRiding();
             server.getCommandManager().execute(server.getCommandSource(), "/spreadplayers 0 0 0 10 false " + serverPlayerEntity.getEntityName());
             serverPlayerEntity.getServerWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
             serverPlayerEntity.getServerWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
