@@ -16,7 +16,6 @@ public class PerspectiveMixin {
     }
     @Inject(method = "isFrontView",at=@At("RETURN"), cancellable = true)
     private void isFrontView(CallbackInfoReturnable<Boolean> cir){
-        System.out.println(cir.getReturnValue() + " "+ !Variables.frontView);
         cir.setReturnValue(cir.getReturnValue()&& !Variables.thirdPersonView || Variables.frontView);
     }
 }
