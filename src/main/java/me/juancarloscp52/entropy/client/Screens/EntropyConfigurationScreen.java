@@ -140,6 +140,7 @@ public class EntropyConfigurationScreen extends Screen {
         integrationsSettings.authToken = authToken.getText();
         integrationsSettings.channel = channelName.getText();
         integrationsSettings.sendChatMessages = sendChatMessages.isChecked();
+        integrationsSettings.showCurrentPercentage = showPollStatus.isChecked();
         settings.baseEventDuration = eventDuration;
         settings.timerDuration = timerDuration;
 
