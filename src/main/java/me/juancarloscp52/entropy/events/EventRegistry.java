@@ -79,10 +79,6 @@ public class EventRegistry {
 
     }
 
-//    public static void removeDisabled() {
-//        Entropy.getInstance().settings.disabledEvents.forEach(eventID -> entropyEvents.remove(eventID));
-//    }
-
     public static Event getRandomDifferentEvent(List<Event> events) {
         short index = (short) random.nextInt(entropyEvents.size());
         String newEventName = (String) entropyEvents.keySet().toArray()[index];
