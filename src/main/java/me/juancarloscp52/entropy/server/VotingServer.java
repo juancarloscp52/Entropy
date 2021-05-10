@@ -1,6 +1,5 @@
 package me.juancarloscp52.entropy.server;
 
-import com.google.common.collect.Lists;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.events.Event;
@@ -12,7 +11,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class VotingServer {
