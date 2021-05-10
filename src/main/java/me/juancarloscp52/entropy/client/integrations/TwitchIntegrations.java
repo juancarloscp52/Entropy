@@ -25,7 +25,8 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration {
     EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
     private PircBotX ircChatBot;
     private ExecutorService botExecutor;
-    private VotingClient votingClient;
+    private final VotingClient votingClient;
+    private long lastJoinMessage = 0;
 
     public TwitchIntegrations(VotingClient votingClient) {
         this.votingClient = votingClient;
@@ -87,11 +88,17 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration {
 
     @Override
     public void onJoin(JoinEvent event) {
-        votingClient.sendMessage("Connected to Entropy Mod");
+        long currentTime = System.currentTimeMillis();
+        if(currentTime-lastJoinMessage>30000){
+            votingClient.sendMessage("Connected to Entropy Mod");
+            lastJoinMessage=currentTime;
+        }
+
     }
 
     @Override
     public void onPing(PingEvent event) {
+        System.out.println("Received Ping from twitch, anwsering...");
         ircChatBot.sendRaw().rawLineNow(String.format("PONG %s\r\n", event.getPingValue()));
     }
 
