@@ -9,6 +9,7 @@
   ],
   "client": [
     "BackgroundRendererMixin",
+    "CameraMixin",
     "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
     "GameRendererMixin",
@@ -16,8 +17,7 @@
     "MouseMixin",
     "OptionsScreenMixin",
     "PerspectiveMixin",
-    "SoundSystemMixin",
-    "CameraMixin"
+    "SoundSystemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

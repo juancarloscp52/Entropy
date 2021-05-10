@@ -30,4 +30,5 @@ public class Variables {
     public static boolean frontView = false;
     public static boolean doNotShowEvents = false;
     public static boolean topView = false;
+    public static float timerMultiplier = 1f;
 }

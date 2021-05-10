@@ -3,6 +3,7 @@ package me.juancarloscp52.entropy.server;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.NetworkingConstants;
+import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -22,10 +23,11 @@ public class ServerEventHandler {
     public MinecraftServer server;
     public VotingServer voting;
     private boolean started = false;
-    private short eventCountDown = settings.timerDuration;
+    private short eventCountDown;
 
 
     public void init(MinecraftServer server) {
+        resetTimer();
         this.server = server;
 
         if (settings.integrations) {
@@ -81,8 +83,7 @@ public class ServerEventHandler {
                 sendEventToPlayers(event);
 
                 // Reset timer.
-                eventCountDown = settings.timerDuration;
-
+                resetTimer();
                 Entropy.LOGGER.info("New Event: " + EventRegistry.getTranslationKey(event) + " total duration: " + event.getDuration());
             }
         }
@@ -114,7 +115,7 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("TopDownViewEvent");
+        //return EventRegistry.get("BlindnessEvent");
         return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 
@@ -130,5 +131,9 @@ public class ServerEventHandler {
             if (!event.hasEnded())
                 event.endPlayer(player);
         });
+    }
+
+    private void resetTimer(){
+        eventCountDown = (short) (settings.timerDuration/Variables.timerMultiplier);
     }
 }

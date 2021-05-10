@@ -76,7 +76,13 @@ public class EventRegistry {
         entropyEvents.put("ForceFrontViewEvent", ForceFrontViewEvent::new);
         entropyEvents.put("HideEventsEvent", HideEventsEvent::new);
         entropyEvents.put("TopDownViewEvent", TopDownViewEvent::new);
-
+        entropyEvents.put("PhantomEvent", PhantomEvent::new);
+        entropyEvents.put("TimerSpeed2Event", TimerSpeed2Event::new);
+        entropyEvents.put("TimerSpeed5Event", TimerSpeed5Event::new);
+        entropyEvents.put("TimerSpeedHalfEvent", TimerSpeedHalfEvent::new);
+        entropyEvents.put("ResistanceEvent", ResistanceEvent::new);
+        entropyEvents.put("FatigueEvent", FatigueEvent::new);
+        entropyEvents.put("BlindnessEvent", BlindnessEvent::new);
     }
 
     public static Event getRandomDifferentEvent(List<Event> events) {

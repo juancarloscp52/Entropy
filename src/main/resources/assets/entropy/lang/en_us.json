@@ -58,6 +58,15 @@
   "entropy.events.ForceThirdPersonEvent": "Force Third Person View",
   "entropy.events.HideEventsEvent": "What is happening!???",
   "entropy.events.TopDownViewEvent": "Top Down View",
+  "entropy.events.PhantomEvent": "Phantom Squad!",
+  "entropy.events.TimerSpeed2Event": "2x Timer Speed",
+  "entropy.events.TimerSpeed5Event": "5x Timer Speed",
+  "entropy.events.TimerSpeedHalfEvent": "0.5x Timer Speed",
+  "entropy.events.ResistanceEvent": "Give Resistance To Players",
+  "entropy.events.FatigueEvent": "Mining Fatigue",
+  "entropy.events.BlindnessEvent": "Blindness",
+
+
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

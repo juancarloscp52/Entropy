@@ -1,6 +1,7 @@
 package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.integrations.TwitchIntegrations;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
@@ -20,11 +21,13 @@ public class ClientEventHandler {
     public MinecraftClient client;
     short eventCountDown;
     short timerDuration;
+    final short timerDurationFinal;
     boolean serverIntegrations;
 
     public ClientEventHandler(short timerDuration, short baseEventDuration, boolean integrations) {
         this.client = MinecraftClient.getInstance();
         this.timerDuration = timerDuration;
+        this.timerDurationFinal = timerDuration;
         this.eventCountDown = timerDuration;
         this.serverIntegrations = integrations;
 
@@ -38,7 +41,7 @@ public class ClientEventHandler {
     }
 
     public void tick(short eventCountDown) {
-
+        this.timerDuration= (short) (timerDurationFinal/Variables.timerMultiplier);
         this.eventCountDown = eventCountDown;
 
         if (eventCountDown % 10 == 0 && votingClient != null) {
