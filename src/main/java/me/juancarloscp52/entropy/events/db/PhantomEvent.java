@@ -15,7 +15,7 @@ public class PhantomEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-            for(int i =0; i<5;i++){
+            for(int i =0; i<3;i++){
                 PhantomEntity phantom = EntityType.PHANTOM.spawn(serverPlayerEntity.getServerWorld(), null, null, null, serverPlayerEntity.getBlockPos().offset(Direction.UP,5), SpawnReason.SPAWN_EGG, true, false);
                 phantom.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,1500));
             }

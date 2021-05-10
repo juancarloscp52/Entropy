@@ -51,6 +51,6 @@ public class RollCreditsEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) MathHelper.ceil(Entropy.getInstance().settings.baseEventDuration * 1.25f);
+        return Entropy.getInstance().settings.baseEventDuration;
     }
 }
