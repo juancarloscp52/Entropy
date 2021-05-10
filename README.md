@@ -16,6 +16,7 @@ To enable Twitch Integration you'll need a Twitch OAuth Access token, you can ge
 Write your OAuth Access Token and your channel name in Entropy Settings.
 ## Gameplay:
 Click Image to watch the video.
+
 [![Entropy: Chaos Mod - slicedlime vs chat](https://img.youtube.com/vi/qGuIEfpSfto/0.jpg)](https://www.youtube.com/watch?v=qGuIEfpSfto "Entropy: Chaos Mod - slicedlime vs chat")
 
 ## ScreenShots:
