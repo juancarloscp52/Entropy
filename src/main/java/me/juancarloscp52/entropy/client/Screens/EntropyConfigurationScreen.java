@@ -23,25 +23,20 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
+import me.juancarloscp52.entropy.client.Screens.Widgets.EntropySliderWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ScreenTexts;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CheckboxWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
 
 
 public class EntropyConfigurationScreen extends Screen {
     private static final Identifier LOGO = new Identifier("entropy", "textures/logo-with-text.png");
     EntropySettings settings = Entropy.getInstance().settings;
     EntropyIntegrationsSettings integrationsSettings = EntropyClient.getInstance().integrationsSettings;
-    short eventDuration;
-    short timerDuration;
 
     TextFieldWidget authToken;
     TextFieldWidget channelName;
@@ -49,8 +44,8 @@ public class EntropyConfigurationScreen extends Screen {
     CheckboxWidget sendChatMessages;
     CheckboxWidget showPollStatus;
 
-    ButtonWidget eventDurationWidget;
-    ButtonWidget timerDurationWidget;
+    SliderWidget eventDurationWidget;
+    SliderWidget timerDurationWidget;
     ButtonWidget done;
 
     Screen parent;
@@ -62,23 +57,11 @@ public class EntropyConfigurationScreen extends Screen {
 
     protected void init() {
 
-        eventDuration = settings.baseEventDuration;
-        timerDuration = settings.timerDuration;
-
-
-        eventDurationWidget = new ButtonWidget(this.width / 2 - 160, 5, 150, 20, new TranslatableText("entropy.options.eventDuration", eventDuration), button -> {
-            this.eventDuration += 300;
-            if (this.eventDuration > 900)
-                this.eventDuration = 300;
-        });
+        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 5, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/1200d,(slider, translationKey, value) -> new TranslatableText("entropy.options.eventDuration", MathHelper.floor(value*60+15)), value -> settings.baseEventDuration = (short) ((1200*value)+300));
         this.addButton(eventDurationWidget);
 
 
-        timerDurationWidget = new ButtonWidget(this.width / 2 + 10, 5, 150, 20, new TranslatableText("entropy.options.timerDuration", timerDuration), button -> {
-            this.timerDuration += 300;
-            if (this.timerDuration > 900)
-                this.timerDuration = 300;
-        });
+        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 5, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/1200d,(slider, translationKey, value) -> new TranslatableText("entropy.options.timerDuration", MathHelper.floor(value*60+15)),value -> settings.timerDuration = (short) ((1200*value)+300));
         this.addButton(timerDurationWidget);
 
         ButtonWidget eventSettings = new ButtonWidget(this.width / 2 - 75, 30, 150, 20, new TranslatableText("entropy.options.disableEvents"), button -> this.client.openScreen(new EntropyEventConfigurationScreen(this)));
@@ -138,10 +121,6 @@ public class EntropyConfigurationScreen extends Screen {
         matrices.pop();
         RenderSystem.disableBlend();
 
-
-        this.eventDurationWidget.setMessage(new TranslatableText("entropy.options.eventDuration", eventDuration / 20));
-        this.timerDurationWidget.setMessage(new TranslatableText("entropy.options.timerDuration", timerDuration / 20));
-
         TranslatableText oAuthTranslation = new TranslatableText("entropy.options.twitchIntegrations.OAuthToken");
         drawTextWithShadow(matrices, this.textRenderer, oAuthTranslation, this.width / 2 - 10 - textRenderer.getWidth(oAuthTranslation), 86, 16777215);
 
@@ -152,14 +131,11 @@ public class EntropyConfigurationScreen extends Screen {
     }
 
     private void onDone() {
-
         settings.integrations = integrationsCheckbox.isChecked();
         integrationsSettings.authToken = authToken.getText();
         integrationsSettings.channel = channelName.getText();
         integrationsSettings.sendChatMessages = sendChatMessages.isChecked();
         integrationsSettings.showCurrentPercentage = showPollStatus.isChecked();
-        settings.baseEventDuration = eventDuration;
-        settings.timerDuration = timerDuration;
 
         EntropyClient.getInstance().saveSettings();
         Entropy.getInstance().saveSettings();
