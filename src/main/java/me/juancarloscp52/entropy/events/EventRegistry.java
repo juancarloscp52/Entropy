@@ -101,6 +101,7 @@ public class EventRegistry {
         entropyEvents.put("FatigueEvent", FatigueEvent::new);
         entropyEvents.put("BlindnessEvent", BlindnessEvent::new);
         entropyEvents.put("SpeedEvent", SpeedEvent::new);
+        entropyEvents.put("StarterPackEvent", StarterPackEvent::new);
     }
 
     public static Event getRandomDifferentEvent(List<Event> events) {

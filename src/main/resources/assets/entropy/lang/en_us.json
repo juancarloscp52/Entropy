@@ -66,6 +66,7 @@
   "entropy.events.FatigueEvent": "Mining Fatigue",
   "entropy.events.BlindnessEvent": "Blindness",
   "entropy.events.SpeedEvent": "Speed",
+  "entropy.events.StarterPackEvent": "Give Starter Pack To Player",
 
 
 

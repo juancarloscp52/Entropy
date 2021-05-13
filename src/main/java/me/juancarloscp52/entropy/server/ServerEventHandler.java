@@ -132,7 +132,7 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("SpeedEvent");
+        //return EventRegistry.get("StarterPackEvent");
         return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 
