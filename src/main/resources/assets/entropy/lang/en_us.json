@@ -65,6 +65,7 @@
   "entropy.events.ResistanceEvent": "Give Resistance To Players",
   "entropy.events.FatigueEvent": "Mining Fatigue",
   "entropy.events.BlindnessEvent": "Blindness",
+  "entropy.events.SpeedEvent": "Speed",
 
 
 
