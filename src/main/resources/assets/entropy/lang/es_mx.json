@@ -67,7 +67,7 @@
   "entropy.events.BlindnessEvent": "Cegera",
   "entropy.events.SpeedEvent": "Velocidad",
   "entropy.events.StarterPackEvent": "Kit de inicio",
-  "entropy.events.DamageItemsEvent": "Dañar objetos",
+  "entropy.events.DamageItemsEvent": "Dañar objetos del jugador",
 
   "entropy.options.disableEvents": "Desactivar eventos",
   "entropy.options.twitchIntegrations.showPollStatus": "Mostrar los resusltados en pantalla",
