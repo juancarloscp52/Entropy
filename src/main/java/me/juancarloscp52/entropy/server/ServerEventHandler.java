@@ -132,8 +132,8 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        return EventRegistry.get("DamageItemsEvent");
-        //return EventRegistry.getRandomDifferentEvent(eventArray);
+        //return EventRegistry.get("DamageItemsEvent");
+        return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 
     public void endChaos() {
