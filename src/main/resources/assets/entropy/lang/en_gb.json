@@ -2,7 +2,7 @@
   "entropy.events.UpsideDownEvent": "Upside down",
   "entropy.events.CreeperEvent": "Creeper!",
   "entropy.events.CloseRandomTPEvent": "Teleport players a few metres",
-  "entropy.events.Teleport0Event": "Teleport to Spawn",
+  "entropy.events.Teleport0Event": "Teleport players to Spawn",
   "entropy.events.FarRandomTPEvent": "Teleport players to a random location",
   "entropy.events.LowRenderDistanceEvent": "Low render distance",
   "entropy.events.WhereIsEverythingEvent": "Corrupt world",
