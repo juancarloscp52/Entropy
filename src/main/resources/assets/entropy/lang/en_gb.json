@@ -69,8 +69,6 @@
   "entropy.events.StarterPackEvent": "Give starter pack to players",
   "entropy.events.DamageItemsEvent": "Damage players' items",
 
-
-
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
   "entropy.voting.total": "Total votes: %d",
