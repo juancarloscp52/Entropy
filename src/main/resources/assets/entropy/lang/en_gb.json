@@ -1,7 +1,7 @@
 {
   "entropy.events.UpsideDownEvent": "Upside down",
   "entropy.events.CreeperEvent": "Creeper!",
-  "entropy.events.CloseRandomTPEvent": "Teleport player a few metres",
+  "entropy.events.CloseRandomTPEvent": "Teleport players a few metres",
   "entropy.events.Teleport0Event": "Teleport to Spawn",
   "entropy.events.FarRandomTPEvent": "Teleport players to a random location",
   "entropy.events.LowRenderDistanceEvent": "Low render distance",
@@ -38,10 +38,10 @@
   "entropy.events.OneHeartEvent": "One heart",
   "entropy.events.HyperSpeedEvent": "Hyper speed",
   "entropy.events.HyperSlowEvent": "Hyper slow",
-  "entropy.events.UltraFovEvent": "Quake fov? QUAKE FOOOOV!",
+  "entropy.events.UltraFovEvent": "Quake FOV",
   "entropy.events.UltraLowFovEvent": "Ultra zoom",
   "entropy.events.DVDEvent": "DVD screen saver",
-  "entropy.events.ItemRainEvent": "Item rain!",
+  "entropy.events.ItemRainEvent": "Item rain",
   "entropy.events.RandomDropsEvent": "Random drops",
   "entropy.events.MouseDriftingEvent": "Mouse drifting",
   "entropy.events.LuckyDropsEvent": "Drop multiplier",
@@ -58,7 +58,7 @@
   "entropy.events.ForceThirdPersonEvent": "Force third person view",
   "entropy.events.HideEventsEvent": "What is happening?!",
   "entropy.events.TopDownViewEvent": "Top down view",
-  "entropy.events.PhantomEvent": "Phantom squad!",
+  "entropy.events.PhantomEvent": "Phantom squad",
   "entropy.events.TimerSpeed2Event": "2x timer speed",
   "entropy.events.TimerSpeed5Event": "5x timer speed",
   "entropy.events.TimerSpeedHalfEvent": "0.5x timer speed",
@@ -66,8 +66,8 @@
   "entropy.events.FatigueEvent": "Mining fatigue",
   "entropy.events.BlindnessEvent": "Blindness",
   "entropy.events.SpeedEvent": "Speed",
-  "entropy.events.StarterPackEvent": "Give starter pack to player",
-  "entropy.events.DamageItemsEvent": "Damage player items",
+  "entropy.events.StarterPackEvent": "Give starter pack to players",
+  "entropy.events.DamageItemsEvent": "Damage players' items",
 
 
 
