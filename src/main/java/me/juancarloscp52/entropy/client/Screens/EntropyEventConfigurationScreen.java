@@ -48,9 +48,9 @@ public class EntropyEventConfigurationScreen extends Screen {
     protected void init() {
         list = new EntropyEventListWidget(MinecraftClient.getInstance(), this.width, this.height, 32, this.height - 32, 25);
         list.addAllFromRegistry();
-        this.children.add(list);
+        this.addSelectableChild(list);
         ButtonWidget done = new ButtonWidget(this.width / 2 - 100, this.height - 26, 200, 20, ScreenTexts.DONE, button -> onDone());
-        this.addButton(done);
+        this.addDrawableChild(done);
     }
 
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {

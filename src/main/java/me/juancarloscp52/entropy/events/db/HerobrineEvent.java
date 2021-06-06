@@ -33,6 +33,7 @@ import net.minecraft.block.FenceGateBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.damage.DamageSource;
@@ -124,7 +125,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
             BlockPos blockPos2 = blockPos.down();
             BlockState blockState = player.getEntityWorld().getBlockState(blockPos2);
             Block block = blockState.getBlock();
-            if (block.isIn(BlockTags.FENCES) || block.isIn(BlockTags.WALLS) || block instanceof FenceGateBlock) {
+            if (block.getDefaultState().isIn(BlockTags.FENCES) || block.getDefaultState().isIn(BlockTags.WALLS) || block instanceof FenceGateBlock) {
                 return blockPos2;
             }
         }
@@ -148,13 +149,13 @@ public class HerobrineEvent extends AbstractTimedEvent {
         RenderSystem.depthMask(false);
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
         float sin = 0.75f + MathHelper.abs(0.25f * MathHelper.sin(getTickCount() * 0.0625f));
-        RenderSystem.color4f(sin, sin, sin, 1.0f);
+        RenderSystem.setShaderColor(sin, sin, sin, 1.0f);
         int scaledHeight = client.getWindow().getScaledHeight();
         int scaledWidth = client.getWindow().getScaledWidth();
         this.client.getTextureManager().bindTexture(VIGNETTE_TEXTURE);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
-        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
         bufferBuilder.vertex(0.0D, scaledHeight, -90.0D).texture(0.0F, 1.0F).next();
         bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0D).texture(1.0F, 1.0F).next();
         bufferBuilder.vertex(scaledWidth, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
@@ -162,7 +163,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
         tessellator.draw();
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.defaultBlendFunc();
     }
 

@@ -25,6 +25,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -85,6 +86,11 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
 
         public List<? extends Element> children() {
             return ImmutableList.of(this.button);
+        }
+
+        @Override
+        public List<? extends Selectable> method_37025() {
+            return ImmutableList.of(button);
         }
     }
 

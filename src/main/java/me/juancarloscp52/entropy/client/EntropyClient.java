@@ -18,9 +18,6 @@
 package me.juancarloscp52.entropy.client;
 
 import com.google.gson.Gson;
-import ladysnake.satin.api.event.ShaderEffectRenderCallback;
-import ladysnake.satin.api.managed.ManagedShaderEffect;
-import ladysnake.satin.api.managed.ShaderEffectManager;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
@@ -33,6 +30,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.gl.ShaderEffect;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -52,19 +50,14 @@ public class EntropyClient implements ClientModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
     public static final Identifier herobrineAmbienceID = new Identifier("entropy", "ambient.herobrine");
-    private static final ManagedShaderEffect invertedColor = ShaderEffectManager.getInstance()
-            .manage(new Identifier("shaders/post/invert.json"));
-    private static final ManagedShaderEffect blur = ShaderEffectManager.getInstance()
-            .manage(new Identifier("shaders/post/blur.json"));
-    private static final ManagedShaderEffect wobble = ShaderEffectManager.getInstance()
-            .manage(new Identifier("shaders/post/wobble.json"));
-    private static final ManagedShaderEffect monitor = ShaderEffectManager.getInstance()
-            .manage(new Identifier("entropy", "shaders/post/crt.json"));
     public static EntropyClient instance;
     public static SoundEvent herobrineAmbience = new SoundEvent(herobrineAmbienceID);
     public ClientEventHandler clientEventHandler;
     public EntropyIntegrationsSettings integrationsSettings;
-
+    private ShaderEffect shader_blur;
+    private ShaderEffect shader_wobble;
+    private ShaderEffect shader_invertedColor;
+    private ShaderEffect shader_monitor;
     public static EntropyClient getInstance() {
         return instance;
     }
@@ -72,7 +65,6 @@ public class EntropyClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         LOGGER.info("Initializing Entropy Client Mod");
-
         instance = this;
         loadSettings();
         saveSettings();
@@ -177,22 +169,39 @@ public class EntropyClient implements ClientModInitializer {
                 clientEventHandler.render(matrixStack, tickDelta);
         });
 
-        ShaderEffectRenderCallback.EVENT.register(this::renderShaders);
         Registry.register(Registry.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
     }
 
 
-    private void renderShaders(float tickDelta) {
+    public void renderShaders(float tickDelta) {
         if (Variables.blur) {
-            blur.render(tickDelta);
+            if(shader_blur==null){
+                shader_blur=ShaderManager.register(new Identifier("shaders/post/blur.json"));
+            }
+            assert shader_blur != null : "Blur shader is null";
+            ShaderManager.render(shader_blur,tickDelta);
         } else if (Variables.invertedShader) {
-            invertedColor.render(tickDelta);
+            if(shader_invertedColor==null){
+                shader_invertedColor=ShaderManager.register(new Identifier("shaders/post/invert.json"));
+            }
+            assert shader_invertedColor != null : "Inverted Color shader is null";
+            ShaderManager.render(shader_invertedColor,tickDelta);
         } else if (Variables.wobble) {
-            wobble.render(tickDelta);
+            if(shader_wobble==null){
+                shader_wobble=ShaderManager.register(new Identifier("shaders/post/wobble.json"));
+            }
+            assert shader_wobble != null : "Wobble shader is null";
+            ShaderManager.render(shader_wobble,tickDelta);
         } else if (Variables.monitor) {
-            monitor.render(tickDelta);
+            if(shader_monitor==null){
+                shader_monitor=ShaderManager.register(new Identifier("entropy", "shaders/post/crt.json"));
+            }
+            assert shader_monitor != null : "Wobble shader is null";
+            ShaderManager.render(shader_monitor,tickDelta);
         }
     }
+
+
 
     public void loadSettings() {
         File file = new File("./config/entropy/entropyIntegrationSettings.json");

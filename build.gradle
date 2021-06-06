@@ -29,8 +29,8 @@ dependencies {
 
     modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
-    modImplementation "io.github.ladysnake:satin:${satin_version}"
-    include "io.github.ladysnake:satin:${satin_version}"
+//    modImplementation "io.github.ladysnake:satin:${satin_version}"
+//    include "io.github.ladysnake:satin:${satin_version}"
 
     // Twitch IRC chat Integration
     implementation "com.github.pircbotx:pircbotx:${pircbotx_version}"
@@ -42,14 +42,8 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include "fabric.mod.json"
+    filesMatching("fabric.mod.json") {
         expand "version": project.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "fabric.mod.json"
     }
 }
 

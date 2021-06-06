@@ -58,51 +58,45 @@ public class EntropyConfigurationScreen extends Screen {
     protected void init() {
 
         eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 5, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/1200d,(slider, translationKey, value) -> new TranslatableText("entropy.options.eventDuration", MathHelper.floor(value*60+15)), value -> settings.baseEventDuration = (short) ((1200*value)+300));
-        this.addButton(eventDurationWidget);
+        this.addDrawableChild(eventDurationWidget);
 
 
         timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 5, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/1200d,(slider, translationKey, value) -> new TranslatableText("entropy.options.timerDuration", MathHelper.floor(value*60+15)),value -> settings.timerDuration = (short) ((1200*value)+300));
-        this.addButton(timerDurationWidget);
+        this.addDrawableChild(timerDurationWidget);
 
         ButtonWidget eventSettings = new ButtonWidget(this.width / 2 - 75, 30, 150, 20, new TranslatableText("entropy.options.disableEvents"), button -> this.client.openScreen(new EntropyEventConfigurationScreen(this)));
-        this.addButton(eventSettings);
+        this.addDrawableChild(eventSettings);
 
         TranslatableText twitchIntegrationsTranslatable = new TranslatableText("entropy.options.twitchIntegrations");
         integrationsCheckbox = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(twitchIntegrationsTranslatable) / 2) + 22), 55, 150, 20, twitchIntegrationsTranslatable, settings.integrations);
-        this.addButton(integrationsCheckbox);
+        this.addDrawableChild(integrationsCheckbox);
 
 
         authToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 80, 125, 20, new TranslatableText("entropy.options.twitchIntegrations.OAuthToken"));
         authToken.setMaxLength(64);
         authToken.setText(integrationsSettings.authToken);
-        authToken.setRenderTextProvider((s, integer) -> {
-            StringBuilder hiddenString = new StringBuilder();
-            for (int i = 0; i < s.length(); i++) {
-                hiddenString.append("*");
-            }
-            return OrderedText.styledString(hiddenString.toString(), Style.EMPTY);
-        });
-        this.addButton(authToken);
+        authToken.setRenderTextProvider((s, integer) -> OrderedText.styledForwardsVisitedString("*".repeat(s.length()), Style.EMPTY));
+        this.addDrawableChild(authToken);
 
 
         channelName = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 110, 125, 20, new TranslatableText("entropy.options.twitchIntegrations.channelName"));
         channelName.setText(integrationsSettings.channel);
-        this.addButton(channelName);
+        this.addDrawableChild(channelName);
 
 
         Text showPollStatusText = new TranslatableText("entropy.options.twitchIntegrations.showPollStatus");
         showPollStatus = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showPollStatusText) / 2) + 11), 140, 150, 20, showPollStatusText, integrationsSettings.showCurrentPercentage);
-        this.addButton(showPollStatus);
+        this.addDrawableChild(showPollStatus);
 
         Text sendChatMessagesText = new TranslatableText("entropy.options.twitchIntegrations.sendChatFeedBack");
         sendChatMessages = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(sendChatMessagesText) / 2) + 11), 165, 150, 20, sendChatMessagesText, integrationsSettings.sendChatMessages);
-        this.addButton(sendChatMessages);
+        this.addDrawableChild(sendChatMessages);
 
 
         this.done = new ButtonWidget(this.width / 2 - 100, this.height - 30, 200, 20, ScreenTexts.DONE, button -> onDone());
-        this.addButton(done);
+        this.addDrawableChild(done);
 
-        this.addButton(
+        this.addDrawableChild(
                 new ButtonWidget(this.width / 2 + ((textRenderer.getWidth(twitchIntegrationsTranslatable) / 2) + 6), 55, 20, 20, new TranslatableText("entropy.options.questionMark"), (button -> {
                 }), (buttonWidget, matrixStack, i, j) ->
                         this.renderOrderedTooltip(matrixStack, textRenderer.wrapLines(new TranslatableText("entropy.options.twitchIntegrations.help"), this.width / 2), i, j)));
@@ -116,7 +110,8 @@ public class EntropyConfigurationScreen extends Screen {
         matrices.push();
         matrices.translate(5, 0, 0);
         matrices.scale(0.2f, 0.2f, 0.2f);
-        client.getTextureManager().bindTexture(LOGO);
+//        client.getTextureManager().bindTexture(LOGO);
+        RenderSystem.setShaderTexture(0,LOGO);
         this.drawTexture(matrices, 0, 0, 0, 0, 188, 187);
         matrices.pop();
         RenderSystem.disableBlend();

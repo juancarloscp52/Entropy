@@ -27,17 +27,17 @@ public class DamageItemsEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-            serverPlayerEntity.inventory.main.forEach(itemStack -> {
+            serverPlayerEntity.getInventory().main.forEach(itemStack -> {
                 if(itemStack.isDamageable()){
                     itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()),serverPlayerEntity,serverPlayerEntity1 -> {});
                 }
             });
-            serverPlayerEntity.inventory.armor.forEach(itemStack -> {
+            serverPlayerEntity.getInventory().armor.forEach(itemStack -> {
                 if(itemStack.isDamageable()){
                     itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()),serverPlayerEntity,serverPlayerEntity1 -> {});
                 }
             });
-            serverPlayerEntity.inventory.offHand.forEach(itemStack -> {
+            serverPlayerEntity.getInventory().offHand.forEach(itemStack -> {
                 if(itemStack.isDamageable()){
                     itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()),serverPlayerEntity,serverPlayerEntity1 -> {});
                 }

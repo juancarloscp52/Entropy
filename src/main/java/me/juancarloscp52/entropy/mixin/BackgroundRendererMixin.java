@@ -30,12 +30,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BackgroundRenderer.class)
 public class BackgroundRendererMixin {
 
-    @Inject(method = "applyFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setupNvFogDistance()V"))
+    @Inject(method = "applyFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogEnd(F)V",ordinal = 1))
     private static void changeFogDistance(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, CallbackInfo ci) {
         if (Variables.customFog) {
-            RenderSystem.fogStart(0.05f);
-            RenderSystem.fogEnd(50 * 0.5f);
-            RenderSystem.fogMode(GlStateManager.FogMode.LINEAR);
+            RenderSystem.setShaderFogStart(0);
+            RenderSystem.setShaderFogEnd(0.001f);
         }
     }
 

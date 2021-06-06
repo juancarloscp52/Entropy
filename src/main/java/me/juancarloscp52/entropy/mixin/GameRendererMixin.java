@@ -18,8 +18,10 @@
 package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
+import me.juancarloscp52.entropy.client.EntropyClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
+import net.minecraft.client.render.CameraSubmersionType;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.fluid.FluidState;
@@ -29,6 +31,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GameRenderer.class)
@@ -57,8 +60,6 @@ public class GameRendererMixin {
         }
 
     }
-
-
     private double updateFov(Camera camera, float tickDelta, boolean changingFov, double fovValue) {
         {
             double fov = 70.0D;
@@ -71,13 +72,22 @@ public class GameRendererMixin {
                 float f = Math.min((float) ((LivingEntity) camera.getFocusedEntity()).deathTime + tickDelta, 20.0F);
                 fov /= ((1.0F - 500.0F / (f + 500.0F)) * 2.0F + 1.0F);
             }
-
-            FluidState fluidState = camera.getSubmergedFluidState();
-            if (!fluidState.isEmpty()) {
-                fov = fov * 60.0D / 70.0D;
+            CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
+            if (cameraSubmersionType == CameraSubmersionType.LAVA || cameraSubmersionType == CameraSubmersionType.WATER) {
+                fov *= (double)MathHelper.lerp(this.client.options.fovEffectScale, 1.0F, 0.85714287F);
             }
+//            FluidState fluidState = camera.getSubmergedFluidState();
+//            if (!fluidState.isEmpty()) {
+//                fov = fov * 60.0D / 70.0D;
+//            }
 
             return fov;
         }
     }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;drawEntityOutlinesFramebuffer()V", shift = At.Shift.AFTER))
+    public void renderShaders(float tickDelta, long startTime, boolean tick, CallbackInfo ci){
+        EntropyClient.getInstance().renderShaders(tickDelta);
+    }
+
 }

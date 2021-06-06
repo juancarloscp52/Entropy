@@ -29,22 +29,22 @@ public class StarterPackEvent extends AbstractInstantEvent {
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
             ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
-            if(!serverPlayerEntity.inventory.insertStack(pickaxe))
+            if(!serverPlayerEntity.getInventory().insertStack(pickaxe))
                 serverPlayerEntity.dropStack(pickaxe);
             ItemStack axe = new ItemStack(Items.IRON_AXE);
-            if(!serverPlayerEntity.inventory.insertStack(axe))
+            if(!serverPlayerEntity.getInventory().insertStack(axe))
                 serverPlayerEntity.dropStack(axe);
             ItemStack shovel = new ItemStack(Items.IRON_SHOVEL);
-            if(!serverPlayerEntity.inventory.insertStack(shovel))
+            if(!serverPlayerEntity.getInventory().insertStack(shovel))
                 serverPlayerEntity.dropStack(shovel);
             ItemStack sword = new ItemStack(Items.IRON_SWORD);
-            if(!serverPlayerEntity.inventory.insertStack(sword))
+            if(!serverPlayerEntity.getInventory().insertStack(sword))
                 serverPlayerEntity.dropStack(sword);
             ItemStack bread = new ItemStack(Items.BREAD,10);
-            if(!serverPlayerEntity.inventory.insertStack(bread))
+            if(!serverPlayerEntity.getInventory().insertStack(bread))
                 serverPlayerEntity.dropStack(bread);
             ItemStack torch = new ItemStack(Items.TORCH,10);
-            if(!serverPlayerEntity.inventory.insertStack(torch))
+            if(!serverPlayerEntity.getInventory().insertStack(torch))
                 serverPlayerEntity.dropStack(torch);
         });
     }

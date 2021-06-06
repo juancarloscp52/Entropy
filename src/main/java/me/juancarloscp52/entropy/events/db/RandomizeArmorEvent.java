@@ -35,10 +35,10 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
         {
-            serverPlayerEntity.inventory.armor.set(3, getRandomItem(EquipmentSlot.HEAD));
-            serverPlayerEntity.inventory.armor.set(2, getRandomItem(EquipmentSlot.CHEST));
-            serverPlayerEntity.inventory.armor.set(1, getRandomItem(EquipmentSlot.LEGS));
-            serverPlayerEntity.inventory.armor.set(0, getRandomItem(EquipmentSlot.FEET));
+            serverPlayerEntity.getInventory().armor.set(3, getRandomItem(EquipmentSlot.HEAD));
+            serverPlayerEntity.getInventory().armor.set(2, getRandomItem(EquipmentSlot.CHEST));
+            serverPlayerEntity.getInventory().armor.set(1, getRandomItem(EquipmentSlot.LEGS));
+            serverPlayerEntity.getInventory().armor.set(0, getRandomItem(EquipmentSlot.FEET));
 
         });
 
