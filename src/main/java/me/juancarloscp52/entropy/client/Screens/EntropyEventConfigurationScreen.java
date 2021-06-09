@@ -61,7 +61,7 @@ public class EntropyEventConfigurationScreen extends Screen {
         matrices.push();
         matrices.translate(this.width / 2f - 18.8f, 0, 0);
         matrices.scale(0.2f, 0.2f, 0.2f);
-        client.getTextureManager().bindTexture(LOGO);
+        RenderSystem.setShaderTexture(0, LOGO);
         this.drawTexture(matrices, 0, 0, 0, 0, 188, 187);
         matrices.pop();
         RenderSystem.disableBlend();

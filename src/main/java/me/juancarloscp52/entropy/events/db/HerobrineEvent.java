@@ -152,7 +152,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
         RenderSystem.setShaderColor(sin, sin, sin, 1.0f);
         int scaledHeight = client.getWindow().getScaledHeight();
         int scaledWidth = client.getWindow().getScaledWidth();
-        this.client.getTextureManager().bindTexture(VIGNETTE_TEXTURE);
+        RenderSystem.setShaderTexture(0, VIGNETTE_TEXTURE);
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);

@@ -17,7 +17,6 @@
 
 package me.juancarloscp52.entropy.mixin;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.client.render.BackgroundRenderer;
@@ -30,11 +29,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(BackgroundRenderer.class)
 public class BackgroundRendererMixin {
 
-    @Inject(method = "applyFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogEnd(F)V",ordinal = 1))
+    @Inject(method = "applyFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogEnd(F)V",ordinal = 1,remap = false))
     private static void changeFogDistance(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, CallbackInfo ci) {
         if (Variables.customFog) {
-            RenderSystem.setShaderFogStart(0);
-            RenderSystem.setShaderFogEnd(0.001f);
+            RenderSystem.setShaderFogStart(-150.0F);
+            RenderSystem.setShaderFogEnd(-100.0F);
         }
     }
 
