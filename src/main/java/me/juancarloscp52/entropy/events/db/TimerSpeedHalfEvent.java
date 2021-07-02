@@ -43,6 +43,7 @@ public class TimerSpeedHalfEvent extends AbstractTimedEvent {
     @Override
     public void end() {
         Variables.timerMultiplier = 1;
+        Entropy.getInstance().eventHandler.resetTimer();
         this.hasEnded = true;
     }
 

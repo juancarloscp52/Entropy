@@ -150,7 +150,7 @@ public class ServerEventHandler {
         });
     }
 
-    private void resetTimer(){
+    public void resetTimer(){
         eventCountDown = (short) (settings.timerDuration/Variables.timerMultiplier);
     }
 }
