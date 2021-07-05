@@ -71,6 +71,7 @@
   "entropy.events.LevitationEvent": "Inverted Gravity",
   "entropy.events.SpinningMobsEvent": "BayBlades",
   "entropy.events.SinkholeEvent": "Sinkhole",
+  "entropy.events.PoolEvent": "Hot Tub",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

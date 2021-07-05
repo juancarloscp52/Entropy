@@ -24,17 +24,25 @@ import net.minecraft.block.Blocks;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
-public class SinkholeEvent extends AbstractInstantEvent {
+public class PoolEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
             ServerWorld world = serverPlayerEntity.getServerWorld();
             int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
-            for(int i = 255; i>1;i--){
-                for (int j = -1;j<2;j++){
-                    for (int k = -1;k<2;k++){
-                        world.setBlockState(new BlockPos(x+j,i,z+k),Blocks.AIR.getDefaultState());
+            for(int i = y; i>y-6;i--){
+                for (int j = -4;j<5;j++){
+                    for (int k = -4;k<5;k++){
+                        if(i==y-5){
+                            if(j%2==0){
+                                world.setBlockState(new BlockPos(x+j,i,z+k),(k%2==0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.COBBLESTONE.getDefaultState());
+                            }else{
+                                world.setBlockState(new BlockPos(x+j,i,z+k),(k%2!=0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.COBBLESTONE.getDefaultState());
+                            }
+                        }else{
+                            world.setBlockState(new BlockPos(x+j,i,z+k),(j==-4 ||j==4 ||k==-4 ||k==4) ? Blocks.COBBLESTONE.getDefaultState():Blocks.WATER.getDefaultState());
+                        }
                     }
                 }
             }
