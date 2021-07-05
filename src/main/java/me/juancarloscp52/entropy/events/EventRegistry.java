@@ -107,6 +107,7 @@ public class EventRegistry {
         entropyEvents.put("SpinningMobsEvent", SpinningMobsEvent::new);
         entropyEvents.put("SinkholeEvent", SinkholeEvent::new);
         entropyEvents.put("PoolEvent", PoolEvent::new);
+        entropyEvents.put("RandomCreeperEvent", RandomCreeperEvent::new);
 
     }
 

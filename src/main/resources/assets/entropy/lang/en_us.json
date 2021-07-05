@@ -72,6 +72,7 @@
   "entropy.events.SpinningMobsEvent": "BayBlades",
   "entropy.events.SinkholeEvent": "Sinkhole",
   "entropy.events.PoolEvent": "Hot Tub",
+  "entropy.events.RandomCreeperEvent": "Creeper Anxiety",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
