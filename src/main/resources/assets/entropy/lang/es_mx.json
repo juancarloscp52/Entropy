@@ -69,6 +69,7 @@
   "entropy.events.StarterPackEvent": "Kit de inicio",
   "entropy.events.DamageItemsEvent": "Dañar objetos del jugador",
   "entropy.events.LevitationEvent": "Gravedad invertida",
+  "entropy.events.SpinningMobsEvent": "Peonzas",
 
   "entropy.options.disableEvents": "Desactivar eventos",
   "entropy.options.twitchIntegrations.showPollStatus": "Mostrar los resusltados en pantalla",

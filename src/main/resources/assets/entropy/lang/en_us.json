@@ -69,6 +69,7 @@
   "entropy.events.StarterPackEvent": "Give Starter Pack To Player",
   "entropy.events.DamageItemsEvent": "Damage Player Items",
   "entropy.events.LevitationEvent": "Inverted Gravity",
+  "entropy.events.SpinningMobsEvent": "BayBlades",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
