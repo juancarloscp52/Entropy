@@ -73,6 +73,7 @@
   "entropy.events.SinkholeEvent": "Socavón",
   "entropy.events.PoolEvent": "Jacuzzi",
   "entropy.events.RandomCreeperEvent": "Ansiedad por Creepers",
+  "entropy.events.SinkingEvent": "Arenas Movedizas",
 
   "entropy.options.disableEvents": "Desactivar eventos",
   "entropy.options.twitchIntegrations.showPollStatus": "Mostrar los resusltados en pantalla",
