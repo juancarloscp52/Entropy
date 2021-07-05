@@ -70,6 +70,8 @@
   "entropy.events.DamageItemsEvent": "Dañar objetos del jugador",
   "entropy.events.LevitationEvent": "Gravedad invertida",
   "entropy.events.SpinningMobsEvent": "Peonzas",
+  "entropy.events.SinkholeEvent": "Socavón",
+
 
   "entropy.options.disableEvents": "Desactivar eventos",
   "entropy.options.twitchIntegrations.showPollStatus": "Mostrar los resusltados en pantalla",
