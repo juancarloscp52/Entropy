@@ -103,6 +103,7 @@ public class EventRegistry {
         entropyEvents.put("SpeedEvent", SpeedEvent::new);
         entropyEvents.put("StarterPackEvent", StarterPackEvent::new);
         entropyEvents.put("DamageItemsEvent", DamageItemsEvent::new);
+        entropyEvents.put("LevitationEvent", LevitationEvent::new);
 
     }
 

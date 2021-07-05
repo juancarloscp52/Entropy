@@ -68,8 +68,7 @@
   "entropy.events.SpeedEvent": "Speed",
   "entropy.events.StarterPackEvent": "Give Starter Pack To Player",
   "entropy.events.DamageItemsEvent": "Damage Player Items",
-
-
+  "entropy.events.LevitationEvent": "Inverted Gravity",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
