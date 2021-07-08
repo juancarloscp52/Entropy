@@ -47,6 +47,17 @@ dependencies {
     implementation("net.dv8tion:JDA:${jda_version}") {
         exclude module: 'opus-java'
     }
+    include("net.dv8tion:JDA:${jda_version}") {
+        exclude module: 'opus-java'
+    }
+    include "net.sf.trove4j:trove4j:3.0.3"
+    include 'org.apache.commons:commons-collections4:4.1'
+    include 'com.neovisionaries:nv-websocket-client:2.14'
+    include 'com.squareup.okhttp3:okhttp:3.14.9'
+    include 'com.squareup.okio:okio:1.17.2'
+    include 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    include 'com.fasterxml.jackson.core:jackson-annotations:2.10.1'
+    include 'com.fasterxml.jackson.core:jackson-core:2.10.1'
 
 }
 
