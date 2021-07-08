@@ -18,12 +18,11 @@
 package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.NetworkingConstants;
-import me.juancarloscp52.entropy.client.integrations.Integration;
+import me.juancarloscp52.entropy.client.integrations.Integrations;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.LiteralText;
@@ -42,7 +41,7 @@ public class VotingClient {
     int voteID = -1;
     int totalVotesCount = 0;
     boolean enabled = false;
-    Integration integrations;
+    Integrations integrations;
     MinecraftClient client = MinecraftClient.getInstance();
 
 
@@ -55,13 +54,19 @@ public class VotingClient {
         integrations.stop();
     }
 
+    public void processVote(int index,boolean sign){
+        if(index>=0&&index<4){
+            votes[index] += sign ? 1:-1;
+            totalVotes[index] += sign ? 1:-1;
+            totalVotesCount += sign ? 1:-1;
+        }
+    }
+
     public void processVote(String string) {
         if (enabled && string.trim().length() == 1) {
             int voteIndex = Integer.parseInt(string.trim()) + (voteID % 2 == 0 ? -4 : 0);
             if (voteIndex > 0 && voteIndex < 5) {
-                votes[voteIndex - 1]++;
-                totalVotes[voteIndex - 1]++;
-                totalVotesCount++;
+                processVote(voteIndex-1,true);
             }
         }
     }
@@ -74,13 +79,7 @@ public class VotingClient {
             totalVotesCount = 0;
             votes = new int[4];
             totalVotes = new int[4];
-
-            int altOffset = voteID % 2 == 0 ? 4 : 0;
-            StringBuilder stringBuilder = new StringBuilder("Current poll:");
-            for (int i = 0; i < this.events.size(); i++)
-                stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, I18n.translate(events.get(i))));
-
-            sendMessage(stringBuilder.toString());
+            sendPoll(voteID,events);
         }
     }
 
@@ -91,7 +90,7 @@ public class VotingClient {
         }
     }
 
-    public void setIntegrations(Integration integration) {
+    public void setIntegrations(Integrations integration) {
         this.integrations = integration;
     }
 
@@ -108,7 +107,7 @@ public class VotingClient {
             return;
 
         double ratio = this.totalVotesCount > 0 ? (double) this.totalVotes[i] / this.totalVotesCount : 0;
-        int altOffset = this.voteID % 2 == 0 ? 4 : 0;
+        int altOffset = (this.voteID % 2) == 0 && (EntropyClient.getInstance().integrationsSettings.integrationType!=2) ? 4 : 0;
 
         DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 195 + 10 + 45, 35 + (i * 18) + 10, MathHelper.packRgb(155, 22, 217) + 150 << 24);
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
@@ -122,11 +121,14 @@ public class VotingClient {
 
     }
 
+    public void sendPoll(int voteID, List<String> events) {
+        if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
+            integrations.sendPoll(voteID,events);
+    }
     public void sendMessage(String message) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
-            integrations.sendChatMessage(message);
+            integrations.sendMessage(message);
     }
-
     public void sendVotes() {
         if (voteID == -1)
             return;

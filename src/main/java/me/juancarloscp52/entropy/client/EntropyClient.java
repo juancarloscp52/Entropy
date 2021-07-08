@@ -68,7 +68,6 @@ public class EntropyClient implements ClientModInitializer {
         instance = this;
         loadSettings();
         saveSettings();
-
         ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_CONFIRM, (client, handler, buf, responseSender) -> {
             short timerDuration = buf.readShort();
             short baseEventDuration = buf.readShort();
@@ -196,7 +195,7 @@ public class EntropyClient implements ClientModInitializer {
             if(shader_monitor==null){
                 shader_monitor=ShaderManager.register(new Identifier("entropy", "shaders/post/crt.json"));
             }
-            assert shader_monitor != null : "Wobble shader is null";
+            assert shader_monitor != null : "Monitor shader is null";
             ShaderManager.render(shader_monitor,tickDelta);
         }
     }

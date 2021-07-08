@@ -19,7 +19,8 @@ package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
-import me.juancarloscp52.entropy.client.integrations.TwitchIntegrations;
+import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegration;
+import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrations;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import net.minecraft.client.MinecraftClient;
@@ -52,7 +53,7 @@ public class ClientEventHandler {
 
         if (Entropy.getInstance().settings.integrations && integrations) {
             votingClient = new VotingClient();
-            votingClient.setIntegrations(new TwitchIntegrations(votingClient));
+            votingClient.setIntegrations(EntropyClient.getInstance().integrationsSettings.integrationType==1?new TwitchIntegrations(votingClient):new DiscordIntegration(votingClient));
             votingClient.enable();
         }
     }

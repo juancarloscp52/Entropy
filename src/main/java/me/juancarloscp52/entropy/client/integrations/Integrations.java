@@ -17,13 +17,17 @@
 
 package me.juancarloscp52.entropy.client.integrations;
 
-public interface Integration {
+import java.util.List;
+
+public interface Integrations {
 
     void start();
 
     void stop();
 
-    void sendChatMessage(String message);
+    void sendPoll(int voteID, List<String> events);
+
+    void sendMessage(String message);
 
     int getColor();
 

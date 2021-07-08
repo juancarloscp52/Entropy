@@ -15,11 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-package me.juancarloscp52.entropy.client.integrations;
+package me.juancarloscp52.entropy.client.integrations.twitch;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
+import me.juancarloscp52.entropy.client.integrations.Integrations;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.math.MathHelper;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
@@ -33,10 +35,11 @@ import org.pircbotx.hooks.events.PingEvent;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TwitchIntegrations extends ListenerAdapter implements Integration {
+public class TwitchIntegrations extends ListenerAdapter implements Integrations {
 
     private final Configuration config;
     EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
@@ -120,7 +123,18 @@ public class TwitchIntegrations extends ListenerAdapter implements Integration {
     }
 
     @Override
-    public void sendChatMessage(String message) {
+    public void sendPoll(int voteID, List<String> events) {
+
+        int altOffset = voteID % 2 == 0 ? 4 : 0;
+        StringBuilder stringBuilder = new StringBuilder("Current poll:");
+        for (int i = 0; i < events.size(); i++)
+            stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, I18n.translate(events.get(i))));
+
+        ircChatBot.sendIRC().message("#" + settings.channel.toLowerCase(), "/me [Entropy Bot] " + stringBuilder);
+    }
+
+    @Override
+    public void sendMessage(String message) {
         ircChatBot.sendIRC().message("#" + settings.channel.toLowerCase(), "/me [Entropy Bot] " + message);
     }
 
