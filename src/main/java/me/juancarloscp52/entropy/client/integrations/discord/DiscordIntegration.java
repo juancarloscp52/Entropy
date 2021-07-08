@@ -75,13 +75,17 @@ public class DiscordIntegration implements Integrations {
         poll.addField("3️⃣  " + I18n.translate(events.get(2)),"",false);
         poll.addField("4️⃣  " + I18n.translate(events.get(3)),"",false);
         poll.setFooter("React to this message with one of this emojis","https://media.forgecdn.net/avatars/356/538/637516966184620115.png");
-        this.channel.sendMessageEmbeds(poll.build()).flatMap(message -> {
-            setLastId(message.getIdLong());
-            message.addReaction("1️⃣").queue();
-            message.addReaction("2️⃣").queue();
-            message.addReaction("3️⃣").queue();
-            return message.addReaction("4️⃣");
-        }).queue();
+        try{
+            this.channel.sendMessageEmbeds(poll.build()).flatMap(message -> {
+                setLastId(message.getIdLong());
+                message.addReaction("1️⃣").queue();
+                message.addReaction("2️⃣").queue();
+                message.addReaction("3️⃣").queue();
+                return message.addReaction("4️⃣");
+            }).queue();
+        }catch (NullPointerException e){
+            System.err.println("Could not send discord poll. Channel was null.");
+        }
     }
 
     private void setLastId(long id){
