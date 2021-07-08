@@ -15,10 +15,14 @@ repositories {
         name = 'TerraformersMC'
         url = 'https://maven.terraformersmc.com/'
     }
-
     // Repository for pircbotx.
     maven { url 'https://jitpack.io' }
     jcenter()
+    mavenCentral() // for transitive dependencies
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
 }
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -38,6 +42,12 @@ dependencies {
         // Needed by pircbotx
         implementation "org.slf4j:slf4j-api:${slf4j_version}" //group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
         include "org.slf4j:slf4j-api:${slf4j_version}"
+
+    // Discord JDA.
+    implementation("net.dv8tion:JDA:${jda_version}") {
+        exclude module: 'opus-java'
+    }
+
 }
 
 processResources {
