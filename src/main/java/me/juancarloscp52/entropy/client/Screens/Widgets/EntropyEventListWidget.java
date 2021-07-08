@@ -89,7 +89,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         }
 
         @Override
-        public List<? extends Selectable> method_37025() {
+        public List<? extends Selectable> selectableChildren() {
             return ImmutableList.of(button);
         }
     }
