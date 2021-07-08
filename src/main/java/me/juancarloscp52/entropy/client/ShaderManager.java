@@ -32,7 +32,6 @@ public class ShaderManager {
         MinecraftClient client = MinecraftClient.getInstance();
         try {
             ShaderEffect shader;
-            System.out.println(client.getFramebuffer());
             shader = new ShaderEffect(client.getTextureManager(), client.getResourceManager(),
                     client.getFramebuffer(), id);
             shader.setupDimensions(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
