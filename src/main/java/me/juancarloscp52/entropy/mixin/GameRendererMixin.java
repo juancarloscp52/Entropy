@@ -24,7 +24,6 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.CameraSubmersionType;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

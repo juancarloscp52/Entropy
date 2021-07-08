@@ -24,7 +24,8 @@ import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 public class ShaderManager {
 

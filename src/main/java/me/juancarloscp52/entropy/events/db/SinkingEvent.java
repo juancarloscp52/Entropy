@@ -22,15 +22,8 @@ import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.Random;
 
 public class SinkingEvent extends AbstractTimedEvent {
 
