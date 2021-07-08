@@ -27,6 +27,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.system.CallbackI;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -49,7 +50,8 @@ public class DiscordIntegration implements Integrations {
             jda = JDABuilder.createDefault(EntropyClient.getInstance().integrationsSettings.discordToken).setActivity(Activity.playing("Entropy: Chaos Mod")).build();
             jda.addEventListener(new DiscordEventListener(this));
         } catch (LoginException e) {
-            e.printStackTrace();
+            System.err.println("Could not connect to discord, re-trying");
+            //e.printStackTrace();
         }
 
     }
