@@ -11,6 +11,8 @@ To change Entropy Settings on multiplayer, please change the parameters inside t
 
 ## Twitch Integration:
 Entropy includes integration with Twitch! Viewers of a streamer can vote the next event using the stream chat! (Integration for more platforms like Youtube streaming and Discord is planned).
+## Discord Integration:
+Users of a discord server can vote the next event by using the Entropy Discord integration. TUTORIAL: https://www.youtube.com/watch?v=waj82ownAKw
 
 To enable Twitch Integration you'll need a Twitch OAuth Access token, you can generate using [this tool](https://twitchtokengenerator.com/) (or any other OAuth token generator tool).
 Write your OAuth Access Token and your channel name in Entropy Settings.
