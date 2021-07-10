@@ -58,7 +58,8 @@ public class DiscordIntegration implements Integrations {
 
     @Override
     public void stop() {
-        jda.shutdownNow();
+        if(jda != null)
+            jda.shutdownNow();
     }
 
     @Override

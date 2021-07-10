@@ -35,7 +35,7 @@ public class EventRegistry {
 
         entropyEvents = new HashMap<>();
         entropyEvents.put("ArrowRainEvent", ArrowRainEvent::new);
-        //entropyEvents.put("BlurEvent", BlurEvent::new); //TODO: Fix or disable.
+        //entropyEvents.put("BlurEvent", BlurEvent::new); //TODO: Fix ASAP.
         entropyEvents.put("ChickenRainEvent", ChickenRainEvent::new);
         entropyEvents.put("CinematicScreenEvent", CinematicScreenEvent::new);
         entropyEvents.put("CloseRandomTPEvent", CloseRandomTPEvent::new);
