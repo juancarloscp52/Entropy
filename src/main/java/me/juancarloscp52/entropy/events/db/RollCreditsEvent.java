@@ -33,7 +33,7 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void initClient() {
         client = MinecraftClient.getInstance();
-        client.openScreen(new EntropyCreditsScreen(this));
+        client.setScreen(new EntropyCreditsScreen(this));
     }
 
     @Override
@@ -60,7 +60,7 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void tickClient() {
         if (getTickCount() % 20 == 0 && client.currentScreen == null) {
-            client.openScreen(new EntropyCreditsScreen(this));
+            client.setScreen(new EntropyCreditsScreen(this));
         }
         super.tickClient();
     }

@@ -56,10 +56,10 @@ public class EntropyConfigurationScreen extends Screen {
         timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/1200d,(slider, translationKey, value) -> new TranslatableText("entropy.options.timerDuration", MathHelper.floor(value*60+15)),value -> settings.timerDuration = (short) ((1200*value)+300));
         this.addDrawableChild(timerDurationWidget);
 
-        ButtonWidget eventSettings = new ButtonWidget(this.width / 2 - 85, 75, 170, 20, new TranslatableText("entropy.options.disableEvents"), button -> this.client.openScreen(new EntropyEventConfigurationScreen(this)));
+        ButtonWidget eventSettings = new ButtonWidget(this.width / 2 - 85, 75, 170, 20, new TranslatableText("entropy.options.disableEvents"), button -> this.client.setScreen(new EntropyEventConfigurationScreen(this)));
         this.addDrawableChild(eventSettings);
 
-        ButtonWidget integrationSettings = new ButtonWidget(this.width / 2 - 85, 100, 170, 20, new TranslatableText("entropy.options.integrations.title"), button -> this.client.openScreen(new EntropyIntegrationsScreen(this)));
+        ButtonWidget integrationSettings = new ButtonWidget(this.width / 2 - 85, 100, 170, 20, new TranslatableText("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this)));
         this.addDrawableChild(integrationSettings);
 
         this.done = new ButtonWidget(this.width / 2 - 100, this.height - 30, 200, 20, ScreenTexts.DONE, button -> onDone());
@@ -91,6 +91,6 @@ public class EntropyConfigurationScreen extends Screen {
 
     @Override
     public void onClose() {
-        this.client.openScreen(this.parent);
+        this.client.setScreen(this.parent);
     }
 }
