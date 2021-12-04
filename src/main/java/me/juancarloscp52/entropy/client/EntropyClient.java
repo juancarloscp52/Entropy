@@ -175,7 +175,7 @@ public class EntropyClient implements ClientModInitializer {
     public void renderShaders(float tickDelta) {
         if (Variables.blur) {
             if(shader_blur==null){
-                shader_blur=ShaderManager.register(new Identifier("shaders/post/blur.json"));
+                shader_blur=ShaderManager.register(new Identifier("entropy","shaders/post/blur.json"));
             }
             assert shader_blur != null : "Blur shader is null";
             ShaderManager.render(shader_blur,tickDelta);
