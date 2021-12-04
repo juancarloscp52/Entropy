@@ -29,12 +29,14 @@ public class SinkholeEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-            ServerWorld world = serverPlayerEntity.getServerWorld();
+            ServerWorld world = serverPlayerEntity.getWorld();
             int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
-            for(int i = 255; i>1;i--){
+            System.out.println(world.getHeight());
+            for(int i = y+2; i> (y-40);i--){
                 for (int j = -1;j<2;j++){
                     for (int k = -1;k<2;k++){
-                        world.setBlockState(new BlockPos(x+j,i,z+k),Blocks.AIR.getDefaultState());
+                        if(!world.getBlockState(new BlockPos(x+j,i,z+k)).getBlock().equals(Blocks.BEDROCK))
+                            world.setBlockState(new BlockPos(x+j,i,z+k),Blocks.AIR.getDefaultState());
                     }
                 }
             }

@@ -41,11 +41,11 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
         PlayerLookup.all(server).forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
             server.getCommandManager().execute(server.getCommandSource(), "/spreadplayers " + randomLocation.getX() + " " + randomLocation.getZ() + " 0 120 false " + serverPlayerEntity.getEntityName());
-            serverPlayerEntity.getServerWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
-            serverPlayerEntity.getServerWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
+            serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
+            serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
             BlockHitResult blockHitResult = serverPlayerEntity.world.raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
-            if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getServerWorld().getBlockState(blockHitResult.getBlockPos()).getMaterial().isLiquid()) {
-                serverPlayerEntity.getServerWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
+            if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).getMaterial().isLiquid()) {
+                serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
             }
         });
 
@@ -56,11 +56,11 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
         if (count <= 2) {
             if (count == 2) {
                 PlayerLookup.all(server).forEach(serverPlayerEntity -> {
-                    serverPlayerEntity.getServerWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
-                    serverPlayerEntity.getServerWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
+                    serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
+                    serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
                     BlockHitResult blockHitResult = serverPlayerEntity.world.raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
-                    if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getServerWorld().getBlockState(blockHitResult.getBlockPos()).getMaterial().isLiquid()) {
-                        serverPlayerEntity.getServerWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
+                    if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).getMaterial().isLiquid()) {
+                        serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
                     }
                 });
             }

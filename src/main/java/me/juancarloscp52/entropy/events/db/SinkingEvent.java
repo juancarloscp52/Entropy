@@ -43,9 +43,9 @@ public class SinkingEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        if(tickCount%18==0){
+        if(tickCount%30==0){
             PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                ServerWorld world = serverPlayerEntity.getServerWorld();
+                ServerWorld world = serverPlayerEntity.getWorld();
                 int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
                     for (int j = -1;j<2;j++){
                         for (int k = -1;k<2;k++){

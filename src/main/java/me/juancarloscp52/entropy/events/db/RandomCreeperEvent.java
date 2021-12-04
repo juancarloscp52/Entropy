@@ -50,7 +50,7 @@ public class RandomCreeperEvent extends AbstractTimedEvent {
         if(tickCount%70==0){
             PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
                 if(new Random().nextInt(10)>=6)
-                    EntityType.CREEPER.spawn(serverPlayerEntity.getServerWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG, true, false);
+                    EntityType.CREEPER.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG, true, false);
                 serverPlayerEntity.networkHandler.sendPacket(new PlaySoundS2CPacket(SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.HOSTILE, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 1f, 0.5f));
             });
         }

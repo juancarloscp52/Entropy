@@ -26,7 +26,7 @@ public class PlaceLavaBlockEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getServerWorld().setBlockState(serverPlayerEntity.getBlockPos(), Blocks.LAVA.getDefaultState()));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos(), Blocks.LAVA.getDefaultState()));
     }
 
 

@@ -26,7 +26,7 @@ public class IgniteNearbyEntitiesEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getServerWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getBlockPos().add(50, 50, 50), serverPlayerEntity.getBlockPos().add(-50, -50, -50))).forEach(entity -> entity.setOnFireFor(30)));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getBlockPos().add(50, 50, 50), serverPlayerEntity.getBlockPos().add(-50, -50, -50))).forEach(entity -> entity.setOnFireFor(30)));
     }
 
 }

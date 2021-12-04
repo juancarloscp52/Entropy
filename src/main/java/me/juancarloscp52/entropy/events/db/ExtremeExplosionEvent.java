@@ -26,6 +26,6 @@ public class ExtremeExplosionEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getServerWorld().createExplosion(serverPlayerEntity, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 9f, true, Explosion.DestructionType.BREAK));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getWorld().createExplosion(serverPlayerEntity, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 9f, true, Explosion.DestructionType.BREAK));
     }
 }

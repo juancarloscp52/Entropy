@@ -56,8 +56,8 @@ public class ItemRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 15 == 0) {
             for (int i = 0; i < 5; i++) {
                 PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                    ItemEntity item = new ItemEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), new ItemStack(getRandomItem(), 1));
-                    serverPlayerEntity.getServerWorld().spawnEntity(item);
+                    ItemEntity item = new ItemEntity(serverPlayerEntity.getWorld(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), new ItemStack(getRandomItem(), 1));
+                    serverPlayerEntity.getWorld().spawnEntity(item);
                 });
             }
         }

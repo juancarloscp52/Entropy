@@ -49,18 +49,18 @@ public class MeteorRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 20 == 0) {
             for (int i = 0; i < 7; i++) {
                 PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                    FireballEntity meteor = new FireballEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity, 0, -1 * (random.nextInt(4) + 1), 0,2);
+                    FireballEntity meteor = new FireballEntity(serverPlayerEntity.getWorld(), serverPlayerEntity, 0, -1 * (random.nextInt(4) + 1), 0,2);
                     meteor.refreshPositionAndAngles(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYaw(), meteor.getPitch());
-                    serverPlayerEntity.getServerWorld().spawnEntity(meteor);
+                    serverPlayerEntity.getWorld().spawnEntity(meteor);
                 });
 
             }
         }
         if (getTickCount() == getTickCount() / 2) {
             PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                FireballEntity meteor = new FireballEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity, 0, -1 * (random.nextInt(4) + 1), 0,4);
+                FireballEntity meteor = new FireballEntity(serverPlayerEntity.getWorld(), serverPlayerEntity, 0, -1 * (random.nextInt(4) + 1), 0,4);
                 meteor.refreshPositionAndAngles(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYaw(), meteor.getPitch());
-                serverPlayerEntity.getServerWorld().spawnEntity(meteor);
+                serverPlayerEntity.getWorld().spawnEntity(meteor);
             });
         }
         super.tick();

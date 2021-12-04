@@ -29,7 +29,7 @@ public class PoolEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-            ServerWorld world = serverPlayerEntity.getServerWorld();
+            ServerWorld world = serverPlayerEntity.getWorld();
             int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
             for(int i = y; i>y-6;i--){
                 for (int j = -4;j<5;j++){

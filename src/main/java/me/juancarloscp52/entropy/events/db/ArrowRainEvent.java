@@ -48,8 +48,8 @@ public class ArrowRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 10 == 0) {
             for (int i = 0; i < 10; i++) {
                 PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                    ArrowEntity arrow = new ArrowEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getX() + (random.nextInt(50) - 25), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(50) - 25));
-                    serverPlayerEntity.getServerWorld().spawnEntity(arrow);
+                    ArrowEntity arrow = new ArrowEntity(serverPlayerEntity.getWorld(), serverPlayerEntity.getX() + (random.nextInt(50) - 25), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(50) - 25));
+                    serverPlayerEntity.getWorld().spawnEntity(arrow);
                 });
             }
         }

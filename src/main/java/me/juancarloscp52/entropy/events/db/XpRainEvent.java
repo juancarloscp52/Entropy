@@ -49,8 +49,8 @@ public class XpRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 10 == 0) {
             for (int i = 0; i < 7; i++) {
                 PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                    ExperienceOrbEntity orb = new ExperienceOrbEntity(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), random.nextInt(20) + 1);
-                    serverPlayerEntity.getServerWorld().spawnEntity(orb);
+                    ExperienceOrbEntity orb = new ExperienceOrbEntity(serverPlayerEntity.getWorld(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), random.nextInt(20) + 1);
+                    serverPlayerEntity.getWorld().spawnEntity(orb);
                 });
 
             }

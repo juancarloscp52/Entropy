@@ -27,6 +27,6 @@ public class TntEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> EntityType.TNT.spawn(serverPlayerEntity.getServerWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.COMMAND, true, false).setFuse(40));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> EntityType.TNT.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.COMMAND, true, false).setFuse(40));
     }
 }
