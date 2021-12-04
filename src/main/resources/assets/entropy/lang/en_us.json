@@ -75,6 +75,7 @@
   "entropy.events.RandomCreeperEvent": "Creeper Anxiety",
   "entropy.events.SinkingEvent": "Quicksand!",
   "entropy.events.SlimeEvent": "Slime Overload",
+  "entropy.events.HorseEvent": "Loyal Companion",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
