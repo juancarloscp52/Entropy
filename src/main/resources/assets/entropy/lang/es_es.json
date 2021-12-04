@@ -74,6 +74,7 @@
   "entropy.events.PoolEvent": "Jacuzzi",
   "entropy.events.RandomCreeperEvent": "Ansiedad por Creepers",
   "entropy.events.SinkingEvent": "Arenas Movedizas",
+  "entropy.events.SlimeEvent": "Slimes!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",

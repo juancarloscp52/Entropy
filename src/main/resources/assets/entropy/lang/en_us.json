@@ -74,6 +74,7 @@
   "entropy.events.PoolEvent": "Hot Tub",
   "entropy.events.RandomCreeperEvent": "Creeper Anxiety",
   "entropy.events.SinkingEvent": "Quicksand!",
+  "entropy.events.SlimeEvent": "Slime Overload",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

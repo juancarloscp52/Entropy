@@ -132,7 +132,7 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("SinkholeEvent");
+        //return EventRegistry.get("SlimeEvent");
         return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 
