@@ -18,16 +18,35 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.world.GameMode;
 
-public class TeleportHeavenEvent extends AbstractInstantEvent {
+public class AdventureEvent extends AbstractTimedEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-            serverPlayerEntity.stopRiding();
-            serverPlayerEntity.teleport(serverPlayerEntity.getX(), 380, serverPlayerEntity.getZ());
-        });
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.ADVENTURE));
+    }
+
+    @Override
+    public void end() {
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.SURVIVAL));
+        this.hasEnded = true;
+    }
+
+    @Override
+    public void render(MatrixStack matrixStack, float tickdelta) {
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+    }
+
+    @Override
+    public short getDuration() {
+        return (short) (Entropy.getInstance().settings.baseEventDuration*1.5f);
     }
 }

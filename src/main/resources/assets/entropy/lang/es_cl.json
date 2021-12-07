@@ -76,6 +76,11 @@
   "entropy.events.SinkingEvent": "Arenas Movedizas",
   "entropy.events.SlimeEvent": "Slimes!",
   "entropy.events.HorseEvent": "Fiel acompañante",
+  "entropy.events.FireEvent": "Cola de Fuego",
+  "entropy.events.AdventureEvent": "Modo Aventura!",
+  "entropy.events.PitEvent": "Pozo profundo",
+  "entropy.events.SkyEvent": "Hasta la luna",
+  "entropy.events.PumkinViewEvent": "Vista de calabaza",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",

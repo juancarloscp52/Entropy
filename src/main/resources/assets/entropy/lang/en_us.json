@@ -76,6 +76,11 @@
   "entropy.events.SinkingEvent": "Quicksand!",
   "entropy.events.SlimeEvent": "Slime Overload",
   "entropy.events.HorseEvent": "Loyal Companion",
+  "entropy.events.FireEvent": "Fire Trail",
+  "entropy.events.AdventureEvent": "Adventure Mode!",
+  "entropy.events.PitEvent": "Deep Pit",
+  "entropy.events.SkyEvent": "To the moon",
+  "entropy.events.PumkinViewEvent": "Pumkin View",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

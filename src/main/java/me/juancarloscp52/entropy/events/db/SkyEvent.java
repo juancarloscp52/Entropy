@@ -20,14 +20,28 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
 
-public class TeleportHeavenEvent extends AbstractInstantEvent {
+public class SkyEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
+        {
+            BlockPos pos = serverPlayerEntity.getBlockPos().withY(319);
+            for(int i= -3; i<=4;i++) {
+                for (int j = -3; j <= 4; j++) {
+                    serverPlayerEntity.getWorld().setBlockState(new BlockPos(pos.getX()+i,pos.getY(),pos.getZ()+j),Blocks.GLASS.getDefaultState());
+                }
+            }
             serverPlayerEntity.stopRiding();
-            serverPlayerEntity.teleport(serverPlayerEntity.getX(), 380, serverPlayerEntity.getZ());
+            serverPlayerEntity.refreshPositionAfterTeleport(pos.getX(),pos.getY()+2,pos.getZ());
+
         });
+    }
+    @Override
+    public String type() {
+        return "health";
     }
 }

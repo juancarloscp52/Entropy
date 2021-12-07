@@ -111,6 +111,12 @@ public class EventRegistry {
         entropyEvents.put("SinkingEvent", SinkingEvent::new);
         entropyEvents.put("SlimeEvent", SlimeEvent::new);
         entropyEvents.put("HorseEvent", HorseEvent::new);
+        entropyEvents.put("FireEvent", FireEvent::new);
+        entropyEvents.put("AdventureEvent", AdventureEvent::new);
+        entropyEvents.put("PitEvent", PitEvent::new);
+        entropyEvents.put("SkyEvent", SkyEvent::new);
+        entropyEvents.put("PumkinViewEvent", PumkinViewEvent::new);
+
 
     }
 
