@@ -115,7 +115,7 @@ public class EventRegistry {
         entropyEvents.put("AdventureEvent", AdventureEvent::new);
         entropyEvents.put("PitEvent", PitEvent::new);
         entropyEvents.put("SkyEvent", SkyEvent::new);
-        entropyEvents.put("PumkinViewEvent", PumkinViewEvent::new);
+        entropyEvents.put("PumpkinViewEvent", PumpkinViewEvent::new);
 
 
     }

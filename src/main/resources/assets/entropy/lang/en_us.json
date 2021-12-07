@@ -80,7 +80,7 @@
   "entropy.events.AdventureEvent": "Adventure Mode!",
   "entropy.events.PitEvent": "Deep Pit",
   "entropy.events.SkyEvent": "To the moon",
-  "entropy.events.PumkinViewEvent": "Pumkin View",
+  "entropy.events.PumpkinViewEvent": "Pumpkin View",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

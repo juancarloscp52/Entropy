@@ -27,7 +27,7 @@ import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-public class PumkinViewEvent extends AbstractTimedEvent {
+public class PumpkinViewEvent extends AbstractTimedEvent {
 
     private static final Identifier PUMKIN_TEXTURE = new Identifier("textures/misc/pumpkinblur.png");
     MinecraftClient client;
