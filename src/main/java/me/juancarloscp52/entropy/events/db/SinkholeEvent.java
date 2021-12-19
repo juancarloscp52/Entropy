@@ -36,7 +36,12 @@ public class SinkholeEvent extends AbstractInstantEvent {
                 for (int j = -1;j<2;j++){
                     for (int k = -1;k<2;k++){
                         if(!world.getBlockState(new BlockPos(x+j,i,z+k)).getBlock().equals(Blocks.BEDROCK))
-                            world.setBlockState(new BlockPos(x+j,i,z+k),Blocks.AIR.getDefaultState());
+                            if(i<(y-38)){
+                                serverPlayerEntity.getWorld().setBlockState(new BlockPos(x+j,i,z+k), Blocks.WATER.getDefaultState());
+                            }else{
+                                serverPlayerEntity.getWorld().setBlockState(new BlockPos(x+j,i,z+k), Blocks.AIR.getDefaultState());
+                            }
+
                     }
                 }
             }
