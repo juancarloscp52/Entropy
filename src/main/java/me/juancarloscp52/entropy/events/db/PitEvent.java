@@ -31,13 +31,18 @@ public class PitEvent extends AbstractInstantEvent {
         {
             BlockPos pos = serverPlayerEntity.getBlockPos();
             int x = pos.getX(),y = pos.getY(),z = pos.getZ();
-            for(int h = -64; h<=319; h++){
-                for(int i= -11; i<=11;i++) {
-                    for (int j = -11; j <= 11; j++) {
+            for(int h = y-50; h<=319; h++){
+                for(int i= -9; i<=9;i++) {
+                    for (int j = -9; j <= 9; j++) {
                         BlockPos currentPos = new BlockPos(x+i,h,z+j);
-                        if(Math.abs(i)>3 || Math.abs(j)>3){
-                            if(!serverPlayerEntity.getWorld().getBlockState(currentPos).getBlock().equals(Blocks.BEDROCK))
-                                serverPlayerEntity.getWorld().setBlockState(currentPos, Blocks.AIR.getDefaultState());
+                        if(Math.abs(i)>2|| Math.abs(j)>2){
+                            if(!serverPlayerEntity.getWorld().getBlockState(currentPos).getBlock().equals(Blocks.BEDROCK)){
+                                if(h<(y-45)){
+                                    serverPlayerEntity.getWorld().setBlockState(currentPos, Blocks.WATER.getDefaultState());
+                                }else{
+                                    serverPlayerEntity.getWorld().setBlockState(currentPos, Blocks.AIR.getDefaultState());
+                                }
+                            }
                         }
                     }
                 }
@@ -46,8 +51,5 @@ public class PitEvent extends AbstractInstantEvent {
             serverPlayerEntity.refreshPositionAfterTeleport(pos.getX(),pos.getY(),pos.getZ());
         });
     }
-    @Override
-    public String type() {
-        return "health";
-    }
+
 }
