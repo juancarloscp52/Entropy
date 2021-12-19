@@ -27,6 +27,6 @@ public class BlindnessEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, (int) (Entropy.getInstance().settings.baseEventDuration*1.25))));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS,(Entropy.getInstance().settings.baseEventDuration))));
     }
 }
