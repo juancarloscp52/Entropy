@@ -81,6 +81,7 @@
   "entropy.events.PitEvent": "Deep Pit",
   "entropy.events.SkyEvent": "To the moon",
   "entropy.events.PumpkinViewEvent": "Pumpkin View",
+  "entropy.events.NightVisionEvent": "Night Vision",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

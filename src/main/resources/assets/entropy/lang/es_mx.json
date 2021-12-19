@@ -81,6 +81,7 @@
   "entropy.events.PitEvent": "Pozo profundo",
   "entropy.events.SkyEvent": "Hasta la luna",
   "entropy.events.PumkinViewEvent": "Vista de calabaza",
+  "entropy.events.NightVisionEvent": "Visión nocturna",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
