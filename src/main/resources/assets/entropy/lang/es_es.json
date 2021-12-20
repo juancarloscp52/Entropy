@@ -80,8 +80,9 @@
   "entropy.events.AdventureEvent": "Modo Aventura!",
   "entropy.events.PitEvent": "Pozo profundo",
   "entropy.events.SkyEvent": "Hasta la luna",
-  "entropy.events.PumkinViewEvent": "Vista de calabaza",
+  "entropy.events.PumpkinViewEvent": "Vista de calabaza",
   "entropy.events.NightVisionEvent": "Visión nocturna",
+  "entropy.events.ExplosivePickaxeEvent": "Pico explosivo",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",

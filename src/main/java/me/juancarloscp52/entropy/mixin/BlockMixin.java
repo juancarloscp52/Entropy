@@ -19,13 +19,17 @@ package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -53,6 +57,13 @@ public class BlockMixin {
                 world.spawnEntity(itemEntity);
             }
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "afterBreak", at = @At("HEAD"))
+    private void explodeOnBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack, CallbackInfo ci){
+        if(Variables.explodingPickaxe){
+            world.createExplosion(null,pos.getX(),pos.getY(),pos.getZ(),new Random().nextInt(1,3), Explosion.DestructionType.NONE);
         }
     }
 
