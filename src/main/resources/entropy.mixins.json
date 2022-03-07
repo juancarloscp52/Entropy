@@ -8,6 +8,7 @@
     "EntityMixin"
   ],
   "client": [
+    "ClientPlayerEntityMixin",
     "BackgroundRendererMixin",
     "CameraMixin",
     "ClientPlayerInteractionManagerMixin",
