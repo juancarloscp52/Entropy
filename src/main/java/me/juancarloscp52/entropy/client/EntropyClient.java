@@ -67,7 +67,6 @@ public class EntropyClient implements ClientModInitializer {
         LOGGER.info("Initializing Entropy Client Mod");
         instance = this;
         loadSettings();
-        saveSettings();
         ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_CONFIRM, (client, handler, buf, responseSender) -> {
             short timerDuration = buf.readShort();
             short baseEventDuration = buf.readShort();
@@ -223,7 +222,7 @@ public class EntropyClient implements ClientModInitializer {
         Gson gson = new Gson();
         File file = new File("./config/entropy/entropyIntegrationSettings.json");
         if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdir();
+            file.getParentFile().mkdirs();
         }
         try {
             FileWriter fileWriter = new FileWriter(file);

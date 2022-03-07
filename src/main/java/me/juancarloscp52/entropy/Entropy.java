@@ -38,6 +38,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 public class Entropy implements ModInitializer {
@@ -92,7 +93,6 @@ public class Entropy implements ModInitializer {
                 player.networkHandler.disconnect(new LiteralText(String.format("Client entropy version (%s) does not match server version (%s).", clientVersion, version)));
             }
         });
-
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             if (eventHandler == null)
                 return;
@@ -143,7 +143,7 @@ public class Entropy implements ModInitializer {
         Gson gson = new Gson();
         File file = new File("./config/entropy/entropy.json");
         if (!file.getParentFile().exists()) {
-            file.getParentFile().mkdir();
+            file.getParentFile().mkdirs();
         }
         try {
             FileWriter fileWriter = new FileWriter(file);
@@ -151,6 +151,7 @@ public class Entropy implements ModInitializer {
             fileWriter.close();
         } catch (IOException e) {
             LOGGER.warn("Could not save entropy settings: " + e.getLocalizedMessage());
+            e.printStackTrace();
         }
     }
 }
