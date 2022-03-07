@@ -83,11 +83,11 @@ public class EntropyEventConfigurationScreen extends Screen {
                 settings.disabledEvents.add(buttonEntry.eventID);
         });
         Entropy.getInstance().saveSettings();
-        onClose();
+        close();
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         this.client.setScreen(this.parent);
     }
 }

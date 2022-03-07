@@ -40,11 +40,9 @@ public class GameRendererMixin {
     @Final
     private MinecraftClient client;
 
-    @Shadow
-    private float lastMovementFovMultiplier;
+    @Shadow private float lastFovMultiplier;
 
-    @Shadow
-    private float movementFovMultiplier;
+    @Shadow private float fovMultiplier;
 
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
     public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
@@ -64,7 +62,7 @@ public class GameRendererMixin {
             double fov = 70.0D;
             if (changingFov) {
                 fov = fovValue;
-                fov *= MathHelper.lerp(tickDelta, this.lastMovementFovMultiplier, this.movementFovMultiplier);
+                fov *= MathHelper.lerp(tickDelta, this.lastFovMultiplier, this.fovMultiplier);
             }
 
             if (camera.getFocusedEntity() instanceof LivingEntity && ((LivingEntity) camera.getFocusedEntity()).isDead()) {

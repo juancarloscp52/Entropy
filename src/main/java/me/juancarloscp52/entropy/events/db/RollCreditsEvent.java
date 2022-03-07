@@ -40,7 +40,7 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void endClient() {
         if (client.currentScreen instanceof EntropyCreditsScreen) {
-            client.currentScreen.onClose();
+            client.currentScreen.close();
             this.client.mouse.lockCursor();
         }
         this.hasEnded = true;

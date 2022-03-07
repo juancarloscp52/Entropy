@@ -86,11 +86,11 @@ public class EntropyConfigurationScreen extends Screen {
     private void onDone() {
         EntropyClient.getInstance().saveSettings();
         Entropy.getInstance().saveSettings();
-        onClose();
+        close();
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         this.client.setScreen(this.parent);
     }
 }

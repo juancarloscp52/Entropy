@@ -132,7 +132,7 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("ExplosivePickaxeEvent");
+        //return EventRegistry.get("BlurEvent");
         return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 

@@ -27,7 +27,6 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.math.MathHelper;
-import org.lwjgl.system.CallbackI;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;

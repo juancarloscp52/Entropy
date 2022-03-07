@@ -186,7 +186,7 @@ public class EntropyIntegrationsScreen extends Screen {
 
         EntropyClient.getInstance().saveSettings();
         Entropy.getInstance().saveSettings();
-        onClose();
+        close();
     }
 
     private String getPlatform(){
@@ -198,7 +198,7 @@ public class EntropyIntegrationsScreen extends Screen {
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         this.client.setScreen(this.parent);
     }
 }

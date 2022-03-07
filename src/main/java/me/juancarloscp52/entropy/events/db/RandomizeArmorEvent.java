@@ -46,7 +46,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
 
     private ItemStack getRandomItem(EquipmentSlot slot){
         Random random = new Random();
-        Item item = Registry.ITEM.getRandom(random);
+        Item item = Registry.ITEM.getRandom(random).get().value();
         if(item instanceof ArmorItem && ((ArmorItem)item).getSlotType()==slot){
             ItemStack stack = new ItemStack(item);
             for(int i=0;i< random.nextInt(4);i++){

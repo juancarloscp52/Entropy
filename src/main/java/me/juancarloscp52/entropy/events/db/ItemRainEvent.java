@@ -65,7 +65,7 @@ public class ItemRainEvent extends AbstractTimedEvent {
     }
 
     private Item getRandomItem() {
-        Item item = Registry.ITEM.getRandom(new Random());
+        Item item = Registry.ITEM.getRandom(new Random()).get().value();
         if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
             item = getRandomItem();
         }

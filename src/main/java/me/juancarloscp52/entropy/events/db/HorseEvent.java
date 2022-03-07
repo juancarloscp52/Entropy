@@ -22,13 +22,9 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.sound.SoundCategory;
-
-import java.util.Random;
-import java.util.jar.Attributes;
 
 public class HorseEvent extends AbstractInstantEvent {
 

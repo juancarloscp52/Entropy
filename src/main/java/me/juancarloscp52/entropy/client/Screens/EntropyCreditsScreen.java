@@ -42,7 +42,7 @@ public class EntropyCreditsScreen extends CreditsScreen {
     }
 
     @Override
-    public boolean isPauseScreen() {
+    public boolean shouldPause() {
         return false;
     }
 }
