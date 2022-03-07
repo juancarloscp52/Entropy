@@ -40,8 +40,8 @@ dependencies {
     implementation "com.github.pircbotx:pircbotx:${pircbotx_version}"
     include "com.github.pircbotx:pircbotx:${pircbotx_version}"
         // Needed by pircbotx
-        implementation "org.slf4j:slf4j-api:${slf4j_version}" //group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
-        include "org.slf4j:slf4j-api:${slf4j_version}"
+//        implementation "org.slf4j:slf4j-api:${slf4j_version}" //group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
+//        include "org.slf4j:slf4j-api:${slf4j_version}"
 
     // Discord JDA.
     implementation("net.dv8tion:JDA:${jda_version}") {
