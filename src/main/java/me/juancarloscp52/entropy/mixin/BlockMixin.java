@@ -26,6 +26,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
@@ -36,7 +37,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Random;
 
 @Mixin(Block.class)
 public class BlockMixin {
@@ -63,7 +63,7 @@ public class BlockMixin {
     @Inject(method = "afterBreak", at = @At("HEAD"))
     private void explodeOnBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack, CallbackInfo ci){
         if(Variables.explodingPickaxe){
-            world.createExplosion(null,pos.getX(),pos.getY(),pos.getZ(),new Random().nextInt(1,3), Explosion.DestructionType.NONE);
+            world.createExplosion(null,pos.getX(),pos.getY(),pos.getZ(), Random.create().nextBetween(1,3), Explosion.DestructionType.NONE);
         }
     }
 
@@ -78,7 +78,7 @@ public class BlockMixin {
     }
 
     private static Item getRandomItem() {
-        Item item = Registry.ITEM.getRandom(new Random()).get().value();
+        Item item = Registry.ITEM.getRandom(Random.create()).get().value();
         if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
             item = getRandomItem();
         }

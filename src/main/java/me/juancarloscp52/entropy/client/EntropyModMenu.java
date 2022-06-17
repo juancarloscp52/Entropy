@@ -22,7 +22,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.juancarloscp52.entropy.client.Screens.EntropyConfigurationScreen;
 import me.juancarloscp52.entropy.client.Screens.EntropyErrorScreen;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 
 public class EntropyModMenu implements ModMenuApi {
@@ -33,7 +33,7 @@ public class EntropyModMenu implements ModMenuApi {
             if (MinecraftClient.getInstance().getGame().getCurrentSession() == null) {
                 return new EntropyConfigurationScreen(parent);
             } else {
-                return new EntropyErrorScreen(parent, new TranslatableText("entropy.options.error"));
+                return new EntropyErrorScreen(parent, Text.translatable("entropy.options.error"));
             }
 
         };

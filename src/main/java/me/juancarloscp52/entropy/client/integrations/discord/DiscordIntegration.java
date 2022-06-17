@@ -50,7 +50,7 @@ public class DiscordIntegration implements Integrations {
             jda.addEventListener(new DiscordEventListener(this));
         } catch (LoginException e) {
             System.err.println("Could not connect to discord, re-trying");
-            //e.printStackTrace();
+            e.printStackTrace();
         }
 
     }

@@ -19,7 +19,7 @@ package me.juancarloscp52.entropy.client.Screens.Widgets;
 
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 
 public class EntropySliderWidget extends SliderWidget {
 
@@ -28,7 +28,7 @@ public class EntropySliderWidget extends SliderWidget {
     ValueUpdater valueUpdater;
 
     public EntropySliderWidget(int x, int y, int width, int height, String translationKey, double value, MessageSupplier messageSupplier, ValueUpdater valueUpdater) {
-        super(x, y, width, height, new TranslatableText(translationKey), value);
+        super(x, y, width, height, Text.translatable(translationKey), value);
         this.translationKey=translationKey;
         this.messageSupplier=messageSupplier;
         this.valueUpdater=valueUpdater;

@@ -29,7 +29,8 @@ import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+
 
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
 
         public static EntropyEventListWidget.ButtonEntry create(String eventID) {
             EntropySettings settings = Entropy.getInstance().settings;
-            return new EntropyEventListWidget.ButtonEntry(eventID, new CheckboxWidget(0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), 20, new TranslatableText(EventRegistry.getTranslationKey(eventID)), !settings.disabledEvents.contains(eventID)));
+            return new EntropyEventListWidget.ButtonEntry(eventID, new CheckboxWidget(0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), 20, Text.translatable(EventRegistry.getTranslationKey(eventID)), !settings.disabledEvents.contains(eventID)));
         }
 
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {

@@ -24,11 +24,12 @@ import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropySliderWidget;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -44,22 +45,22 @@ public class EntropyConfigurationScreen extends Screen {
     Screen parent;
 
     public EntropyConfigurationScreen(Screen parent) {
-        super(new TranslatableText("entropy.title"));
+        super(Text.translatable("entropy.title"));
         this.parent = parent;
     }
 
     protected void init() {
 
-        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/1200d,(slider, translationKey, value) -> new TranslatableText("entropy.options.eventDuration", MathHelper.floor(value*60+15)), value -> settings.baseEventDuration = (short) ((1200*value)+300));
+        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/1200d,(slider, translationKey, value) -> Text.translatable("entropy.options.eventDuration", MathHelper.floor(value*60+15)), value -> settings.baseEventDuration = (short) ((1200*value)+300));
         this.addDrawableChild(eventDurationWidget);
 
-        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/1200d,(slider, translationKey, value) -> new TranslatableText("entropy.options.timerDuration", MathHelper.floor(value*60+15)),value -> settings.timerDuration = (short) ((1200*value)+300));
+        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/1200d,(slider, translationKey, value) -> Text.translatable("entropy.options.timerDuration", MathHelper.floor(value*60+15)),value -> settings.timerDuration = (short) ((1200*value)+300));
         this.addDrawableChild(timerDurationWidget);
 
-        ButtonWidget eventSettings = new ButtonWidget(this.width / 2 - 85, 75, 170, 20, new TranslatableText("entropy.options.disableEvents"), button -> this.client.setScreen(new EntropyEventConfigurationScreen(this)));
+        ButtonWidget eventSettings = new ButtonWidget(this.width / 2 - 85, 75, 170, 20, Text.translatable("entropy.options.disableEvents"), button -> this.client.setScreen(new EntropyEventConfigurationScreen(this)));
         this.addDrawableChild(eventSettings);
 
-        ButtonWidget integrationSettings = new ButtonWidget(this.width / 2 - 85, 100, 170, 20, new TranslatableText("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this)));
+        ButtonWidget integrationSettings = new ButtonWidget(this.width / 2 - 85, 100, 170, 20, Text.translatable("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this)));
         this.addDrawableChild(integrationSettings);
 
         this.done = new ButtonWidget(this.width / 2 - 100, this.height - 30, 200, 20, ScreenTexts.DONE, button -> onDone());
@@ -78,7 +79,7 @@ public class EntropyConfigurationScreen extends Screen {
         this.drawTexture(matrices, 0, 0, 0, 0, 188, 187);
         matrices.pop();
         RenderSystem.disableBlend();
-        TranslatableText title = new TranslatableText("entropy.options.title");
+        Text title = Text.translatable("entropy.options.title");
         drawTextWithShadow(matrices, this.textRenderer, title, this.width / 2 - textRenderer.getWidth(title)/2, 10, 16777215);
         super.render(matrices, mouseX, mouseY, delta);
     }

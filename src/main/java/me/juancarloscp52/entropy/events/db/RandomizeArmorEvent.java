@@ -25,9 +25,9 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 
-import java.util.Random;
 
 public class RandomizeArmorEvent extends AbstractInstantEvent {
 
@@ -45,7 +45,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
     }
 
     private ItemStack getRandomItem(EquipmentSlot slot){
-        Random random = new Random();
+        Random random = Random.create();
         Item item = Registry.ITEM.getRandom(random).get().value();
         if(item instanceof ArmorItem && ((ArmorItem)item).getSlotType()==slot){
             ItemStack stack = new ItemStack(item);
@@ -59,13 +59,13 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
             return getRandomItem(slot);
     }
     private Enchantment getRandomEnchantment(ItemStack item){
-        Enchantment enchantment = Registry.ENCHANTMENT.get(new Random().nextInt(Registry.ENCHANTMENT.getIds().size()));
+        Enchantment enchantment = Registry.ENCHANTMENT.get(Random.create().nextInt(Registry.ENCHANTMENT.getIds().size()));
         if(enchantment!=null && enchantment.isAcceptableItem(item))
             return enchantment;
         else
             return getRandomEnchantment(item);
     }
     private int getRandomLevel(Enchantment enchantment){
-        return new Random().nextInt(enchantment.getMaxLevel()-enchantment.getMinLevel()+1)+ enchantment.getMinLevel();
+        return Random.create().nextInt(enchantment.getMaxLevel()-enchantment.getMinLevel()+1)+ enchantment.getMinLevel();
     }
 }

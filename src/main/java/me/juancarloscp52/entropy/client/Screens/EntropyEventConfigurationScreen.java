@@ -24,10 +24,11 @@ import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class EntropyEventConfigurationScreen extends Screen {
     Screen parent;
 
     public EntropyEventConfigurationScreen(Screen parent) {
-        super(new TranslatableText("entropy.options.disableEvents"));
+        super(Text.translatable("entropy.options.disableEvents"));
         this.parent = parent;
     }
 

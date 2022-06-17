@@ -30,7 +30,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.TranslatableText;
+
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
@@ -47,8 +48,8 @@ public abstract class AbstractTimedEvent implements Event {
         if(Variables.doNotShowEvents)
             y=20;
         MinecraftClient client = MinecraftClient.getInstance();
-        int size = client.textRenderer.getWidth(new TranslatableText(EventRegistry.getTranslationKey(this)));
-        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, new TranslatableText(EventRegistry.getTranslationKey(this)), client.getWindow().getScaledWidth() - size - 40, y, MathHelper.packRgb(255, 255, 255));
+        int size = client.textRenderer.getWidth(Text.translatable(EventRegistry.getTranslationKey(this)));
+        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.translatable(EventRegistry.getTranslationKey(this)), client.getWindow().getScaledWidth() - size - 40, y, MathHelper.packRgb(255, 255, 255));
         if (!this.hasEnded()) {
             DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 5, y + 8, MathHelper.packRgb(70, 70, 70) + (150 << 24));
             DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 35 + MathHelper.floor(30 * (getTickCount() / (double) getDuration())), y + 8, MathHelper.packRgb(255, 255, 255) + (200 << 24));

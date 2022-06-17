@@ -24,9 +24,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.Registry;
 
-import java.util.Random;
 
 public class ItemRainEvent extends AbstractTimedEvent {
 
@@ -34,7 +34,7 @@ public class ItemRainEvent extends AbstractTimedEvent {
 
     @Override
     public void init() {
-        random = new Random();
+        random = Random.create();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class ItemRainEvent extends AbstractTimedEvent {
     }
 
     private Item getRandomItem() {
-        Item item = Registry.ITEM.getRandom(new Random()).get().value();
+        Item item = Registry.ITEM.getRandom(Random.create()).get().value();
         if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
             item = getRandomItem();
         }

@@ -30,7 +30,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.LiteralText;
+
+import net.minecraft.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -90,7 +91,7 @@ public class Entropy implements ModInitializer {
                 }
             } else {
                 LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...", player.getEntityName(), player.getUuidAsString(), clientVersion, version));
-                player.networkHandler.disconnect(new LiteralText(String.format("Client entropy version (%s) does not match server version (%s).", clientVersion, version)));
+                player.networkHandler.disconnect(Text.literal(String.format("Client entropy version (%s) does not match server version (%s).", clientVersion, version)));
             }
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {

@@ -24,16 +24,16 @@ import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.Identifier;
 
 
@@ -51,8 +51,8 @@ public class EntropyIntegrationsScreen extends Screen {
     TextFieldWidget twitchChannel;
     TextFieldWidget discordToken;
     TextFieldWidget discordChannel;
-    TranslatableText tokenTranslatable;
-    TranslatableText channelTranslatable;
+    Text tokenTranslatable;
+    Text channelTranslatable;
     CheckboxWidget sendChatMessages;
     CheckboxWidget showPollStatus;
 
@@ -61,46 +61,47 @@ public class EntropyIntegrationsScreen extends Screen {
     Screen parent;
 
     public EntropyIntegrationsScreen(Screen parent) {
-        super(new TranslatableText("entropy.options.integrations.title"));
+        super(Text.translatable("entropy.options.integrations.title"));
         this.parent = parent;
     }
 
     protected void init() {
         platformIntegrationValue=integrationsSettings.integrationType;
-        platformIntegration = new ButtonWidget(this.width/2-100,30,200,20,new TranslatableText("entropy.options.integrations.integrationSelector", getPlatform()), button -> {
+        platformIntegration = new ButtonWidget(this.width/2-100,30,200,20,Text.translatable("entropy.options.integrations.integrationSelector", getPlatform()), button -> {
             platformIntegrationValue++;
             if(platformIntegrationValue>=3)
                 platformIntegrationValue=0;
             changeContent();
-            button.setMessage(new TranslatableText("entropy.options.integrations.integrationSelector", getPlatform()));
+            button.setMessage(Text.translatable("entropy.options.integrations.integrationSelector", getPlatform()));
         });
         this.addDrawableChild(platformIntegration);
 
-        twitchToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 80, 125, 20, new TranslatableText("entropy.options.integrations.twitch.OAuthToken"));
+        twitchToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 80, 125, 20, Text.translatable("entropy.options.integrations.twitch.OAuthToken"));
         twitchToken.setMaxLength(64);
         twitchToken.setText(integrationsSettings.authToken);
         twitchToken.setRenderTextProvider((s, integer) -> OrderedText.styledForwardsVisitedString("*".repeat(s.length()), Style.EMPTY));
         this.addDrawableChild(twitchToken);
-        twitchChannel = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 110, 125, 20, new TranslatableText("entropy.options.integrations.twitch.channelName"));
+        twitchChannel = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 110, 125, 20, Text.translatable("entropy.options.integrations.twitch.channelName"));
         twitchChannel.setText(integrationsSettings.channel);
         this.addDrawableChild(twitchChannel);
 
 
 
-        discordToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 80, 125, 20, new TranslatableText("entropy.options.integrations.discord.token"));
-        discordToken.setMaxLength(64);
+        discordToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 80, 125, 20, Text.translatable("entropy.options.integrations.discord.token"));
+        discordToken.setMaxLength(128);
         discordToken.setText(integrationsSettings.discordToken);
         discordToken.setRenderTextProvider((s, integer) -> OrderedText.styledForwardsVisitedString("*".repeat(s.length()), Style.EMPTY));
         this.addDrawableChild(discordToken);
-        discordChannel = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 110, 125, 20, new TranslatableText("entropy.options.integrations.discord.channelId"));
+        discordChannel = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 110, 125, 20, Text.translatable("entropy.options.integrations.discord.channelId"));
         discordChannel.setText(String.valueOf(integrationsSettings.discordChannel));
+        discordChannel.setMaxLength(128);
         this.addDrawableChild(discordChannel);
 
-        Text showPollStatusText = new TranslatableText("entropy.options.integrations.showPollStatus");
+        Text showPollStatusText = Text.translatable("entropy.options.integrations.showPollStatus");
         showPollStatus = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showPollStatusText) / 2) + 11), 140, 150, 20, showPollStatusText, integrationsSettings.showCurrentPercentage);
         this.addDrawableChild(showPollStatus);
 
-        Text sendChatMessagesText = new TranslatableText("entropy.options.integrations.twitch.sendChatFeedBack");
+        Text sendChatMessagesText = Text.translatable("entropy.options.integrations.twitch.sendChatFeedBack");
         sendChatMessages = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(sendChatMessagesText) / 2) + 11), 165, 150, 20, sendChatMessagesText, integrationsSettings.sendChatMessages);
         this.addDrawableChild(sendChatMessages);
 
@@ -109,9 +110,9 @@ public class EntropyIntegrationsScreen extends Screen {
         this.addDrawableChild(done);
 
         this.addDrawableChild(
-                help = new ButtonWidget((this.width / 2) + 110, 30, 20, 20, new TranslatableText("entropy.options.questionMark"), (button -> {
+                help = new ButtonWidget((this.width / 2) + 110, 30, 20, 20, Text.translatable("entropy.options.questionMark"), (button -> {
                 }), (buttonWidget, matrixStack, i, j) ->
-                        this.renderOrderedTooltip(matrixStack, textRenderer.wrapLines(new TranslatableText(platformIntegrationValue==1?"entropy.options.integrations.twitch.help":"entropy.options.integrations.discord.help"), this.width / 2), i, j)));
+                        this.renderOrderedTooltip(matrixStack, textRenderer.wrapLines(Text.translatable(platformIntegrationValue==1?"entropy.options.integrations.twitch.help":"entropy.options.integrations.discord.help"), this.width / 2), i, j)));
 
         changeContent();
     }
@@ -126,8 +127,8 @@ public class EntropyIntegrationsScreen extends Screen {
                 discordChannel.setVisible(false);
                 discordToken.setVisible(false);
                 help.visible=true;
-                tokenTranslatable = new TranslatableText("entropy.options.integrations.twitch.OAuthToken");
-                channelTranslatable = new TranslatableText("entropy.options.integrations.twitch.channelName");
+                tokenTranslatable = Text.translatable("entropy.options.integrations.twitch.OAuthToken");
+                channelTranslatable = Text.translatable("entropy.options.integrations.twitch.channelName");
             }
             case 2 -> {
                 twitchChannel.setVisible(false);
@@ -137,8 +138,8 @@ public class EntropyIntegrationsScreen extends Screen {
                 discordChannel.setVisible(true);
                 discordToken.setVisible(true);
                 help.visible=true;
-                tokenTranslatable = new TranslatableText("entropy.options.integrations.discord.token");
-                channelTranslatable = new TranslatableText("entropy.options.integrations.discord.channelId");
+                tokenTranslatable = Text.translatable("entropy.options.integrations.discord.token");
+                channelTranslatable = Text.translatable("entropy.options.integrations.discord.channelId");
             }
             default -> {
                 twitchChannel.setVisible(false);
@@ -148,8 +149,8 @@ public class EntropyIntegrationsScreen extends Screen {
                 discordChannel.setVisible(false);
                 discordToken.setVisible(false);
                 help.visible=false;
-                tokenTranslatable = new TranslatableText("");
-                channelTranslatable = new TranslatableText("");
+                tokenTranslatable = Text.translatable("");
+                channelTranslatable = Text.translatable("");
             }
         }
     }

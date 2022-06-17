@@ -25,9 +25,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.LiteralText;
+
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
@@ -95,7 +95,7 @@ public class VotingClient {
     }
 
     public void render(MatrixStack matrixStack) {
-        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, new TranslatableText("entropy.voting.total", this.totalVotesCount), 10, 20, MathHelper.packRgb(255, 255, 255));
+        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, MathHelper.packRgb(255, 255, 255));
         for (int i = 0; i < 4; i++) {
             renderPollElement(matrixStack, i);
         }
@@ -112,10 +112,10 @@ public class VotingClient {
         DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 195 + 10 + 45, 35 + (i * 18) + 10, MathHelper.packRgb(155, 22, 217) + 150 << 24);
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
             DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 10 + MathHelper.floor((195 + 45) * ratio), (35 + (i * 18) + 10), this.getColor() + (150 << 24));
-        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, new LiteralText((1 + i + altOffset) + ": ").append(new TranslatableText(this.events.get(i))), 15, 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
+        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.literal((1 + i + altOffset) + ": ").append(Text.translatable(this.events.get(i))), 15, 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
 
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
-            Text percentage = new LiteralText(MathHelper.floor(ratio * 100) + " %");
+            Text percentage = Text.literal(MathHelper.floor(ratio * 100) + " %");
             DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, percentage, 195 + 10 + 42 - client.textRenderer.getWidth(percentage), 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
         }
 

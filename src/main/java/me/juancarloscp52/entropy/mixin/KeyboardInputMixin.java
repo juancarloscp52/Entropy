@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class KeyboardInputMixin extends Input {
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void applyEvents(boolean slowDown, CallbackInfo ci) {
+    private void applyEvents(boolean slowDown, float f, CallbackInfo ci) {
         if (Variables.forceForward) {
             this.pressingForward = true;
             this.movementForward = 1;

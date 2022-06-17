@@ -47,7 +47,7 @@ public class GameRendererMixin {
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
     public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
         if (Variables.invertedFov) {
-            cir.setReturnValue(updateFov(camera, tickDelta, changingFov, -client.options.fov));
+            cir.setReturnValue(updateFov(camera, tickDelta, changingFov, -client.options.getFov().getValue()));
         } else if (Variables.forcedFov) {
             if (Variables.ignoreVariableFov) {
                 cir.setReturnValue((double) Variables.fov);
@@ -71,7 +71,7 @@ public class GameRendererMixin {
             }
             CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
             if (cameraSubmersionType == CameraSubmersionType.LAVA || cameraSubmersionType == CameraSubmersionType.WATER) {
-                fov *= (double)MathHelper.lerp(this.client.options.fovEffectScale, 1.0F, 0.85714287F);
+                fov *= (double)MathHelper.lerp(this.client.options.getFovEffectScale().getValue(), 1.0F, 0.85714287F);
             }
 //            FluidState fluidState = camera.getSubmergedFluidState();
 //            if (!fluidState.isEmpty()) {

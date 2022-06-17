@@ -23,7 +23,8 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
+
 import net.minecraft.util.math.MathHelper;
 
 public abstract class AbstractInstantEvent implements Event {
@@ -45,8 +46,8 @@ public abstract class AbstractInstantEvent implements Event {
         if(Variables.doNotShowEvents)
             return;
         MinecraftClient client = MinecraftClient.getInstance();
-        int size = client.textRenderer.getWidth(new TranslatableText(EventRegistry.getTranslationKey(this)));
-        DrawableHelper.drawTextWithShadow(matrixStack, MinecraftClient.getInstance().textRenderer, new TranslatableText(EventRegistry.getTranslationKey(this)), client.getWindow().getScaledWidth() - size - 40, y, MathHelper.packRgb(255, 255, 255));
+        int size = client.textRenderer.getWidth(Text.translatable(EventRegistry.getTranslationKey(this)));
+        DrawableHelper.drawTextWithShadow(matrixStack, MinecraftClient.getInstance().textRenderer, Text.translatable(EventRegistry.getTranslationKey(this)), client.getWindow().getScaledWidth() - size - 40, y, MathHelper.packRgb(255, 255, 255));
     }
 
     public void tick() {

@@ -18,12 +18,12 @@
 package me.juancarloscp52.entropy.client.Screens;
 
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class EntropyErrorScreen extends Screen {
     Text message;
 
     public EntropyErrorScreen(Screen parent, Text message) {
-        super(new TranslatableText("entropy.errorScreen.title"));
+        super(Text.translatable("entropy.errorScreen.title"));
         this.message = message;
         this.parent = parent;
     }
