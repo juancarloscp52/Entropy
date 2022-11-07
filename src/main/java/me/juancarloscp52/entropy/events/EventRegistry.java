@@ -118,6 +118,7 @@ public class EventRegistry {
         entropyEvents.put("PumpkinViewEvent", PumpkinViewEvent::new);
         entropyEvents.put("NightVisionEvent", NightVisionEvent::new);
         entropyEvents.put("ExplosivePickaxeEvent", ExplosivePickaxeEvent::new);
+        entropyEvents.put("HighlightAllMobsEvent", HighlightAllMobsEvent::new);
 
 
 
