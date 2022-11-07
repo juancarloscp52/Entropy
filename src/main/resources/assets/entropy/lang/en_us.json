@@ -83,6 +83,7 @@
   "entropy.events.PumpkinViewEvent": "Pumpkin View",
   "entropy.events.NightVisionEvent": "Night Vision",
   "entropy.events.ExplosivePickaxeEvent": "Explosive Pickaxe",
+  "entropy.events.HighlightAllMobsEvent": "Highlight all mobs",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

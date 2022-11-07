@@ -74,6 +74,7 @@
   "entropy.events.PoolEvent": "Hot tub",
   "entropy.events.RandomCreeperEvent": "Creeper anxiety",
   "entropy.events.SinkingEvent": "Quicksand!",
+  "entropy.events.HighlightAllMobsEvent": "Highlight all mobs",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
