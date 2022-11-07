@@ -91,6 +91,7 @@
   "entropy.options.error": "Los ajustes de Entropy no pueden ser abiertos mientras un mundo esté abierto. Por favor, cierre el mundo o desconéctese del servidor antes de editar los ajustes.",
   "entropy.options.title": "Ajustes Entropy",
   "entropy.options.off": "No",
+  "entropy.options.votingMode": "Modo de votación: %s",
   "entropy.options.integrations.title": "Ajustes de integraciones",
   "entropy.options.integrations.integrationSelector": "Integración con plataforma: %s",
   "entropy.options.integrations.twitch": "Twitch",
