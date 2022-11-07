@@ -63,6 +63,15 @@ public class EntropyConfigurationScreen extends Screen {
         ButtonWidget integrationSettings = new ButtonWidget(this.width / 2 - 85, 100, 170, 20, Text.translatable("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this)));
         this.addDrawableChild(integrationSettings);
 
+        ButtonWidget votingMode = new ButtonWidget(this.width/2-85,125,170,20,Text.translatable("entropy.options.votingMode", settings.votingMode.name()), button -> {
+            if(settings.votingMode == EntropySettings.VotingMode.MAJORITY)
+                settings.votingMode= EntropySettings.VotingMode.PROPORTIONAL;
+            else
+                settings.votingMode= EntropySettings.VotingMode.MAJORITY;
+            button.setMessage(Text.translatable("entropy.options.votingMode", settings.votingMode.name()));
+        });
+
+        this.addDrawableChild(votingMode);
         this.done = new ButtonWidget(this.width / 2 - 100, this.height - 30, 200, 20, ScreenTexts.DONE, button -> onDone());
         this.addDrawableChild(done);
     }

@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.server;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
@@ -29,6 +30,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class VotingServer {
     private final int size = 4;
@@ -70,6 +72,15 @@ public class VotingServer {
 
     public int getWinner() {
 
+        if(Entropy.getInstance().settings.votingMode == EntropySettings.VotingMode.MAJORITY){
+            return getWinnerByMajority();
+        }else{
+            return getWinnerByPercentage();
+        }
+
+    }
+    public int getWinnerByMajority() {
+
         int bigger = 0, biggerIndex = -1;
         for (int i = 0; i < 4; i++) {
             int current = totalVotes[i];
@@ -83,6 +94,24 @@ public class VotingServer {
             return -1;
 
         return biggerIndex;
+    }
+    public int getWinnerByPercentage() {
+
+        Random random = new Random();
+        if(totalVoteCount<=0)
+            return -1;
+
+
+        int vote = random.nextInt(1,totalVoteCount+1);
+
+        int voteRange=0;
+        for (int i = 0; i < 4; i++) {
+            voteRange+=totalVotes[i];
+            if (vote <= voteRange) {
+                return i;
+            }
+        }
+        return  -1;
     }
 
     public void newPoll() {
