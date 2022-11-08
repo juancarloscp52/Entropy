@@ -119,6 +119,10 @@ public class EventRegistry {
         entropyEvents.put("NightVisionEvent", NightVisionEvent::new);
         entropyEvents.put("ExplosivePickaxeEvent", ExplosivePickaxeEvent::new);
         entropyEvents.put("HighlightAllMobsEvent", HighlightAllMobsEvent::new);
+        entropyEvents.put("UpgradeRandomGearEvent", UpgradeRandomGearEvent::new);
+        entropyEvents.put("DowngradeRandomGearEvent", DowngradeRandomGearEvent::new);
+        entropyEvents.put("CurseRandomGearEvent", CurseRandomGearEvent::new);
+        entropyEvents.put("EnchantRandomGearEvent", EnchantRandomGearEvent::new);
 
 
 

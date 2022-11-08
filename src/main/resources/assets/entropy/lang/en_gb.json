@@ -75,6 +75,10 @@
   "entropy.events.RandomCreeperEvent": "Creeper anxiety",
   "entropy.events.SinkingEvent": "Quicksand!",
   "entropy.events.HighlightAllMobsEvent": "Highlight all mobs",
+  "entropy.events.UpgradeRandomGearEvent": "Upgrade random gear",
+  "entropy.events.DowngradeRandomGearEvent": "Downgrade random gear",
+  "entropy.events.CurseRandomGearEvent": "Curse random gear",
+  "entropy.events.EnchantRandomGearEvent": "Enchant random gear",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
