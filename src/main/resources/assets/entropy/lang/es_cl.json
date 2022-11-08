@@ -59,7 +59,7 @@
   "entropy.events.HideEventsEvent": "Que está pasando!???",
   "entropy.events.TopDownViewEvent": "Vista desde arriba",
   "entropy.events.PhantomEvent": "Escuadrón Fantasma!",
-  "entropy.events.TimerSpeed2Event": "x2 Velocidad de contador",
+  "entropy.events.TimerSpeed2Event": "2x Velocidad de contador",
   "entropy.events.TimerSpeed5Event": "5x Velocidad de contador",
   "entropy.events.TimerSpeedHalfEvent": "0.5x Velocidad de contador",
   "entropy.events.ResistanceEvent": "Dar resistencia a los jugadores",
@@ -83,6 +83,11 @@
   "entropy.events.PumpkinViewEvent": "Vista de calabaza",
   "entropy.events.NightVisionEvent": "Visión nocturna",
   "entropy.events.ExplosivePickaxeEvent": "Pico explosivo",
+  "entropy.events.HighlightAllMobsEvent": "Resaltar todos los mobs",
+  "entropy.events.UpgradeRandomGearEvent": "Mejorar equipamiento aleatorio",
+  "entropy.events.DowngradeRandomGearEvent": "Empeorar equipamiento aleatorio",
+  "entropy.events.CurseRandomGearEvent": "Maldecir equipamiento aleatorio",
+  "entropy.events.EnchantRandomGearEvent": "Encantar equipamiento aleatorio",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
@@ -99,6 +104,7 @@
   "entropy.options.integrations.twitch.channelName": "Nombre canal de Twitch:",
   "entropy.options.integrations.discord.token": "Discord Bot Token:",
   "entropy.options.integrations.discord.channelId": "Id canal de Discord:",
+
   "entropy.options.disableEvents": "Desactivar eventos",
   "entropy.options.eventDuration": "Duración base de eventos: %ds",
   "entropy.options.timerDuration": "Duración del contador: %ds",
@@ -108,5 +114,4 @@
   "entropy.options.integrations.twitch.help": "La integración con Twitch permite que el chat vote durante el directo cual será el próximo evento. Los usuarios podrán escribir numeros en el chat que representarán un evento especifico. Los diferentes eventos por los que se pueden votar se mostrarán en pantalla con su correspondiente número durante la encuesta. Para usar esta función, el streamer debe poner un OAuth Token con permisos de \"Chat Login\" y el nombre del canal de Twitch.",
   "entropy.options.integrations.discord.help": "La integración con discord permite a los usuarios de un servidor de discord votar cual será el siguiente evento en tu partida. Un mensaje con las diferentes opciones aparecerá en el canal de discord seleccionado, los usuarios podrán votar reaccionando a dicho mensaje. Para habilitar la integración con discord, deberás crear un bot de discord, hacer que se una a tu servidor y copiar el token del BOT en esta pantalla. También tendras que escribir aquí la ID del canal donde se publicarán los mensajes. Tambien puedes usar el comando \"!entropy join\" en el canal a unirse.",
   "entropy.options.integrations.showPollStatus": "Mostrar estado de la encuesta en pantalla"
-
 }
