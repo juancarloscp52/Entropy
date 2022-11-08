@@ -30,8 +30,9 @@ import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-
-
+import net.minecraft.util.Pair;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWidget.ButtonEntry> {
@@ -42,7 +43,14 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
     }
 
     public void addAllFromRegistry() {
-        EventRegistry.entropyEvents.keySet().forEach(this::addEvent);
+        var list = new ArrayList<Pair<String, String>>();
+        for(var eventId : EventRegistry.entropyEvents.keySet())
+            list.add(new Pair<String,String>(Text.translatable(EventRegistry.getTranslationKey(eventId)).getString(), eventId));
+
+        Collections.sort(list, (a, b) -> a.getLeft().compareTo(b.getLeft()));
+        
+        for(var pair : list) 
+            addEvent(pair.getRight());
     }
 
     public int addEvent(String eventID) {
