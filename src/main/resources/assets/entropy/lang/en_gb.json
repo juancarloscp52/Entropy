@@ -84,6 +84,11 @@
   "entropy.events.InvisibleEveryoneEvent": "Everyone is invisible",
   "entropy.events.VexAttackEvent": "Vex Attack",
   "entropy.events.ZeusUltEvent": "Zeus Ult!",
+  "entropy.events.GravitySightEvent": "Gravity Sight",
+  "entropy.events.DeathSightEvent": "Death Sight",
+  "entropy.events.GlassSightEvent": "Glass Sight",
+  "entropy.events.VoidSightEvent": "Void Sight",
+  "entropy.events.MiningSightEvent": "Mining Sight",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

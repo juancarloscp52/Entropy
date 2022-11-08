@@ -129,7 +129,11 @@ public class EventRegistry {
         entropyEvents.put("InvisibleEveryoneEvent", InvisibleEveryoneEvent::new);
         entropyEvents.put("VexAttackEvent", VexAttackEvent::new);
         entropyEvents.put("ZeusUltEvent", ZeusUltEvent::new);
-
+        entropyEvents.put("GravitySightEvent", GravitySightEvent::new);
+        entropyEvents.put("DeathSightEvent", DeathSightEvent::new);
+        entropyEvents.put("GlassSightEvent", GlassSightEvent::new);
+        entropyEvents.put("VoidSightEvent", VoidSightEvent::new);
+        entropyEvents.put("MiningSightEvent", MiningSightEvent::new);
     }
 
     public static Event getRandomDifferentEvent(List<Event> events) {
