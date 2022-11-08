@@ -124,6 +124,9 @@ public class EventRegistry {
         entropyEvents.put("DowngradeRandomGearEvent", DowngradeRandomGearEvent::new);
         entropyEvents.put("CurseRandomGearEvent", CurseRandomGearEvent::new);
         entropyEvents.put("EnchantRandomGearEvent", EnchantRandomGearEvent::new);
+        entropyEvents.put("InvisiblePlayerEvent", InvisiblePlayerEvent::new);
+        entropyEvents.put("InvisibleHostileMobsEvent", InvisibleHostileMobsEvent::new);
+        entropyEvents.put("InvisibleEveryoneEvent", InvisibleEveryoneEvent::new);
         entropyEvents.put("VexAttackEvent", VexAttackEvent::new);
         entropyEvents.put("ZeusUltEvent", ZeusUltEvent::new);
 
