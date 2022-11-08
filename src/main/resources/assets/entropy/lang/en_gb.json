@@ -82,6 +82,8 @@
   "entropy.events.InvisiblePlayerEvent": "Invisible player",
   "entropy.events.InvisibleHostileMobsEvent": "Invisible enemies",
   "entropy.events.InvisibleEveryoneEvent": "Everyone is invisible",
+  "entropy.events.VexAttackEvent": "Vex Attack",
+  "entropy.events.ZeusUltEvent": "Zeus Ult!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

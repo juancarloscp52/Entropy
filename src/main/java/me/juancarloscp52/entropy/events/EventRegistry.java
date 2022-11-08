@@ -127,8 +127,8 @@ public class EventRegistry {
         entropyEvents.put("InvisiblePlayerEvent", InvisiblePlayerEvent::new);
         entropyEvents.put("InvisibleHostileMobsEvent", InvisibleHostileMobsEvent::new);
         entropyEvents.put("InvisibleEveryoneEvent", InvisibleEveryoneEvent::new);
-
-
+        entropyEvents.put("VexAttackEvent", VexAttackEvent::new);
+        entropyEvents.put("ZeusUltEvent", ZeusUltEvent::new);
 
     }
 
