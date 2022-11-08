@@ -80,6 +80,7 @@
   "entropy.events.CurseRandomGearEvent": "Curse random gear",
   "entropy.events.EnchantRandomGearEvent": "Enchant random gear",
   "entropy.events.VexAttackEvent": "Vex Attack",
+  "entropy.events.ZeusUltEvent": "Zeus Ult!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

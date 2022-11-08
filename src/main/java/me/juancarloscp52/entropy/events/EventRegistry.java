@@ -125,8 +125,7 @@ public class EventRegistry {
         entropyEvents.put("CurseRandomGearEvent", CurseRandomGearEvent::new);
         entropyEvents.put("EnchantRandomGearEvent", EnchantRandomGearEvent::new);
         entropyEvents.put("VexAttackEvent", VexAttackEvent::new);
-
-
+        entropyEvents.put("ZeusUltEvent", ZeusUltEvent::new);
 
     }
 
