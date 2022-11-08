@@ -32,7 +32,7 @@ public class CloseRandomTPEvent extends AbstractInstantEvent {
         server = Entropy.getInstance().eventHandler.server;
         PlayerLookup.all(server).forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
-            server.getCommandManager().execute(server.getCommandSource(), "/spreadplayers " + serverPlayerEntity.getX() + " " + serverPlayerEntity.getZ() + " 0 50 false " + serverPlayerEntity.getEntityName());
+            server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers " + serverPlayerEntity.getX() + " " + serverPlayerEntity.getZ() + " 0 50 false " + serverPlayerEntity.getEntityName());
         });
 
     }

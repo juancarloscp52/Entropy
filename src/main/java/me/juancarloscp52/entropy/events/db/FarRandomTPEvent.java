@@ -40,7 +40,7 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
         server = Entropy.getInstance().eventHandler.server;
         PlayerLookup.all(server).forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
-            server.getCommandManager().execute(server.getCommandSource(), "/spreadplayers " + randomLocation.getX() + " " + randomLocation.getZ() + " 0 120 false " + serverPlayerEntity.getEntityName());
+            server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers " + randomLocation.getX() + " " + randomLocation.getZ() + " 0 120 false " + serverPlayerEntity.getEntityName());
             serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
             serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
             BlockHitResult blockHitResult = serverPlayerEntity.world.raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
