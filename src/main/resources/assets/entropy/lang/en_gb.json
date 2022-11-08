@@ -79,6 +79,9 @@
   "entropy.events.DowngradeRandomGearEvent": "Downgrade random gear",
   "entropy.events.CurseRandomGearEvent": "Curse random gear",
   "entropy.events.EnchantRandomGearEvent": "Enchant random gear",
+  "entropy.events.InvisiblePlayerEvent": "Invisible player",
+  "entropy.events.InvisibleHostileMobsEvent": "Invisible enemies",
+  "entropy.events.InvisibleEveryoneEvent": "Everyone is invisible",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
