@@ -127,8 +127,11 @@ public class VotingServer {
         List<Event> currentEvents = new ArrayList<>(Entropy.getInstance().eventHandler.currentEvents);
         for (int i = 0; i < size; i++) {
             Event newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
-            newEvents.add(newEvent);
-            currentEvents.add(newEvent);
+            if(newEvent != null)
+            {
+                newEvents.add(newEvent);
+                currentEvents.add(newEvent);
+            }
         }
         return newEvents;
     }

@@ -93,15 +93,20 @@ public class ServerEventHandler {
                 } else
                     event = getRandomEvent(currentEvents);
 
-                // Start the event and add it to the list.
-                event.init();
-                currentEvents.add(event);
-
-                sendEventToPlayers(event);
+                if(event != null) {
+                    // Start the event and add it to the list.
+                    event.init();
+                    currentEvents.add(event);
+    
+                    sendEventToPlayers(event);
+                }
 
                 // Reset timer.
                 resetTimer();
-                Entropy.LOGGER.info("New Event: " + EventRegistry.getTranslationKey(event) + " total duration: " + event.getDuration());
+                if(event != null)
+                    Entropy.LOGGER.info("New Event: " + EventRegistry.getTranslationKey(event) + " total duration: " + event.getDuration());
+                else
+                    Entropy.LOGGER.info("New Event not found");
             }
         }
 

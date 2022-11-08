@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.events;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.db.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -129,13 +130,14 @@ public class EventRegistry {
     }
 
     public static Event getRandomDifferentEvent(List<Event> events) {
-        short index = (short) random.nextInt(entropyEvents.size());
-        String newEventName = (String) entropyEvents.keySet().toArray()[index];
-        Event newEvent = entropyEvents.get(newEventName).get();
+        var keys = new ArrayList<String>(entropyEvents.keySet());
+        keys.removeAll(Entropy.getInstance().settings.disabledEvents);
+        if(keys.size() == 0)
+            return null;
 
-        if (Entropy.getInstance().settings.disabledEvents.contains(newEventName)) {
-            return getRandomDifferentEvent(events);
-        }
+        short index = (short) random.nextInt(keys.size());
+        String newEventName = keys.get(index);
+        Event newEvent = entropyEvents.get(newEventName).get();
 
         for (Event event : events) {
             if (event.getClass().getName().contains(newEventName) && !event.hasEnded()) {
