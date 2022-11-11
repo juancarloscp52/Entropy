@@ -134,6 +134,7 @@ public class EventRegistry {
         entropyEvents.put("GlassSightEvent", GlassSightEvent::new);
         entropyEvents.put("VoidSightEvent", VoidSightEvent::new);
         entropyEvents.put("MiningSightEvent", MiningSightEvent::new);
+        entropyEvents.put("TrueFrostWalkerEvent", TrueFrostWalkerEvent::new);
     }
 
     public static Event getRandomDifferentEvent(List<Event> events) {
