@@ -99,6 +99,7 @@
   "entropy.events.VoidSightEvent": "Void Sight",
   "entropy.events.MiningSightEvent": "Mining Sight",
   "entropy.events.PlaceBerryBushBlockEvent": "Place sweet berry bush",
+  "entropy.events.PlaceCobwebBlockEvent": "Place Cobweb",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
