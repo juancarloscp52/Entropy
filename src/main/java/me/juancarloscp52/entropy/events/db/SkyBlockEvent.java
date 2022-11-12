@@ -13,7 +13,6 @@ import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.tick.ChunkTickScheduler;
@@ -56,7 +55,7 @@ public class SkyBlockEvent extends AbstractInstantEvent {
 
         for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
             var world = serverPlayerEntity.getWorld();
-            var startPos = serverPlayerEntity.getBlockPos().withY(164).east(4).north(1);
+            var startPos = serverPlayerEntity.getBlockPos().withY(280).east(4).north(1);
 
             // Main island
             for (int ix = 0; ix < 6; ix++) {
