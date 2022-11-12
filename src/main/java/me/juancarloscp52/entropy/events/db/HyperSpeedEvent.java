@@ -31,7 +31,7 @@ public class HyperSpeedEvent extends AbstractTimedEvent {
 
     @Override
     public void init() {
-        modifier = new EntityAttributeModifier("hyperSpeed", 6.5d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
+        modifier = new EntityAttributeModifier("hyperSpeed", 5d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).addTemporaryModifier(modifier));
     }
 

@@ -81,7 +81,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        if (getTickCount() % 10 == 0)
+        if (getTickCount() % 20 == 0)
             PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
                 if (random.nextInt(100) >= 95)
                     serverPlayerEntity.damage(DamageSource.GENERIC, 1);

@@ -31,7 +31,7 @@ public class SlimeEvent extends AbstractInstantEvent {
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
             Random random = new Random();
-            int slimes = random.nextInt(7,16);
+            int slimes = random.nextInt(4,12);
             for(int i = 0; i<slimes; i++){
                 EntityType.SLIME.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos().add(random.nextInt(-4,5),random.nextInt(2),random.nextInt(-4,5)), SpawnReason.SPAWN_EGG, true, false);
             }

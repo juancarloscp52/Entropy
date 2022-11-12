@@ -36,7 +36,7 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Random random = new Random();
-        BlockPos randomLocation = new BlockPos(random.nextInt(20000) - 10000, 0, random.nextInt(20000) - 10000);
+        BlockPos randomLocation = new BlockPos(random.nextInt(5000) - 2500, 0, random.nextInt(5000) - 2500);
         server = Entropy.getInstance().eventHandler.server;
         PlayerLookup.all(server).forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
