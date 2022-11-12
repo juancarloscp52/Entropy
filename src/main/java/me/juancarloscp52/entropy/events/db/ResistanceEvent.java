@@ -27,6 +27,6 @@ public class ResistanceEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE,1200,3)));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, (int) (Entropy.getInstance().settings.baseEventDuration*1.75),3)));
     }
 }

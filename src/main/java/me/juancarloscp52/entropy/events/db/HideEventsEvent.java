@@ -46,6 +46,6 @@ public class HideEventsEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration * 5);
+        return (short) (Entropy.getInstance().settings.baseEventDuration * 3);
     }
 }

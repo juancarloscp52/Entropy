@@ -64,9 +64,8 @@ public class RollCreditsEvent extends AbstractTimedEvent {
         }
         super.tickClient();
     }
-
     @Override
     public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
+        return (short)(Entropy.getInstance().settings.baseEventDuration*0.75);
     }
 }

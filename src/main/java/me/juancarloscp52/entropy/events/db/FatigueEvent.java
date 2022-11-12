@@ -27,6 +27,6 @@ public class FatigueEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE,1200,1)));
+        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, (int) (Entropy.getInstance().settings.baseEventDuration*1.25),1)));
     }
 }
