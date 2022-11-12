@@ -22,6 +22,7 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class SkyEvent extends AbstractInstantEvent {
 
@@ -30,8 +31,8 @@ public class SkyEvent extends AbstractInstantEvent {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
         {
             int height = 319;
-            // Check if the player is in the nether or end. (using bedWorks as beds does not work in those dimensions)
-            if(!serverPlayerEntity.getWorld().getDimension().bedWorks()){
+            // Check if the player is in the nether or end.
+            if(serverPlayerEntity.getWorld().getRegistryKey() != World.OVERWORLD){
                 height = 254;
             }
             BlockPos pos = serverPlayerEntity.getBlockPos().withY(height);
