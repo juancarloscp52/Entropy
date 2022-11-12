@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "entropy",
+  "version": "${version}",
+  "name": "Entropy: Chaos Mod",
+  "description": "Entropy is a Chaos Mod where random events happens every 30 seconds. This mod allows twitch chat voting integration!",
+  "authors": [
+    "juancarloscp52"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/entropy",
+    "sources": "https://github.com/juancarloscp52/Entropy",
+    "issues": "https://github.com/juancarloscp52/Entropy/issues"
+  },
+  "license": "GPL-3.0",
+  "icon": "assets/entropy/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.juancarloscp52.entropy.client.EntropyClient"
+    ],
+    "main": [
+      "me.juancarloscp52.entropy.Entropy"
+    ],
+    "modmenu": [
+      "me.juancarloscp52.entropy.client.EntropyModMenu"
+    ]
+  },
+  "mixins": [
+    "entropy.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": ">=1.18.2"
+  },
+  "suggests": {
+    "modmenu": ">=3.1.0"
+  }
+}
