@@ -105,6 +105,7 @@
   "entropy.events.PlaceCobwebBlockEvent": "Place Cobweb",
   "entropy.events.FlipMobsEvent": "Flip Mobs Upside Down",
   "entropy.events.RainbowSheepEvents": "Rainbow Sheep!",
+  "entropy.events.FixItemsEvent": "Fix Player Items",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
