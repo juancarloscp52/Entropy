@@ -36,9 +36,9 @@ public class PoolEvent extends AbstractInstantEvent {
                     for (int k = -4;k<5;k++){
                         if(i==y-5){
                             if(j%2==0){
-                                world.setBlockState(new BlockPos(x+j,i,z+k),(k%2==0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.COBBLESTONE.getDefaultState());
+                                world.setBlockState(new BlockPos(x+j,i,z+k),(k%2==0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.SOUL_SAND.getDefaultState());
                             }else{
-                                world.setBlockState(new BlockPos(x+j,i,z+k),(k%2!=0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.COBBLESTONE.getDefaultState());
+                                world.setBlockState(new BlockPos(x+j,i,z+k),(k%2!=0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.SOUL_SAND.getDefaultState());
                             }
                         }else{
                             world.setBlockState(new BlockPos(x+j,i,z+k),(j==-4 ||j==4 ||k==-4 ||k==4) ? Blocks.COBBLESTONE.getDefaultState():Blocks.WATER.getDefaultState());
