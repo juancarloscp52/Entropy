@@ -29,7 +29,12 @@ public class SkyEvent extends AbstractInstantEvent {
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
         {
-            BlockPos pos = serverPlayerEntity.getBlockPos().withY(319);
+            int height = 319;
+            // Check if the player is in the nether or end. (using bedWorks as beds does not work in those dimensions)
+            if(!serverPlayerEntity.getWorld().getDimension().bedWorks()){
+                height = 254;
+            }
+            BlockPos pos = serverPlayerEntity.getBlockPos().withY(height);
             for(int i= -3; i<=4;i++) {
                 for (int j = -3; j <= 4; j++) {
                     serverPlayerEntity.getWorld().setBlockState(new BlockPos(pos.getX()+i,pos.getY(),pos.getZ()+j),Blocks.GLASS.getDefaultState());
