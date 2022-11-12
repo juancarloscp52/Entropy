@@ -104,6 +104,7 @@
   "entropy.events.PlaceBerryBushBlockEvent": "Place sweet berry bush",
   "entropy.events.PlaceCobwebBlockEvent": "Place Cobweb",
   "entropy.events.FlipMobsEvent": "Flip Mobs Upside Down",
+  "entropy.events.RainbowSheepEvents": "Rainbow Sheep!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
