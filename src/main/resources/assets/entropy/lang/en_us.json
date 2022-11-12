@@ -103,6 +103,7 @@
   "entropy.events.TrueFrostWalkerEvent": "True frost walker",
   "entropy.events.PlaceBerryBushBlockEvent": "Place sweet berry bush",
   "entropy.events.PlaceCobwebBlockEvent": "Place Cobweb",
+  "entropy.events.FlipMobsEvent": "Flip Mobs Upside Down",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

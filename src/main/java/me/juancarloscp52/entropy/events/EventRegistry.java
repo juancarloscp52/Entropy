@@ -139,6 +139,7 @@ public class EventRegistry {
         entropyEvents.put("TrueFrostWalkerEvent", TrueFrostWalkerEvent::new);
         entropyEvents.put("PlaceBerryBushBlockEvent", PlaceBerryBushBlockEvent::new);
         entropyEvents.put("PlaceCobwebBlockEvent", PlaceCobwebBlockEvent::new);
+        entropyEvents.put("FlipMobsEvent", FlipMobsEvent::new);
     }
 
     public static Event getRandomDifferentEvent(List<Event> events) {

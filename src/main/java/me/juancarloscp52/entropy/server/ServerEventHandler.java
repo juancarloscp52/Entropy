@@ -137,7 +137,7 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("BlurEvent");
+        //return EventRegistry.get("FlipMobsEvent");
         return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 

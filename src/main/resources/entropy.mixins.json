@@ -8,13 +8,14 @@
     "EntityMixin"
   ],
   "client": [
-    "ClientPlayerEntityMixin",
     "BackgroundRendererMixin",
     "CameraMixin",
+    "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
     "GameRendererMixin",
     "KeyboardInputMixin",
+    "LivingEntityRendererMixin",
     "MouseMixin",
     "OptionsScreenMixin",
     "PerspectiveMixin",

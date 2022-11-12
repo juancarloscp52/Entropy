@@ -49,4 +49,5 @@ public class Variables {
     public static boolean topView = false;
     public static float timerMultiplier = 1f;
     public static boolean explodingPickaxe = false;
+    public static boolean flipEntities = false;
 }
