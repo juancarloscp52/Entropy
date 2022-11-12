@@ -25,12 +25,12 @@ import net.minecraft.client.util.math.MatrixStack;
 public class ExplosivePickaxeEvent extends AbstractTimedEvent {
 
     @Override
-    public void initClient() {
+    public void init() {
         Variables.explodingPickaxe = true;
     }
 
     @Override
-    public void endClient() {
+    public void end() {
         Variables.explodingPickaxe = false;
         this.hasEnded = true;
     }
