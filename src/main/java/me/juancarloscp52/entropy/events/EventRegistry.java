@@ -144,6 +144,8 @@ public class EventRegistry {
         entropyEvents.put("FixItemsEvent", FixItemsEvent::new);
         entropyEvents.put("MidasTouchEvent", MidasTouchEvent::new);
         entropyEvents.put("GiveRandomOreEvent", GiveRandomOreEvent::new);
+        entropyEvents.put("BeeEvent", BeeEvent::new);
+        entropyEvents.put("AngryBeeEvent", AngryBeeEvent::new);
 
     }
 
