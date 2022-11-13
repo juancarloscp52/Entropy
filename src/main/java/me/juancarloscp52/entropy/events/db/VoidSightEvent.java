@@ -21,7 +21,12 @@ public class VoidSightEvent extends AbstractTimedEvent {
                 var hitRes = serverPlayerEntity.raycast(64, 1, true);
                 if (hitRes.getType() == Type.BLOCK) {
                     var blockHitRes = (BlockHitResult) hitRes;
-                    serverPlayerEntity.getWorld().setBlockState(blockHitRes.getBlockPos(), Blocks.AIR.getDefaultState());
+                    var currentBlock = serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos());
+                    if(currentBlock.isOf(Blocks.CHEST) || currentBlock.isOf(Blocks.TRAPPED_CHEST) || currentBlock.isOf(Blocks.BARREL) || currentBlock.isOf(Blocks.FURNACE) || currentBlock.isOf(Blocks.BLAST_FURNACE) || currentBlock.isOf(Blocks.SMOKER)){
+                        serverPlayerEntity.getWorld().breakBlock(blockHitRes.getBlockPos(), true, serverPlayerEntity);
+                    }else{
+                        serverPlayerEntity.getWorld().setBlockState(blockHitRes.getBlockPos(), Blocks.AIR.getDefaultState());
+                    }
                 }
             }
         }
@@ -35,7 +40,7 @@ public class VoidSightEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
+        return (short) (Entropy.getInstance().settings.baseEventDuration*0.75);
     }
 
     @Override
