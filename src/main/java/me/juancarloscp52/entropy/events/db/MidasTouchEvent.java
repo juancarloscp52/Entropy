@@ -85,12 +85,12 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
                         var odds = player.getRandom().nextInt(100);
 
-                        if (odds < 75)
+                        if (odds < 96)
                             world.setBlockState(blockPos,
                                     world.getRegistryKey() == World.NETHER
                                             ? Blocks.NETHER_GOLD_ORE.getDefaultState()
                                             : Blocks.GOLD_ORE.getDefaultState());
-                        else if (odds < 90)
+                        else if (odds < 98)
                             world.setBlockState(blockPos, Blocks.RAW_GOLD_BLOCK.getDefaultState());
                         else
                             world.setBlockState(blockPos, Blocks.GOLD_BLOCK.getDefaultState());
@@ -105,9 +105,9 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
                 ItemStack itemStack;
 
-                switch (player.getRandom().nextInt(10)) {
+                switch (player.getRandom().nextInt(16)) {
                     case 0:
-                        itemStack = new ItemStack(Items.GOLD_NUGGET, player.getRandom().nextInt(7) + 1);
+                        itemStack = new ItemStack(Items.GOLD_INGOT);
                         break;
                     case 1:
                         itemStack = new ItemStack(Items.GOLD_BLOCK);
@@ -122,7 +122,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                         itemStack = new ItemStack(Items.NETHER_GOLD_ORE);
                         break;
                     default:
-                        itemStack = new ItemStack(Items.GOLD_INGOT);
+                        itemStack = new ItemStack(Items.GOLD_NUGGET, player.getRandom().nextInt(6) + 2);
                         break;
                 }
 
@@ -158,23 +158,23 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
                     if (odds < 75)
                         newItemStack = new ItemStack(Items.GOLDEN_CARROT, itemStack.getCount());
-                    else if (odds < 90)
+                    else if (odds < 95)
                         newItemStack = new ItemStack(Items.GOLDEN_APPLE, itemStack.getCount());
                     else
                         newItemStack = new ItemStack(Items.ENCHANTED_GOLDEN_APPLE, itemStack.getCount());
                 } else if (item instanceof BlockItem) {
                     switch (player.getRandom().nextInt(6)) { // 50% for gold ore and 16.(6)% for something else
                         case 0:
-                            newItemStack = new ItemStack(Items.GOLD_BLOCK, itemStack.getCount());
+                            newItemStack = new ItemStack(Items.GOLD_BLOCK, Math.min(itemStack.getCount(),3));
                             break;
                         case 1:
-                            newItemStack = new ItemStack(Items.RAW_GOLD_BLOCK, itemStack.getCount());
+                            newItemStack = new ItemStack(Items.RAW_GOLD_BLOCK, Math.min(itemStack.getCount(),3));
                             break;
                         case 2:
-                            newItemStack = new ItemStack(Items.NETHER_GOLD_ORE, itemStack.getCount());
+                            newItemStack = new ItemStack(Items.NETHER_GOLD_ORE, Math.min(itemStack.getCount(),32));
                             break;
                         default:
-                            newItemStack = new ItemStack(Items.GOLD_ORE, itemStack.getCount());
+                            newItemStack = new ItemStack(Items.GOLD_ORE, Math.min(itemStack.getCount(),10));
                             break;
                     }
                 } else if (item instanceof ArmorItem) {
@@ -227,7 +227,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration * .5);
+        return (short) (Entropy.getInstance().settings.baseEventDuration * .2);
     }
 
 }
