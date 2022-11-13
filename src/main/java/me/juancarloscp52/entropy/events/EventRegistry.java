@@ -142,6 +142,8 @@ public class EventRegistry {
         entropyEvents.put("FlipMobsEvent", FlipMobsEvent::new);
         entropyEvents.put("RainbowSheepEvents", RainbowSheepEvents::new);
         entropyEvents.put("FixItemsEvent", FixItemsEvent::new);
+        entropyEvents.put("GiveRandomOreEvent", GiveRandomOreEvent::new);
+
     }
 
     public static Event getRandomDifferentEvent(List<Event> events) {
