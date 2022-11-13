@@ -106,6 +106,7 @@
   "entropy.events.FlipMobsEvent": "Flip Mobs Upside Down",
   "entropy.events.RainbowSheepEvents": "Rainbow Sheep!",
   "entropy.events.FixItemsEvent": "Fix Player Items",
+  "entropy.events.MidasTouchEvent": "Midas Touch",
   "entropy.events.GiveRandomOreEvent": "Give Random Mineral",
 
   "entropy.title": "Entropy: Chaos Mod",
