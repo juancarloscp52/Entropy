@@ -15,19 +15,22 @@ public class GravitySightEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
-            var rayVector = serverPlayerEntity.getRotationVector().normalize().multiply(32d);
-            var fromVector = serverPlayerEntity.getEyePos();
-            var toVector = fromVector.add(rayVector);
-            var box = new Box(serverPlayerEntity.getPos().add(32, 32, 32), serverPlayerEntity.getPos().subtract(32, 32, 32));
-            var hitRes = ProjectileUtil.raycast(serverPlayerEntity, fromVector, toVector, box, x -> true, 1024);
-            if (hitRes != null) {
-                var direction = serverPlayerEntity.getRotationVector().normalize().multiply(-1d);
-                var entity = hitRes.getEntity();
-                entity.setOnGround(false);
-                entity.setVelocity(direction);
+        if(tickCount%10==0){
+            for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
+                var rayVector = serverPlayerEntity.getRotationVector().normalize().multiply(32d);
+                var fromVector = serverPlayerEntity.getEyePos();
+                var toVector = fromVector.add(rayVector);
+                var box = new Box(serverPlayerEntity.getPos().add(32, 32, 32), serverPlayerEntity.getPos().subtract(32, 32, 32));
+                var hitRes = ProjectileUtil.raycast(serverPlayerEntity, fromVector, toVector, box, x -> true, 1024);
+                if (hitRes != null) {
+                    var direction = serverPlayerEntity.getRotationVector().normalize().multiply(-1d);
+                    var entity = hitRes.getEntity();
+                    entity.setOnGround(false);
+                    entity.setVelocity(direction);
+                }
             }
         }
+
         super.tick();
     }
 

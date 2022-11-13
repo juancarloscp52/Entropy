@@ -16,16 +16,19 @@ public class MiningSightEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
-            var hitRes = serverPlayerEntity.raycast(64, 1, false);
-            if (hitRes.getType() == Type.BLOCK) {
-                var blockHitRes = (BlockHitResult) hitRes;
-                var blockPos = blockHitRes.getBlockPos();
-                var world = serverPlayerEntity.getWorld();
-                if (world.getBlockState(blockPos).getBlock() != Blocks.BEDROCK)
-                    world.breakBlock(blockPos, true, serverPlayerEntity);
+        if(tickCount%10==0){
+            for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
+                var hitRes = serverPlayerEntity.raycast(64, 1, false);
+                if (hitRes.getType() == Type.BLOCK) {
+                    var blockHitRes = (BlockHitResult) hitRes;
+                    var blockPos = blockHitRes.getBlockPos();
+                    var world = serverPlayerEntity.getWorld();
+                    if (world.getBlockState(blockPos).getBlock() != Blocks.BEDROCK)
+                        world.breakBlock(blockPos, true, serverPlayerEntity);
+                }
             }
         }
+
         super.tick();
     }
 
