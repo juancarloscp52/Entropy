@@ -143,6 +143,8 @@ public class EventRegistry {
         entropyEvents.put("RainbowSheepEvents", RainbowSheepEvents::new);
         entropyEvents.put("FixItemsEvent", FixItemsEvent::new);
         entropyEvents.put("MidasTouchEvent", MidasTouchEvent::new);
+        entropyEvents.put("GiveRandomOreEvent", GiveRandomOreEvent::new);
+
     }
 
     public static Event getRandomDifferentEvent(List<Event> events) {
