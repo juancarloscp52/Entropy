@@ -17,7 +17,7 @@ public class DeathSightEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        if(tickCount%10==0){
+        if(tickCount%2==0){
             for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
                 var rayVector = serverPlayerEntity.getRotationVector().normalize().multiply(32d);
                 var fromVector = serverPlayerEntity.getEyePos();
