@@ -149,6 +149,8 @@ public class EventRegistry {
         entropyEvents.put("SilverfishEvent", SilverfishEvent::new);
         entropyEvents.put("BlazeEvent", BlazeEvent::new);
         entropyEvents.put("EndermiteEvent", EndermiteEvent::new);
+        entropyEvents.put("SatiationEvent", SatiationEvent::new);
+        entropyEvents.put("VitalsEvent", VitalsEvent::new);
 
     }
 
