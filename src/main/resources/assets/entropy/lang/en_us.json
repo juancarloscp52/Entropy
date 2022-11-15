@@ -110,6 +110,9 @@
   "entropy.events.GiveRandomOreEvent": "Give Random Mineral",
   "entropy.events.AngryBeeEvent": "Angry Bees",
   "entropy.events.BeeEvent": "Bee or not to Bee",
+  "entropy.events.SilverfishEvent": "Silverfish!",
+  "entropy.events.BlazeEvent": "Tough Blaze",
+  "entropy.events.EndermiteEvent": "Endermites",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

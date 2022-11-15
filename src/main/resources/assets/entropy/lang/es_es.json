@@ -110,6 +110,10 @@
   "entropy.events.GiveRandomOreEvent": "Mineral aleatorio",
   "entropy.events.AngryBeeEvent": "Abejas asesinas",
   "entropy.events.BeeEvent": "Unas cuantas abejas",
+  "entropy.events.SilverfishEvent": "Lepismas!",
+  "entropy.events.BlazeEvent": "Blaze",
+  "entropy.events.EndermiteEvent": "Endermites",
+
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
   "entropy.voting.total": "Votos totales: %d",
