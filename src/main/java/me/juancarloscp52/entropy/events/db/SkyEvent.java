@@ -34,7 +34,18 @@ public class SkyEvent extends AbstractInstantEvent {
             // Check if the player is in the nether or end.
             if(serverPlayerEntity.getWorld().getRegistryKey() != World.OVERWORLD){
                 height = 254;
+                if(serverPlayerEntity.getWorld().getRegistryKey() == World.NETHER){
+                    BlockPos pos = serverPlayerEntity.getBlockPos().withY(122);
+                    for(int i= -3; i<=4;i++) {
+                        for (int j = -3; j <= 4; j++) {
+                            for (int z = -2; z <= 6; z++){
+                                serverPlayerEntity.getWorld().setBlockState(new BlockPos(pos.getX()+i,pos.getY()+z,pos.getZ()+j),Blocks.AIR.getDefaultState());
+                            }
+                        }
+                    }
+                }
             }
+
             BlockPos pos = serverPlayerEntity.getBlockPos().withY(height);
             for(int i= -3; i<=4;i++) {
                 for (int j = -3; j <= 4; j++) {

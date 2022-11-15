@@ -13,6 +13,7 @@ import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -60,6 +61,16 @@ public class SkyBlockEvent extends AbstractInstantEvent {
             // Check if the player is in the nether or end.
             if(world.getRegistryKey() != World.OVERWORLD){
                 height = 230;
+                if(serverPlayerEntity.getWorld().getRegistryKey() == World.NETHER){
+                    BlockPos pos = serverPlayerEntity.getBlockPos().withY(122);
+                    for(int i= -3; i<=4;i++) {
+                        for (int j = -3; j <= 4; j++) {
+                            for (int z = -2; z <= 6; z++){
+                                serverPlayerEntity.getWorld().setBlockState(new BlockPos(pos.getX()+i,pos.getY()+z,pos.getZ()+j),Blocks.AIR.getDefaultState());
+                            }
+                        }
+                    }
+                }
             }
 
             var startPos = serverPlayerEntity.getBlockPos().withY(height).east(4).north(1);
