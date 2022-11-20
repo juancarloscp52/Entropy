@@ -26,5 +26,9 @@ public class EntropyIntegrationsSettings {
     public boolean showCurrentPercentage = true;
     public String discordToken = "";
     public long discordChannel = -1;
+    public String youtubeClientId = "";
+    public String youtubeSecret = "";
+    public String youtubeAccessToken = "";
+    public String youtubeRefreshToken = "";
 
 }

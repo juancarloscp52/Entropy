@@ -21,6 +21,7 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegration;
 import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrations;
+import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import net.minecraft.client.MinecraftClient;
@@ -53,7 +54,11 @@ public class ClientEventHandler {
 
         if (Entropy.getInstance().settings.integrations && integrations) {
             votingClient = new VotingClient();
-            votingClient.setIntegrations(EntropyClient.getInstance().integrationsSettings.integrationType==1?new TwitchIntegrations(votingClient):new DiscordIntegration(votingClient));
+            votingClient.setIntegrations(switch(EntropyClient.getInstance().integrationsSettings.integrationType) {
+                case 1 -> new TwitchIntegrations(votingClient);
+                case 2 -> new DiscordIntegration(votingClient);
+                default  -> new YoutubeIntegrations(votingClient);
+            });
             votingClient.enable();
         }
     }

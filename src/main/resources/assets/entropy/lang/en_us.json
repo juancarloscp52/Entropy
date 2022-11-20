@@ -127,10 +127,21 @@
   "entropy.options.integrations.integrationSelector": "Platform Integration: %s",
   "entropy.options.integrations.twitch": "Twitch",
   "entropy.options.integrations.discord": "Discord",
+  "entropy.options.integrations.youtube": "Youtube",
   "entropy.options.integrations.twitch.OAuthToken": "Twitch OAuth Token:",
   "entropy.options.integrations.twitch.channelName": "Twitch Channel Name:",
   "entropy.options.integrations.discord.token": "Discord Bot Token:",
   "entropy.options.integrations.discord.channelId": "Discord Channel Id:",
+  "entropy.options.integrations.youtube.clientId": "OAuth Client ID",
+  "entropy.options.integrations.youtube.secret": "OAuth Secret",
+  "entropy.options.integrations.youtube.checkingAccessToken": "Checking access token",
+  "entropy.options.integrations.youtube.authorize": "Authorize",
+  "entropy.options.integrations.youtube.authorizing": "Authorizing",
+  "entropy.options.integrations.youtube.accessTokenValid": "Access Token is Valid",
+  "entropy.options.integrations.youtube.accessTokenInvalid": "Access Token is Invalid",
+  "entropy.options.integrations.youtube.sendChatFeedBack": "Show Current Event Poll on Youtube Chat",
+  "entropy.options.integrations.youtube.returnToGame": "Access token acquired, you can close this tab and return to the game.",
+  "entropy.options.integrations.youtube.error.auth": "Failed to authorize",
 
   "entropy.options.disableEvents": "Disable Events",
   "entropy.options.eventDuration": "Base Event Duration: %ds",
@@ -140,5 +151,6 @@
   "entropy.options.integrations.twitch.sendChatFeedBack": "Show Current Event Poll on Twitch Chat",
   "entropy.options.integrations.twitch.help": "Twitch Integrations enables the chat to vote what will be the next event during streams. Chat will be able to vote writing numbers in chat that correspond to an event. The different available events for the poll will be shown on screen with their corresponding number. In order to use this feature, the streamer needs to provide the OAuth token with chat login access permission and the Twitch channel name.",
   "entropy.options.integrations.discord.help": "Discord Integrations enables users of a server to vote what will be the next event. A message will appear on the selected channel with the different available options and users can vote by reacting to the message with the given numbers. To enable discord integration, you need to create a Discord bot, join it to your server and copy the bot token here. Also, you must write here the Channel ID (its a number). Alternatively, once the discord bot has joined the server and a minecraft world with entropy is open, you can write \"!entropy join\" on the discord server channel.",
+  "entropy.options.integrations.youtube.help": "Youtube Integrations enables the chat to vote what will be the next event during streams. Chat will be able to vote writing numbers in chat that correspond to an event. The different available events for the poll will be shown on screen with their corresponding number. In order to use this feature, the streamer needs to create an API project in Google Cloud Console, create OAuth 2.0 Client ID credential, insert a client id and secret, and authorize the mod to interact with youtube.",
   "entropy.options.integrations.showPollStatus": "Show poll status on screen"
 }
