@@ -90,38 +90,38 @@ public class EntropyIntegrationsScreen extends Screen {
         });
         this.addDrawableChild(platformIntegration);
 
-        twitchToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 80, 125, 20, Text.translatable("entropy.options.integrations.twitch.OAuthToken"));
+        twitchToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 60, 125, 20, Text.translatable("entropy.options.integrations.twitch.OAuthToken"));
         twitchToken.setMaxLength(64);
         twitchToken.setText(integrationsSettings.authToken);
         twitchToken.setRenderTextProvider((s, integer) -> OrderedText.styledForwardsVisitedString("*".repeat(s.length()), Style.EMPTY));
         this.addDrawableChild(twitchToken);
-        twitchChannel = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 110, 125, 20, Text.translatable("entropy.options.integrations.twitch.channelName"));
+        twitchChannel = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 90, 125, 20, Text.translatable("entropy.options.integrations.twitch.channelName"));
         twitchChannel.setText(integrationsSettings.channel);
         this.addDrawableChild(twitchChannel);
 
 
-        discordToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 80, 125, 20, Text.translatable("entropy.options.integrations.discord.token"));
+        discordToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 60, 125, 20, Text.translatable("entropy.options.integrations.discord.token"));
         discordToken.setMaxLength(128);
         discordToken.setText(integrationsSettings.discordToken);
         discordToken.setRenderTextProvider((s, integer) -> OrderedText.styledForwardsVisitedString("*".repeat(s.length()), Style.EMPTY));
         this.addDrawableChild(discordToken);
-        discordChannel = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 110, 125, 20, Text.translatable("entropy.options.integrations.discord.channelId"));
+        discordChannel = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 90, 125, 20, Text.translatable("entropy.options.integrations.discord.channelId"));
         discordChannel.setText(String.valueOf(integrationsSettings.discordChannel));
         discordChannel.setMaxLength(128);
         this.addDrawableChild(discordChannel);
 
 
-        youtubeClientId = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 80, 125, 20, Text.translatable("entropy.options.integrations.youtube.clientId"));
+        youtubeClientId = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 60, 125, 20, Text.translatable("entropy.options.integrations.youtube.clientId"));
         youtubeClientId.setMaxLength(128);
         youtubeClientId.setText(integrationsSettings.youtubeClientId);
-        youtubeSecret = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 110, 125, 20, Text.translatable("entropy.options.integrations.youtube.secret"));
+        youtubeSecret = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 90, 125, 20, Text.translatable("entropy.options.integrations.youtube.secret"));
         this.addDrawableChild(youtubeClientId);
         youtubeSecret.setMaxLength(64);
         youtubeSecret.setText(integrationsSettings.youtubeSecret);
         youtubeSecret.setRenderTextProvider((s, integer) -> OrderedText.styledForwardsVisitedString("*".repeat(s.length()), Style.EMPTY));
         this.addDrawableChild(youtubeSecret);
         youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.checkingAccessToken");
-        youtubeAuth = new ButtonWidget(this.width / 2 - 100, 170, 200, 20, Text.translatable("entropy.options.integrations.youtube.authorize"), onPress -> {
+        youtubeAuth = new ButtonWidget(this.width / 2 - 100, 130, 200, 20, Text.translatable("entropy.options.integrations.youtube.authorize"), onPress -> {
             youtubeAuth.setMessage(Text.translatable("entropy.options.integrations.youtube.authorizing"));
             youtubeAuthState = 0;
             youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.authorizing");
@@ -161,11 +161,11 @@ public class EntropyIntegrationsScreen extends Screen {
         });
 
         Text showPollStatusText = Text.translatable("entropy.options.integrations.showPollStatus");
-        showPollStatus = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showPollStatusText) / 2) + 11), 140, 150, 20, showPollStatusText, integrationsSettings.showCurrentPercentage);
+        showPollStatus = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showPollStatusText) / 2) + 11), 100, 150, 20, showPollStatusText, integrationsSettings.showCurrentPercentage);
         this.addDrawableChild(showPollStatus);
 
         Text sendChatMessagesText = Text.translatable("entropy.options.integrations.twitch.sendChatFeedBack");
-        sendChatMessages = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(sendChatMessagesText) / 2) + 11), 165, 150, 20, sendChatMessagesText, integrationsSettings.sendChatMessages);
+        sendChatMessages = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(sendChatMessagesText) / 2) + 11), 145, 150, 20, sendChatMessagesText, integrationsSettings.sendChatMessages);
         this.addDrawableChild(sendChatMessages);
 
 
@@ -228,8 +228,8 @@ public class EntropyIntegrationsScreen extends Screen {
                 help.visible=true;
                 tokenTranslatable = Text.translatable("entropy.options.integrations.youtube.clientId");
                 channelTranslatable = Text.translatable("entropy.options.integrations.youtube.secret");
-                showPollStatus.y = 200;
-                sendChatMessages.y = 225;
+                showPollStatus.y = 160;
+                sendChatMessages.y = 185;
                 sendChatMessages.setMessage(Text.translatable("entropy.options.integrations.youtube.sendChatFeedBack"));
             }
             default -> {
@@ -263,12 +263,12 @@ public class EntropyIntegrationsScreen extends Screen {
         matrices.pop();
         RenderSystem.disableBlend();
         if(platformIntegrationValue !=0){
-            drawTextWithShadow(matrices, this.textRenderer, tokenTranslatable, this.width / 2 - 10 - textRenderer.getWidth(tokenTranslatable), 86, 16777215);
-            drawTextWithShadow(matrices, this.textRenderer, channelTranslatable, this.width / 2 - 10 - textRenderer.getWidth(channelTranslatable), 116, 16777215);
+            drawTextWithShadow(matrices, this.textRenderer, tokenTranslatable, this.width / 2 - 10 - textRenderer.getWidth(tokenTranslatable), 66, 16777215);
+            drawTextWithShadow(matrices, this.textRenderer, channelTranslatable, this.width / 2 - 10 - textRenderer.getWidth(channelTranslatable), 96, 16777215);
         }
         if(platformIntegrationValue == 3) {
             var color = youtubeAuthState == 0 ? 0xFFAA00 : youtubeAuthState == 1 ? 0x00AA00 : 0xAA0000;
-            drawTextWithShadow(matrices, this.textRenderer, youtubeAuthStatus, this.width / 2 - textRenderer.getWidth(youtubeAuthStatus) / 2, 146, color);
+            drawTextWithShadow(matrices, this.textRenderer, youtubeAuthStatus, this.width / 2 - textRenderer.getWidth(youtubeAuthStatus) / 2, 116, color);
         }
 
         super.render(matrices, mouseX, mouseY, delta);
