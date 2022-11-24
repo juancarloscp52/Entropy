@@ -47,7 +47,7 @@ public class YoutubeApi {
         stopHttpServer();
 
         try {
-            _youtubeServer = HttpServer.create(new InetSocketAddress(0), 0);
+            _youtubeServer = HttpServer.create(new InetSocketAddress(46231), 0);
 
             var redirectUri = "http://localhost:" + _youtubeServer.getAddress().getPort() + "/";
             var state = generateRandomDataBase64url(32);
@@ -142,6 +142,8 @@ public class YoutubeApi {
             uri.addParameter("redirect_uri", redirectUri);
             uri.addParameter("client_id", clientId);
             uri.addParameter("state", state);
+            uri.addParameter("access_type", "offline");
+            uri.addParameter("prompt", "consent");
             uri.addParameter("code_challenge", codeChallenge);
             uri.addParameter("code_challenge_method", "S256");
             var url = uri.build().toString();
