@@ -14,6 +14,10 @@ Entropy includes integration with Twitch! Viewers of a streamer can vote the nex
 
 To enable Twitch Integration you'll need a Twitch OAuth Access token, you can generate using [this tool](https://twitchtokengenerator.com/) (or any other OAuth token generator tool).
 Write your OAuth Access Token and your channel name in Entropy Settings.
+## YouTube Integration:
+In a similar fashion to the twitch integration, Entropy also includes the ability for YouTube streamers to connect with their YouTube Live Chat for event voting.
+
+It requires the creation of a Google Cloud Platform project and some configuration. [Click here](https://youtu.be/l6NF5JG_Ox8) for a video tutorial, there's also a written guide in that video's description
 ## Discord Integration:
 Users of a discord server can vote the next event by using the Entropy Discord integration. TUTORIAL: https://www.youtube.com/watch?v=waj82ownAKw
 ## Gameplay:
@@ -50,7 +54,7 @@ You can find the built JARs inside Entropy/build/libs
 
 ## Copyright
 
-Copyright (C) 2021 juancarloscp52 and the Entropy contributors
+Copyright (C) 2022 juancarloscp52 and the Entropy contributors
 
 Entropy is released under [GPL-3.0-or-later],
 a free software and Open Source license.
