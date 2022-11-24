@@ -34,14 +34,21 @@ public class PoolEvent extends AbstractInstantEvent {
             for(int i = y; i>y-6;i--){
                 for (int j = -4;j<5;j++){
                     for (int k = -4;k<5;k++){
+                        BlockPos pos = new BlockPos(x+j,i,z+k);
+
+                        if((serverPlayerEntity.getWorld().getBlockState(pos).getBlock().equals(Blocks.BEDROCK) ||
+                                serverPlayerEntity.getWorld().getBlockState(pos).getBlock().equals(Blocks.END_PORTAL_FRAME) ||
+                                serverPlayerEntity.getWorld().getBlockState(pos).getBlock().equals(Blocks.END_PORTAL)))
+                            continue;   //Do not replace blocks
+
                         if(i==y-5){
                             if(j%2==0){
-                                world.setBlockState(new BlockPos(x+j,i,z+k),(k%2==0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.SOUL_SAND.getDefaultState());
+                                world.setBlockState(pos,(k%2==0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.SOUL_SAND.getDefaultState());
                             }else{
-                                world.setBlockState(new BlockPos(x+j,i,z+k),(k%2!=0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.SOUL_SAND.getDefaultState());
+                                world.setBlockState(pos,(k%2!=0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.SOUL_SAND.getDefaultState());
                             }
                         }else{
-                            world.setBlockState(new BlockPos(x+j,i,z+k),(j==-4 ||j==4 ||k==-4 ||k==4) ? Blocks.COBBLESTONE.getDefaultState():Blocks.WATER.getDefaultState());
+                            world.setBlockState(pos,(j==-4 ||j==4 ||k==-4 ||k==4) ? Blocks.COBBLESTONE.getDefaultState():Blocks.WATER.getDefaultState());
                         }
                     }
                 }

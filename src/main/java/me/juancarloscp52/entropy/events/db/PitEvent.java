@@ -36,7 +36,7 @@ public class PitEvent extends AbstractInstantEvent {
                     for (int j = -9; j <= 9; j++) {
                         BlockPos currentPos = new BlockPos(x+i,h,z+j);
                         if(Math.abs(i)>2|| Math.abs(j)>2){
-                            if(!serverPlayerEntity.getWorld().getBlockState(currentPos).getBlock().equals(Blocks.BEDROCK)){
+                            if(!(serverPlayerEntity.getWorld().getBlockState(currentPos).getBlock().equals(Blocks.BEDROCK) || serverPlayerEntity.getWorld().getBlockState(currentPos).getBlock().equals(Blocks.END_PORTAL_FRAME) || serverPlayerEntity.getWorld().getBlockState(currentPos).getBlock().equals(Blocks.END_PORTAL))){
                                 if(h<(y-45)){
                                     serverPlayerEntity.getWorld().setBlockState(currentPos, Blocks.WATER.getDefaultState());
                                 }else{

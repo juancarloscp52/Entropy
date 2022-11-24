@@ -49,7 +49,12 @@ public class SinkingEvent extends AbstractTimedEvent {
                 int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
                     for (int j = -1;j<2;j++){
                         for (int k = -1;k<2;k++){
-                            world.setBlockState(new BlockPos(x+j,y-1,z+k), Blocks.AIR.getDefaultState());
+                            BlockPos pos = new BlockPos(x+j,y-1,z+k);
+                            if((world.getBlockState(pos).getBlock().equals(Blocks.BEDROCK) ||
+                                    world.getBlockState(pos).getBlock().equals(Blocks.END_PORTAL_FRAME) ||
+                                    world.getBlockState(pos).getBlock().equals(Blocks.END_PORTAL)))
+                                continue;
+                            world.setBlockState(pos, Blocks.AIR.getDefaultState());
                         }
                     }
             });

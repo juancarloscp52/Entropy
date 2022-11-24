@@ -21,7 +21,9 @@ public class GlassSightEvent extends AbstractTimedEvent {
                 var hitRes = serverPlayerEntity.raycast(64, 1, true);
                 if (hitRes.getType() == Type.BLOCK) {
                     var blockHitRes = (BlockHitResult) hitRes;
-                    serverPlayerEntity.getWorld().setBlockState(blockHitRes.getBlockPos(), Blocks.GLASS.getDefaultState());
+                    if(!(serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos()).getBlock().equals(Blocks.BEDROCK) || serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos()).getBlock().equals(Blocks.END_PORTAL_FRAME) || serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos()).getBlock().equals(Blocks.END_PORTAL))){
+                        serverPlayerEntity.getWorld().setBlockState(blockHitRes.getBlockPos(), Blocks.GLASS.getDefaultState());
+                    }
                 }
             }
         }

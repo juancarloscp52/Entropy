@@ -80,6 +80,9 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                                 block == Blocks.GOLD_BLOCK ||
                                 block == Blocks.GOLD_ORE ||
                                 block == Blocks.RAW_GOLD_BLOCK ||
+                                block == Blocks.BEDROCK ||
+                                block == Blocks.END_PORTAL_FRAME ||
+                                block == Blocks.END_PORTAL ||
                                 block == Blocks.NETHER_GOLD_ORE)
                             continue;
 
