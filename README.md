@@ -17,7 +17,7 @@ Write your OAuth Access Token and your channel name in Entropy Settings.
 ## YouTube Integration:
 In a similar fashion to the twitch integration, Entropy also includes the ability for YouTube streamers to connect with their YouTube Live Chat for event voting.
 
-It requires the creation of a Google Cloud Platform project and some configuration. [Click here](https://youtu.be/l6NF5JG_Ox8) for a video tutorial, there's also a written guide in that video's description
+It requires the creation of a Google Cloud Platform project and some configuration. [Click here](https://youtu.be/i2cn_IXLoFE) for a video tutorial, there's also a written guide in that video's description
 ## Discord Integration:
 Users of a discord server can vote the next event by using the Entropy Discord integration. TUTORIAL: https://www.youtube.com/watch?v=waj82ownAKw
 ## Gameplay:
