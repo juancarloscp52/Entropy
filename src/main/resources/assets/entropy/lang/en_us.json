@@ -115,6 +115,7 @@
   "entropy.events.EndermiteEvent": "Endermites",
   "entropy.events.SatiationEvent": "Satiate Player",
   "entropy.events.VitalsEvent": "Fix Player Vitals",
+  "entropy.events.TeleportNearbyEntitiesEvent": "Teleport all nearby entities to player",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
