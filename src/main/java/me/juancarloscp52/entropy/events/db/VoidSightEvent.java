@@ -16,7 +16,7 @@ public class VoidSightEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        if(tickCount%5==0){
+        if(tickCount%2==0){
             for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
                 var hitRes = serverPlayerEntity.raycast(64, 1, true);
                 if (hitRes.getType() == Type.BLOCK) {
