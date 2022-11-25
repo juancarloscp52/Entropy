@@ -116,6 +116,7 @@
   "entropy.events.SatiationEvent": "Quitar hambre",
   "entropy.events.VitalsEvent": "Arreglar vitales del jugador",
   "entropy.events.TeleportNearbyEntitiesEvent": "Teletransportar todas las entidades al jugador",
+  "entropy.events.ForceSneakEvent": "Siempre agachado",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",

@@ -52,7 +52,9 @@ public class KeyboardInputMixin extends Input {
         } else if (Variables.noJump) {
             this.jumping = false;
         }
-
+        if (Variables.forceSneak) {
+            this.sneaking = true;
+        }
 
     }
 

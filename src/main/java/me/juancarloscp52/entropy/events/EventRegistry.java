@@ -152,6 +152,7 @@ public class EventRegistry {
         entropyEvents.put("SatiationEvent", SatiationEvent::new);
         entropyEvents.put("VitalsEvent", VitalsEvent::new);
         entropyEvents.put("TeleportNearbyEntitiesEvent", TeleportNearbyEntitiesEvent::new);
+        entropyEvents.put("ForceSneakEvent", ForceSneakEvent::new);
 
     }
 

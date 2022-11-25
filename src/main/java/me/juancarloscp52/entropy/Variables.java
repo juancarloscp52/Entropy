@@ -50,4 +50,5 @@ public class Variables {
     public static float timerMultiplier = 1f;
     public static boolean explodingPickaxe = false;
     public static boolean flipEntities = false;
+    public static boolean forceSneak = false;
 }
