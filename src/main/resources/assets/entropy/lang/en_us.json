@@ -117,6 +117,7 @@
   "entropy.events.VitalsEvent": "Fix Player Vitals",
   "entropy.events.TeleportNearbyEntitiesEvent": "Teleport all nearby entities to player",
   "entropy.events.ForceSneakEvent": "Force Sneak",
+  "entropy.events.SlimePyramidEvent": "Slime Pyramid",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
