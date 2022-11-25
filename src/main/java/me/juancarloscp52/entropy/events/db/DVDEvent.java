@@ -32,7 +32,7 @@ public class DVDEvent extends AbstractTimedEvent {
     double y = 0;
     double velX = 0;
     double velY = 0;
-    int size = 150;
+    int size = 250;
     Random random = new Random();
     MinecraftClient client;
 
@@ -78,7 +78,7 @@ public class DVDEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
+        return (short) (Entropy.getInstance().settings.baseEventDuration * 0.75d);
     }
 
     private void renderDVDOverlay(MatrixStack matrixStack, float tickdelta) {
