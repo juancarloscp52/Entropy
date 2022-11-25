@@ -113,7 +113,7 @@
   "entropy.events.SilverfishEvent": "Silverfish!",
   "entropy.events.BlazeEvent": "Tough Blaze",
   "entropy.events.EndermiteEvent": "Endermites",
-  "entropy.events.SatiationEvent": "Satiate Player",
+  "entropy.events.SatiationEvent": "Remove hunger",
   "entropy.events.VitalsEvent": "Fix Player Vitals",
   "entropy.events.TeleportNearbyEntitiesEvent": "Teleport all nearby entities to player",
   "entropy.events.ForceSneakEvent": "Force Sneak",
