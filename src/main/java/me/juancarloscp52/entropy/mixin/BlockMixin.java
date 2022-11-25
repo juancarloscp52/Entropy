@@ -22,6 +22,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -63,7 +65,8 @@ public class BlockMixin {
     @Inject(method = "afterBreak", at = @At("HEAD"))
     private void explodeOnBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack, CallbackInfo ci){
         if(Variables.explodingPickaxe){
-            world.createExplosion(null,pos.getX(),pos.getY(),pos.getZ(), Random.create().nextBetween(1,3), Explosion.DestructionType.NONE);
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.RESISTANCE, 20,4,false, false));
+            world.createExplosion(null,pos.getX(),pos.getY(),pos.getZ(), Random.create().nextBetween(1,3), Explosion.DestructionType.BREAK);
         }
     }
 
