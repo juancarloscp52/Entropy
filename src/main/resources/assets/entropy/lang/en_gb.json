@@ -96,6 +96,7 @@
   "entropy.events.PlaceCobwebBlockEvent": "Place Cobweb",
   "entropy.events.FlipMobsEvent": "Flip Mobs Upside Down",
   "entropy.events.MidasTouchEvent": "Midas Touch",
+  "entropy.events.ShuffleInventoryEvent": "Shuffle Inventory",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
