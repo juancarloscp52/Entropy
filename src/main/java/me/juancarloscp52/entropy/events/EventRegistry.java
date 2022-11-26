@@ -20,10 +20,7 @@ package me.juancarloscp52.entropy.events;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.db.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Supplier;
 
 
@@ -160,27 +157,33 @@ public class EventRegistry {
 
     }
 
-    public static Event getRandomDifferentEvent(List<Event> events) {
-        var keys = new ArrayList<String>(entropyEvents.keySet());
-        keys.removeAll(Entropy.getInstance().settings.disabledEvents);
-        if(keys.size() == 0)
-            return null;
+    public static Event getRandomDifferentEvent(List<Event> events){
 
-        short index = (short) random.nextInt(keys.size());
-        String newEventName = keys.get(index);
-        Event newEvent = entropyEvents.get(newEventName).get();
+        ArrayList<String> eventKeys = new ArrayList<>(entropyEvents.keySet());
+        eventKeys.removeAll(Entropy.getInstance().settings.disabledEvents);
 
-        for (Event event : events) {
-            if (event.getClass().getName().contains(newEventName) && !event.hasEnded()) {
-                return getRandomDifferentEvent(events);
+        Set<String> ignoreCurrentEvents = new HashSet<>();
+        events.forEach(event -> ignoreCurrentEvents.add(event.getClass().getSimpleName()));
+        eventKeys.removeAll(ignoreCurrentEvents);
+
+        Set<String> ignoreTypes = new HashSet<>();
+        events.forEach(event -> {
+            if(event.getTickCount()>0 && !event.hasEnded() && !event.type().equalsIgnoreCase("none"))
+                ignoreTypes.add(event.type().toLowerCase());
+        });
+        Set<String> ignoreEventsByType = new HashSet<>();
+        eventKeys.forEach(eventName -> {
+            if(ignoreTypes.contains(entropyEvents.get(eventName).get().type().toLowerCase())){
+                ignoreEventsByType.add(eventName);
             }
+        });
+        eventKeys.removeAll(ignoreEventsByType);
 
-            if (!event.type().equals("none") && event.type().equals(newEvent.type()) && !event.hasEnded()) {
-                return getRandomDifferentEvent(events);
-            }
+        if(eventKeys.size() == 0) return null;
 
-        }
-        return newEvent;
+        int index = random.nextInt(eventKeys.size());
+        String newEventName = eventKeys.get(index);
+        return entropyEvents.get(newEventName).get();
     }
 
     public static Event get(String eventName) {

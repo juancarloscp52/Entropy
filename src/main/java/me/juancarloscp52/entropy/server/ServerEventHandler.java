@@ -87,9 +87,6 @@ public class ServerEventHandler {
                         event = voting.events.get(winner);
 
                     Entropy.LOGGER.info("[Chat Integrations] Winner event: " + EventRegistry.getTranslationKey(event));
-                    voting.newPoll();
-
-
                 } else
                     event = getRandomEvent(currentEvents);
 
@@ -100,6 +97,8 @@ public class ServerEventHandler {
     
                     sendEventToPlayers(event);
                 }
+                if (settings.integrations)
+                    voting.newPoll();
 
                 // Reset timer.
                 resetTimer();
@@ -140,6 +139,7 @@ public class ServerEventHandler {
         //return EventRegistry.get("FlipMobsEvent");
         //return EventRegistry.getNextEventOrdered();
         return EventRegistry.getRandomDifferentEvent(eventArray);
+        //return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 
     public void endChaos() {
