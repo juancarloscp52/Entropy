@@ -41,6 +41,11 @@ public class DVDEvent extends AbstractTimedEvent {
         velX = random.nextDouble() * 8 + 2d;
         velY = random.nextDouble() * 8 + 2d;
         client = MinecraftClient.getInstance();
+        System.out.println("values");
+        System.out.println(client.getWindow().getScaleFactor());
+        if(client.getWindow().getScaleFactor()>=3){
+            size=200;
+        }
     }
 
     @Override
