@@ -153,6 +153,7 @@ public class EventRegistry {
         entropyEvents.put("VitalsEvent", VitalsEvent::new);
         entropyEvents.put("TeleportNearbyEntitiesEvent", TeleportNearbyEntitiesEvent::new);
         entropyEvents.put("ForceSneakEvent", ForceSneakEvent::new);
+        entropyEvents.put("ShuffleInventoryEvent", ShuffleInventoryEvent::new);
         entropyEvents.put("BulldozeEvent", BulldozeEvent::new);
         entropyEvents.put("SlimePyramidEvent", SlimePyramidEvent::new);
 
