@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.explosion.Explosion;
 
@@ -29,7 +30,7 @@ public class ExplodeNearbyEntitiesEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getEntityWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getBlockPos().add(70, 70, 70), serverPlayerEntity.getBlockPos().add(-70, -70, -70))).forEach(entity -> {
             entity.getEntityWorld().createExplosion(entity, entity.getX(), entity.getY() + 1f, entity.getZ(), 2.1f, Explosion.DestructionType.DESTROY);
-            if(!(entity instanceof EnderDragonEntity))
+            if(!(entity instanceof EnderDragonEntity || entity instanceof PlayerEntity))
                 entity.kill();
         }));
     }
