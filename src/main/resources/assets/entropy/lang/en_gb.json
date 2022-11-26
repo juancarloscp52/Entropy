@@ -97,6 +97,8 @@
   "entropy.events.FlipMobsEvent": "Flip Mobs Upside Down",
   "entropy.events.MidasTouchEvent": "Midas Touch",
   "entropy.events.ShuffleInventoryEvent": "Shuffle Inventory",
+  "entropy.events.BulldozeEvent": "Bulldoze",
+  "entropy.events.SlimePyramidEvent": "Slime Pyramid",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
