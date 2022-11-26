@@ -96,6 +96,7 @@
   "entropy.events.PlaceCobwebBlockEvent": "Place Cobweb",
   "entropy.events.FlipMobsEvent": "Flip Mobs Upside Down",
   "entropy.events.MidasTouchEvent": "Midas Touch",
+  "entropy.events.BulldozeEvent": "Bulldoze",
   "entropy.events.SlimePyramidEvent": "Slime Pyramid",
 
   "entropy.title": "Entropy: Chaos Mod",
