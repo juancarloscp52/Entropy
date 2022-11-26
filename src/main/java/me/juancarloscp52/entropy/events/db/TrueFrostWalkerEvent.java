@@ -2,7 +2,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -10,7 +9,7 @@ public class TrueFrostWalkerEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
+        for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
             var world = serverPlayerEntity.getWorld();
             var playerBlockPos = serverPlayerEntity.getBlockPos();
             for (int ix = -3; ix <= 3; ix++) {

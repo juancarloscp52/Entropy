@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -30,7 +29,7 @@ public class HorseEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             HorseEntity horse = EntityType.HORSE.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG, true, false);
             horse.saddle(SoundCategory.NEUTRAL);
             horse.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(2);

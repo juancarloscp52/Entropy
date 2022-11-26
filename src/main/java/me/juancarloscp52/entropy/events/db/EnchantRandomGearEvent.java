@@ -1,14 +1,14 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.registry.Registry;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class EnchantRandomGearEvent extends AbstractInstantEvent {
 
@@ -21,7 +21,7 @@ public class EnchantRandomGearEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
 
             var inventory = new ArrayList<ItemStack>();
             inventory.addAll(serverPlayerEntity.getInventory().main);

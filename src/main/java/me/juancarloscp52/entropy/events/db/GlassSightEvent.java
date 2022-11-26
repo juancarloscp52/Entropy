@@ -6,7 +6,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.hit.BlockHitResult;
@@ -17,7 +16,7 @@ public class GlassSightEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         if(tickCount%5==0){
-            for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
+            for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
                 var hitRes = serverPlayerEntity.raycast(64, 1, true);
                 if (hitRes.getType() == Type.BLOCK) {
                     var blockHitRes = (BlockHitResult) hitRes;

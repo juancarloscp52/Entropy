@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
@@ -29,7 +28,7 @@ public class GiveRandomOreEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             Random random = new Random();
             ItemStack stack = switch (random.nextInt(0, 8)) {
                 case 1 -> new ItemStack(Items.IRON_INGOT, random.nextInt(2, 6));

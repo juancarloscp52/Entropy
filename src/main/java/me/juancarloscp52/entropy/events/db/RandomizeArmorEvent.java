@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
@@ -33,7 +32,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity ->
         {
             serverPlayerEntity.getInventory().armor.set(3, getRandomItem(EquipmentSlot.HEAD));
             serverPlayerEntity.getInventory().armor.set(2, getRandomItem(EquipmentSlot.CHEST));

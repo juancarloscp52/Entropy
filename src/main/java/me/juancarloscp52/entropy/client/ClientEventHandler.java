@@ -70,18 +70,19 @@ public class ClientEventHandler {
         if (eventCountDown % 10 == 0 && votingClient != null) {
             votingClient.sendVotes();
         }
-        for (Event event : currentEvents) {
-            if (!event.hasEnded())
-                event.tickClient();
+        if(!client.player.isSpectator()) {
+            for (Event event : currentEvents) {
+                if (!event.hasEnded())
+                    event.tickClient();
+            }
         }
-
     }
 
     public void render(MatrixStack matrixStack, float tickdelta) {
 
         // Render active event effects
         currentEvents.forEach(event -> {
-            if (!event.hasEnded())
+            if (!event.hasEnded() && !client.player.isSpectator())
                 event.render(matrixStack, tickdelta);
         });
 
@@ -109,7 +110,8 @@ public class ClientEventHandler {
 
     public void addEvent(String registryIndex) {
         Event event = EventRegistry.get(registryIndex);
-        event.initClient();
+        if(!client.player.isSpectator())
+            event.initClient();
         currentEvents.add(event);
     }
 

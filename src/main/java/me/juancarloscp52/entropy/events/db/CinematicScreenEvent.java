@@ -40,6 +40,7 @@ public class CinematicScreenEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         this.hasEnded = true;
+        client = MinecraftClient.getInstance();
         client.options.smoothCameraEnabled = false;
         Variables.forcedFov = false;
         Variables.fov = 0;

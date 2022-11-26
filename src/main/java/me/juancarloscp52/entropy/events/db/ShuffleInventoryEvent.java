@@ -3,17 +3,16 @@
  */
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Collections;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+
+import java.util.Collections;
 
 public class ShuffleInventoryEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        for (var player : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
+        for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
             Collections.shuffle(player.getInventory().main);
         }
     }

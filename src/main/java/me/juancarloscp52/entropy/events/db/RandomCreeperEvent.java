@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -48,7 +47,7 @@ public class RandomCreeperEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         if(tickCount%70==0){
-            PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+            Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 if(new Random().nextInt(10)>=6)
                     EntityType.CREEPER.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG, true, false);
                 serverPlayerEntity.networkHandler.sendPacket(new PlaySoundS2CPacket(SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.HOSTILE, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 1f, 0.5f, net.minecraft.util.math.random.Random.create().nextLong()));

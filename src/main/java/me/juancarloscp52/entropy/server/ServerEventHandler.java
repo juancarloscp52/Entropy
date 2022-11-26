@@ -32,6 +32,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ServerEventHandler {
 
@@ -59,7 +60,6 @@ public class ServerEventHandler {
 
         if (!this.started)
             return;
-
         if (eventCountDown == 0) {
 
             if (currentEvents.size() > 3) {
@@ -138,6 +138,7 @@ public class ServerEventHandler {
 
     private Event getRandomEvent(List<Event> eventArray) {
         //return EventRegistry.get("FlipMobsEvent");
+        //return EventRegistry.getNextEventOrdered();
         return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 
@@ -157,5 +158,10 @@ public class ServerEventHandler {
 
     public void resetTimer(){
         eventCountDown = (short) (settings.timerDuration/Variables.timerMultiplier);
+    }
+
+
+    public List<ServerPlayerEntity> getActivePlayers(){
+        return PlayerLookup.all(Entropy.getInstance().eventHandler.server).stream().filter(serverPlayerEntity -> !serverPlayerEntity.isSpectator()).collect(Collectors.toList());
     }
 }

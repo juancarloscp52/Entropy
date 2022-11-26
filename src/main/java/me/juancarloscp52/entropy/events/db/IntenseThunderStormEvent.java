@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
@@ -52,7 +51,7 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
     public void tick() {
 
         if (getTickCount() % 10 == 0) {
-            PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+            Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(serverPlayerEntity.getWorld());
                 lightningEntity.refreshPositionAfterTeleport(Vec3d.ofCenter(serverPlayerEntity.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, new BlockPos(serverPlayerEntity.getX() + (random.nextInt(50) - 25), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(60) - 25)))));
                 serverPlayerEntity.getWorld().spawnEntity(lightningEntity);

@@ -6,7 +6,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -17,7 +16,7 @@ public class DeathSightEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-            for (var serverPlayerEntity : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
+            for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
                 var rayVector = serverPlayerEntity.getRotationVector().normalize().multiply(32d);
                 var fromVector = serverPlayerEntity.getEyePos();
                 var toVector = fromVector.add(rayVector);

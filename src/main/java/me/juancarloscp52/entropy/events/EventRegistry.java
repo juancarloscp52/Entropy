@@ -28,6 +28,7 @@ import java.util.function.Supplier;
 
 
 public class EventRegistry {
+    private static int last_index = 0;
     private static final Random random = new Random();
     //Store constructors for all Entropy Events.
     public static HashMap<String, Supplier<Event>> entropyEvents;
@@ -184,6 +185,15 @@ public class EventRegistry {
 
     public static Event get(String eventName) {
         Supplier<Event> newEvent = entropyEvents.get(eventName);
+        if (newEvent != null)
+            return newEvent.get();
+        else
+            return null;
+    }
+
+    public static Event getNextEventOrdered(){
+        Supplier<Event> newEvent = entropyEvents.get(entropyEvents.keySet().stream().sorted().toList().get(last_index));
+        last_index = (last_index + 1) % entropyEvents.size();
         if (newEvent != null)
             return newEvent.get();
         else

@@ -30,7 +30,6 @@ public class VerticalScreenEvent extends AbstractTimedEvent {
 
     @Override
     public void initClient() {
-        client = MinecraftClient.getInstance();
     }
 
     @Override
@@ -40,6 +39,7 @@ public class VerticalScreenEvent extends AbstractTimedEvent {
 
     @Override
     public void render(MatrixStack matrixStack, float tickdelta) {
+        client = MinecraftClient.getInstance();
         int borderWidth = MathHelper.floor(client.getWindow().getScaledWidth() * 0.341f);
         DrawableHelper.fill(matrixStack, 0, 0, borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
         DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth(), 0, client.getWindow().getScaledWidth() - borderWidth, client.getWindow().getScaledHeight(), 255 << 24);

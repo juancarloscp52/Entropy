@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.hit.BlockHitResult;
@@ -34,7 +33,7 @@ public class Teleport0Event extends AbstractInstantEvent {
     @Override
     public void init() {
         server = Entropy.getInstance().eventHandler.server;
-        PlayerLookup.all(server).forEach(serverPlayerEntity -> {
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
             server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers 0 0 0 10 false " + serverPlayerEntity.getName().getString());
             serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
@@ -51,7 +50,7 @@ public class Teleport0Event extends AbstractInstantEvent {
     public void tick() {
         if (count <= 2) {
             if (count == 2) {
-                PlayerLookup.all(server).forEach(serverPlayerEntity -> {
+                Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                     serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
                     serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
                     BlockHitResult blockHitResult = serverPlayerEntity.world.raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));

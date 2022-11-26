@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -31,7 +30,7 @@ public class PhantomEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             for(int i =0; i<3;i++){
                 PhantomEntity phantom = EntityType.PHANTOM.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos().offset(Direction.UP,5), SpawnReason.SPAWN_EGG, true, false);
                 if(null!=phantom)

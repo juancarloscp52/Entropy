@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.world.GameMode;
 
@@ -27,12 +26,12 @@ public class AdventureEvent extends AbstractTimedEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.ADVENTURE));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.ADVENTURE));
     }
 
     @Override
     public void end() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.SURVIVAL));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.SURVIVAL));
         this.hasEnded = true;
     }
 

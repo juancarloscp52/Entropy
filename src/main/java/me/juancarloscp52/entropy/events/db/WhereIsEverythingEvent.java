@@ -37,6 +37,7 @@ public class WhereIsEverythingEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         this.hasEnded = true;
+        client = MinecraftClient.getInstance();
         this.client.options.getViewDistance().setValue(viewDistance);
     }
 

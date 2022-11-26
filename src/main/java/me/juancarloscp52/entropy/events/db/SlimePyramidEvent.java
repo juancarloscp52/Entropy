@@ -6,7 +6,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.SlimeEntity;
 
@@ -14,7 +13,7 @@ public class SlimePyramidEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        for (var player : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
+        for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
 
             var slimeSize = player.getRandom().nextInt(4) + 4;
 

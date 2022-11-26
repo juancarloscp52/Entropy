@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.server.world.ServerWorld;
@@ -44,7 +43,7 @@ public class SinkingEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         if(tickCount%30==0){
-            PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+            Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 ServerWorld world = serverPlayerEntity.getWorld();
                 int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
                     for (int j = -1;j<2;j++){

@@ -39,6 +39,7 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void endClient() {
+        client = MinecraftClient.getInstance();
         if (client.currentScreen instanceof EntropyCreditsScreen) {
             client.currentScreen.close();
             this.client.mouse.lockCursor();
@@ -59,6 +60,7 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void tickClient() {
+        client = MinecraftClient.getInstance();
         if (getTickCount() % 20 == 0 && client.currentScreen == null) {
             client.setScreen(new EntropyCreditsScreen(this));
         }

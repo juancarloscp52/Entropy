@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.server.MinecraftServer;
 
 public class CloseRandomTPEvent extends AbstractInstantEvent {
@@ -30,7 +29,7 @@ public class CloseRandomTPEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         server = Entropy.getInstance().eventHandler.server;
-        PlayerLookup.all(server).forEach(serverPlayerEntity -> {
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
             server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers " + serverPlayerEntity.getX() + " " + serverPlayerEntity.getZ() + " 0 50 false " + serverPlayerEntity.getEntityName());
         });
@@ -41,7 +40,7 @@ public class CloseRandomTPEvent extends AbstractInstantEvent {
     public void tick() {
         if (count <= 2) {
             if (count == 2) {
-                PlayerLookup.all(server).forEach(serverPlayerEntity -> {
+                Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                     serverPlayerEntity.getEntityWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
                     serverPlayerEntity.getEntityWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
                 });

@@ -25,7 +25,6 @@ import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -68,6 +67,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void endClient() {
         Variables.customFog = false;
+        client = MinecraftClient.getInstance();
         client.getSoundManager().stopSounds(EntropyClient.herobrineAmbienceID, SoundCategory.BLOCKS);
         client.getSoundManager().resumeAll();
         this.hasEnded = true;
@@ -82,7 +82,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         if (getTickCount() % 20 == 0)
-            PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+            Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 if (random.nextInt(100) >= 95)
                     serverPlayerEntity.damage(DamageSource.GENERIC, 1);
             });

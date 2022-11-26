@@ -104,7 +104,8 @@ public class EntropyClient implements ClientModInitializer {
             if (clientEventHandler == null)
                 return;
             client.execute(() -> {
-                clientEventHandler.remove((byte) 0);
+                if(clientEventHandler.currentEvents.size()!=0)
+                    clientEventHandler.remove((byte) 0);
             });
         });
 
@@ -122,7 +123,9 @@ public class EntropyClient implements ClientModInitializer {
                 return;
             byte index = buf.readByte();
             client.execute(() -> {
-                clientEventHandler.currentEvents.get(index).endClient();
+                Event event = clientEventHandler.currentEvents.get(index);
+                if(event != null)
+                    event.endClient();
             });
         });
 

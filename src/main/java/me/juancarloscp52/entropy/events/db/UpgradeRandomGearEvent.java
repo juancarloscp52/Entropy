@@ -1,19 +1,18 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.stream.IntStream;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.collection.DefaultedList;
 import oshi.util.tuples.Triplet;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.stream.IntStream;
 
 public class UpgradeRandomGearEvent extends AbstractInstantEvent {
 
@@ -87,7 +86,7 @@ public class UpgradeRandomGearEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
 
             var inventory = serverPlayerEntity.getInventory();
             var items = new ArrayList<Triplet<DefaultedList<ItemStack>, Integer, ItemStack>>();

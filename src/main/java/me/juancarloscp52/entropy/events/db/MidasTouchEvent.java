@@ -4,31 +4,21 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.ArrayList;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.HorseArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.*;
 import net.minecraft.util.Pair;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class MidasTouchEvent extends AbstractTimedEvent {
 
@@ -59,7 +49,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        for (var player : PlayerLookup.all(Entropy.getInstance().eventHandler.server)) {
+        for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
             var minX = (int) (player.getX() - (player.getX() < 0 ? 1.5 : .5));
             var minY = (int) player.getY() - 1;
             var minZ = (int) (player.getZ() - (player.getZ() < 0 ? 1.5 : .5));

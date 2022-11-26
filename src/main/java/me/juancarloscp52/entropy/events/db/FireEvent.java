@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -46,7 +45,7 @@ public class FireEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         if(tickCount%5==0){
-            PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
+            Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 ServerWorld world = serverPlayerEntity.getWorld();
                 BlockPos pos = serverPlayerEntity.getBlockPos();
                 if(world.getBlockState(pos).getMaterial().isReplaceable()){
