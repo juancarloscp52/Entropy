@@ -87,7 +87,7 @@ public class EventRegistry {
         entropyEvents.put("UltraLowFovEvent", UltraLowFovEvent::new);
         entropyEvents.put("UpsideDownEvent", UpsideDownEvent::new);
         entropyEvents.put("VerticalScreenEvent", VerticalScreenEvent::new);
-        entropyEvents.put("WhereIsEverythingEvent", WhereIsEverythingEvent::new);
+        //entropyEvents.put("WhereIsEverythingEvent", WhereIsEverythingEvent::new); // No longer works on >1.19
         entropyEvents.put("XpRainEvent", XpRainEvent::new);
         entropyEvents.put("HealEvent", HealEvent::new);
         entropyEvents.put("RandomizeArmorEvent", RandomizeArmorEvent::new);
