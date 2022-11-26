@@ -18,7 +18,7 @@ public class SlimePyramidEvent extends AbstractInstantEvent {
 
             var slimeSize = player.getRandom().nextInt(4) + 4;
 
-            var angle = player.getRandom().nextDouble() * Math.PI;
+            var angle = player.getRandom().nextDouble() * Math.PI * 2;
             var cos = Math.cos(angle);
             var sin = Math.sin(angle);
             var addX = cos * 5;
