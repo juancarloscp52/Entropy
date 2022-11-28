@@ -120,6 +120,7 @@
   "entropy.events.ShuffleInventoryEvent": "Shuffle Inventory",
   "entropy.events.BulldozeEvent": "Bulldoze",
   "entropy.events.SlimePyramidEvent": "Slime Pyramid",
+  "entropy.events.WardenEvent": "Shhh don't make any noise (Spawn Warden)",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
