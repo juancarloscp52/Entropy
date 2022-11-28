@@ -9,6 +9,9 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.mob.WardenEntity;
 
 
 public class WardenEvent extends AbstractInstantEvent {
@@ -17,7 +20,11 @@ public class WardenEvent extends AbstractInstantEvent {
     public void init() {
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(
                 serverPlayerEntity -> {
-                    EntityType.WARDEN.spawn(serverPlayerEntity.getWorld(),null, null, null, serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG, true,false);
+                    WardenEntity warden = EntityType.WARDEN.spawn(serverPlayerEntity.getWorld(),null, null, null, serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG, true,false);
+                    if(warden!=null) {
+                        warden.setHealth(4);
+                        warden.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 9999, 5));
+                    }
                 }
         );
     }
