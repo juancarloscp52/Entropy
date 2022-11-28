@@ -21,7 +21,7 @@ It requires the creation of a Google Cloud Platform project and some configurati
 ## Discord Integration:
 Users of a discord server can vote the next event by using the Entropy Discord integration. TUTORIAL: https://www.youtube.com/watch?v=waj82ownAKw
 ## Gameplay:
-Click Image to watch the video.
+Click Image to watch the videos.
 
 [![Entropy: Chaos Mod - slicedlime vs chat](https://img.youtube.com/vi/qGuIEfpSfto/0.jpg)](https://www.youtube.com/watch?v=qGuIEfpSfto "Entropy: Chaos Mod - slicedlime vs chat")
 [![Can You Beat Minecraft With A Random Effect Every 30 Seconds? - Minecraft Chaos Mod (Entropy)](https://img.youtube.com/vi/zi2_laF_qxU/0.jpg)](https://www.youtube.com/watch?v=zi2_laF_qxU "Can You Beat Minecraft With A Random Effect Every 30 Seconds? - Minecraft Chaos Mod (Entropy)")
