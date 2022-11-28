@@ -34,6 +34,7 @@ public class EventRegistry {
 
         entropyEvents = new HashMap<>();
         entropyEvents.put("ArrowRainEvent", ArrowRainEvent::new);
+        entropyEvents.put("WardenEvent", WardenEvent::new);
         entropyEvents.put("BlurEvent", BlurEvent::new);
         entropyEvents.put("ChickenRainEvent", ChickenRainEvent::new);
         entropyEvents.put("CinematicScreenEvent", CinematicScreenEvent::new);
