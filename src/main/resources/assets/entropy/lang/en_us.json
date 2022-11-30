@@ -121,6 +121,8 @@
   "entropy.events.BulldozeEvent": "Bulldoze",
   "entropy.events.SlimePyramidEvent": "Slime Pyramid",
   "entropy.events.WardenEvent": "Shhh don't make any noise (Spawn Warden)",
+  "entropy.events.AddHeartEvent": "Add Heart",
+  "entropy.events.RemoveHeartEvent": "Remove Heart",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
