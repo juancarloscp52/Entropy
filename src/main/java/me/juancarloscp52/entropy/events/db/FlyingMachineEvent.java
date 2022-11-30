@@ -20,22 +20,27 @@ public class FlyingMachineEvent extends AbstractInstantEvent {
         }
     }
 
-    private void spawnEastWest(ServerWorld world, BlockPos startPos) {
-        for (int ix = 0; ix < 4; ix++) {
+    private boolean tryClearArea(ServerWorld world, BlockPos startPos, int i, int i2) {
+        for (int ix = 0; ix < i; ix++) {
             for (int iy = 0; iy < 4; iy++) {
-                for (int iz = 0; iz < 8; iz++) {
+                for (int iz = 0; iz < i2; iz++) {
                     var blockPos = startPos.add(ix, iy, iz);
                     var currentBlock = world.getBlockState(blockPos);
                     if (currentBlock.getBlock() == Blocks.BEDROCK ||
                             currentBlock.getBlock() == Blocks.END_PORTAL_FRAME ||
                             currentBlock.getBlock() == Blocks.END_PORTAL)
-                        return; // Do not spawn flyting machine at all
+                        return false;
 
                     // Make sure flying machine have space to spawn
                     world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
                 }
             }
         }
+        return true; // Do not spawn flyting machine at all
+    }
+
+    private void spawnEastWest(ServerWorld world, BlockPos startPos) {
+        if (!tryClearArea(world, startPos, 4, 8)) return;
 
         world.setBlockState(startPos.add(1, 1, 3), Blocks.STICKY_PISTON.getDefaultState().with(FacingBlock.FACING, Direction.EAST));
         world.setBlockState(startPos.add(1, 1, 4), Blocks.SLIME_BLOCK.getDefaultState());
@@ -55,21 +60,7 @@ public class FlyingMachineEvent extends AbstractInstantEvent {
     }
 
     private void spawnNorthSouth(ServerWorld world, BlockPos startPos) {
-        for (int ix = 0; ix < 8; ix++) {
-            for (int iy = 0; iy < 4; iy++) {
-                for (int iz = 0; iz < 4; iz++) {
-                    var blockPos = startPos.add(ix, iy, iz);
-                    var currentBlock = world.getBlockState(blockPos);
-                    if (currentBlock.getBlock() == Blocks.BEDROCK ||
-                            currentBlock.getBlock() == Blocks.END_PORTAL_FRAME ||
-                            currentBlock.getBlock() == Blocks.END_PORTAL)
-                        return; // Do not spawn flyting machine at all
-
-                    // Make sure flying machine have space to spawn
-                    world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
-                }
-            }
-        }
+        if (!tryClearArea(world, startPos, 8, 4)) return;
 
         world.setBlockState(startPos.add(3, 1, 1), Blocks.STICKY_PISTON.getDefaultState().with(FacingBlock.FACING, Direction.SOUTH));
         world.setBlockState(startPos.add(4, 1, 1), Blocks.SLIME_BLOCK.getDefaultState());
@@ -87,5 +78,6 @@ public class FlyingMachineEvent extends AbstractInstantEvent {
         world.setBlockState(startPos.add(2, 2, 2), Blocks.REDSTONE_LAMP.getDefaultState());
         world.setBlockState(startPos.add(3, 2, 2), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.WEST));
     }
+
 
 }
