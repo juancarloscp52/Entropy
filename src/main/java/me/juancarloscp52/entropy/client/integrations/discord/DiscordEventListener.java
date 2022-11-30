@@ -60,16 +60,29 @@ public class DiscordEventListener extends ListenerAdapter {
         if(event.getMessageIdLong()==discordIntegration.lastId && event.getUserIdLong()!= discordIntegration.jda.getSelfUser().getIdLong()){
             switch (event.getReactionEmote().getName()){
                 case "1️⃣":
-                    discordIntegration.votingClient.processVote(0,true);
+                    // Remove all previous user reactions to the message.
+                    event.retrieveMessage().complete().removeReaction("2️⃣",event.getUser()).queue();
+                    event.retrieveMessage().complete().removeReaction("3️⃣",event.getUser()).queue();
+                    event.retrieveMessage().complete().removeReaction("4️⃣",event.getUser()).queue();
+                    discordIntegration.votingClient.processVote(0, event.getUserId());
                     break;
                 case "2️⃣":
-                    discordIntegration.votingClient.processVote(1,true);
+                    event.retrieveMessage().complete().removeReaction("1️⃣",event.getUser()).queue();
+                    event.retrieveMessage().complete().removeReaction("3️⃣",event.getUser()).queue();
+                    event.retrieveMessage().complete().removeReaction("4️⃣",event.getUser()).queue();
+                    discordIntegration.votingClient.processVote(1, event.getUserId());
                     break;
                 case "3️⃣":
-                    discordIntegration.votingClient.processVote(2,true);
+                    event.retrieveMessage().complete().removeReaction("2️⃣",event.getUser()).queue();
+                    event.retrieveMessage().complete().removeReaction("1️⃣",event.getUser()).queue();
+                    event.retrieveMessage().complete().removeReaction("4️⃣",event.getUser()).queue();
+                    discordIntegration.votingClient.processVote(2, event.getUserId());
                     break;
                 case "4️⃣":
-                    discordIntegration.votingClient.processVote(3,true);
+                    event.retrieveMessage().complete().removeReaction("2️⃣",event.getUser()).queue();
+                    event.retrieveMessage().complete().removeReaction("3️⃣",event.getUser()).queue();
+                    event.retrieveMessage().complete().removeReaction("1️⃣",event.getUser()).queue();
+                    discordIntegration.votingClient.processVote(3, event.getUserId());
                     break;
                 default: break;
             }
@@ -81,16 +94,16 @@ public class DiscordEventListener extends ListenerAdapter {
         if(event.getMessageIdLong()==discordIntegration.lastId && event.getUserIdLong()!= discordIntegration.jda.getSelfUser().getIdLong()){
             switch (event.getReactionEmote().getName()){
                 case "1️⃣":
-                    discordIntegration.votingClient.processVote(0,false);
+                    discordIntegration.votingClient.removeVote(0, event.getUserId());
                     break;
                 case "2️⃣":
-                    discordIntegration.votingClient.processVote(1,false);
+                    discordIntegration.votingClient.removeVote(1, event.getUserId());
                     break;
                 case "3️⃣":
-                    discordIntegration.votingClient.processVote(2,false);
+                    discordIntegration.votingClient.removeVote(2, event.getUserId());
                     break;
                 case "4️⃣":
-                    discordIntegration.votingClient.processVote(3,false);
+                    discordIntegration.votingClient.removeVote(3, event.getUserId());
                     break;
                 default: break;
             }
