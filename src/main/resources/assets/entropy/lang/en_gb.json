@@ -99,6 +99,7 @@
   "entropy.events.ShuffleInventoryEvent": "Shuffle Inventory",
   "entropy.events.BulldozeEvent": "Bulldoze",
   "entropy.events.SlimePyramidEvent": "Slime Pyramid",
+  "entropy.events.FlyingMachineEvent": "Flying Machine",
   "entropy.events.AddHeartEvent": "Add Heart",
   "entropy.events.RemoveHeartEvent": "Remove Heart",
 
