@@ -71,7 +71,7 @@ public class YoutubeIntegrations implements Integrations {
                         if (messages.items.length != 0) {
                             _nextPageToken = messages.nextPageToken;
                             for (var message : messages.items) {
-                                _votingClient.processVote(message.snippet.displayMessage);
+                                _votingClient.processVote(message.snippet.displayMessage, message.snippet.authorChannelId);
                             }
                         }
 

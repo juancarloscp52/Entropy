@@ -156,6 +156,8 @@ public class EventRegistry {
         entropyEvents.put("BulldozeEvent", BulldozeEvent::new);
         entropyEvents.put("SlimePyramidEvent", SlimePyramidEvent::new);
         entropyEvents.put("FlyingMachineEvent", FlyingMachineEvent::new);
+        entropyEvents.put("AddHeartEvent", AddHeartEvent::new);
+        entropyEvents.put("RemoveHeartEvent", RemoveHeartEvent::new);
 
     }
 
