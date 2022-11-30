@@ -56,23 +56,32 @@ public class VotingClient {
         enabled = false;
         integrations.stop();
     }
-
-    public void processVote(int index, boolean sign, String userId) {
+    public void removeVote(int index, String userId) {
+        if (index >= 0 && index < 4) {
+            if(voteMap.containsKey(userId) && voteMap.get(userId) == index) {
+                votes[voteMap.get(userId)] -=1;
+                totalVotes[voteMap.get(userId)] -=1;
+                totalVotesCount -=  1;
+                voteMap.remove(userId);
+            }
+        }
+    }
+    public void processVote(int index, String userId) {
         if (index >= 0 && index < 4) {
 
             if(voteMap.containsKey(userId)) {
-                votes[voteMap.get(userId)] -= sign ? 1 : -1;
-                totalVotes[voteMap.get(userId)] -= sign ? 1 : -1;
-                totalVotesCount -= sign ? 1 : -1;
+                votes[voteMap.get(userId)] -= 1;
+                totalVotes[voteMap.get(userId)] -= 1;
+                totalVotesCount -= 1;
             }
 
             if(userId != null) {
                 voteMap.put(userId, index);
             }
 
-            votes[index] += sign ? 1 : -1;
-            totalVotes[index] += sign ? 1 : -1;
-            totalVotesCount += sign ? 1 : -1;
+            votes[index] += 1;
+            totalVotes[index] += 1;
+            totalVotesCount += 1;
         }
     }
 
@@ -80,7 +89,7 @@ public class VotingClient {
         if (enabled && string.trim().length() == 1) {
             int voteIndex = Integer.parseInt(string.trim()) + (voteID % 2 == 0 ? -4 : 0);
             if (voteIndex > 0 && voteIndex < 5) {
-                processVote(voteIndex - 1, true, userId);
+                processVote(voteIndex - 1, userId);
             }
         }
     }
