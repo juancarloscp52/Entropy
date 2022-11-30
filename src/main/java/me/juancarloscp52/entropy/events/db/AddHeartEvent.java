@@ -9,7 +9,7 @@ public class AddHeartEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         for(var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
-            player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(player.getHealth() + 2);
+            player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(player.getMaxHealth() + 2);
             player.setHealth(player.getHealth() + 2);
         }
     }

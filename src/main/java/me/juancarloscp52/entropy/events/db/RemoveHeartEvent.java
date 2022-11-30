@@ -9,9 +9,10 @@ public class RemoveHeartEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
-            if (player.getHealth() > 2) {
-                player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(player.getHealth() - 2);
-                player.setHealth(player.getHealth() - 2);
+            if (player.getMaxHealth() > 2) {
+                player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(player.getMaxHealth() - 2);
+                if(player.getHealth() > player.getMaxHealth()) // Set players health to max allowed health if it was previously bigger than the new Max health.
+                    player.setHealth(player.getMaxHealth());
             }
         }
     }
