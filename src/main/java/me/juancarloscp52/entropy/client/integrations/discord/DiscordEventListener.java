@@ -60,16 +60,16 @@ public class DiscordEventListener extends ListenerAdapter {
         if(event.getMessageIdLong()==discordIntegration.lastId && event.getUserIdLong()!= discordIntegration.jda.getSelfUser().getIdLong()){
             switch (event.getReactionEmote().getName()){
                 case "1️⃣":
-                    discordIntegration.votingClient.processVote(0,true);
+                    discordIntegration.votingClient.processVote(0, true, event.getUserId());
                     break;
                 case "2️⃣":
-                    discordIntegration.votingClient.processVote(1,true);
+                    discordIntegration.votingClient.processVote(1, true, event.getUserId());
                     break;
                 case "3️⃣":
-                    discordIntegration.votingClient.processVote(2,true);
+                    discordIntegration.votingClient.processVote(2, true, event.getUserId());
                     break;
                 case "4️⃣":
-                    discordIntegration.votingClient.processVote(3,true);
+                    discordIntegration.votingClient.processVote(3, true, event.getUserId());
                     break;
                 default: break;
             }
@@ -81,16 +81,16 @@ public class DiscordEventListener extends ListenerAdapter {
         if(event.getMessageIdLong()==discordIntegration.lastId && event.getUserIdLong()!= discordIntegration.jda.getSelfUser().getIdLong()){
             switch (event.getReactionEmote().getName()){
                 case "1️⃣":
-                    discordIntegration.votingClient.processVote(0,false);
+                    discordIntegration.votingClient.processVote(0, false, event.getUserId());
                     break;
                 case "2️⃣":
-                    discordIntegration.votingClient.processVote(1,false);
+                    discordIntegration.votingClient.processVote(1, false, event.getUserId());
                     break;
                 case "3️⃣":
-                    discordIntegration.votingClient.processVote(2,false);
+                    discordIntegration.votingClient.processVote(2, false, event.getUserId());
                     break;
                 case "4️⃣":
-                    discordIntegration.votingClient.processVote(3,false);
+                    discordIntegration.votingClient.processVote(3, false, event.getUserId());
                     break;
                 default: break;
             }

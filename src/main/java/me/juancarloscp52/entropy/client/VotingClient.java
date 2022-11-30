@@ -30,6 +30,7 @@ import net.minecraft.text.Text;
 
 import net.minecraft.util.math.MathHelper;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class VotingClient {
@@ -44,6 +45,8 @@ public class VotingClient {
     Integrations integrations;
     MinecraftClient client = MinecraftClient.getInstance();
 
+    // key is user identifier and value is last vote index
+    private HashMap<String, Integer> voteMap = new HashMap<>();
 
     public void enable() {
         enabled = true;
@@ -54,24 +57,36 @@ public class VotingClient {
         integrations.stop();
     }
 
-    public void processVote(int index,boolean sign){
-        if(index>=0&&index<4){
-            votes[index] += sign ? 1:-1;
-            totalVotes[index] += sign ? 1:-1;
-            totalVotesCount += sign ? 1:-1;
+    public void processVote(int index, boolean sign, String userId) {
+        if (index >= 0 && index < 4) {
+
+            if(voteMap.containsKey(userId)) {
+                votes[voteMap.get(userId)] -= sign ? 1 : -1;
+                totalVotes[voteMap.get(userId)] -= sign ? 1 : -1;
+                totalVotesCount -= sign ? 1 : -1;
+            }
+
+            if(userId != null) {
+                voteMap.put(userId, index);
+            }
+
+            votes[index] += sign ? 1 : -1;
+            totalVotes[index] += sign ? 1 : -1;
+            totalVotesCount += sign ? 1 : -1;
         }
     }
 
-    public void processVote(String string) {
+    public void processVote(String string, String userId) {
         if (enabled && string.trim().length() == 1) {
             int voteIndex = Integer.parseInt(string.trim()) + (voteID % 2 == 0 ? -4 : 0);
             if (voteIndex > 0 && voteIndex < 5) {
-                processVote(voteIndex-1,true);
+                processVote(voteIndex - 1, true, userId);
             }
         }
     }
 
     public void newPoll(int voteID, int size, List<String> events) {
+        voteMap.clear();
         if (this.size == size) {
             this.voteID = voteID;
             this.events = events;
