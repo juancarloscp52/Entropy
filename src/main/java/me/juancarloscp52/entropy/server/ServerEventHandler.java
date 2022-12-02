@@ -136,10 +136,9 @@ public class ServerEventHandler {
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("FlipMobsEvent");
+        //return EventRegistry.get("ExplosivePickaxeEvent");
         //return EventRegistry.getNextEventOrdered();
         return EventRegistry.getRandomDifferentEvent(eventArray);
-        //return EventRegistry.getRandomDifferentEvent(eventArray);
     }
 
     public void endChaos() {

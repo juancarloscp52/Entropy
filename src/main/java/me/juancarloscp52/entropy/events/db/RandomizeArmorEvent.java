@@ -24,8 +24,8 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
 
 
 public class RandomizeArmorEvent extends AbstractInstantEvent {
@@ -45,7 +45,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
 
     private ItemStack getRandomItem(EquipmentSlot slot){
         Random random = Random.create();
-        Item item = Registry.ITEM.getRandom(random).get().value();
+        Item item = Registries.ITEM.getRandom(random).get().value();
         if(item instanceof ArmorItem && ((ArmorItem)item).getSlotType()==slot){
             ItemStack stack = new ItemStack(item);
             for(int i=0;i< random.nextInt(4);i++){
@@ -58,7 +58,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
             return getRandomItem(slot);
     }
     private Enchantment getRandomEnchantment(ItemStack item){
-        Enchantment enchantment = Registry.ENCHANTMENT.get(Random.create().nextInt(Registry.ENCHANTMENT.getIds().size()));
+        Enchantment enchantment = Registries.ENCHANTMENT.get(Random.create().nextInt(Registries.ENCHANTMENT.getIds().size()));
         if(enchantment!=null && enchantment.isAcceptableItem(item))
             return enchantment;
         else

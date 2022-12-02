@@ -19,7 +19,7 @@ package me.juancarloscp52.entropy.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.ShaderEffect;
+import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
@@ -29,11 +29,11 @@ import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 public class ShaderManager {
 
-    public static ShaderEffect register(Identifier id){
+    public static PostEffectProcessor register(Identifier id){
         MinecraftClient client = MinecraftClient.getInstance();
         try {
-            ShaderEffect shader;
-            shader = new ShaderEffect(client.getTextureManager(), client.getResourceManager(),
+            PostEffectProcessor shader;
+            shader = new PostEffectProcessor(client.getTextureManager(), client.getResourceManager(),
                     client.getFramebuffer(), id);
             shader.setupDimensions(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
             return shader;
@@ -43,7 +43,7 @@ public class ShaderManager {
         return null;
     }
 
-    public static void render(ShaderEffect shader, float tickDelta){
+    public static void render(PostEffectProcessor shader, float tickDelta){
         RenderSystem.disableBlend();
         RenderSystem.disableDepthTest();
         RenderSystem.enableTexture();

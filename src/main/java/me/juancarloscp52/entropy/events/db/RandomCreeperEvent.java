@@ -23,6 +23,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 
@@ -49,8 +50,8 @@ public class RandomCreeperEvent extends AbstractTimedEvent {
         if(tickCount%70==0){
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 if(new Random().nextInt(10)>=6)
-                    EntityType.CREEPER.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG, true, false);
-                serverPlayerEntity.networkHandler.sendPacket(new PlaySoundS2CPacket(SoundEvents.ENTITY_CREEPER_PRIMED, SoundCategory.HOSTILE, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 1f, 0.5f, net.minecraft.util.math.random.Random.create().nextLong()));
+                    EntityType.CREEPER.spawn(serverPlayerEntity.getWorld(), serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG);
+                serverPlayerEntity.networkHandler.sendPacket(new PlaySoundS2CPacket(Registries.SOUND_EVENT.getEntry(SoundEvents.ENTITY_CREEPER_PRIMED), SoundCategory.HOSTILE, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 1f, 0.5f, net.minecraft.util.math.random.Random.create().nextLong()));
             });
         }
         super.tick();

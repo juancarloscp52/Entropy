@@ -30,6 +30,7 @@ import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeApi;
 
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -81,13 +82,13 @@ public class EntropyIntegrationsScreen extends Screen {
 
     protected void init() {
         platformIntegrationValue=integrationsSettings.integrationType;
-        platformIntegration = new ButtonWidget(this.width/2-100,30,200,20,Text.translatable("entropy.options.integrations.integrationSelector", getPlatform()), button -> {
+        platformIntegration = ButtonWidget.builder(Text.translatable("entropy.options.integrations.integrationSelector", getPlatform()), button -> {
             platformIntegrationValue++;
             if(platformIntegrationValue>=4)
                 platformIntegrationValue=0;
             changeContent();
             button.setMessage(Text.translatable("entropy.options.integrations.integrationSelector", getPlatform()));
-        });
+        }).position(this.width/2-100,30).width(200).build();
         this.addDrawableChild(platformIntegration);
 
         twitchToken = new TextFieldWidget(this.textRenderer, this.width / 2 + 10, 60, 125, 20, Text.translatable("entropy.options.integrations.twitch.OAuthToken"));
@@ -121,7 +122,7 @@ public class EntropyIntegrationsScreen extends Screen {
         youtubeSecret.setRenderTextProvider((s, integer) -> OrderedText.styledForwardsVisitedString("*".repeat(s.length()), Style.EMPTY));
         this.addDrawableChild(youtubeSecret);
         youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.checkingAccessToken");
-        youtubeAuth = new ButtonWidget(this.width / 2 - 100, 130, 200, 20, Text.translatable("entropy.options.integrations.youtube.authorize"), onPress -> {
+        youtubeAuth = ButtonWidget.builder(Text.translatable("entropy.options.integrations.youtube.authorize"), onPress -> {
             youtubeAuth.setMessage(Text.translatable("entropy.options.integrations.youtube.authorizing"));
             youtubeAuthState = 0;
             youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.authorizing");
@@ -140,7 +141,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 }
                 changeContent();
             });
-        });
+        }).position(this.width / 2 - 100, 130).width(200).build();
         this.addDrawableChild(youtubeAuth);
 
         executor = Executors.newCachedThreadPool();
@@ -169,13 +170,16 @@ public class EntropyIntegrationsScreen extends Screen {
         this.addDrawableChild(sendChatMessages);
 
 
-        this.done = new ButtonWidget(this.width / 2 - 100, this.height - 30, 200, 20, ScreenTexts.DONE, button -> onDone());
+        this.done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).position(this.width / 2 - 100, this.height - 30).width(200).build();
         this.addDrawableChild(done);
-
         this.addDrawableChild(
-                help = new ButtonWidget((this.width / 2) + 110, 30, 20, 20, Text.translatable("entropy.options.questionMark"), (button -> {
-                }), (buttonWidget, matrixStack, i, j) ->
-                        this.renderOrderedTooltip(matrixStack, textRenderer.wrapLines(Text.translatable(switch(platformIntegrationValue) { case 1 -> "entropy.options.integrations.twitch.help"; case 2 -> "entropy.options.integrations.discord.help"; default -> "entropy.options.integrations.youtube.help"; }), this.width / 2), i, j)));
+                help = ButtonWidget.builder(Text.translatable("entropy.options.questionMark"), (button -> {
+                })).position((this.width / 2) + 110, 30).width(20).tooltip(Tooltip.of(
+                        Text.translatable(
+                            switch(platformIntegrationValue) {
+                                case 1 -> "entropy.options.integrations.twitch.help";
+                                case 2 -> "entropy.options.integrations.discord.help";
+                                default -> "entropy.options.integrations.youtube.help"; }))).build());
 
         changeContent();
     }
@@ -195,8 +199,8 @@ public class EntropyIntegrationsScreen extends Screen {
                 help.visible=true;
                 tokenTranslatable = Text.translatable("entropy.options.integrations.twitch.OAuthToken");
                 channelTranslatable = Text.translatable("entropy.options.integrations.twitch.channelName");
-                showPollStatus.y = 140;
-                sendChatMessages.y = 165;
+                showPollStatus.setY(140);
+                sendChatMessages.setY(165);
                 sendChatMessages.setMessage(Text.translatable("entropy.options.integrations.twitch.sendChatFeedBack"));
             }
             case 2 -> {
@@ -212,8 +216,8 @@ public class EntropyIntegrationsScreen extends Screen {
                 help.visible=true;
                 tokenTranslatable = Text.translatable("entropy.options.integrations.discord.token");
                 channelTranslatable = Text.translatable("entropy.options.integrations.discord.channelId");
-                showPollStatus.y = 140;
-                sendChatMessages.y = 165;
+                showPollStatus.setY(140);
+                sendChatMessages.setY(165);
             }
             case 3 -> {
                 twitchChannel.setVisible(false);
@@ -228,8 +232,8 @@ public class EntropyIntegrationsScreen extends Screen {
                 help.visible=true;
                 tokenTranslatable = Text.translatable("entropy.options.integrations.youtube.clientId");
                 channelTranslatable = Text.translatable("entropy.options.integrations.youtube.secret");
-                showPollStatus.y = 160;
-                sendChatMessages.y = 185;
+                showPollStatus.setY(160);
+                sendChatMessages.setY(185);
                 sendChatMessages.setMessage(Text.translatable("entropy.options.integrations.youtube.sendChatFeedBack"));
             }
             default -> {
@@ -245,10 +249,16 @@ public class EntropyIntegrationsScreen extends Screen {
                 help.visible=false;
                 tokenTranslatable = Text.translatable("");
                 channelTranslatable = Text.translatable("");
-                showPollStatus.y = 140;
-                sendChatMessages.y = 165;
+                showPollStatus.setY(140);
+                sendChatMessages.setY(165);
             }
         }
+        help.setTooltip(Tooltip.of(
+                Text.translatable(
+                    switch(platformIntegrationValue) {
+                        case 1 -> "entropy.options.integrations.twitch.help";
+                        case 2 -> "entropy.options.integrations.discord.help";
+                        default -> "entropy.options.integrations.youtube.help"; })));
     }
 
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {

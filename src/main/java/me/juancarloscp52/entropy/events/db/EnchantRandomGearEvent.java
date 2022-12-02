@@ -5,7 +5,7 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +14,7 @@ public class EnchantRandomGearEvent extends AbstractInstantEvent {
 
     private static ArrayList<Enchantment> _enchantments = new ArrayList<Enchantment>() {
         {
-            for (var enchantment : Registry.ENCHANTMENT)
+            for (var enchantment : Registries.ENCHANTMENT)
                 add(enchantment);
         }
     };

@@ -18,7 +18,7 @@ public class VexAttackEvent extends AbstractInstantEvent {
             var vexAmount = random.nextInt(2) + 1;
             for (int i = 0; i < vexAmount; i++) {
                 var spawnPos = serverPlayerEntity.getBlockPos().add(random.nextInt(25) - 12, random.nextInt(5) - 2, random.nextInt(25) - 12);
-                EntityType.VEX.spawn(serverPlayerEntity.getWorld(), null, null, null, spawnPos, SpawnReason.SPAWN_EGG, true, false);
+                EntityType.VEX.spawn(serverPlayerEntity.getWorld(), spawnPos, SpawnReason.SPAWN_EGG);
             }
         }
     }

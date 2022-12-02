@@ -57,22 +57,23 @@ public class EntropyConfigurationScreen extends Screen {
         timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/1200d,(slider, translationKey, value) -> Text.translatable("entropy.options.timerDuration", MathHelper.floor(value*60+15)),value -> settings.timerDuration = (short) ((1200*value)+300));
         this.addDrawableChild(timerDurationWidget);
 
-        ButtonWidget eventSettings = new ButtonWidget(this.width / 2 - 85, 75, 170, 20, Text.translatable("entropy.options.disableEvents"), button -> this.client.setScreen(new EntropyEventConfigurationScreen(this)));
+
+        ButtonWidget eventSettings = ButtonWidget.builder(Text.translatable("entropy.options.disableEvents"), button -> this.client.setScreen(new EntropyEventConfigurationScreen(this))).position(this.width / 2 - 85, 75).width(170).build();
         this.addDrawableChild(eventSettings);
 
-        ButtonWidget integrationSettings = new ButtonWidget(this.width / 2 - 85, 100, 170, 20, Text.translatable("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this)));
+        ButtonWidget integrationSettings = ButtonWidget.builder(Text.translatable("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this))).width(170).position(this.width / 2 - 85, 100).build();
         this.addDrawableChild(integrationSettings);
 
-        ButtonWidget votingMode = new ButtonWidget(this.width/2-85,125,170,20,Text.translatable("entropy.options.votingMode", settings.votingMode.name()), button -> {
+        ButtonWidget votingMode = ButtonWidget.builder(Text.translatable("entropy.options.votingMode", settings.votingMode.name()), button -> {
             if(settings.votingMode == EntropySettings.VotingMode.MAJORITY)
                 settings.votingMode= EntropySettings.VotingMode.PROPORTIONAL;
             else
                 settings.votingMode= EntropySettings.VotingMode.MAJORITY;
             button.setMessage(Text.translatable("entropy.options.votingMode", settings.votingMode.name()));
-        });
+        }).width(170).position(this.width/2-85,125).build();
 
         this.addDrawableChild(votingMode);
-        this.done = new ButtonWidget(this.width / 2 - 100, this.height - 30, 200, 20, ScreenTexts.DONE, button -> onDone());
+        this.done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).width(200).position(this.width / 2 - 100, this.height - 30).build();
         this.addDrawableChild(done);
     }
 

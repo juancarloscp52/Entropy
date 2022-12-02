@@ -17,7 +17,10 @@ public class RainbowSheepEvents extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
                     for (int i = 0; i < 5; i++) {
-                        EntityType.SHEEP.spawn(serverPlayerEntity.getWorld(),null, Text.of("jeb_"), null, serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG, true,false);
+                        EntityType.SHEEP.spawn(serverPlayerEntity.getWorld(),null, sheepEntity -> {
+                            sheepEntity.setCustomName(Text.of("jeb_"));
+                            sheepEntity.setCustomNameVisible(false);
+                        }, serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG, true,false);
                     }
                 }
         );

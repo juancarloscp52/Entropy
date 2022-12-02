@@ -17,7 +17,7 @@ public class AngryBeeEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
                     for (int i = 0; i < 3; i++) {
-                        BeeEntity bee = EntityType.BEE.spawn(serverPlayerEntity.getWorld(),null, null, null, serverPlayerEntity.getBlockPos().east(2), SpawnReason.SPAWN_EGG, true,false);
+                        BeeEntity bee = EntityType.BEE.spawn(serverPlayerEntity.getWorld(),serverPlayerEntity.getBlockPos().east(2), SpawnReason.SPAWN_EGG);
                         bee.setAngryAt(serverPlayerEntity.getUuid());
                         bee.chooseRandomAngerTime();
                     }

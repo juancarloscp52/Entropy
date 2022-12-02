@@ -30,11 +30,12 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.gl.ShaderEffect;
+import net.minecraft.client.gl.PostEffectProcessor;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,13 +52,13 @@ public class EntropyClient implements ClientModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final Identifier herobrineAmbienceID = new Identifier("entropy", "ambient.herobrine");
     public static EntropyClient instance;
-    public static SoundEvent herobrineAmbience = new SoundEvent(herobrineAmbienceID);
+    public static SoundEvent herobrineAmbience = SoundEvent.of(herobrineAmbienceID);
     public ClientEventHandler clientEventHandler;
     public EntropyIntegrationsSettings integrationsSettings;
-    private ShaderEffect shader_blur;
-    private ShaderEffect shader_wobble;
-    private ShaderEffect shader_invertedColor;
-    private ShaderEffect shader_monitor;
+    private PostEffectProcessor shader_blur;
+    private PostEffectProcessor shader_wobble;
+    private PostEffectProcessor shader_invertedColor;
+    private PostEffectProcessor shader_monitor;
     public static EntropyClient getInstance() {
         return instance;
     }
@@ -85,6 +86,8 @@ public class EntropyClient implements ClientModInitializer {
                 boolean ended = buf.readBoolean();
                 short tickCount = buf.readShort();
                 Event event = EventRegistry.get(eventName);
+                if(event==null)
+                    continue;
                 event.setEnded(ended);
                 event.setTickCount(tickCount);
                 if (tickCount > 0 && !ended)
@@ -170,7 +173,8 @@ public class EntropyClient implements ClientModInitializer {
                 clientEventHandler.render(matrixStack, tickDelta);
         });
 
-        Registry.register(Registry.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
+        //Registry.registerReference()
+        Registry.register(Registries.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
     }
 
 

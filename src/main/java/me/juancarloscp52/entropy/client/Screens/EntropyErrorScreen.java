@@ -41,8 +41,8 @@ public class EntropyErrorScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height - 40, 200, 20, ScreenTexts.BACK,
-                button -> close()));
+        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.BACK,
+                button -> close()).position(this.width / 2 - 100, this.height - 40).width(200).build());
     }
 
     @Override

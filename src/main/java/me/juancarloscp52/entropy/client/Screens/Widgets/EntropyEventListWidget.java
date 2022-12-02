@@ -82,8 +82,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         }
 
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            button.y = y;
-            button.x = x + 32;
+            button.setPos(x + 32,y);
             button.render(matrices, mouseX, mouseY, tickDelta);
         }
 

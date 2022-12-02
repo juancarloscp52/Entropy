@@ -38,13 +38,13 @@ public class OptionsScreenMixin extends Screen {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void insertEntropySettingsButton(CallbackInfo ci) {
-        this.addDrawableChild(new ButtonWidget(this.width - 100, this.height - 20, 100, 20, Text.translatable("entropy.options.title"), button -> {
+        this.addDrawableChild(ButtonWidget.builder(Text.translatable("entropy.options.title"), button -> {
             if (MinecraftClient.getInstance().getGame().getCurrentSession() == null) {
                 this.client.setScreen(new EntropyConfigurationScreen(this));
             } else {
                 this.client.setScreen(new EntropyErrorScreen(this, Text.translatable("entropy.options.error")));
             }
-        }));
+        }).position(this.width - 100, this.height - 20).width(100).build());
     }
 
 }

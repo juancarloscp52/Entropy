@@ -30,7 +30,9 @@ public class HorseEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            HorseEntity horse = EntityType.HORSE.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG, true, false);
+            HorseEntity horse = EntityType.HORSE.spawn(serverPlayerEntity.getWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
+            if(horse==null)
+                return;
             horse.saddle(SoundCategory.NEUTRAL);
             horse.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(2);
             horse.setHealth(2);

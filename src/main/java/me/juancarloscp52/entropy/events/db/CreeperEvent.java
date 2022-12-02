@@ -26,6 +26,6 @@ public class CreeperEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> EntityType.CREEPER.spawn(serverPlayerEntity.getWorld(), null, null, null, serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG, true, false));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> EntityType.CREEPER.spawn(serverPlayerEntity.getWorld(), serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG));
     }
 }
