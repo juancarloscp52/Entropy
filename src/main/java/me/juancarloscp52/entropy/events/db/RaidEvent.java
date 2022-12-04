@@ -8,6 +8,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.VillagerEntity;
 
+import java.util.Random;
+
+
 public class RaidEvent extends AbstractInstantEvent {
 
     @Override
@@ -17,7 +20,7 @@ public class RaidEvent extends AbstractInstantEvent {
             villager.setPosition(player.getPos());
             player.getWorld().setBlockState(player.getBlockPos().add(0,-1, 0), Blocks.LECTERN.getDefaultState());
             player.getWorld().spawnEntity(villager);
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BAD_OMEN, 10000, 5));
+            player.addStatusEffect(new StatusEffectInstance(StatusEffects.BAD_OMEN, 10000, 1+(new Random()).nextInt(5)));
         });
     }
 }
