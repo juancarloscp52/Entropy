@@ -33,6 +33,7 @@ public class EventRegistry {
     public static void register() {
 
         entropyEvents = new HashMap<>();
+        entropyEvents.put("TeleportToEndEvent", TeleportToEndEvent::new);
         entropyEvents.put("ArrowRainEvent", ArrowRainEvent::new);
         entropyEvents.put("WardenEvent", WardenEvent::new);
         entropyEvents.put("BlurEvent", BlurEvent::new);
