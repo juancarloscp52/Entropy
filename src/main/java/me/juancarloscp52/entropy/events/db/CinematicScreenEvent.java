@@ -38,6 +38,12 @@ public class CinematicScreenEvent extends AbstractTimedEvent {
     }
 
     @Override
+    public void tickClient() {
+        client = MinecraftClient.getInstance();
+        client.options.smoothCameraEnabled = true;
+    }
+
+    @Override
     public void endClient() {
         this.hasEnded = true;
         client = MinecraftClient.getInstance();
