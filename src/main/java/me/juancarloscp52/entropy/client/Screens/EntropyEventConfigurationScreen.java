@@ -50,8 +50,17 @@ public class EntropyEventConfigurationScreen extends Screen {
         list = new EntropyEventListWidget(MinecraftClient.getInstance(), this.width, this.height, 32, this.height - 32, 25);
         list.addAllFromRegistry();
         this.addSelectableChild(list);
+        // Done button
         ButtonWidget done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).position(this.width / 2 - 100, this.height - 26).width(200).build();
         this.addDrawableChild(done);
+        // Check all button
+        ButtonWidget checkAll = ButtonWidget.builder(Text.translatable("entropy.options.checkAllEvents"), button -> onCheckAll()).position(this.width / 2 - 100 - 100, this.height - 26).width(100).build();
+
+        this.addDrawableChild(checkAll);
+        // Uncheck all button
+        ButtonWidget uncheckAll = ButtonWidget.builder(Text.translatable("entropy.options.uncheckAllEvents"), button -> onUncheckAll()).position(this.width / 2 - 100 + 200, this.height - 26).width(100).build();
+        this.addDrawableChild(uncheckAll);
+
     }
 
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
@@ -85,6 +94,18 @@ public class EntropyEventConfigurationScreen extends Screen {
         });
         Entropy.getInstance().saveSettings();
         close();
+    }
+
+    private void onCheckAll() {
+        this.list.children().forEach(buttonEntry -> {
+            if (!buttonEntry.button.isChecked()) {buttonEntry.button.onPress();}
+        });
+    }
+
+    private void onUncheckAll() {
+        this.list.children().forEach(buttonEntry -> {
+            if (buttonEntry.button.isChecked()) {buttonEntry.button.onPress();}
+        });
     }
 
     @Override
