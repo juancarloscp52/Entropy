@@ -124,6 +124,7 @@
   "entropy.events.FlyingMachineEvent": "Flying Machine",
   "entropy.events.AddHeartEvent": "Add Heart",
   "entropy.events.RemoveHeartEvent": "Remove Heart",
+  "entropy.events.RaidEvent": "Prepare to fight!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
