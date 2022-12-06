@@ -104,6 +104,7 @@
   "entropy.events.RemoveHeartEvent": "Remove Heart",
   "entropy.events.ArmorCurseEvent": "You wont take off your clothes !",
   "entropy.events.RaidEvent": "Prepare to fight!",
+  "entropy.events.RemoveEnchantmentsEvent": "You lost some magic",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
