@@ -123,6 +123,7 @@
   "entropy.events.WardenEvent": "Shhhh no hagas ningún ruido (Warden)",
   "entropy.events.RaidEvent": "¡Prepárate para luchar!",
   "entropy.events.RemoveEnchantmentsEvent": "Perdiste la magia",
+  "entropy.events.ArmorCurseEvent": "¡Bloquear armadura!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
