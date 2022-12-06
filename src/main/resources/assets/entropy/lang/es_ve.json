@@ -122,6 +122,7 @@
   "entropy.events.SlimePyramidEvent": "Pirámide de slimes",
   "entropy.events.WardenEvent": "Shhhh no hagas ningún ruido (Warden)",
   "entropy.events.RaidEvent": "¡Prepárate para luchar!",
+  "entropy.events.RemoveEnchantmentsEvent": "Perdiste la magia",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
