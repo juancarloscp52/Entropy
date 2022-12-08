@@ -148,10 +148,14 @@ public class VotingServer {
     public PacketByteBuf getNewPollPacket() {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeInt(voteID);
-        buf.writeInt(size);
-        for (int i = 0; i < size - 1; i++) {
-            buf.writeString(EventRegistry.getTranslationKey(events.get(i)));
-
+        if(events.isEmpty()){
+            buf.writeInt(1);
+            buf.writeString("No Event");
+        }else{
+            buf.writeInt(size);
+            for (int i = 0; i < size - 1; i++) {
+                buf.writeString(EventRegistry.getTranslationKey(events.get(i)));
+            }
         }
         return buf;
     }

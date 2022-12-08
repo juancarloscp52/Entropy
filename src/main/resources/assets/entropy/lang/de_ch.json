@@ -126,7 +126,11 @@
   "entropy.events.RemoveHeartEvent": "Herz entfernen",
   "entropy.events.ArmorCurseEvent": "Du wirst deine Kleidung nicht ausziehen!",
   "entropy.events.RaidEvent": "Mach dich bereit zu kämpfen!",
+<<<<<<< german-translations
   "entropy.events.RemoveEnchantmentsEvent": "Du hast etwas Magie verloren",
+=======
+  "entropy.events.NoiseMachineEvent": "Glockenspiel",
+>>>>>>> 1.19.3
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",

@@ -79,14 +79,17 @@ public class ServerEventHandler {
                 // Get next Event from chat votes (if enabled) or randomly
                 Event event;
                 if (settings.integrations) {
-
-                    int winner = voting.getWinner();
-                    if (winner == -1 || winner == 3)    // -1 - no winner, 3 - Random Event : Get Random Event.
-                        event = getRandomEvent(currentEvents);
-                    else    // Get winner
-                        event = voting.events.get(winner);
-
-                    Entropy.LOGGER.info("[Chat Integrations] Winner event: " + EventRegistry.getTranslationKey(event));
+                    if (voting.events.isEmpty()) {
+                        Entropy.LOGGER.info("[Chat Integrations] No random event available");
+                        event=null;
+                    }else{
+                        int winner = voting.getWinner();
+                        if (winner == -1 || winner == 3)    // -1 - no winner, 3 - Random Event : Get Random Event.
+                            event = getRandomEvent(currentEvents);
+                        else    // Get winner
+                            event = voting.events.get(winner);
+                        Entropy.LOGGER.info("[Chat Integrations] Winner event: " + EventRegistry.getTranslationKey(event));
+                    }
                 } else
                     event = getRandomEvent(currentEvents);
 
