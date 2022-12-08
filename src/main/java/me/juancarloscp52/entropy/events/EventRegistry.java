@@ -171,7 +171,8 @@ public class EventRegistry {
 
         Set<String> ignoreCurrentEvents = new HashSet<>();
         events.forEach(event -> ignoreCurrentEvents.add(event.getClass().getSimpleName()));
-        eventKeys.removeAll(ignoreCurrentEvents);
+        if(eventKeys.size()>ignoreCurrentEvents.size())
+            eventKeys.removeAll(ignoreCurrentEvents);
 
         Set<String> ignoreTypes = new HashSet<>();
         events.forEach(event -> {
@@ -184,7 +185,8 @@ public class EventRegistry {
                 ignoreEventsByType.add(eventName);
             }
         });
-        eventKeys.removeAll(ignoreEventsByType);
+        if(eventKeys.size()>ignoreEventsByType.size())
+            eventKeys.removeAll(ignoreEventsByType);
 
         if(eventKeys.size() == 0) return null;
 
