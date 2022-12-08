@@ -124,6 +124,7 @@
   "entropy.events.RaidEvent": "¡Prepárate para luchar!",
   "entropy.events.RemoveEnchantmentsEvent": "Perdiste la magia",
   "entropy.events.ArmorCurseEvent": "¡Bloquear armadura!",
+  "entropy.events.NoiseMachineEvent": "Campanas",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",

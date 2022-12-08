@@ -125,6 +125,7 @@
   "entropy.events.AddHeartEvent": "Herz hinzufügen",
   "entropy.events.RemoveHeartEvent": "Herz entfernen",
   "entropy.events.RaidEvent": "Mach dich bereit zu kämpfen!",
+  "entropy.events.NoiseMachineEvent": "Glockenspiel",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",
