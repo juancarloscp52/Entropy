@@ -25,9 +25,10 @@ import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.entity.boss.BossBar;
+import net.minecraft.entity.boss.ServerBossBar;
+import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class ClientEventHandler {
     public VotingClient votingClient;
     public MinecraftClient client;
     short eventCountDown;
+    private ServerBossBar bar;
     short timerDuration;
     final short timerDurationFinal;
     boolean serverIntegrations;
@@ -61,6 +63,9 @@ public class ClientEventHandler {
             });
             votingClient.enable();
         }
+
+        this.bar=new ServerBossBar(Text.of(""), BossBar.Color.GREEN, BossBar.Style.NOTCHED_20);
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(player ->  bar.addPlayer(player));
     }
 
     public void tick(short eventCountDown) {
@@ -86,11 +91,12 @@ public class ClientEventHandler {
                 event.render(matrixStack, tickdelta);
         });
 
-        // Render top bar
+
         double time = timerDuration - eventCountDown;
         int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
-        DrawableHelper.fill(matrixStack, 0, 0, width, 10, 150 << 24);
-        DrawableHelper.fill(matrixStack, 0, 0, MathHelper.floor(width * (time / timerDuration)), 10, (votingClient != null ? votingClient.getColor() : MathHelper.packRgb(70, 150, 70)) + (255 << 24));
+
+        // Render top bar
+        this.bar.setPercent((float)(time / timerDuration));
 
         // Render Event Queue...
         for (int i = 0; i < currentEvents.size(); i++) {
