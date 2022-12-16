@@ -162,6 +162,7 @@ public class EventRegistry {
         entropyEvents.put("AddHeartEvent", AddHeartEvent::new);
         entropyEvents.put("RemoveHeartEvent", RemoveHeartEvent::new);
         entropyEvents.put("NoiseMachineEvent", NoiseMachineEvent::new);
+        entropyEvents.put("XRayEvent", XRayEvent::new);
 
     }
 

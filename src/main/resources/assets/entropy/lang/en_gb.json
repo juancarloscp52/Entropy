@@ -106,6 +106,7 @@
   "entropy.events.RaidEvent": "Prepare to fight!",
   "entropy.events.RemoveEnchantmentsEvent": "You lost some magic",
   "entropy.events.NoiseMachineEvent": "Chimes",
+  "entropy.events.XRayEvent": "XRay",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
