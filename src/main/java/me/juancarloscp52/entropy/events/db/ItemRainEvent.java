@@ -25,7 +25,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.math.random.Random;
-
+import net.minecraft.world.World;
 
 public class ItemRainEvent extends AbstractTimedEvent {
 
@@ -55,7 +55,8 @@ public class ItemRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 15 == 0) {
             for (int i = 0; i < 5; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                    ItemEntity item = new ItemEntity(serverPlayerEntity.getWorld(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), new ItemStack(getRandomItem(), 1));
+                    World world = serverPlayerEntity.getWorld();
+                    ItemEntity item = new ItemEntity(world, serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), new ItemStack(getRandomItem(world), 1));
                     serverPlayerEntity.getWorld().spawnEntity(item);
                 });
             }
@@ -63,12 +64,12 @@ public class ItemRainEvent extends AbstractTimedEvent {
         super.tick();
     }
 
-    private Item getRandomItem() {
+    private Item getRandomItem(World world) {
         Item item = Registries.ITEM.getRandom(Random.create()).get().value();
         if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
-            item = getRandomItem();
+            item = getRandomItem(world);
         }
-        return item;
+        return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem(world);
     }
 
     @Override
