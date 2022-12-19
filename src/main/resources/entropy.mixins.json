@@ -4,6 +4,7 @@
   "package": "me.juancarloscp52.entropy.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "AbstractBlockStateMixin",
     "BlockMixin",
     "EntityMixin"
   ],
