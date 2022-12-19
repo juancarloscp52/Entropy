@@ -142,6 +142,8 @@ public class SkyBlockEvent extends AbstractInstantEvent {
             chest2.setStack(2, new ItemStack(Items.PUMPKIN_SEEDS));
 
             var playerPos = startPos.add(-4, 3, 1);
+
+            serverPlayerEntity.stopRiding();
             serverPlayerEntity.teleport(playerPos.getX() + .5, playerPos.getY(), playerPos.getZ() + .5);
         }
     }
