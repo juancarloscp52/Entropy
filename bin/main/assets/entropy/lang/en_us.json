@@ -168,7 +168,6 @@
   "entropy.options.integrations.showPollStatus": "Show poll status on screen",
   "entropy.options.checkAllEvents": "Enable All",
   "entropy.options.uncheckAllEvents": "Disable All",
-  "entropy.options.ui.title": "UI style",
   "entropy.options.ui.GTAV": "Grand Theft Auto V style",
   "entropy.options.ui.MINECRAFT": "Minecraft style"
 

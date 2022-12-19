@@ -19,6 +19,10 @@ package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
+import me.juancarloscp52.entropy.EntropySettings.UIStyle;
+import me.juancarloscp52.entropy.client.UIStyles.GTAVUIRenderer;
+import me.juancarloscp52.entropy.client.UIStyles.MinecraftUIRenderer;
+import me.juancarloscp52.entropy.client.UIStyles.UIRenderer;
 import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegration;
 import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrations;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations;
@@ -26,9 +30,6 @@ import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.boss.BossBar;
-import net.minecraft.entity.boss.ServerBossBar;
-import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,9 @@ public class ClientEventHandler {
     public VotingClient votingClient;
     public MinecraftClient client;
     short eventCountDown;
-    private ServerBossBar bar;
+    
     short timerDuration;
+    UIRenderer renderer = null;
     final short timerDurationFinal;
     boolean serverIntegrations;
 
@@ -64,8 +66,13 @@ public class ClientEventHandler {
             votingClient.enable();
         }
 
-        this.bar=new ServerBossBar(Text.of(""), BossBar.Color.GREEN, BossBar.Style.NOTCHED_20);
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(player ->  bar.addPlayer(player));
+        if(Entropy.getInstance().settings.UIstyle == UIStyle.MINECRAFT){
+            renderer = new MinecraftUIRenderer(votingClient);
+        }
+        else if (Entropy.getInstance().settings.UIstyle == UIStyle.GTAV) {
+            renderer = new GTAVUIRenderer(votingClient);
+        }
+
     }
 
     public void tick(short eventCountDown) {
@@ -91,12 +98,13 @@ public class ClientEventHandler {
                 event.render(matrixStack, tickdelta);
         });
 
-
         double time = timerDuration - eventCountDown;
         int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
 
-        // Render top bar
-        this.bar.setPercent((float)(time / timerDuration));
+        // Render timer bar
+        /// Only the timer is differentiated in two declination for now but 
+        /// it will be interesting to adapt the event queue and poll rendering too
+        renderer.renderTimer(matrixStack, width, time, timerDuration);
 
         // Render Event Queue...
         for (int i = 0; i < currentEvents.size(); i++) {
