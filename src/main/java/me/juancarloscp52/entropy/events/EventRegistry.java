@@ -163,6 +163,7 @@ public class EventRegistry {
         entropyEvents.put("RemoveHeartEvent", RemoveHeartEvent::new);
         entropyEvents.put("NoiseMachineEvent", NoiseMachineEvent::new);
         entropyEvents.put("XRayEvent", XRayEvent::new);
+        entropyEvents.put("LagEvent", LagEvent::new);
 
     }
 

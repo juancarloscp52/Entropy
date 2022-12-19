@@ -25,6 +25,7 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.random.Random;
 
 
@@ -34,19 +35,21 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity ->
         {
-            serverPlayerEntity.getInventory().armor.set(3, getRandomItem(EquipmentSlot.HEAD));
-            serverPlayerEntity.getInventory().armor.set(2, getRandomItem(EquipmentSlot.CHEST));
-            serverPlayerEntity.getInventory().armor.set(1, getRandomItem(EquipmentSlot.LEGS));
-            serverPlayerEntity.getInventory().armor.set(0, getRandomItem(EquipmentSlot.FEET));
+            serverPlayerEntity.getInventory().armor.set(3, getRandomItem(serverPlayerEntity, EquipmentSlot.HEAD));
+            serverPlayerEntity.getInventory().armor.set(2, getRandomItem(serverPlayerEntity, EquipmentSlot.CHEST));
+            serverPlayerEntity.getInventory().armor.set(1, getRandomItem(serverPlayerEntity, EquipmentSlot.LEGS));
+            serverPlayerEntity.getInventory().armor.set(0, getRandomItem(serverPlayerEntity, EquipmentSlot.FEET));
 
         });
 
     }
 
-    private ItemStack getRandomItem(EquipmentSlot slot){
+    private ItemStack getRandomItem(ServerPlayerEntity serverPlayerEntity, EquipmentSlot slot){
         Random random = Random.create();
         Item item = Registries.ITEM.getRandom(random).get().value();
         if(item instanceof ArmorItem && ((ArmorItem)item).getSlotType()==slot){
+            if(!item.getRequiredFeatures().isSubsetOf(serverPlayerEntity.world.getEnabledFeatures()))
+                return getRandomItem(serverPlayerEntity, slot);
             ItemStack stack = new ItemStack(item);
             for(int i=0;i< random.nextInt(4);i++){
                 Enchantment enchantment = getRandomEnchantment(stack);
@@ -55,7 +58,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
             return stack;
         }
         else
-            return getRandomItem(slot);
+            return getRandomItem(serverPlayerEntity, slot);
     }
     private Enchantment getRandomEnchantment(ItemStack item){
         Enchantment enchantment = Registries.ENCHANTMENT.get(Random.create().nextInt(Registries.ENCHANTMENT.getIds().size()));

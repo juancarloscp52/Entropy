@@ -129,6 +129,7 @@
   "entropy.events.RemoveEnchantmentsEvent": "You lost some magic",
   "entropy.events.NoiseMachineEvent": "Chimes",
   "entropy.events.XRayEvent": "XRay",
+  "entropy.events.LagEvent": "Poor Connection",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
