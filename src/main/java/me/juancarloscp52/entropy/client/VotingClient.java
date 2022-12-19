@@ -40,6 +40,7 @@ public class VotingClient {
     int[] votes;
     int[] totalVotes;
     int voteID = -1;
+    int pollWidth = 195;
     int totalVotesCount = 0;
     boolean enabled = false;
     Integrations integrations;
@@ -104,6 +105,13 @@ public class VotingClient {
             votes = new int[4];
             totalVotes = new int[4];
             sendPoll(voteID,events);
+            int max = 200;
+            for (String key : events){
+                int width = client.textRenderer.getWidth(Text.literal((5) + ": ").append(Text.translatable(key)));
+                if(width > max)
+                    max = width;
+            }
+            pollWidth = max;
         }
     }
 
@@ -132,15 +140,14 @@ public class VotingClient {
 
         double ratio = this.totalVotesCount > 0 ? (double) this.totalVotes[i] / this.totalVotesCount : 0;
         int altOffset = (this.voteID % 2) == 0 && (EntropyClient.getInstance().integrationsSettings.integrationType!=2) ? 4 : 0;
-
-        DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 195 + 10 + 45, 35 + (i * 18) + 10, MathHelper.packRgb(155, 22, 217) + 150 << 24);
+        DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, MathHelper.packRgb(155, 22, 217) + 150 << 24);
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
-            DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 10 + MathHelper.floor((195 + 45) * ratio), (35 + (i * 18) + 10), this.getColor() + (150 << 24));
+            DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 10 + MathHelper.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor() + (150 << 24));
         DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.literal((1 + i + altOffset) + ": ").append(Text.translatable(this.events.get(i))), 15, 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
 
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
             Text percentage = Text.literal(MathHelper.floor(ratio * 100) + " %");
-            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, percentage, 195 + 10 + 42 - client.textRenderer.getWidth(percentage), 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
+            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, percentage, pollWidth + 10 + 42 - client.textRenderer.getWidth(percentage), 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
         }
 
     }
