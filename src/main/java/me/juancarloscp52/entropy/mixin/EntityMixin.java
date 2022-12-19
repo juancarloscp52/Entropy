@@ -85,7 +85,7 @@ public abstract class EntityMixin {
         if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
             item = getRandomItem();
         }
-        return item;
+        return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem();
     }
 
 }
