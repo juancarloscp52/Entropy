@@ -73,6 +73,22 @@ public class EntropyConfigurationScreen extends Screen {
         }).width(170).position(this.width/2-85,125).build();
 
         this.addDrawableChild(votingMode);
+
+        // UI style button
+
+        
+        ButtonWidget UIstyle = ButtonWidget.builder(Text.translatable("entropy.options.ui."+settings.UIstyle.name()), button -> {
+            if(settings.UIstyle == EntropySettings.UIStyle.GTAV)
+                settings.UIstyle = EntropySettings.UIStyle.MINECRAFT;
+            else {
+                settings.UIstyle= EntropySettings.UIStyle.GTAV;
+            }
+               
+            button.setMessage(Text.translatable("entropy.options.ui."+settings.UIstyle.name()));
+        }).width(170).position(this.width/2-85,150).build();
+
+        this.addDrawableChild(UIstyle);
+
         this.done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).width(200).position(this.width / 2 - 100, this.height - 30).build();
         this.addDrawableChild(done);
     }

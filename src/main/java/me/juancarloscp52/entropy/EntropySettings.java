@@ -21,6 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntropySettings {
+
+    public enum UIStyle {
+        GTAV, MINECRAFT
+    }
+
     public enum VotingMode{
         MAJORITY, PROPORTIONAL
     }
@@ -28,5 +33,6 @@ public class EntropySettings {
     public short baseEventDuration = 600;
     public boolean integrations = false;
     public VotingMode votingMode = VotingMode.PROPORTIONAL;
+    public UIStyle UIstyle = UIStyle.GTAV;
     public List<String> disabledEvents = new ArrayList<>();
 }
