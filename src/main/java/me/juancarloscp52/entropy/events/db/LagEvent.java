@@ -33,6 +33,7 @@ public class LagEvent extends AbstractTimedEvent {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach((serverPlayerEntity) -> {
                 BlockPos pos = player_positions.get(serverPlayerEntity);
                 if (pos != null) {
+                    serverPlayerEntity.stopRiding();
                     serverPlayerEntity.teleport(pos.getX(), pos.getY(), pos.getZ());
                 }
 
