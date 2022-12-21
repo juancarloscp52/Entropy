@@ -9,6 +9,7 @@
   ],
   "client": [
     "BackgroundRendererMixin",
+    "BossBarHudAccessor",
     "CameraMixin",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
