@@ -19,15 +19,17 @@ package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
+import me.juancarloscp52.entropy.EntropySettings.UIStyle;
+import me.juancarloscp52.entropy.client.UIStyles.GTAVUIRenderer;
+import me.juancarloscp52.entropy.client.UIStyles.MinecraftUIRenderer;
+import me.juancarloscp52.entropy.client.UIStyles.UIRenderer;
 import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegration;
 import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrations;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,9 @@ public class ClientEventHandler {
     public VotingClient votingClient;
     public MinecraftClient client;
     short eventCountDown;
+    
     short timerDuration;
+    UIRenderer renderer = null;
     final short timerDurationFinal;
     boolean serverIntegrations;
 
@@ -61,6 +65,14 @@ public class ClientEventHandler {
             });
             votingClient.enable();
         }
+
+        if(Entropy.getInstance().settings.UIstyle == UIStyle.MINECRAFT){
+            renderer = new MinecraftUIRenderer(votingClient);
+        }
+        else if (Entropy.getInstance().settings.UIstyle == UIStyle.GTAV) {
+            renderer = new GTAVUIRenderer(votingClient);
+        }
+
     }
 
     public void tick(short eventCountDown) {
@@ -86,11 +98,13 @@ public class ClientEventHandler {
                 event.render(matrixStack, tickdelta);
         });
 
-        // Render top bar
         double time = timerDuration - eventCountDown;
         int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
-        DrawableHelper.fill(matrixStack, 0, 0, width, 10, 150 << 24);
-        DrawableHelper.fill(matrixStack, 0, 0, MathHelper.floor(width * (time / timerDuration)), 10, (votingClient != null ? votingClient.getColor() : MathHelper.packRgb(70, 150, 70)) + (255 << 24));
+
+        // Render timer bar
+        /// Only the timer is differentiated in two declination for now but 
+        /// it will be interesting to adapt the event queue and poll rendering too
+        renderer.renderTimer(matrixStack, width, time, timerDuration);
 
         // Render Event Queue...
         for (int i = 0; i < currentEvents.size(); i++) {
