@@ -168,5 +168,6 @@
   "entropy.options.integrations.discord.help": "La integración con discord permite a los usuarios de un servidor de discord votar cual será el siguiente evento en tu partida. Un mensaje con las diferentes opciones aparecerá en el canal de discord seleccionado, los usuarios podrán votar reaccionando a dicho mensaje. Para habilitar la integración con discord, deberás crear un bot de discord, hacer que se una a tu servidor y copiar el token del BOT en esta pantalla. También tendras que escribir aquí la ID del canal donde se publicarán los mensajes. Tambien puedes usar el comando \"!entropy join\" en el canal a unirse.",
   "entropy.options.integrations.showPollStatus": "Mostrar estado de la encuesta en pantalla",
   "entropy.options.checkAllEvents": "Seleccionar todos",
-  "entropy.options.uncheckAllEvents": "Deseleccionar todos"
+  "entropy.options.uncheckAllEvents": "Deseleccionar todos",
+  "entropy.options.ui": "Estilo: %s"
 }

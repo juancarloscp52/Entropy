@@ -77,14 +77,14 @@ public class EntropyConfigurationScreen extends Screen {
         // UI style button
 
         
-        ButtonWidget UIstyle = ButtonWidget.builder(Text.translatable("entropy.options.ui."+settings.UIstyle.name()), button -> {
+        ButtonWidget UIstyle = ButtonWidget.builder(Text.translatable("entropy.options.ui",Text.translatable("entropy.options.ui."+settings.UIstyle.name()).getString()), button -> {
             if(settings.UIstyle == EntropySettings.UIStyle.GTAV)
                 settings.UIstyle = EntropySettings.UIStyle.MINECRAFT;
             else {
                 settings.UIstyle= EntropySettings.UIStyle.GTAV;
             }
                
-            button.setMessage(Text.translatable("entropy.options.ui."+settings.UIstyle.name()));
+            button.setMessage(Text.translatable("entropy.options.ui",Text.translatable("entropy.options.ui."+settings.UIstyle.name()).getString()));
         }).width(170).position(this.width/2-85,150).build();
 
         this.addDrawableChild(UIstyle);
