@@ -172,6 +172,6 @@
   "entropy.options.checkAllEvents": "Enable All",
   "entropy.options.uncheckAllEvents": "Disable All",
   "entropy.options.ui": "Countdown Style: %s",
-  "entropy.options.ui.GTAV": "GTA V",
+  "entropy.options.ui.GTAV": "Chaos Mod",
   "entropy.options.ui.MINECRAFT": "Minecraft"
 }
