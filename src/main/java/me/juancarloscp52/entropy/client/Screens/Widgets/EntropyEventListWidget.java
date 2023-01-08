@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.mixin.EntryListWidgetAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -31,11 +32,14 @@ import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Pair;
+import net.minecraft.util.math.MathHelper;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWidget.ButtonEntry> {
+    public final List<ButtonEntry> visibleEntries = new ArrayList<>();
 
     public EntropyEventListWidget(MinecraftClient minecraftClient, int i, int j, int k, int l, int m) {
         super(minecraftClient, i, j, k, l, m);
@@ -48,13 +52,17 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
             list.add(new Pair<String,String>(Text.translatable(EventRegistry.getTranslationKey(eventId)).getString(), eventId));
 
         Collections.sort(list, (a, b) -> a.getLeft().compareTo(b.getLeft()));
-        
-        for(var pair : list) 
-            addEvent(pair.getRight());
+        list.forEach(this::addEvent);
     }
 
-    public int addEvent(String eventID) {
-        return this.addEntry(EntropyEventListWidget.ButtonEntry.create(eventID));
+    public int addEvent(Pair<String,String> event) {
+        return this.addEntry(EntropyEventListWidget.ButtonEntry.create(event));
+    }
+
+    @Override
+    protected int addEntry(ButtonEntry entry) {
+        this.visibleEntries.add(entry);
+        return super.addEntry(entry);
     }
 
     public int getRowWidth() {
@@ -65,20 +73,80 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         return super.getScrollbarPositionX() + 32;
     }
 
+    @Override
+    protected int getEntryCount() {
+    	return this.visibleEntries.size();
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        this.updateScrollingState(mouseX, mouseY, button);
+        if (!this.isMouseOver(mouseX, mouseY)) {
+            return false;
+        } else {
+            ButtonEntry entry = this.getEntryAtPositionRespectingSearch(mouseX, mouseY);
+            if (entry != null) {
+                if (entry.mouseClicked(mouseX, mouseY, button)) {
+                    this.setFocused(entry);
+                    this.setDragging(true);
+                    return true;
+                }
+            } else if (button == 0) {
+                this.clickedHeader((int)(mouseX - (double)(this.left + this.width / 2 - this.getRowWidth() / 2)), (int)(mouseY - (double)this.top) + (int)this.getScrollAmount() - 4);
+                return true;
+            }
+
+            return ((EntryListWidgetAccessor) this).getScrolling();
+        }
+    }
+
+    protected ButtonEntry getEntryAtPositionRespectingSearch(double x, double y) {
+        int i = this.getRowWidth() / 2;
+        int j = this.left + this.width / 2;
+        int k = j - i;
+        int l = j + i;
+        int m = MathHelper.floor(y - (double)this.top) - this.headerHeight + (int)this.getScrollAmount() - 4;
+        int n = m / this.itemHeight;
+        return x < (double)this.getScrollbarPositionX() && x >= (double)k && x <= (double)l && n >= 0 && m >= 0 && n < this.getEntryCount() ? this.visibleEntries.get(n) : null;
+    }
+
+    @Override
+    protected void renderList(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        int rowLeft = this.getRowLeft();
+        int rowWidth = this.getRowWidth();
+        int entryHeight = this.itemHeight - 4;
+        int entryCount = this.children().size();
+        int drawIndex = 0;
+
+        for (int index = 0; index < entryCount; ++index) {
+            int rowTop = this.getRowTop(drawIndex);
+            int rowBottom = rowTop + this.itemHeight;
+
+            if (this.getEntry(index).button.visible) {
+                drawIndex++;
+
+                if (rowBottom >= this.top && rowTop <= this.bottom)
+                    this.renderEntry(matrices, mouseX, mouseY, delta, index, rowLeft, rowTop, rowWidth, entryHeight);
+            }
+        }
+    }
 
     @Environment(EnvType.CLIENT)
     public static class ButtonEntry extends ElementListWidget.Entry<EntropyEventListWidget.ButtonEntry> {
         public final CheckboxWidget button;
+        public final String eventName;
         public final String eventID;
 
-        private ButtonEntry(String eventID, CheckboxWidget button) {
+        private ButtonEntry(String eventName, String eventID, CheckboxWidget button) {
             this.button = button;
+            this.eventName = eventName;
             this.eventID = eventID;
         }
 
-        public static EntropyEventListWidget.ButtonEntry create(String eventID) {
+        public static EntropyEventListWidget.ButtonEntry create(Pair<String,String> event) {
             EntropySettings settings = Entropy.getInstance().settings;
-            return new EntropyEventListWidget.ButtonEntry(eventID, new CheckboxWidget(0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), 20, Text.translatable(EventRegistry.getTranslationKey(eventID)), !settings.disabledEvents.contains(eventID)));
+            String eventID = event.getRight();
+            return new EntropyEventListWidget.ButtonEntry(event.getLeft(), eventID, new CheckboxWidget(0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), 20, Text.translatable(EventRegistry.getTranslationKey(eventID)), !settings.disabledEvents.contains(eventID)));
         }
 
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {

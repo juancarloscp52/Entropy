@@ -25,6 +25,7 @@ import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.screen.ScreenTexts;
@@ -32,6 +33,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class EntropyEventConfigurationScreen extends Screen {
     private static final Identifier LOGO = new Identifier("entropy", "textures/logo-with-text.png");
@@ -47,7 +49,7 @@ public class EntropyEventConfigurationScreen extends Screen {
     }
 
     protected void init() {
-        list = new EntropyEventListWidget(MinecraftClient.getInstance(), this.width, this.height, 32, this.height - 32, 25);
+        list = new EntropyEventListWidget(MinecraftClient.getInstance(), this.width, this.height, 56, this.height - 32, 25);
         list.addAllFromRegistry();
         this.addSelectableChild(list);
         // Done button
@@ -61,6 +63,30 @@ public class EntropyEventConfigurationScreen extends Screen {
         ButtonWidget uncheckAll = ButtonWidget.builder(Text.translatable("entropy.options.uncheckAllEvents"), button -> onUncheckAll()).position(this.width / 2 - 100 + 200, this.height - 26).width(100).build();
         this.addDrawableChild(uncheckAll);
 
+        // Search box
+        Text searchText = Text.translatable("entropy.options.search");
+        TextFieldWidget search = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, this.width / 2 - 100, 29, 200, 20, searchText);
+        search.setPlaceholder(searchText);
+        search.setChangedListener(newText -> {
+            String lowerCasedNewText = newText.toLowerCase(Locale.ROOT);
+            list.visibleEntries.clear();
+
+        	if (newText.isBlank())
+                list.children().stream().forEach(buttonEntry -> {
+                    buttonEntry.button.visible = true;
+                    list.visibleEntries.add(buttonEntry);
+                });
+        	else {
+                list.children().stream().forEach(buttonEntry -> {
+                    buttonEntry.button.visible = buttonEntry.eventName.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventID.toLowerCase(Locale.ROOT).contains(lowerCasedNewText);
+
+                    if(buttonEntry.button.visible)
+                        list.visibleEntries.add(buttonEntry);
+                });
+                list.setScrollAmount(0.0D);
+            }
+        });
+        this.addDrawableChild(search);
     }
 
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
@@ -98,13 +124,13 @@ public class EntropyEventConfigurationScreen extends Screen {
 
     private void onCheckAll() {
         this.list.children().forEach(buttonEntry -> {
-            if (!buttonEntry.button.isChecked()) {buttonEntry.button.onPress();}
+            if (buttonEntry.button.visible && !buttonEntry.button.isChecked()) {buttonEntry.button.onPress();}
         });
     }
 
     private void onUncheckAll() {
         this.list.children().forEach(buttonEntry -> {
-            if (buttonEntry.button.isChecked()) {buttonEntry.button.onPress();}
+            if (buttonEntry.button.visible && buttonEntry.button.isChecked()) {buttonEntry.button.onPress();}
         });
     }
 
