@@ -77,7 +77,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
 
     @Override
     protected int getEntryCount() {
-    	return this.visibleEntries.size();
+        return this.visibleEntries.size();
     }
 
     @Override

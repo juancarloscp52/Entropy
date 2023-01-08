@@ -71,12 +71,12 @@ public class EntropyEventConfigurationScreen extends Screen {
             String lowerCasedNewText = newText.toLowerCase(Locale.ROOT);
             list.visibleEntries.clear();
 
-        	if (newText.isBlank())
+            if (newText.isBlank())
                 list.children().stream().forEach(buttonEntry -> {
                     buttonEntry.button.visible = true;
                     list.visibleEntries.add(buttonEntry);
                 });
-        	else {
+            else {
                 list.children().stream().forEach(buttonEntry -> {
                     buttonEntry.button.visible = buttonEntry.eventName.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventID.toLowerCase(Locale.ROOT).contains(lowerCasedNewText);
 
