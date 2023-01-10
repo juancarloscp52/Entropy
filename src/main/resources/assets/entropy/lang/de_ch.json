@@ -129,6 +129,7 @@
   "entropy.events.RemoveEnchantmentsEvent": "Du hast etwas Magie verloren",
   "entropy.events.NoiseMachineEvent": "Glockenspiel",
   "entropy.events.LagEvent": "Schlechte Verbindung",
+  "entropy.events.InfiniteLavaEvent": "Unendliche Lava",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",
