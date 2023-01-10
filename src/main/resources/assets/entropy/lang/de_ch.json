@@ -130,6 +130,7 @@
   "entropy.events.NoiseMachineEvent": "Glockenspiel",
   "entropy.events.LagEvent": "Schlechte Verbindung",
   "entropy.events.NoAttackingEvent": "Attackieren nicht erlaubt",
+  "entropy.events.ConstantAttackingEvent": "Andauerndes Attackieren",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",

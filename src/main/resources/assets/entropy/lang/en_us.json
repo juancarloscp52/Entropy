@@ -132,6 +132,7 @@
   "entropy.events.LagEvent": "Poor Connection",
   "entropy.events.LowFPSEvent": "Low FPS",
   "entropy.events.NoAttackingEvent": "No Attacking Allowed",
+  "entropy.events.ConstantAttackingEvent": "Constant Attacking",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

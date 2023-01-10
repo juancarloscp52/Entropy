@@ -109,6 +109,7 @@
   "entropy.events.XRayEvent": "XRay",
   "entropy.events.LagEvent": "Poor Connection",
   "entropy.events.NoAttackingEvent": "No attacking allowed",
+  "entropy.events.ConstantAttackingEvent": "Constant attacking",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
