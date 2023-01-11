@@ -130,6 +130,7 @@
   "entropy.events.NoiseMachineEvent": "Glockenspiel",
   "entropy.events.LagEvent": "Schlechte Verbindung",
   "entropy.events.NoUseKeyEvent": "Kein Benutzen/Platzieren erlaubt",
+  "entropy.events.ConstantInteractingEvent": "Ich kann nicht aufhören zu interagieren!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",

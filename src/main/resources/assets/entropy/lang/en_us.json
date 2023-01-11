@@ -132,6 +132,7 @@
   "entropy.events.LagEvent": "Poor Connection",
   "entropy.events.LowFPSEvent": "Low FPS",
   "entropy.events.NoUseKeyEvent": "No Using/Placing Allowed",
+  "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

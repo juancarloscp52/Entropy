@@ -109,6 +109,7 @@
   "entropy.events.XRayEvent": "XRay",
   "entropy.events.LagEvent": "Poor Connection",
   "entropy.events.NoUseKeyEvent": "No using/placing allowed",
+  "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

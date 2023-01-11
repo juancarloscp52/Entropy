@@ -166,6 +166,7 @@ public class EventRegistry {
         entropyEvents.put("LagEvent", LagEvent::new);
         entropyEvents.put("LowFPSEvent", LowFPSEvent::new);
         entropyEvents.put("NoUseKeyEvent", NoUseKeyEvent::new);
+        entropyEvents.put("ConstantInteractingEvent", ConstantInteractingEvent::new);
 
     }
 
