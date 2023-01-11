@@ -165,6 +165,8 @@ public class EventRegistry {
         entropyEvents.put("XRayEvent", XRayEvent::new);
         entropyEvents.put("LagEvent", LagEvent::new);
         entropyEvents.put("LowFPSEvent", LowFPSEvent::new);
+        entropyEvents.put("SpawnPetDogEvent", SpawnPetDogEvent::new);
+        entropyEvents.put("SpawnPetCatEvent", SpawnPetCatEvent::new);
 
     }
 

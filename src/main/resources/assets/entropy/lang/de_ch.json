@@ -129,6 +129,8 @@
   "entropy.events.RemoveEnchantmentsEvent": "Du hast etwas Magie verloren",
   "entropy.events.NoiseMachineEvent": "Glockenspiel",
   "entropy.events.LagEvent": "Schlechte Verbindung",
+  "entropy.events.SpawnPetDogEvent": "Spawne gezähmten Hund",
+  "entropy.events.SpawnPetCatEvent": "Spawne gezähmte Katze",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",

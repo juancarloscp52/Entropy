@@ -131,6 +131,8 @@
   "entropy.events.XRayEvent": "XRay",
   "entropy.events.LagEvent": "Poor Connection",
   "entropy.events.LowFPSEvent": "Low FPS",
+  "entropy.events.SpawnPetDogEvent": "Spawn Tamed Dog",
+  "entropy.events.SpawnPetCatEvent": "Spawn Tamed Cat",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
