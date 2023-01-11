@@ -131,6 +131,7 @@
   "entropy.events.XRayEvent": "Rayos X",
   "entropy.events.LagEvent": "Mala conexión",
   "entropy.events.LowFPSEvent": "FPS bajos",
+  "entropy.events.RandomCameraTiltEvent": "Cámara rotada",
   "entropy.events.NoAttackingEvent": "Prohibido atacar",
   "entropy.events.ConstantAttackingEvent": "Atacar constantemente",
 
