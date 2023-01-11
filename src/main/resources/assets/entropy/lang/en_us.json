@@ -160,6 +160,7 @@
   "entropy.options.integrations.youtube.error.auth": "Failed to authorize",
 
   "entropy.options.disableEvents": "Disable Events",
+  "entropy.options.search": "Search...",
   "entropy.options.eventDuration": "Base Event Duration: %ds",
   "entropy.options.timerDuration": "Timer Duration: %ds",
   "entropy.options.questionMark": "?",

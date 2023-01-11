@@ -15,6 +15,7 @@
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
+    "EntryListWidgetAccessor",
     "GameRendererMixin",
     "KeyboardInputMixin",
     "LivingEntityRendererMixin",

@@ -158,6 +158,7 @@
   "entropy.options.integrations.youtube.error.auth": "Autorisierung fehlgeschlagen",
 
   "entropy.options.disableEvents": "Ereignisse Deaktivieren",
+  "entropy.options.search": "Suchen...",
   "entropy.options.eventDuration": "Ereignis Dauer: %ds",
   "entropy.options.timerDuration": "Timer Dauer: %ds",
   "entropy.options.questionMark": "?",
