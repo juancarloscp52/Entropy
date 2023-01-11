@@ -165,6 +165,8 @@ public class EventRegistry {
         entropyEvents.put("XRayEvent", XRayEvent::new);
         entropyEvents.put("LagEvent", LagEvent::new);
         entropyEvents.put("LowFPSEvent", LowFPSEvent::new);
+        entropyEvents.put("NoAttackingEvent", NoAttackingEvent::new);
+        entropyEvents.put("ConstantAttackingEvent", ConstantAttackingEvent::new);
 
     }
 
