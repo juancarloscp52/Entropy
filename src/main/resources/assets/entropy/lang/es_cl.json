@@ -132,6 +132,8 @@
   "entropy.events.LagEvent": "Mala conexión",
   "entropy.events.LowFPSEvent": "FPS bajos",
   "entropy.events.RandomCameraTiltEvent": "Cámara rotada",
+  "entropy.events.NoAttackingEvent": "Prohibido atacar",
+  "entropy.events.ConstantAttackingEvent": "Atacar constantemente",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
@@ -160,6 +162,7 @@
   "entropy.options.integrations.youtube.error.auth": "Fallo al autorizar",
 
   "entropy.options.disableEvents": "Desactivar eventos",
+  "entropy.options.search": "Buscar...",
   "entropy.options.eventDuration": "Duración base de eventos: %ds",
   "entropy.options.timerDuration": "Duración del contador: %ds",
   "entropy.options.questionMark": "?",
