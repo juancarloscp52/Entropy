@@ -131,6 +131,8 @@
   "entropy.events.XRayEvent": "Rayos X",
   "entropy.events.LagEvent": "Mala conexión",
   "entropy.events.LowFPSEvent": "FPS bajos",
+  "entropy.events.NoAttackingEvent": "Prohibido atacar",
+  "entropy.events.ConstantAttackingEvent": "Atacar constantemente",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
