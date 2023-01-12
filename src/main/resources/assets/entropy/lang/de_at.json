@@ -129,6 +129,10 @@
   "entropy.events.RemoveEnchantmentsEvent": "Du hast etwas Magie verloren",
   "entropy.events.NoiseMachineEvent": "Glockenspiel",
   "entropy.events.LagEvent": "Schlechte Verbindung",
+  "entropy.events.InfiniteLavaEvent": "Unendliche Lava",
+  "entropy.events.RandomCameraTiltEvent": "Schräge Kamera",
+  "entropy.events.NoAttackingEvent": "Attackieren nicht erlaubt",
+  "entropy.events.ConstantAttackingEvent": "Andauerndes Attackieren",
   "entropy.events.SpawnKillerBunnyEvent": "Spawne Killer-Kaninchen",
 
   "entropy.title": "Entropy: Chaos Mod",

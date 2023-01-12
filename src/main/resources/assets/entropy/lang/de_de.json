@@ -129,6 +129,10 @@
   "entropy.events.RemoveEnchantmentsEvent": "Du hast etwas Magie verloren",
   "entropy.events.NoiseMachineEvent": "Glockenspiel",
   "entropy.events.LagEvent": "Schlechte Verbindung",
+  "entropy.events.InfiniteLavaEvent": "Unendliche Lava",
+  "entropy.events.RandomCameraTiltEvent": "Schräge Kamera",
+  "entropy.events.NoAttackingEvent": "Attackieren nicht erlaubt",
+  "entropy.events.ConstantAttackingEvent": "Andauerndes Attackieren",
   "entropy.events.SpawnKillerBunnyEvent": "Spawne Killer-Kaninchen",
 
   "entropy.title": "Entropy: Chaos Mod",
@@ -159,6 +163,7 @@
   "entropy.options.integrations.youtube.error.auth": "Autorisierung fehlgeschlagen",
 
   "entropy.options.disableEvents": "Ereignisse Deaktivieren",
+  "entropy.options.search": "Suchen...",
   "entropy.options.eventDuration": "Ereignis Dauer: %ds",
   "entropy.options.timerDuration": "Timer Dauer: %ds",
   "entropy.options.questionMark": "?",

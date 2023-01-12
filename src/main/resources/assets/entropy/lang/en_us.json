@@ -131,6 +131,10 @@
   "entropy.events.XRayEvent": "XRay",
   "entropy.events.LagEvent": "Poor Connection",
   "entropy.events.LowFPSEvent": "Low FPS",
+  "entropy.events.InfiniteLavaEvent": "Infinite Lava",
+  "entropy.events.RandomCameraTiltEvent": "Tilted Camera",
+  "entropy.events.NoAttackingEvent": "No Attacking Allowed",
+  "entropy.events.ConstantAttackingEvent": "Constant Attacking",
   "entropy.events.SpawnKillerBunnyEvent": "Spawn Killer Bunny",
 
   "entropy.title": "Entropy: Chaos Mod",
@@ -161,6 +165,7 @@
   "entropy.options.integrations.youtube.error.auth": "Failed to authorize",
 
   "entropy.options.disableEvents": "Disable Events",
+  "entropy.options.search": "Search...",
   "entropy.options.eventDuration": "Base Event Duration: %ds",
   "entropy.options.timerDuration": "Timer Duration: %ds",
   "entropy.options.questionMark": "?",

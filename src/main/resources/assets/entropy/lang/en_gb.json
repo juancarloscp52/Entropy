@@ -108,6 +108,10 @@
   "entropy.events.NoiseMachineEvent": "Chimes",
   "entropy.events.XRayEvent": "XRay",
   "entropy.events.LagEvent": "Poor Connection",
+  "entropy.events.InfiniteLavaEvent": "Infinite lava",
+  "entropy.events.RandomCameraTiltEvent": "Tilted camera",
+  "entropy.events.NoAttackingEvent": "No attacking allowed",
+  "entropy.events.ConstantAttackingEvent": "Constant attacking",
   "entropy.events.SpawnKillerBunnyEvent": "Spawn Killer Bunny",
 
   "entropy.title": "Entropy: Chaos Mod",
