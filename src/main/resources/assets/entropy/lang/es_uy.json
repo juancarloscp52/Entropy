@@ -131,6 +131,8 @@
   "entropy.events.XRayEvent": "Rayos X",
   "entropy.events.LagEvent": "Mala conexión",
   "entropy.events.LowFPSEvent": "FPS bajos",
+  "entropy.events.NoUseKeyEvent": "Prohibido interactuar",
+  "entropy.events.ConstantInteractingEvent": "¡No puedo dejar de interactuar!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
