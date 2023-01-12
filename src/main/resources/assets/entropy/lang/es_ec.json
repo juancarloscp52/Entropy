@@ -134,6 +134,7 @@
   "entropy.events.RandomCameraTiltEvent": "Cámara rotada",
   "entropy.events.NoAttackingEvent": "Prohibido atacar",
   "entropy.events.ConstantAttackingEvent": "Atacar constantemente",
+  "entropy.events.HauntedChestsEvent": "Cofres encantados",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
