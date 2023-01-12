@@ -165,6 +165,14 @@ public class EventRegistry {
         entropyEvents.put("XRayEvent", XRayEvent::new);
         entropyEvents.put("LagEvent", LagEvent::new);
         entropyEvents.put("LowFPSEvent", LowFPSEvent::new);
+        entropyEvents.put("InfiniteLavaEvent", InfiniteLavaEvent::new);
+        entropyEvents.put("RandomCameraTiltEvent", RandomCameraTiltEvent::new);
+        entropyEvents.put("NoAttackingEvent", NoAttackingEvent::new);
+        entropyEvents.put("ConstantAttackingEvent", ConstantAttackingEvent::new);
+        entropyEvents.put("SpawnKillerBunnyEvent", SpawnKillerBunnyEvent::new);
+        entropyEvents.put("SpawnPetDogEvent", SpawnPetDogEvent::new);
+        entropyEvents.put("SpawnPetCatEvent", SpawnPetCatEvent::new);
+        entropyEvents.put("HauntedChestsEvent", HauntedChestsEvent::new);
         entropyEvents.put("NoUseKeyEvent", NoUseKeyEvent::new);
         entropyEvents.put("ConstantInteractingEvent", ConstantInteractingEvent::new);
 

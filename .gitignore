@@ -119,3 +119,9 @@ run/
 
 # vscode
 bin/
+
+# Eclipse
+.classpath
+.project
+.settings/
+*.launch
