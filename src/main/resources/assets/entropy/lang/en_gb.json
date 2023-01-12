@@ -108,7 +108,7 @@
   "entropy.events.NoiseMachineEvent": "Chimes",
   "entropy.events.XRayEvent": "XRay",
   "entropy.events.LagEvent": "Poor Connection",
-  "entropy.events.NoUseKeyEvent": "No using/placing allowed",
+  "entropy.events.NoUseKeyEvent": "No interacting allowed",
   "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
 
   "entropy.title": "Entropy: Chaos Mod",
