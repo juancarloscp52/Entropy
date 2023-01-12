@@ -138,6 +138,7 @@
   "entropy.events.SpawnKillerBunnyEvent": "Conejos asesinos",
   "entropy.events.SpawnPetDogEvent": "Perro mascota",
   "entropy.events.SpawnPetCatEvent": "Gato mascota",
+  "entropy.events.HauntedChestsEvent": "Cofres encantados",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",

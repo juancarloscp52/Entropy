@@ -136,6 +136,7 @@
   "entropy.events.SpawnKillerBunnyEvent": "Spawne Killer-Kaninchen",
   "entropy.events.SpawnPetDogEvent": "Spawne gezähmten Hund",
   "entropy.events.SpawnPetCatEvent": "Spawne gezähmte Katze",
+  "entropy.events.HauntedChestsEvent": "Spukende Truhen",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",

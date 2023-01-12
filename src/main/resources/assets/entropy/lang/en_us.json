@@ -138,6 +138,7 @@
   "entropy.events.SpawnKillerBunnyEvent": "Spawn Killer Bunny",
   "entropy.events.SpawnPetDogEvent": "Spawn Tamed Dog",
   "entropy.events.SpawnPetCatEvent": "Spawn Tamed Cat",
+  "entropy.events.HauntedChestsEvent": "Haunted Chests",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

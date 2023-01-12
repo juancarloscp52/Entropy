@@ -172,6 +172,7 @@ public class EventRegistry {
         entropyEvents.put("SpawnKillerBunnyEvent", SpawnKillerBunnyEvent::new);
         entropyEvents.put("SpawnPetDogEvent", SpawnPetDogEvent::new);
         entropyEvents.put("SpawnPetCatEvent", SpawnPetCatEvent::new);
+        entropyEvents.put("HauntedChestsEvent", HauntedChestsEvent::new);
 
     }
 
