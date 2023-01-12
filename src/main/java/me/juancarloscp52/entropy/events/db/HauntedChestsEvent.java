@@ -20,7 +20,7 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
 
     @Override
     public void tickClient() {
-        super.tick();
+        super.tickClient();
 
         if(tickCount % 20 == 0) {
             PlayerEntity player = MinecraftClient.getInstance().player;
