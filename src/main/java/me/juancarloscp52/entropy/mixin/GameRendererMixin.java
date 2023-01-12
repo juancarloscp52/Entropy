@@ -23,8 +23,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.CameraSubmersionType;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -87,4 +90,9 @@ public class GameRendererMixin {
         EntropyClient.getInstance().renderShaders(tickDelta);
     }
 
+    @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;update(Lnet/minecraft/world/BlockView;Lnet/minecraft/entity/Entity;ZZF)V", shift = At.Shift.AFTER))
+    private void rollCamera(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
+        if(Variables.cameraRoll != 0f)
+            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(Variables.cameraRoll));
+    }
 }

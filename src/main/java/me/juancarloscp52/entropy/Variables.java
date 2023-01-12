@@ -52,4 +52,5 @@ public class Variables {
     public static boolean flipEntities = false;
     public static boolean forceSneak = false;
     public static boolean xrayActive = false;
+    public static float cameraRoll = 0f;
 }
