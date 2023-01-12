@@ -134,6 +134,7 @@
   "entropy.events.RandomCameraTiltEvent": "Tilted Camera",
   "entropy.events.NoAttackingEvent": "No Attacking Allowed",
   "entropy.events.ConstantAttackingEvent": "Constant Attacking",
+  "entropy.events.StutteringEvent": "Stuttering",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
