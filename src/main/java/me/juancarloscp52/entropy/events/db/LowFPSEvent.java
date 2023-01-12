@@ -38,7 +38,7 @@ public class LowFPSEvent extends AbstractTimedEvent {
     public void endClient() {
         this.hasEnded = true;
         client = MinecraftClient.getInstance();
-        this.client.options.getViewDistance().setValue(fps);
+        this.client.options.getMaxFps().setValue(fps);
     }
 
     @Override

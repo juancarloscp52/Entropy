@@ -131,6 +131,11 @@
   "entropy.events.XRayEvent": "Rayos X",
   "entropy.events.LagEvent": "Mala conexión",
   "entropy.events.LowFPSEvent": "FPS bajos",
+  "entropy.events.InfiniteLavaEvent": "Lava infinita",
+  "entropy.events.RandomCameraTiltEvent": "Cámara rotada",
+  "entropy.events.NoAttackingEvent": "Prohibido atacar",
+  "entropy.events.ConstantAttackingEvent": "Atacar constantemente",
+  "entropy.events.SpawnKillerBunnyEvent": "Conejos asesinos",
   "entropy.events.SpawnPetDogEvent": "Perro mascota",
   "entropy.events.SpawnPetCatEvent": "Gato mascota",
 
@@ -161,6 +166,7 @@
   "entropy.options.integrations.youtube.error.auth": "Fallo al autorizar",
 
   "entropy.options.disableEvents": "Desactivar eventos",
+  "entropy.options.search": "Buscar...",
   "entropy.options.eventDuration": "Duración base de eventos: %ds",
   "entropy.options.timerDuration": "Duración del contador: %ds",
   "entropy.options.questionMark": "?",
