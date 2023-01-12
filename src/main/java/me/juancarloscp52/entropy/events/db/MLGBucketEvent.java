@@ -23,7 +23,7 @@ public class MLGBucketEvent extends AbstractTimedEvent {
         super.tick();
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(this::doTickForPlayer);
 
-        if(tickCount % 20 == 0 )
+        if(tickCount % 20 == 0)
             removeAllPlacedWaterSources();
     }
 
@@ -31,6 +31,9 @@ public class MLGBucketEvent extends AbstractTimedEvent {
     public void tickClient() {
         super.tickClient();
         doTickForPlayer(MinecraftClient.getInstance().player);
+
+        if(tickCount % 20 == 0)
+            removeAllPlacedWaterSources();
     }
 
     @Override
