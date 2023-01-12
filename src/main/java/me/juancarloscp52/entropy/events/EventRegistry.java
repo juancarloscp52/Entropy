@@ -168,6 +168,7 @@ public class EventRegistry {
         entropyEvents.put("RandomCameraTiltEvent", RandomCameraTiltEvent::new);
         entropyEvents.put("NoAttackingEvent", NoAttackingEvent::new);
         entropyEvents.put("ConstantAttackingEvent", ConstantAttackingEvent::new);
+        entropyEvents.put("HauntedChestsEvent", HauntedChestsEvent::new);
 
     }
 
