@@ -133,6 +133,7 @@
   "entropy.events.RandomCameraTiltEvent": "Schräge Kamera",
   "entropy.events.NoAttackingEvent": "Attackieren nicht erlaubt",
   "entropy.events.ConstantAttackingEvent": "Andauerndes Attackieren",
+  "entropy.events.SpawnKillerBunnyEvent": "Spawne Killer-Kaninchen",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",
