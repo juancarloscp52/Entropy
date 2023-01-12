@@ -139,6 +139,8 @@
   "entropy.events.SpawnPetDogEvent": "Perro mascota",
   "entropy.events.SpawnPetCatEvent": "Gato mascota",
   "entropy.events.HauntedChestsEvent": "Cofres encantados",
+  "entropy.events.NoUseKeyEvent": "Prohibido interactuar",
+  "entropy.events.ConstantInteractingEvent": "¡No puedo dejar de interactuar!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",

@@ -137,6 +137,8 @@
   "entropy.events.SpawnPetDogEvent": "Spawne gezähmten Hund",
   "entropy.events.SpawnPetCatEvent": "Spawne gezähmte Katze",
   "entropy.events.HauntedChestsEvent": "Spukende Truhen",
+  "entropy.events.NoUseKeyEvent": "Keine Interaktionen erlaubt",
+  "entropy.events.ConstantInteractingEvent": "Ich kann nicht aufhören zu interagieren!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",

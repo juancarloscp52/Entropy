@@ -116,6 +116,8 @@
   "entropy.events.SpawnPetDogEvent": "Spawn tamed dog",
   "entropy.events.SpawnPetCatEvent": "Spawn tamed cat",
   "entropy.events.HauntedChestsEvent": "Haunted Chests",
+  "entropy.events.NoUseKeyEvent": "No interacting allowed",
+  "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
