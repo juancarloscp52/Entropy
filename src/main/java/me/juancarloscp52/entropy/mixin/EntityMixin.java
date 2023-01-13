@@ -29,6 +29,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
@@ -38,6 +39,9 @@ public abstract class EntityMixin {
     public World world;
 
     @Shadow
+    private Entity vehicle;
+
+    @Shadow
     public abstract double getX();
 
     @Shadow
@@ -45,6 +49,18 @@ public abstract class EntityMixin {
 
     @Shadow
     public abstract double getZ();
+
+    @Inject(method = "Lnet/minecraft/entity/Entity;startRiding(Lnet/minecraft/entity/Entity;Z)Z", at = @At("HEAD"), cancellable = true)
+    private void preventMounting(Entity entityToMount, boolean force, CallbackInfoReturnable<Boolean> cir) {
+        if(Variables.forceRiding && vehicle != null)
+            cir.setReturnValue(false);
+    }
+
+    @Inject(method = "dismountVehicle", at = @At("HEAD"), cancellable = true)
+    private void preventDismounting(CallbackInfo ci) {
+        if(Variables.forceRiding)
+            ci.cancel();
+    }
 
     @Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
     private void randomDrops(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir) {

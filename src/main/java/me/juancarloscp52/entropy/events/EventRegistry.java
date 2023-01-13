@@ -175,6 +175,7 @@ public class EventRegistry {
         entropyEvents.put("HauntedChestsEvent", HauntedChestsEvent::new);
         entropyEvents.put("NoUseKeyEvent", NoUseKeyEvent::new);
         entropyEvents.put("ConstantInteractingEvent", ConstantInteractingEvent::new);
+        entropyEvents.put("ForceHorseRidingEvent", ForceHorseRidingEvent::new);
 
     }
 
