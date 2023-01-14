@@ -19,9 +19,13 @@ jobs:
         uses: SiskSjet/fabric-test-runner@v1
         with:
           minecraftVersion: 1.19.3
-
+      - name: Extract current branch name
+        shell: bash
+        # bash pattern expansion to grab branch name without slashes
+        run: ref="${GITHUB_REF#refs/heads/}" && echo "::set-output name=branch::${ref////-}"
+        id: ref
       - name: "Upload Artifact"
         uses: actions/upload-artifact@v1
         with:
-          name: Builds
-          path: build/libs
+          name: entropy-artifacts-${{ steps.ref.outputs.branch }}
+          path: build/libs/*[0-9].jar
