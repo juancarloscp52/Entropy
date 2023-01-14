@@ -7,6 +7,8 @@ import java.util.Map;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
@@ -28,6 +30,7 @@ public class MLGBucketEvent extends AbstractTimedEvent {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void tickClient() {
         super.tickClient();
         doTickForPlayer(MinecraftClient.getInstance().player);
