@@ -3,6 +3,12 @@ name: Fabric Test Runner
 on: [push, pull_request]
 
 jobs:
+  validation:
+    name: "Validation"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: gradle/wrapper-validation-action@v1
   build:
     strategy:
       fail-fast: false
