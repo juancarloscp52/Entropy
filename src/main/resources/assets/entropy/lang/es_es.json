@@ -141,6 +141,7 @@
   "entropy.events.HauntedChestsEvent": "Cofres encantados",
   "entropy.events.NoUseKeyEvent": "Prohibido interactuar",
   "entropy.events.ConstantInteractingEvent": "¡No puedo dejar de interactuar!",
+  "entropy.events.JumpscareEvent": "Susto!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
