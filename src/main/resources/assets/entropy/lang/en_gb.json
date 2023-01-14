@@ -118,6 +118,7 @@
   "entropy.events.HauntedChestsEvent": "Haunted Chests",
   "entropy.events.NoUseKeyEvent": "No interacting allowed",
   "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
+  "entropy.events.JumpscareEvent": "Jumpscare",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

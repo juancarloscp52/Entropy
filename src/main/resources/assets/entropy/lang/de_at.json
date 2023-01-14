@@ -139,6 +139,7 @@
   "entropy.events.HauntedChestsEvent": "Spukende Truhen",
   "entropy.events.NoUseKeyEvent": "Keine Interaktionen erlaubt",
   "entropy.events.ConstantInteractingEvent": "Ich kann nicht aufhören zu interagieren!",
+  "entropy.events.JumpscareEvent": "Jumpscare",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",
