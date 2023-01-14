@@ -54,4 +54,5 @@ public class Variables {
     public static boolean xrayActive = false;
     public static float cameraRoll = 0f;
     public static boolean stuttering = false;
+    public static boolean forceRiding = false;
 }

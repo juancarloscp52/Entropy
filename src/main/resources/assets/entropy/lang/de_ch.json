@@ -141,6 +141,7 @@
   "entropy.events.ConstantInteractingEvent": "Ich kann nicht aufhören zu interagieren!",
   "entropy.events.MLGBucketEvent": "MLG-Wassereimer",
   "entropy.events.StutteringEvent": "Gestotter",
+  "entropy.events.ForceHorseRidingEvent": "Es ist Zeit zum Pferdereiten!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Fehler",

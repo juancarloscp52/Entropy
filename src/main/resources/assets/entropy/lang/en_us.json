@@ -143,6 +143,7 @@
   "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
   "entropy.events.MLGBucketEvent": "MLG Water Bucket",
   "entropy.events.StutteringEvent": "Stuttering",
+  "entropy.events.ForceHorseRidingEvent": "It's Horse Riding Time!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
