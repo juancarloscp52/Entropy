@@ -121,6 +121,7 @@
   "entropy.events.MLGBucketEvent": "MLG water bucket",
   "entropy.events.StutteringEvent": "Stuttering",
   "entropy.events.ForceHorseRidingEvent": "It's horse riding time!",
+  "entropy.events.JumpscareEvent": "Jumpscare",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

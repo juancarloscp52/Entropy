@@ -178,6 +178,7 @@ public class EventRegistry {
         entropyEvents.put("MLGBucketEvent", MLGBucketEvent::new);
         entropyEvents.put("StutteringEvent", StutteringEvent::new);
         entropyEvents.put("ForceHorseRidingEvent", ForceHorseRidingEvent::new);
+        entropyEvents.put("JumpscareEvent", JumpscareEvent::new);
 
     }
 
