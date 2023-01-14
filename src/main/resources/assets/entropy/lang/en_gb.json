@@ -119,6 +119,7 @@
   "entropy.events.NoUseKeyEvent": "No interacting allowed",
   "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
   "entropy.events.MLGBucketEvent": "MLG water bucket",
+  "entropy.events.StutteringEvent": "Stuttering",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

@@ -176,6 +176,7 @@ public class EventRegistry {
         entropyEvents.put("NoUseKeyEvent", NoUseKeyEvent::new);
         entropyEvents.put("ConstantInteractingEvent", ConstantInteractingEvent::new);
         entropyEvents.put("MLGBucketEvent", MLGBucketEvent::new);
+        entropyEvents.put("StutteringEvent", StutteringEvent::new);
 
     }
 
