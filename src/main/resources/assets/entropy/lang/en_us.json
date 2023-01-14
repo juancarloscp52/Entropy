@@ -141,6 +141,9 @@
   "entropy.events.HauntedChestsEvent": "Haunted Chests",
   "entropy.events.NoUseKeyEvent": "No Interacting Allowed",
   "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
+  "entropy.events.MLGBucketEvent": "MLG Water Bucket",
+  "entropy.events.StutteringEvent": "Stuttering",
+  "entropy.events.ForceHorseRidingEvent": "It's Horse Riding Time!",
   "entropy.events.JumpscareEvent": "Jumpscare",
 
   "entropy.title": "Entropy: Chaos Mod",

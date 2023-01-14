@@ -139,6 +139,9 @@
   "entropy.events.HauntedChestsEvent": "Spukende Truhen",
   "entropy.events.NoUseKeyEvent": "Keine Interaktionen erlaubt",
   "entropy.events.ConstantInteractingEvent": "Ich kann nicht aufhören zu interagieren!",
+  "entropy.events.MLGBucketEvent": "MLG-Wassereimer",
+  "entropy.events.StutteringEvent": "Gestotter",
+  "entropy.events.ForceHorseRidingEvent": "Es ist Zeit zum Pferdereiten!",
   "entropy.events.JumpscareEvent": "Jumpscare",
 
   "entropy.title": "Entropy: Chaos Mod",
