@@ -141,6 +141,7 @@
   "entropy.events.HauntedChestsEvent": "Haunted Chests",
   "entropy.events.NoUseKeyEvent": "No Interacting Allowed",
   "entropy.events.ConstantInteractingEvent": "I can't stop interacting!",
+  "entropy.events.MLGBucketEvent": "MLG Water Bucket",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
