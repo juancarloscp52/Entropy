@@ -16,7 +16,7 @@ jobs:
         with:
           java-version: 17
       - name: "Run Fabric Tests"
-        uses: Geometrically/fabric-test-runner@v1
+        uses: SiskSjet/fabric-test-runner@v1
         with:
           minecraftVersion: 1.19.3
 
