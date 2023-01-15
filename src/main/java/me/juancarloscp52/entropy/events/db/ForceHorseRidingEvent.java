@@ -27,6 +27,7 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
             spawnedHorses.add(EntityType.HORSE.spawn(player.getWorld(), null, horse -> {
                 horse.bondWithPlayer(player);
                 horse.saddle(SoundCategory.NEUTRAL);
+                horse.setInvulnerable(true);
                 player.startRiding(horse);
             }, player.getBlockPos(), SpawnReason.SPAWN_EGG, false, false));
         });
