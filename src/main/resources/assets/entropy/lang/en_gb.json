@@ -122,6 +122,7 @@
   "entropy.events.StutteringEvent": "Stuttering",
   "entropy.events.ForceHorseRidingEvent": "It's horse riding time!",
   "entropy.events.JumpscareEvent": "Jumpscare",
+  "entropy.events.FlingPlayerEvent": "Fling player",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

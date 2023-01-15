@@ -145,6 +145,7 @@
   "entropy.events.StutteringEvent": "Gestotter",
   "entropy.events.ForceHorseRidingEvent": "Es ist Zeit zum Pferdereiten!",
   "entropy.events.JumpscareEvent": "Jumpscare",
+  "entropy.events.FlingPlayerEvent": "Spieler wegschleudern",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy-Fehler",
