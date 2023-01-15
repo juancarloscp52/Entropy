@@ -179,6 +179,7 @@ public class EventRegistry {
         entropyEvents.put("StutteringEvent", StutteringEvent::new);
         entropyEvents.put("ForceHorseRidingEvent", ForceHorseRidingEvent::new);
         entropyEvents.put("JumpscareEvent", JumpscareEvent::new);
+        entropyEvents.put("RollingCameraEvent", RollingCameraEvent::new);
 
     }
 
