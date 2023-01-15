@@ -23,7 +23,6 @@ import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 
 public class ExplodeNearbyEntitiesEvent extends AbstractInstantEvent {
 
