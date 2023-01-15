@@ -5,6 +5,8 @@ import java.util.List;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -19,6 +21,7 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
     private List<ChestBlockEntity> openedChests = new ArrayList<>();
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void tickClient() {
         super.tickClient();
 
@@ -61,6 +64,7 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
     }
 
     @Override
+    @Environment(EnvType.CLIENT)
     public void endClient() {
         super.endClient();
         PlayerEntity player = MinecraftClient.getInstance().player;
