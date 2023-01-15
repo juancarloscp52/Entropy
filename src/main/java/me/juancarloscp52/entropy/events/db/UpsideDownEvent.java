@@ -26,12 +26,13 @@ public class UpsideDownEvent extends AbstractTimedEvent {
 
     @Override
     public void initClient() {
+        Variables.cameraRoll = 180;
         Variables.invertedFov = true;
     }
 
     @Override
     public void endClient() {
-        Variables.invertedFov = false;
+        Variables.cameraRoll = 0;
         this.hasEnded = true;
     }
 
@@ -51,6 +52,6 @@ public class UpsideDownEvent extends AbstractTimedEvent {
 
     @Override
     public String type() {
-        return "fov";
+        return "camera";
     }
 }

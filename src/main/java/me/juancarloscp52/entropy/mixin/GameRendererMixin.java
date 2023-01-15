@@ -49,16 +49,13 @@ public class GameRendererMixin {
 
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
     public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
-        if (Variables.invertedFov) {
-            cir.setReturnValue(updateFov(camera, tickDelta, changingFov, -client.options.getFov().getValue()));
-        } else if (Variables.forcedFov) {
+        if (Variables.forcedFov) {
             if (Variables.ignoreVariableFov) {
                 cir.setReturnValue((double) Variables.fov);
             } else {
                 cir.setReturnValue(updateFov(camera, tickDelta, changingFov, Variables.fov));
             }
         }
-
     }
     private double updateFov(Camera camera, float tickDelta, boolean changingFov, double fovValue) {
         {
