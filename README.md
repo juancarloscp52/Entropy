@@ -1,5 +1,5 @@
 # Entropy: Chaos Mod
-Entropy is a Chaos Mod where random events happen every 30 seconds. The events are selected randomly from a pool of 111 (and growing) events that can be anything from meteor rain, physics changes and much more.
+Entropy is a Chaos Mod where random events happen every 30 seconds. The events are selected randomly from a pool of near 150 (and growing) events that can be anything from meteor rain, physics changes and much more.
 
 Event and timer duration can be configured from the Settings menu!
 
@@ -28,11 +28,11 @@ Click Image to watch the videos.
 
 ## ScreenShots:
 
-![Demo 1 - Twitch Chat Integration](https://github.com/juancarloscp52/Entropy/blob/master/readme-images/img4.png)
-![Demo 2 - Blur](https://github.com/juancarloscp52/Entropy/blob/master/readme-images/img1.png)
-![Demo 3 - Upside Down](https://github.com/juancarloscp52/Entropy/blob/master/readme-images/img2.png)
-![Demo 4 - Meteor Rain](https://github.com/juancarloscp52/Entropy/blob/master/readme-images/img3.png)
-![Demo 5 - Settings](https://github.com/juancarloscp52/Entropy/blob/master/readme-images/img5.png)
+![Demo 1 - Twitch Chat Integration](https://github.com/juancarloscp52/Entropy/blob/1.19.3/readme-images/img4.png)
+![Demo 2 - Blur](https://github.com/juancarloscp52/Entropy/blob/1.19.3/readme-images/img1.png)
+![Demo 3 - Upside Down](https://github.com/juancarloscp52/Entropy/blob/1.19.3/readme-images/img2.png)
+![Demo 4 - Meteor Rain](https://github.com/juancarloscp52/Entropy/blob/1.19.3/readme-images/img3.png)
+![Demo 5 - Settings](https://github.com/juancarloscp52/Entropy/blob/1.19.3/readme-images/img5.png)
 
 ## Installation:
 This mod requires [Fabric](https://fabricmc.net/use/) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api). You can download Entropy from the _[Releases](https://github.com/juancarloscp52/Entropy/releases)_ tab in GitHub or through the CurseForge page.
@@ -60,4 +60,4 @@ Copyright (C) 2022 juancarloscp52 and the Entropy contributors
 Entropy is released under [GPL-3.0-or-later],
 a free software and Open Source license.
 
-[GPL-3.0-or-later]: COPYING "SPDX-License-Identifier: GPL-3.0-or-later"
+[GPL-3.0-or-later]: LICENSE "SPDX-License-Identifier: GPL-3.0-or-later"
