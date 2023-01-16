@@ -14,7 +14,7 @@ public class FlingPlayerEvent extends AbstractInstantEvent {
         ClientPlayerEntity player = MinecraftClient.getInstance().player;
         Random random = player.getRandom();
 
-        player.setVelocity(random.nextInt(10) + random.nextDouble(), random.nextInt(3) + random.nextDouble(), random.nextInt(10) + random.nextDouble());
+        player.setVelocity(random.nextBetween(-10, 9) + random.nextDouble(), random.nextInt(3) + random.nextDouble(), random.nextBetween(-10, 9) + random.nextDouble());
     }
 
     @Override
