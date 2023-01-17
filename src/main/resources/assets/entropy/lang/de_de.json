@@ -146,7 +146,7 @@
   "entropy.events.ForceHorseRidingEvent": "Es ist Zeit zum Pferdereiten!",
   "entropy.events.JumpscareEvent": "Jumpscare",
   "entropy.events.RollingCameraEvent": "Rollende Kamera",
-  "entropy.events.FlingPlayerEvent": "Spieler wegschleudern",
+  "entropy.events.FlingEntitiesEvent": "Alle Entitäten wegschleudern",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy-Fehler",
