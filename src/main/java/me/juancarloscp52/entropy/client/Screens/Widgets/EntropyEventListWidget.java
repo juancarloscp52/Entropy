@@ -39,6 +39,7 @@ import net.minecraft.util.math.MathHelper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWidget.ButtonEntry> {
     public final List<ButtonEntry> visibleEntries = new ArrayList<>();
@@ -133,6 +134,29 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         }
     }
 
+    public void updateVisibleEntries(String searchText, FilterMode filterMode) {
+        String lowerCasedNewText = searchText.toLowerCase(Locale.ROOT);
+        visibleEntries.clear();
+
+        if (searchText.isBlank())
+            children().stream().forEach(buttonEntry -> {
+                buttonEntry.button.visible = filterMode.allowsVisibility(buttonEntry);
+
+                if(buttonEntry.button.visible)
+                    visibleEntries.add(buttonEntry);
+            });
+        else {
+            children().stream().forEach(buttonEntry -> {
+                buttonEntry.button.visible = filterMode.allowsVisibility(buttonEntry) && (buttonEntry.eventName.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventID.toLowerCase(Locale.ROOT).contains(lowerCasedNewText));
+
+                if(buttonEntry.button.visible)
+                    visibleEntries.add(buttonEntry);
+            });
+        }
+
+        setScrollAmount(0.0D);
+    }
+
     @Environment(EnvType.CLIENT)
     public static class ButtonEntry extends ElementListWidget.Entry<EntropyEventListWidget.ButtonEntry> {
         public final CheckboxWidget button;
@@ -170,6 +194,22 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         @Override
         public List<? extends Selectable> selectableChildren() {
             return ImmutableList.of(button);
+        }
+    }
+
+    public static enum FilterMode {
+        ALL("entropy.options.all"),
+        ENABLED("entropy.options.enabled"),
+        DISABLED("entropy.options.disabled");
+
+        public final Text text;
+
+        private FilterMode(String text) {
+            this.text = Text.translatable(text);
+        }
+
+        public boolean allowsVisibility(ButtonEntry buttonEntry) {
+            return this == ALL || this == ENABLED && buttonEntry.button.isChecked() || this == DISABLED && !buttonEntry.button.isChecked();
         }
     }
 

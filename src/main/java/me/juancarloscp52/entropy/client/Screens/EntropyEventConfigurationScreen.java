@@ -22,9 +22,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget;
+import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget.FilterMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -33,7 +35,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class EntropyEventConfigurationScreen extends Screen {
     private static final Identifier LOGO = new Identifier("entropy", "textures/logo-with-text.png");
@@ -42,6 +43,8 @@ public class EntropyEventConfigurationScreen extends Screen {
     EntropyEventListWidget list;
 
     Screen parent;
+
+    CyclingButtonWidget<EntropyEventListWidget.FilterMode> filterEvents;
 
     public EntropyEventConfigurationScreen(Screen parent) {
         super(Text.translatable("entropy.options.disableEvents"));
@@ -65,28 +68,18 @@ public class EntropyEventConfigurationScreen extends Screen {
 
         // Search box
         Text searchText = Text.translatable("entropy.options.search");
-        TextFieldWidget search = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, this.width / 2 - 100, 29, 200, 20, searchText);
+        TextFieldWidget search = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, this.width / 2 - 170, 29, 200, 20, searchText);
         search.setPlaceholder(searchText);
-        search.setChangedListener(newText -> {
-            String lowerCasedNewText = newText.toLowerCase(Locale.ROOT);
-            list.visibleEntries.clear();
-
-            if (newText.isBlank())
-                list.children().stream().forEach(buttonEntry -> {
-                    buttonEntry.button.visible = true;
-                    list.visibleEntries.add(buttonEntry);
-                });
-            else {
-                list.children().stream().forEach(buttonEntry -> {
-                    buttonEntry.button.visible = buttonEntry.eventName.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventID.toLowerCase(Locale.ROOT).contains(lowerCasedNewText);
-
-                    if(buttonEntry.button.visible)
-                        list.visibleEntries.add(buttonEntry);
-                });
-                list.setScrollAmount(0.0D);
-            }
-        });
+        setInitialFocus(search);
+        search.setChangedListener(newText -> list.updateVisibleEntries(newText, filterEvents.getValue()));
         this.addDrawableChild(search);
+
+        // Filter events button
+        filterEvents = CyclingButtonWidget.<EntropyEventListWidget.FilterMode>builder(mode -> mode.text)
+                .initially(FilterMode.ALL)
+                .values(FilterMode.values())
+                .build(this.width / 2 + 40, 29, 120, 20, Text.translatable("entropy.options.filterEvents"), (button, newValue) -> list.updateVisibleEntries(search.getText(), newValue));
+        this.addDrawableChild(filterEvents);
     }
 
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {

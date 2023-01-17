@@ -186,6 +186,10 @@
   "entropy.options.integrations.showPollStatus": "Umfragestatus auf dem Bildschirm anzeigen",
   "entropy.options.checkAllEvents": "Alle Aktivieren",
   "entropy.options.uncheckAllEvents": "Alle Deaktivieren",
+  "entropy.options.filterEvents": "Ereignisse filtern",
+  "entropy.options.all": "Alle",
+  "entropy.options.enabled": "Aktiviert",
+  "entropy.options.disabled": "Deaktiviert",
   "entropy.options.ui": "Runterzählen-Stil: %s",
   "entropy.options.ui.GTAV": "Chaos Mod",
   "entropy.options.ui.MINECRAFT": "Minecraft"
