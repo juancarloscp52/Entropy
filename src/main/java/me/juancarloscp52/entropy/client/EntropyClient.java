@@ -59,6 +59,7 @@ public class EntropyClient implements ClientModInitializer {
     private PostEffectProcessor shader_wobble;
     private PostEffectProcessor shader_invertedColor;
     private PostEffectProcessor shader_monitor;
+    private PostEffectProcessor shader_black_and_white;
     public static EntropyClient getInstance() {
         return instance;
     }
@@ -206,7 +207,15 @@ public class EntropyClient implements ClientModInitializer {
         }
     }
 
-
+    public void renderBlackAndWhite(float tickDelta) {
+        if (Variables.blackAndWhite) {
+            if(shader_black_and_white==null){
+                shader_black_and_white=ShaderManager.register(new Identifier("entropy", "shaders/post/black_and_white.json"));
+            }
+            assert shader_black_and_white != null : "Black & White shader is null";
+            ShaderManager.render(shader_black_and_white,tickDelta);
+        }
+    }
 
     public void loadSettings() {
         File file = new File("./config/entropy/entropyIntegrationSettings.json");

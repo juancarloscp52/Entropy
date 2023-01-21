@@ -147,6 +147,7 @@
   "entropy.events.JumpscareEvent": "Susto!",
   "entropy.events.RollingCameraEvent": "La cámara da vueltas",
   "entropy.events.FlingEntitiesEvent": "Lanzar todas las entidades",
+  "entropy.events.BlackAndWhiteEvent": "Los 50s",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",

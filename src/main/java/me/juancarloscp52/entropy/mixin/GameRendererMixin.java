@@ -87,6 +87,11 @@ public class GameRendererMixin {
         EntropyClient.getInstance().renderShaders(tickDelta);
     }
 
+    @Inject(method = "render", at = @At(value = "TAIL"))
+    public void renderBlackWhiteShader(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
+        EntropyClient.getInstance().renderBlackAndWhite(tickDelta);
+    }
+
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;update(Lnet/minecraft/world/BlockView;Lnet/minecraft/entity/Entity;ZZF)V", shift = At.Shift.AFTER))
     private void rollCamera(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
         if(Variables.cameraRoll != 0f)
