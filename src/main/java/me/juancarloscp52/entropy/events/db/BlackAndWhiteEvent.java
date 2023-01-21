@@ -27,6 +27,6 @@ public class BlackAndWhiteEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
+        return (short) (Entropy.getInstance().settings.baseEventDuration*1.5);
     }
 }
