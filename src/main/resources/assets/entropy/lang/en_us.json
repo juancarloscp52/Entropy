@@ -189,6 +189,10 @@
   "entropy.options.integrations.showPollStatus": "Show poll status on screen",
   "entropy.options.checkAllEvents": "Enable All",
   "entropy.options.uncheckAllEvents": "Disable All",
+  "entropy.options.filterEvents": "Filter Events",
+  "entropy.options.all": "All",
+  "entropy.options.enabled": "Enabled",
+  "entropy.options.disabled": "Disabled",
   "entropy.options.ui": "Countdown Style: %s",
   "entropy.options.ui.GTAV": "Chaos Mod",
   "entropy.options.ui.MINECRAFT": "Minecraft"

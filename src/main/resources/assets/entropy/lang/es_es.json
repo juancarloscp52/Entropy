@@ -187,5 +187,9 @@
   "entropy.options.integrations.showPollStatus": "Mostrar estado de la encuesta en pantalla",
   "entropy.options.checkAllEvents": "Seleccionar todos",
   "entropy.options.uncheckAllEvents": "Deseleccionar todos",
+  "entropy.options.filterEvents": "Filtrar eventos",
+  "entropy.options.all": "Todos",
+  "entropy.options.enabled": "Activos",
+  "entropy.options.disabled": "Inactivos",
   "entropy.options.ui": "Estilo: %s"
 }
