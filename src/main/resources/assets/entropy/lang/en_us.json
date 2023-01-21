@@ -146,6 +146,7 @@
   "entropy.events.ForceHorseRidingEvent": "It's Horse Riding Time!",
   "entropy.events.JumpscareEvent": "Jumpscare",
   "entropy.events.RollingCameraEvent": "Rolling Camera",
+  "entropy.events.FlingEntitiesEvent": "Fling All Entities",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

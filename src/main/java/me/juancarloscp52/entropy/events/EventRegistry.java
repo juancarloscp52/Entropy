@@ -180,6 +180,7 @@ public class EventRegistry {
         entropyEvents.put("ForceHorseRidingEvent", ForceHorseRidingEvent::new);
         entropyEvents.put("JumpscareEvent", JumpscareEvent::new);
         entropyEvents.put("RollingCameraEvent", RollingCameraEvent::new);
+        entropyEvents.put("FlingEntitiesEvent", FlingEntitiesEvent::new);
 
     }
 
