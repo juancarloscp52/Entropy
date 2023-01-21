@@ -146,6 +146,8 @@
   "entropy.events.ForceHorseRidingEvent": "¡Hora de montar a caballo!",
   "entropy.events.JumpscareEvent": "Susto!",
   "entropy.events.RollingCameraEvent": "La cámara da vueltas",
+  "entropy.events.FlingEntitiesEvent": "Lanzar todas las entidades",
+  "entropy.events.BlackAndWhiteEvent": "Los 50s",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy error",
@@ -185,5 +187,9 @@
   "entropy.options.integrations.showPollStatus": "Mostrar estado de la encuesta en pantalla",
   "entropy.options.checkAllEvents": "Seleccionar todos",
   "entropy.options.uncheckAllEvents": "Deseleccionar todos",
+  "entropy.options.filterEvents": "Filtrar eventos",
+  "entropy.options.all": "Todos",
+  "entropy.options.enabled": "Activos",
+  "entropy.options.disabled": "Inactivos",
   "entropy.options.ui": "Estilo: %s"
 }
