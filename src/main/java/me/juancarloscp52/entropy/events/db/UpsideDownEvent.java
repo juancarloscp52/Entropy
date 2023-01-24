@@ -54,4 +54,9 @@ public class UpsideDownEvent extends AbstractTimedEvent {
     public String type() {
         return "camera";
     }
+
+    @Override
+    public boolean isDisabledByAccessibilitySetting() {
+        return true;
+    }
 }

@@ -182,6 +182,8 @@
   "entropy.options.timerDuration": "Timer Duration: %ds",
   "entropy.options.questionMark": "?",
   "entropy.options.votingMode": "Voting Mode: %s",
+  "entropy.options.accessibilityMode": "Entropy Accessibility Mode",
+  "entropy.options.accessibilityMode.explanation": "Accessibility mode automatically disables some events containing flashing, jittery, or potentially nauseating images. If a server tries to run such an event while you have accessibility mode active, it will be displayed crossed out and not run at all.",
   "entropy.options.integrations.twitch.sendChatFeedBack": "Show Current Event Poll on Twitch Chat",
   "entropy.options.integrations.twitch.help": "Twitch Integrations enables the chat to vote what will be the next event during streams. Chat will be able to vote writing numbers in chat that correspond to an event. The different available events for the poll will be shown on screen with their corresponding number. In order to use this feature, the streamer needs to provide the OAuth token with chat login access permission and the Twitch channel name.",
   "entropy.options.integrations.discord.help": "Discord Integrations enables users of a server to vote what will be the next event. A message will appear on the selected channel with the different available options and users can vote by reacting to the message with the given numbers. To enable discord integration, you need to create a Discord bot, join it to your server and copy the bot token here. Also, you must write here the Channel ID (its a number). Alternatively, once the discord bot has joined the server and a minecraft world with entropy is open, you can write \"!entropy join\" on the discord server channel.",

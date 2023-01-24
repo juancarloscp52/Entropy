@@ -209,11 +209,23 @@ public class EventRegistry {
         if(eventKeys.size()>ignoreEventsByType.size())
             eventKeys.removeAll(ignoreEventsByType);
 
-        if(eventKeys.size() == 0) return null;
+        return getRandomEvent(eventKeys);
+    }
+
+    private static Event getRandomEvent(List<String> eventKeys) {
+        if(eventKeys.isEmpty())
+            return null;
 
         int index = random.nextInt(eventKeys.size());
         String newEventName = eventKeys.get(index);
-        return entropyEvents.get(newEventName).get();
+        Event event = entropyEvents.get(newEventName).get();
+
+        if(Entropy.getInstance().settings.accessibilityMode && event.isDisabledByAccessibilitySetting()) {
+            eventKeys.remove(index);
+            return getRandomEvent(eventKeys);
+        }
+
+        return event;
     }
 
     public static Event get(String eventName) {

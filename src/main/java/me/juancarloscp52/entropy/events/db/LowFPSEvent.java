@@ -59,4 +59,9 @@ public class LowFPSEvent extends AbstractTimedEvent {
     public String type() {
         return "fps";
     }
+
+    @Override
+    public boolean isDisabledByAccessibilitySetting() {
+        return true;
+    }
 }

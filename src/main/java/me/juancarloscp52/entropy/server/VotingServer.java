@@ -128,10 +128,7 @@ public class VotingServer {
         for (int i = 0; i < size; i++) {
             Event newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
             if(newEvent != null)
-            {
                 newEvents.add(newEvent);
-                currentEvents.add(newEvent);
-            }
         }
         return newEvents;
     }

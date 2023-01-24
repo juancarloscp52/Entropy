@@ -24,4 +24,9 @@ public class StutteringEvent extends AbstractTimedEvent {
     public short getDuration() {
         return Entropy.getInstance().settings.baseEventDuration;
     }
+
+    @Override
+    public boolean isDisabledByAccessibilitySetting() {
+        return true;
+    }
 }
