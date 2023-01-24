@@ -150,6 +150,7 @@
   "entropy.events.BlackAndWhiteEvent": "1950er",
 
   "entropy.title": "Entropy: Chaos Mod",
+  "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",
   "entropy.errorScreen.title": "Entropy-Fehler",
   "entropy.voting.total": "Stimmen insgesamt: %d",
   "entropy.voting.randomEvent": "Zufälliges Ereignis",
