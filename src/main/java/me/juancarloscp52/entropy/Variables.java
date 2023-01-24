@@ -56,4 +56,5 @@ public class Variables {
     public static boolean stuttering = false;
     public static boolean forceRiding = false;
     public static boolean blackAndWhite = false;
+    public static boolean fireEvent = false;
 }

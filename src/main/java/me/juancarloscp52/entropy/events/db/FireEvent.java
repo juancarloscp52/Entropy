@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
@@ -29,12 +30,13 @@ import net.minecraft.util.math.BlockPos;
 public class FireEvent extends AbstractTimedEvent {
 
     @Override
-    public void init() {
-
+    public void initClient() {
+        Variables.fireEvent = true;
     }
 
     @Override
-    public void end() {
+    public void endClient() {
+        Variables.fireEvent = false;
         this.hasEnded = true;
     }
 

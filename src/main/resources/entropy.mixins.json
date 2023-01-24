@@ -19,6 +19,7 @@
     "ClientWorldMixin",
     "EntryListWidgetAccessor",
     "GameRendererMixin",
+    "InGameOverlayRendererMixin",
     "KeyboardInputMixin",
     "LivingEntityRendererMixin",
     "MathHelperMixin",
