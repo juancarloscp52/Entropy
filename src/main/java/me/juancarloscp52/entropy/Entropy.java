@@ -131,6 +131,14 @@ public class Entropy implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>literal("entropy")
                     .requires(source -> source.hasPermissionLevel(3))
+                    .then(CommandManager.literal("clearPastEvents")
+                            .executes(source -> {
+                                ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
+
+                                eventHandler.currentEvents.removeIf(event -> event.hasEnded());
+                                PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, NetworkingConstants.REMOVE_ENDED, PacketByteBufs.create()));
+                                return 0;
+                            }))
                     .then(CommandManager.literal("run")
                             .then(CommandManager.argument("event", StringArgumentType.word())
                                     .suggests((context, builder) -> CommandSource.suggestMatching(EventRegistry.entropyEvents.keySet(), builder))
