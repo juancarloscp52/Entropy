@@ -51,7 +51,7 @@ public class GameRendererMixin {
     public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
         if (Variables.forcedFov) {
             if (Variables.ignoreVariableFov) {
-                cir.setReturnValue((double) Variables.fov);
+                cir.setReturnValue((double) Variables.fov * MathHelper.lerp(client.options.getFovEffectScale().getValue(), Variables.fov, 1.0D));
             } else {
                 cir.setReturnValue(updateFov(camera, tickDelta, changingFov, Variables.fov));
             }
