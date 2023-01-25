@@ -148,6 +148,7 @@
   "entropy.events.RollingCameraEvent": "Rollende Kamera",
   "entropy.events.FlingEntitiesEvent": "Alle Entitäten wegschleudern",
   "entropy.events.BlackAndWhiteEvent": "1950er",
+  "entropy.events.CreativeFlightEvent": "Zeit zum Fliegen!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy-Fehler",
