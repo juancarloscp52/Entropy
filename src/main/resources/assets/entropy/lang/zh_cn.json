@@ -178,7 +178,7 @@
   "entropy.options.eventDuration": "事件基础时长: %ds",
   "entropy.options.timerDuration": "计时器时长: %ds",
   "entropy.options.questionMark": "?",
-  "entropy.options.votingMode": "投票模式: %s",
+  "entropy.options.votingMode": "投票模式",
   "entropy.options.integrations.twitch.sendChatFeedBack": "在 Twitch 聊天中显示投票反馈",
   "entropy.options.integrations.twitch.help": "Twitch 集成功能使观众能够在直播时投票决定下一个事件是什么. 观众可以在聊天中投票, 写下与事件相对应的数字. 投票的不同可用事件将在屏幕上显示其对应的数字. 为了使用这一功能, 主播需要提供带有聊天登录访问权限的 OAuth 令牌和 Twitch 频道名称.",
   "entropy.options.integrations.discord.help": "Discord 集成使 Discord 服务器的用户可以投票决定下一个事件. 一条消息将出现在选定的频道上, 其中有不同的可用选项, 用户可以通过对消息的反应和给出的数字进行投票. 要启用 Discord 集成, 你需要创建一个 Discord 机器人, 将其加入你的服务器, 并复制机器人令牌到这里. 此外, 你必须在这里写下频道 ID (它是一个数字). 或者, 一旦 Discord 机器人加入了服务器, 并且有 Entropy 的 Minecraft世界被打开, 你可以在 Discord 服务器频道上写下 \"!entropy join\".",
@@ -186,7 +186,7 @@
   "entropy.options.integrations.showPollStatus": "在屏幕上显示投票状态",
   "entropy.options.checkAllEvents": "启用全部",
   "entropy.options.uncheckAllEvents": "禁用全部",
-  "entropy.options.ui": "冷却条风格: %s",
-  "entropy.options.ui.GTAV": "Chaos 模组",
-  "entropy.options.ui.MINECRAFT": "Minecraft"
+  "entropy.options.ui": "冷却条风格",
+  "entropy.options.ui.gtav": "Chaos 模组",
+  "entropy.options.ui.minecraft": "Minecraft"
 }

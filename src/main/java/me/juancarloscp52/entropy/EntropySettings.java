@@ -20,14 +20,32 @@ package me.juancarloscp52.entropy;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.text.Text;
+
 public class EntropySettings {
 
     public enum UIStyle {
-        GTAV, MINECRAFT
+        GTAV("entropy.options.ui.gtav"), MINECRAFT("entropy.options.ui.minecraft");
+
+        public final Text text;
+        public final Text tooltip;
+
+        private UIStyle(String text) {
+            this.text = Text.translatable(text);
+            this.tooltip = Text.translatable(text + ".tooltip");
+        }
     }
 
-    public enum VotingMode{
-        MAJORITY, PROPORTIONAL
+    public enum VotingMode {
+        MAJORITY("entropy.options.votingMode.majority"), PROPORTIONAL("entropy.options.votingMode.proportional");
+
+        public final Text text;
+        public final Text tooltip;
+
+        private VotingMode(String text) {
+            this.text = Text.translatable(text);
+            this.tooltip = Text.translatable(text + ".tooltip");
+        }
     }
     public short timerDuration = 900;
     public short baseEventDuration = 600;

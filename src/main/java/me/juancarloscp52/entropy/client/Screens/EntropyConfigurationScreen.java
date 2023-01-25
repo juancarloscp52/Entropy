@@ -21,10 +21,14 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
+import me.juancarloscp52.entropy.EntropySettings.UIStyle;
+import me.juancarloscp52.entropy.EntropySettings.VotingMode;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropySliderWidget;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.CyclingButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -64,30 +68,20 @@ public class EntropyConfigurationScreen extends Screen {
         ButtonWidget integrationSettings = ButtonWidget.builder(Text.translatable("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this))).width(170).position(this.width / 2 - 85, 100).build();
         this.addDrawableChild(integrationSettings);
 
-        ButtonWidget votingMode = ButtonWidget.builder(Text.translatable("entropy.options.votingMode", settings.votingMode.name()), button -> {
-            if(settings.votingMode == EntropySettings.VotingMode.MAJORITY)
-                settings.votingMode= EntropySettings.VotingMode.PROPORTIONAL;
-            else
-                settings.votingMode= EntropySettings.VotingMode.MAJORITY;
-            button.setMessage(Text.translatable("entropy.options.votingMode", settings.votingMode.name()));
-        }).width(170).position(this.width/2-85,125).build();
-
-        this.addDrawableChild(votingMode);
+        CyclingButtonWidget<VotingMode> votingModeButton = CyclingButtonWidget.<VotingMode>builder(votingMode -> votingMode.text)
+                .values(VotingMode.values())
+                .initially(settings.votingMode)
+                .tooltip(votingMode -> Tooltip.of(votingMode.tooltip))
+                .build(this.width / 2 - 85, 125, 170, 20, Text.translatable("entropy.options.votingMode"), (button, newValue) -> settings.votingMode = newValue);
+        this.addDrawableChild(votingModeButton);
 
         // UI style button
-
-        
-        ButtonWidget UIstyle = ButtonWidget.builder(Text.translatable("entropy.options.ui",Text.translatable("entropy.options.ui."+settings.UIstyle.name()).getString()), button -> {
-            if(settings.UIstyle == EntropySettings.UIStyle.GTAV)
-                settings.UIstyle = EntropySettings.UIStyle.MINECRAFT;
-            else {
-                settings.UIstyle= EntropySettings.UIStyle.GTAV;
-            }
-               
-            button.setMessage(Text.translatable("entropy.options.ui",Text.translatable("entropy.options.ui."+settings.UIstyle.name()).getString()));
-        }).width(170).position(this.width/2-85,150).build();
-
-        this.addDrawableChild(UIstyle);
+        CyclingButtonWidget<UIStyle> uiStyleButton = CyclingButtonWidget.<UIStyle>builder(uiStyle -> uiStyle.text)
+                .values(UIStyle.values())
+                .initially(settings.UIstyle)
+                .tooltip(uiStyle -> Tooltip.of(uiStyle.tooltip))
+                .build(this.width / 2 - 85, 150, 170, 20, Text.translatable("entropy.options.ui"), (button, newValue) -> settings.UIstyle = newValue);
+        this.addDrawableChild(uiStyleButton);
 
         this.done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).width(200).position(this.width / 2 - 100, this.height - 30).build();
         this.addDrawableChild(done);
