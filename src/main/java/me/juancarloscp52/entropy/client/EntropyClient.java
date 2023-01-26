@@ -113,6 +113,15 @@ public class EntropyClient implements ClientModInitializer {
             });
         });
 
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.REMOVE_ENDED, (client, handler, buf, responseSender) -> {
+            if (clientEventHandler == null)
+                return;
+            client.execute(() -> {
+                if(clientEventHandler.currentEvents.size() != 0)
+                    clientEventHandler.currentEvents.removeIf(event -> event.hasEnded());
+            });
+        });
+
         ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.ADD_EVENT, (client, handler, buf, responseSender) -> {
             if (clientEventHandler == null)
                 return;

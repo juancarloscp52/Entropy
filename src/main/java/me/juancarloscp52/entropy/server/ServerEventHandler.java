@@ -93,13 +93,7 @@ public class ServerEventHandler {
                 } else
                     event = getRandomEvent(currentEvents);
 
-                if(event != null) {
-                    // Start the event and add it to the list.
-                    event.init();
-                    currentEvents.add(event);
-    
-                    sendEventToPlayers(event);
-                }
+                runEvent(event);
                 if (settings.integrations)
                     voting.newPoll();
 
@@ -126,6 +120,19 @@ public class ServerEventHandler {
 
 
         eventCountDown--;
+    }
+    
+    public boolean runEvent(Event event) {
+        if(event != null) {
+            // Start the event and add it to the list.
+            event.init();
+            currentEvents.add(event);
+
+            sendEventToPlayers(event);
+            return true;
+        }
+        
+        return false;
     }
 
     private void sendEventToPlayers(Event event) {
