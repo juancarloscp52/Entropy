@@ -151,6 +151,7 @@
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",
+  "entropy.command.invalidClientSide": "Ereignis %s kann nicht im Einzelspieler ausgeführt werden",
   "entropy.errorScreen.title": "Entropy-Fehler",
   "entropy.voting.total": "Stimmen insgesamt: %d",
   "entropy.voting.randomEvent": "Zufälliges Ereignis",

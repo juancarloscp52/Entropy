@@ -20,11 +20,11 @@ package me.juancarloscp52.entropy;
 import com.google.gson.Gson;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.suggestion.SuggestionProvider;
 
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -36,7 +36,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
-import net.minecraft.command.suggestion.SuggestionProviders;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -147,6 +146,11 @@ public class Entropy implements ModInitializer {
 
                                         if(eventHandler != null) {
                                             String eventId = source.getArgument("event", String.class);
+
+                                            // If running on integrated server, prevent running Stuttering event.
+                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals("StutteringEvent")){
+                                                throw new CommandException(Text.translatable("entropy.command.invalidClientSide", eventId));
+                                            }
 
                                             if(eventHandler.runEvent(EventRegistry.get(eventId)))
                                                 Entropy.LOGGER.warn("New event run via command: " + EventRegistry.getTranslationKey(eventId));
