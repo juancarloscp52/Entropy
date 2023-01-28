@@ -103,7 +103,7 @@ public class TwitchIntegrations extends ListenerAdapter implements Integrations 
 
     @Override
     public void onMessage(MessageEvent event) {
-        EntropyClient.getInstance().clientEventHandler.votingClient.processVote(event.getMessage(), event.getUser().getUserId().toString());
+        EntropyClient.getInstance().clientEventHandler.votingClient.processVote(event.getMessage(), event.getUser().getLogin());
     }
 
     @Override
