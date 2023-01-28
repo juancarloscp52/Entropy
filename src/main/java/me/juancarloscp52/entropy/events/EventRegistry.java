@@ -19,6 +19,8 @@ package me.juancarloscp52.entropy.events;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.db.*;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -208,6 +210,12 @@ public class EventRegistry {
         });
         if(eventKeys.size()>ignoreEventsByType.size())
             eventKeys.removeAll(ignoreEventsByType);
+
+        //Only enable the stuttering event on a dedicated server, because otherwise worldgen will be all wrong.
+        //The MathHelper mixin turning off linear interpolation is only applied on the client, but if this is a singleplayer environment,
+        //the integrated server has the modified MathHelper, too, causing incorrect worldgen.
+        if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
+            eventKeys.remove("StutteringEvent");
 
         return getRandomEvent(eventKeys);
     }

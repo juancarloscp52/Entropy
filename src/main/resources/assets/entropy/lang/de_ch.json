@@ -150,6 +150,8 @@
   "entropy.events.BlackAndWhiteEvent": "1950er",
 
   "entropy.title": "Entropy: Chaos Mod",
+  "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",
+  "entropy.command.invalidClientSide": "Ereignis %s kann nicht im Einzelspieler ausgeführt werden",
   "entropy.errorScreen.title": "Entropy-Fehler",
   "entropy.voting.total": "Stimmen insgesamt: %d",
   "entropy.voting.randomEvent": "Zufälliges Ereignis",
@@ -178,10 +180,14 @@
 
   "entropy.options.disableEvents": "Ereignisse Deaktivieren",
   "entropy.options.search": "Suchen...",
-  "entropy.options.eventDuration": "Ereignis Dauer: %ds",
-  "entropy.options.timerDuration": "Timer Dauer: %ds",
+  "entropy.options.eventDuration": "Ereignisdauer: %ds",
+  "entropy.options.timerDuration": "Timer-Dauer: %ds",
   "entropy.options.questionMark": "?",
-  "entropy.options.votingMode": "Abstimmungsmodus: %s",
+  "entropy.options.votingMode": "Abstimmungsmodus",
+  "entropy.options.votingMode.majority": "Mehrheit",
+  "entropy.options.votingMode.majority.tooltip": "Das Ereignis mit den meisten Stimmen gewinnt.",
+  "entropy.options.votingMode.proportional": "Proportional",
+  "entropy.options.votingMode.proportional.tooltip": "Alle Ereignisse haben eine Chance zu gewinnen. Je mehr Stimmen ein Ereignis erhalten hat, desto wahrscheinlicher ist, dass es gewinnt. Beispiel: Wenn ein Ereignis 42% der Stimmen erhalten hat, hat es eine 42%-ige Chance zu gewinnen.",
   "entropy.options.accessibilityMode": "Entropy-Barrierefreiheitsmodus",
   "entropy.options.accessibilityMode.explanation": "Der Barrierefreiheitsmodus deaktiviert automatisch einige Ereignisse, welche blinkende, stotternde, oder eventuell Übelkeit erregende Bilder enthalten können. Wenn ein Server versucht, solch ein Ereignis abzuspielen während du den Barrierefreiheitsmodus an hast, wird das Ereignis durchgestrichen angezeigt und nicht abgespielt.",
   "entropy.options.integrations.twitch.sendChatFeedBack": "Aktuelle Ereignisumfrage im Twitch-Chat anzeigen",
@@ -195,7 +201,7 @@
   "entropy.options.all": "Alle",
   "entropy.options.enabled": "Aktiviert",
   "entropy.options.disabled": "Deaktiviert",
-  "entropy.options.ui": "Runterzählen-Stil: %s",
-  "entropy.options.ui.GTAV": "Chaos Mod",
-  "entropy.options.ui.MINECRAFT": "Minecraft"
+  "entropy.options.ui": "Timer-Stil",
+  "entropy.options.ui.gtav.tooltip": "Der Timer wird als ein selbsterstellter Balken am oberen Rand des Bildschirms angezeigt.",
+  "entropy.options.ui.minecraft.tooltip": "Der Timer wird als Bossleiste angezeigt."
 }

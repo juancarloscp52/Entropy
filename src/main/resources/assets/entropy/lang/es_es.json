@@ -150,6 +150,8 @@
   "entropy.events.BlackAndWhiteEvent": "Los 50s",
 
   "entropy.title": "Entropy: Chaos Mod",
+  "entropy.command.unknownEvent": "Evento desconocido: %s",
+  "entropy.command.invalidClientSide": "El evento %s no se puede ejecutar en modo un jugador.",
   "entropy.errorScreen.title": "Entropy error",
   "entropy.voting.total": "Votos totales: %d",
   "entropy.voting.randomEvent": "Evento aleatorio",
@@ -180,7 +182,11 @@
   "entropy.options.eventDuration": "Duración base de eventos: %ds",
   "entropy.options.timerDuration": "Duración del contador: %ds",
   "entropy.options.questionMark": "?",
-  "entropy.options.votingMode": "Modo de votación: %s",
+  "entropy.options.votingMode": "Modo de votación",
+  "entropy.options.votingMode.majority": "Mayoría",
+  "entropy.options.votingMode.majority.tooltip": "El evento con mayor número de votos gana.",
+  "entropy.options.votingMode.proportional": "Proporcional",
+  "entropy.options.votingMode.proportional.tooltip": "Todos los eventos tienen posibilidad de ganar. Cuanto mas votos reciba un evento, mas posibilidad para ganar. Por ejemplo: Si un evento recibe el 42% de los votos, tiene una probabilidad del 42% de ganar.",
   "entropy.options.integrations.twitch.sendChatFeedBack": "Mostrar encuesta actual en el chat",
   "entropy.options.integrations.twitch.help": "La integración con Twitch permite que el chat vote durante el directo cual será el próximo evento. Los usuarios podrán escribir numeros en el chat que representarán un evento especifico. Los diferentes eventos por los que se pueden votar se mostrarán en pantalla con su correspondiente número durante la encuesta. Para usar esta función, el streamer debe poner un OAuth Token con permisos de \"Chat Login\" y el nombre del canal de Twitch.",
   "entropy.options.integrations.discord.help": "La integración con discord permite a los usuarios de un servidor de discord votar cual será el siguiente evento en tu partida. Un mensaje con las diferentes opciones aparecerá en el canal de discord seleccionado, los usuarios podrán votar reaccionando a dicho mensaje. Para habilitar la integración con discord, deberás crear un bot de discord, hacer que se una a tu servidor y copiar el token del BOT en esta pantalla. También tendras que escribir aquí la ID del canal donde se publicarán los mensajes. Tambien puedes usar el comando \"!entropy join\" en el canal a unirse.",
@@ -191,5 +197,5 @@
   "entropy.options.all": "Todos",
   "entropy.options.enabled": "Activos",
   "entropy.options.disabled": "Inactivos",
-  "entropy.options.ui": "Estilo: %s"
+  "entropy.options.ui": "Estilo"
 }

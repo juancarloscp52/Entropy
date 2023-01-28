@@ -18,10 +18,15 @@
 package me.juancarloscp52.entropy;
 
 import com.google.gson.Gson;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -29,7 +34,11 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.command.CommandException;
+import net.minecraft.command.CommandSource;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -117,6 +126,40 @@ public class Entropy implements ModInitializer {
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             if (eventHandler != null)
                 eventHandler.endChaos();
+        });
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>literal("entropy")
+                    .requires(source -> source.hasPermissionLevel(3))
+                    .then(CommandManager.literal("clearPastEvents")
+                            .executes(source -> {
+                                ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
+
+                                eventHandler.currentEvents.removeIf(event -> event.hasEnded());
+                                PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, NetworkingConstants.REMOVE_ENDED, PacketByteBufs.create()));
+                                return 0;
+                            }))
+                    .then(CommandManager.literal("run")
+                            .then(CommandManager.argument("event", StringArgumentType.word())
+                                    .suggests((context, builder) -> CommandSource.suggestMatching(EventRegistry.entropyEvents.keySet(), builder))
+                                    .executes(source -> {
+                                        ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
+
+                                        if(eventHandler != null) {
+                                            String eventId = source.getArgument("event", String.class);
+
+                                            // If running on integrated server, prevent running Stuttering event.
+                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals("StutteringEvent")){
+                                                throw new CommandException(Text.translatable("entropy.command.invalidClientSide", eventId));
+                                            }
+
+                                            if(eventHandler.runEvent(EventRegistry.get(eventId)))
+                                                Entropy.LOGGER.warn("New event run via command: " + EventRegistry.getTranslationKey(eventId));
+                                            else
+                                                throw new CommandException(Text.translatable("entropy.command.unknownEvent", eventId));
+                                        }
+
+                                        return 0;
+                                    }))));
         });
     }
 

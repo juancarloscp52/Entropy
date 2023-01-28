@@ -27,4 +27,10 @@ public class MathHelperMixin {
         if(Variables.stuttering)
             cir.setReturnValue(start);
     }
+
+    @Inject(method = "lerpAngle", at = @At("HEAD"), cancellable = true)
+    private static void lerpAngle(float start, float end, float delta, CallbackInfoReturnable<Float> cir) {
+        if(Variables.stuttering)
+            cir.setReturnValue(start);
+    }
 }
