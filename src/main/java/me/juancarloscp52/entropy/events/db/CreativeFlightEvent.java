@@ -19,6 +19,8 @@ public class CreativeFlightEvent extends AbstractTimedEvent {
     public void endClient() {
         super.endClient();
         MinecraftClient.getInstance().player.getAbilities().allowFlying = false;
+        MinecraftClient.getInstance().player.getAbilities().flying=false;
+        MinecraftClient.getInstance().player.sendAbilitiesUpdate();
     }
 
     @Override
@@ -29,7 +31,11 @@ public class CreativeFlightEvent extends AbstractTimedEvent {
     @Override
     public void end() {
         super.end();
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> player.getAbilities().allowFlying = false);
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
+            player.getAbilities().allowFlying = false;
+            player.getAbilities().flying=false;
+            player.sendAbilitiesUpdate();
+        });
     }
 
     @Override
