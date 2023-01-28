@@ -65,7 +65,7 @@ public interface Event {
         return "none";
     }
 
-    default boolean isDisabledByAccessibilitySetting() {
+    default boolean isDisabledByAccessibilityMode() {
         return false;
     }
 }

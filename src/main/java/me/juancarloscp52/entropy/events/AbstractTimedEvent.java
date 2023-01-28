@@ -51,7 +51,7 @@ public abstract class AbstractTimedEvent implements Event {
         MinecraftClient client = MinecraftClient.getInstance();
         MutableText eventName = Text.translatable(EventRegistry.getTranslationKey(this));
 
-        if(isDisabledByAccessibilitySetting() && Entropy.getInstance().settings.accessibilityMode)
+        if(isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
             eventName.formatted(Formatting.STRIKETHROUGH);
 
         int size = client.textRenderer.getWidth(eventName);

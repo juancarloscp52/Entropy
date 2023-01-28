@@ -99,7 +99,7 @@ public class EntropyClient implements ClientModInitializer {
                     continue;
                 event.setEnded(ended);
                 event.setTickCount(tickCount);
-                if (tickCount > 0 && !ended && !(event.isDisabledByAccessibilitySetting() && Entropy.getInstance().settings.accessibilityMode))
+                if (tickCount > 0 && !ended && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
                     event.initClient();
                 client.execute(() -> clientEventHandler.currentEvents.add(event));
             }

@@ -228,7 +228,7 @@ public class EventRegistry {
         String newEventName = eventKeys.get(index);
         Event event = entropyEvents.get(newEventName).get();
 
-        if(Entropy.getInstance().settings.accessibilityMode && event.isDisabledByAccessibilitySetting()) {
+        if(Entropy.getInstance().settings.accessibilityMode && event.isDisabledByAccessibilityMode()) {
             eventKeys.remove(index);
             return getRandomEvent(eventKeys);
         }

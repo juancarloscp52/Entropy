@@ -41,7 +41,7 @@ public class RollingCameraEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public boolean isDisabledByAccessibilitySetting() {
+    public boolean isDisabledByAccessibilityMode() {
         return true;
     }
 }
