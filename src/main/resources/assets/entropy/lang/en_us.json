@@ -183,7 +183,11 @@
   "entropy.options.eventDuration": "Base Event Duration: %ds",
   "entropy.options.timerDuration": "Timer Duration: %ds",
   "entropy.options.questionMark": "?",
-  "entropy.options.votingMode": "Voting Mode: %s",
+  "entropy.options.votingMode": "Voting Mode",
+  "entropy.options.votingMode.majority": "Majority",
+  "entropy.options.votingMode.majority.tooltip": "The event with the most amount of votes wins.",
+  "entropy.options.votingMode.proportional": "Proportional",
+  "entropy.options.votingMode.proportional.tooltip": "All events have a chance to win. The more votes an event received, the more likely it is to win. Example: If an event received 42% of the votes, it has a 42% chance of winning.",
   "entropy.options.integrations.twitch.sendChatFeedBack": "Show Current Event Poll on Twitch Chat",
   "entropy.options.integrations.twitch.help": "Twitch Integrations enables the chat to vote what will be the next event during streams. Chat will be able to vote writing numbers in chat that correspond to an event. The different available events for the poll will be shown on screen with their corresponding number. In order to use this feature, the streamer needs to provide the OAuth token with chat login access permission and the Twitch channel name.",
   "entropy.options.integrations.discord.help": "Discord Integrations enables users of a server to vote what will be the next event. A message will appear on the selected channel with the different available options and users can vote by reacting to the message with the given numbers. To enable discord integration, you need to create a Discord bot, join it to your server and copy the bot token here. Also, you must write here the Channel ID (its a number). Alternatively, once the discord bot has joined the server and a minecraft world with entropy is open, you can write \"!entropy join\" on the discord server channel.",
@@ -195,7 +199,9 @@
   "entropy.options.all": "All",
   "entropy.options.enabled": "Enabled",
   "entropy.options.disabled": "Disabled",
-  "entropy.options.ui": "Countdown Style: %s",
-  "entropy.options.ui.GTAV": "Chaos Mod",
-  "entropy.options.ui.MINECRAFT": "Minecraft"
+  "entropy.options.ui": "Countdown Style",
+  "entropy.options.ui.gtav": "Chaos Mod",
+  "entropy.options.ui.gtav.tooltip": "The timer will be shown as a custom rendered bar at the top of the screen.",
+  "entropy.options.ui.minecraft": "Minecraft",
+  "entropy.options.ui.minecraft.tooltip": "The timer will be shown as a boss bar."
 }
