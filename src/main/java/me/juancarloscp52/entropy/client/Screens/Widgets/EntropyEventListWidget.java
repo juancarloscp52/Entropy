@@ -18,22 +18,30 @@
 package me.juancarloscp52.entropy.client.Screens.Widgets;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
+import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.mixin.EntryListWidgetAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
-import net.minecraft.util.Pair;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.ArrayList;
@@ -50,16 +58,19 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
     }
 
     public void addAllFromRegistry() {
-        var list = new ArrayList<Pair<String, String>>();
-        for(var eventId : EventRegistry.entropyEvents.keySet())
-            list.add(new Pair<String,String>(Text.translatable(EventRegistry.getTranslationKey(eventId)).getString(), eventId));
+        var list = new ArrayList<EventInfo>();
+        for(var event : EventRegistry.entropyEvents.entrySet()) {
+            String eventId = event.getKey();
 
-        Collections.sort(list, (a, b) -> a.getLeft().compareTo(b.getLeft()));
+            list.add(new EventInfo(Text.translatable(EventRegistry.getTranslationKey(eventId)).getString(), eventId, event.getValue().get()));
+        }
+
+        Collections.sort(list, (a, b) -> a.name.compareTo(b.name));
         list.forEach(this::addEvent);
     }
 
-    public int addEvent(Pair<String,String> event) {
-        return this.addEntry(EntropyEventListWidget.ButtonEntry.create(event));
+    public int addEvent(EventInfo eventInfo) {
+        return this.addEntry(EntropyEventListWidget.ButtonEntry.create(eventInfo));
     }
 
     @Override
@@ -125,7 +136,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
             int rowTop = this.getRowTop(drawIndex);
             int rowBottom = rowTop + this.itemHeight;
 
-            if (this.getEntry(index).button.visible) {
+            if (this.getEntry(index).checkbox.visible) {
                 drawIndex++;
 
                 if (rowBottom >= this.top && rowTop <= this.bottom)
@@ -140,16 +151,16 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
 
         if (searchText.isBlank())
             children().stream().forEach(buttonEntry -> {
-                buttonEntry.button.visible = filterMode.allowsVisibility(buttonEntry);
+                buttonEntry.checkbox.visible = filterMode.allowsVisibility(buttonEntry);
 
-                if(buttonEntry.button.visible)
+                if(buttonEntry.checkbox.visible)
                     visibleEntries.add(buttonEntry);
             });
         else {
             children().stream().forEach(buttonEntry -> {
-                buttonEntry.button.visible = filterMode.allowsVisibility(buttonEntry) && (buttonEntry.eventName.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventID.toLowerCase(Locale.ROOT).contains(lowerCasedNewText));
+                buttonEntry.checkbox.visible = filterMode.allowsVisibility(buttonEntry) && (buttonEntry.eventInfo.name.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventInfo.id.toLowerCase(Locale.ROOT).contains(lowerCasedNewText));
 
-                if(buttonEntry.button.visible)
+                if(buttonEntry.checkbox.visible)
                     visibleEntries.add(buttonEntry);
             });
         }
@@ -159,41 +170,66 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
 
     @Environment(EnvType.CLIENT)
     public static class ButtonEntry extends ElementListWidget.Entry<EntropyEventListWidget.ButtonEntry> {
-        public final CheckboxWidget button;
-        public final String eventName;
-        public final String eventID;
+        private static final Identifier ICON_OVERLAY_LOCATION = new Identifier("textures/gui/world_selection.png");
+        private static final Text ACCESSIBILITY_TOOLTIP = Text.translatable("entropy.options.accessibilityMode.eventDisabled");
+        public final CheckboxWidget checkbox;
+        public final EventInfo eventInfo;
 
-        private ButtonEntry(String eventName, String eventID, CheckboxWidget button) {
-            this.button = button;
-            this.eventName = eventName;
-            this.eventID = eventID;
+        private ButtonEntry(EventInfo eventInfo, CheckboxWidget checkbox) {
+            this.checkbox = checkbox;
+            this.eventInfo = eventInfo;
         }
 
-        public static EntropyEventListWidget.ButtonEntry create(Pair<String,String> event) {
+        public static EntropyEventListWidget.ButtonEntry create(EventInfo eventInfo) {
             EntropySettings settings = Entropy.getInstance().settings;
-            String eventID = event.getRight();
-            return new EntropyEventListWidget.ButtonEntry(event.getLeft(), eventID, new CheckboxWidget(0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), 20, Text.translatable(EventRegistry.getTranslationKey(eventID)), !settings.disabledEvents.contains(eventID)));
+            String eventID = eventInfo.id;
+            boolean isDisabledByAccessibilityMode = eventInfo.event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode;
+            boolean enableCheckbox = !settings.disabledEvents.contains(eventID) && !isDisabledByAccessibilityMode;
+            CheckboxWidget checkbox = new CheckboxWidget(0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), 20, Text.translatable(EventRegistry.getTranslationKey(eventID)), enableCheckbox);
+            checkbox.active = !isDisabledByAccessibilityMode;
+            return new EntropyEventListWidget.ButtonEntry(eventInfo, checkbox);
         }
 
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            button.setPos(x + 32,y);
-            button.render(matrices, mouseX, mouseY, tickDelta);
+            checkbox.setPos(x + 32, y);
+            checkbox.render(matrices, mouseX, mouseY, tickDelta);
+
+            if(Entropy.getInstance().settings.accessibilityMode && eventInfo.event.isDisabledByAccessibilityMode()) {
+                RenderSystem.setShaderTexture(0, ICON_OVERLAY_LOCATION);
+                DrawableHelper.drawTexture(matrices, x, y - 6, 64, 32, 32, 32, 256, 256);
+
+                if(mouseX >= x && mouseX <= x + 350 && mouseY >= y && mouseY <= y + entryHeight) {
+                    MinecraftClient client = MinecraftClient.getInstance();
+                    List<OrderedText> lines = client.textRenderer.wrapLines(ACCESSIBILITY_TOOLTIP, 200);
+                    int tooltipHeight = client.textRenderer.fontHeight * lines.size();
+                    int tooltipYPosition = (int)(y + tooltipHeight * 1.5D);
+
+                    //if the tooltip would render further down than the list reaches, render it above the entry
+                    if(tooltipYPosition + tooltipHeight > client.currentScreen.height - 32)
+                        tooltipYPosition = y - 12 - tooltipHeight / 2;
+
+                    client.currentScreen.renderOrderedTooltip(matrices, lines, x, tooltipYPosition);
+                }
+            }
         }
 
         @Override
         public boolean mouseClicked(double mouseX, double mouseY, int button) {
-            this.button.onPress();
-            MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            if(checkbox.active) {
+                MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                this.checkbox.onPress();
+            }
+
             return true;
         }
 
         public List<? extends Element> children() {
-            return ImmutableList.of(this.button);
+            return ImmutableList.of(this.checkbox);
         }
 
         @Override
         public List<? extends Selectable> selectableChildren() {
-            return ImmutableList.of(button);
+            return ImmutableList.of(checkbox);
         }
     }
 
@@ -209,8 +245,9 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         }
 
         public boolean allowsVisibility(ButtonEntry buttonEntry) {
-            return this == ALL || this == ENABLED && buttonEntry.button.isChecked() || this == DISABLED && !buttonEntry.button.isChecked();
+            return this == ALL || this == ENABLED && buttonEntry.checkbox.isChecked() || this == DISABLED && !buttonEntry.checkbox.isChecked();
         }
     }
 
+    public record EventInfo(String name, String id, Event event) {}
 }

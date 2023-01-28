@@ -82,7 +82,7 @@ public class EntropyConfigurationScreen extends Screen {
                 .values(UIStyle.values())
                 .initially(settings.UIstyle)
                 .tooltip(uiStyle -> Tooltip.of(uiStyle.tooltip))
-                .build(this.width / 2 - 85, 150, 170, 20, Text.translatable("entropy.options.ui"), (button, newValue) -> settings.UIstyle = newValue);
+                .build(buttonX, 150, buttonWidth, 20, Text.translatable("entropy.options.ui"), (button, newValue) -> settings.UIstyle = newValue);
         this.addDrawableChild(uiStyleButton);
 
         this.addDrawableChild(CyclingButtonWidget.<Boolean>builder(bool -> Text.translatable("entropy.options." + (bool ? "enabled" : "disabled")))

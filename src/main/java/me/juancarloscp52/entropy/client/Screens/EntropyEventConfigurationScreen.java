@@ -108,8 +108,8 @@ public class EntropyEventConfigurationScreen extends Screen {
     private void onDone() {
         settings.disabledEvents = new ArrayList<>();
         this.list.children().forEach(buttonEntry -> {
-            if (!buttonEntry.button.isChecked())
-                settings.disabledEvents.add(buttonEntry.eventID);
+            if (!buttonEntry.checkbox.isChecked())
+                settings.disabledEvents.add(buttonEntry.eventInfo.id());
         });
         Entropy.getInstance().saveSettings();
         close();
@@ -117,13 +117,13 @@ public class EntropyEventConfigurationScreen extends Screen {
 
     private void onCheckAll() {
         this.list.children().forEach(buttonEntry -> {
-            if (buttonEntry.button.visible && !buttonEntry.button.isChecked()) {buttonEntry.button.onPress();}
+            if (buttonEntry.checkbox.visible && !buttonEntry.checkbox.isChecked()) {buttonEntry.checkbox.onPress();}
         });
     }
 
     private void onUncheckAll() {
         this.list.children().forEach(buttonEntry -> {
-            if (buttonEntry.button.visible && buttonEntry.button.isChecked()) {buttonEntry.button.onPress();}
+            if (buttonEntry.checkbox.visible && buttonEntry.checkbox.isChecked()) {buttonEntry.checkbox.onPress();}
         });
     }
 
