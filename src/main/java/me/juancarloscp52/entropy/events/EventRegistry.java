@@ -218,11 +218,23 @@ public class EventRegistry {
         if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
             eventKeys.remove("StutteringEvent");
 
-        if(eventKeys.size() == 0) return null;
+        return getRandomEvent(eventKeys);
+    }
+
+    private static Event getRandomEvent(List<String> eventKeys) {
+        if(eventKeys.isEmpty())
+            return null;
 
         int index = random.nextInt(eventKeys.size());
         String newEventName = eventKeys.get(index);
-        return entropyEvents.get(newEventName).get();
+        Event event = entropyEvents.get(newEventName).get();
+
+        if(Entropy.getInstance().settings.accessibilityMode && event.isDisabledByAccessibilityMode()) {
+            eventKeys.remove(index);
+            return getRandomEvent(eventKeys);
+        }
+
+        return event;
     }
 
     public static Event get(String eventName) {

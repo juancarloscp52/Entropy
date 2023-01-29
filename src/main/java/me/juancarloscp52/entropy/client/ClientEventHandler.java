@@ -41,7 +41,7 @@ public class ClientEventHandler {
     public VotingClient votingClient;
     public MinecraftClient client;
     short eventCountDown;
-    
+
     short timerDuration;
     UIRenderer renderer = null;
     final short timerDurationFinal;
@@ -102,7 +102,7 @@ public class ClientEventHandler {
         int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
 
         // Render timer bar
-        /// Only the timer is differentiated in two declination for now but 
+        /// Only the timer is differentiated in two declination for now but
         /// it will be interesting to adapt the event queue and poll rendering too
         renderer.renderTimer(matrixStack, width, time, timerDuration);
 
@@ -124,7 +124,7 @@ public class ClientEventHandler {
 
     public void addEvent(String registryIndex) {
         Event event = EventRegistry.get(registryIndex);
-        if(!client.player.isSpectator())
+        if(!client.player.isSpectator() && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
             event.initClient();
         currentEvents.add(event);
     }

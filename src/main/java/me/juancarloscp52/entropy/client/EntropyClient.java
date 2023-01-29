@@ -18,6 +18,9 @@
 package me.juancarloscp52.entropy.client;
 
 import com.google.gson.Gson;
+
+import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
@@ -31,10 +34,15 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gl.PostEffectProcessor;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.client.gui.widget.CyclingButtonWidget;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,7 +99,7 @@ public class EntropyClient implements ClientModInitializer {
                     continue;
                 event.setEnded(ended);
                 event.setTickCount(tickCount);
-                if (tickCount > 0 && !ended)
+                if (tickCount > 0 && !ended && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
                     event.initClient();
                 client.execute(() -> clientEventHandler.currentEvents.add(event));
             }

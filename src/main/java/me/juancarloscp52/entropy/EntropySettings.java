@@ -53,4 +53,5 @@ public class EntropySettings {
     public VotingMode votingMode = VotingMode.PROPORTIONAL;
     public UIStyle UIstyle = UIStyle.GTAV;
     public List<String> disabledEvents = new ArrayList<>();
+    public boolean accessibilityMode = false;
 }

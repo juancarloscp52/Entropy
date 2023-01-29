@@ -33,4 +33,9 @@ public class RandomCameraTiltEvent extends AbstractTimedEvent {
     public short getDuration() {
         return Entropy.getInstance().settings.baseEventDuration;
     }
+
+    @Override
+    public boolean isDisabledByAccessibilityMode() {
+        return true;
+    }
 }

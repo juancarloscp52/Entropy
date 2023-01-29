@@ -54,6 +54,8 @@ public class EntropyConfigurationScreen extends Screen {
     }
 
     protected void init() {
+        int buttonX = this.width / 2 - 100;
+        int buttonWidth = 200;
 
         eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/1200d,(slider, translationKey, value) -> Text.translatable("entropy.options.eventDuration", MathHelper.floor(value*60+15)), value -> settings.baseEventDuration = (short) ((1200*value)+300));
         this.addDrawableChild(eventDurationWidget);
@@ -62,17 +64,17 @@ public class EntropyConfigurationScreen extends Screen {
         this.addDrawableChild(timerDurationWidget);
 
 
-        ButtonWidget eventSettings = ButtonWidget.builder(Text.translatable("entropy.options.disableEvents"), button -> this.client.setScreen(new EntropyEventConfigurationScreen(this))).position(this.width / 2 - 85, 75).width(170).build();
+        ButtonWidget eventSettings = ButtonWidget.builder(Text.translatable("entropy.options.disableEvents"), button -> this.client.setScreen(new EntropyEventConfigurationScreen(this))).position(buttonX, 75).width(buttonWidth).build();
         this.addDrawableChild(eventSettings);
 
-        ButtonWidget integrationSettings = ButtonWidget.builder(Text.translatable("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this))).width(170).position(this.width / 2 - 85, 100).build();
+        ButtonWidget integrationSettings = ButtonWidget.builder(Text.translatable("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this))).width(buttonWidth).position(buttonX, 100).build();
         this.addDrawableChild(integrationSettings);
 
         CyclingButtonWidget<VotingMode> votingModeButton = CyclingButtonWidget.<VotingMode>builder(votingMode -> votingMode.text)
                 .values(VotingMode.values())
                 .initially(settings.votingMode)
                 .tooltip(votingMode -> Tooltip.of(votingMode.tooltip))
-                .build(this.width / 2 - 85, 125, 170, 20, Text.translatable("entropy.options.votingMode"), (button, newValue) -> settings.votingMode = newValue);
+                .build(buttonX, 125, buttonWidth, 20, Text.translatable("entropy.options.votingMode"), (button, newValue) -> settings.votingMode = newValue);
         this.addDrawableChild(votingModeButton);
 
         // UI style button
@@ -80,10 +82,16 @@ public class EntropyConfigurationScreen extends Screen {
                 .values(UIStyle.values())
                 .initially(settings.UIstyle)
                 .tooltip(uiStyle -> Tooltip.of(uiStyle.tooltip))
-                .build(this.width / 2 - 85, 150, 170, 20, Text.translatable("entropy.options.ui"), (button, newValue) -> settings.UIstyle = newValue);
+                .build(buttonX, 150, buttonWidth, 20, Text.translatable("entropy.options.ui"), (button, newValue) -> settings.UIstyle = newValue);
         this.addDrawableChild(uiStyleButton);
 
-        this.done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).width(200).position(this.width / 2 - 100, this.height - 30).build();
+        this.addDrawableChild(CyclingButtonWidget.<Boolean>builder(bool -> Text.translatable("entropy.options." + (bool ? "enabled" : "disabled")))
+                .values(true, false)
+                .initially(settings.accessibilityMode)
+                .tooltip(bool -> Tooltip.of(Text.translatable("entropy.options.accessibilityMode.explanation")))
+                .build(buttonX, 175, buttonWidth, 20, Text.translatable("entropy.options.accessibilityMode"), (button, newValue) -> settings.accessibilityMode = newValue));
+
+        this.done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).width(buttonWidth).position(this.width / 2 - 100, this.height - 30).build();
         this.addDrawableChild(done);
     }
 

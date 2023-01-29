@@ -59,4 +59,9 @@ public class LagEvent extends AbstractTimedEvent {
     public String type() {
         return "movement";
     }
+
+    @Override
+    public boolean isDisabledByAccessibilityMode() {
+        return true;
+    }
 }
