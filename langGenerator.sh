@@ -14,10 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 #
-
+#!/bin/bash
 cd src/main/resources/assets/entropy/lang
-list=("ar" "cl" "ec" "mx" "uy" "ve")
-for elem in ar cl ec mx uy ve; do
+declare -a spanish=("ar cl ec mx uy ve")
+for elem in $spanish; do
     echo $elem
-  cp es_es.json es_$elem.json
+    cp es_es.json es_$elem.json
+done
+
+declare -a german=("at ch")
+for elem in $german; do
+    echo $elem
+    cp de_de.json de_$elem.json
 done
