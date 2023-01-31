@@ -34,12 +34,12 @@ public class GravitySightEvent extends AbstractTimedEvent {
     public void tick() {
         if (tickCount % 2 == 0) {
             for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
-                var rayVector = serverPlayerEntity.getRotationVector().normalize().multiply(32d);
+                var rayVector = serverPlayerEntity.getRotationVector().normalize().multiply(64d);
                 var fromVector = serverPlayerEntity.getEyePos();
                 var toVector = fromVector.add(rayVector);
-                var box = new Box(serverPlayerEntity.getPos().add(32, 32, 32),
-                        serverPlayerEntity.getPos().subtract(32, 32, 32));
-                var hitRes = ProjectileUtil.raycast(serverPlayerEntity, fromVector, toVector, box, x -> true, 1024);
+                var box = new Box(serverPlayerEntity.getPos().add(64, 64, 64),
+                        serverPlayerEntity.getPos().subtract(64, 64, 64));
+                var hitRes = ProjectileUtil.raycast(serverPlayerEntity, fromVector, toVector, box, x -> true, 2048);
                 if (hitRes != null) {
                     var direction = serverPlayerEntity.getRotationVector().normalize().multiply(-1d);
                     var entity = hitRes.getEntity();
