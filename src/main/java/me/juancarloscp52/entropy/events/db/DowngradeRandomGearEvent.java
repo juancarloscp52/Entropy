@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.random.Random;
 import oshi.util.tuples.Triplet;
 
 import java.util.ArrayList;
@@ -110,23 +111,27 @@ public class DowngradeRandomGearEvent extends AbstractInstantEvent {
                 var itemStack = element.getC();
                 var item = itemStack.getItem();
                 if (_downgrades.containsKey(item)) {
-                    var newItem = _downgrades.get(item);
-                    var newDamage = (float) itemStack.getDamage() / (float) itemStack.getMaxDamage() * (float) newItem.getMaxDamage();
-                    var newItemStack = new ItemStack(newItem);
-
-                    newItemStack.setDamage((int) newDamage);
-                    var enchantments = EnchantmentHelper.get(itemStack);
-                    for (var enchantment : enchantments.entrySet())
-                        newItemStack.addEnchantment(enchantment.getKey(), enchantment.getValue());
-
-                    var inventoryList = element.getA();
-                    var index = element.getB();
-
-                    inventoryList.set(index, newItemStack);
-
+                    downgrade(item, itemStack, element.getA(), element.getB(), serverPlayerEntity.getRandom());
                     break;
                 }
             }
         });
+    }
+
+    private void downgrade(Item item, ItemStack itemStack, DefaultedList<ItemStack> inventoryList, int index, Random random) {
+        var newItem = _downgrades.get(item);
+        var newDamage = (float) itemStack.getDamage() / (float) itemStack.getMaxDamage()
+                * (float) newItem.getMaxDamage();
+        var newItemStack = new ItemStack(newItem);
+
+        newItemStack.setDamage((int) newDamage);
+        var enchantments = EnchantmentHelper.get(itemStack);
+        for (var enchantment : enchantments.entrySet())
+            newItemStack.addEnchantment(enchantment.getKey(), enchantment.getValue());
+
+        inventoryList.set(index, newItemStack);
+
+        if (_downgrades.containsKey(newItem) && random.nextDouble() < 0.25d)
+            downgrade(newItem, newItemStack, inventoryList, index, random);
     }
 }
