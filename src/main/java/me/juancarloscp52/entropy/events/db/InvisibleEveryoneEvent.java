@@ -4,13 +4,17 @@
 
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.util.math.Box;
+import net.minecraft.server.world.ServerWorld;
 
 public class InvisibleEveryoneEvent extends AbstractTimedEvent {
 
@@ -20,11 +24,15 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
 
     @Override
     public void tick() {
-        for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
-            var box = new Box(serverPlayerEntity.getBlockPos().add(64, 64, 64), serverPlayerEntity.getBlockPos().add(-64, -64, -64));
-            for (var mob : serverPlayerEntity.getEntityWorld().getEntitiesByClass(LivingEntity.class, box, e -> true))
-                mob.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 2, 1));
-        }
+        ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
+        List<ServerWorld> worlds = new ArrayList<>();
+        for(var player : eventHandler.getActivePlayers())
+            if(!worlds.contains(player.getWorld()))
+                worlds.add(player.getWorld());
+        for(var world : worlds)
+            for(var entity : world.iterateEntities())
+                if(entity instanceof LivingEntity)
+                    ((LivingEntity)entity).addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 2));
         super.tick();
     }
 
