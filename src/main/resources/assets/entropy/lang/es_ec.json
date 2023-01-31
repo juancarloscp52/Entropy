@@ -101,7 +101,6 @@
   "entropy.events.SkyBlockEvent": "SkyBlock",
   "entropy.events.RideClosestMobEvent": "Montarse en la entidad más cercana",
   "entropy.events.TrueFrostWalkerEvent": "Paso helado verdadero",
-  "entropy.events.PlaceBerryBushBlockEvent": "Colocar arbusto de bayas dulces",
   "entropy.events.PlaceCobwebBlockEvent": "Colocar telaraña",
   "entropy.events.FlipMobsEvent": "Poner mobs bocabajo",
   "entropy.events.RainbowSheepEvents": "Ovejas arcoiris!",

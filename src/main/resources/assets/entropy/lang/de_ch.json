@@ -101,7 +101,6 @@
   "entropy.events.SkyBlockEvent": "SkyBlock",
   "entropy.events.RideClosestMobEvent": "Nächstgelegenen Mob reiten",
   "entropy.events.TrueFrostWalkerEvent": "Echte Eisläufer",
-  "entropy.events.PlaceBerryBushBlockEvent": "Süßbeerenstrauch plazieren",
   "entropy.events.PlaceCobwebBlockEvent": "Spinnennetz plazieren",
   "entropy.events.FlipMobsEvent": "Mobs auf den Kopf stellen",
   "entropy.events.RainbowSheepEvents": "Regenbogenschafe!",
