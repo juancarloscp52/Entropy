@@ -8,7 +8,6 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.mixin.FallingBlockEntityAccessor;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.SandBlock;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FallingBlockEntity;
@@ -45,7 +44,7 @@ public class GravitySightEvent extends AbstractTimedEvent {
                     var entity = hitRes.getEntity();
                     entity.setOnGround(false);
                     entity.setVelocity(direction);
-                } else if (_lastBlockInSight == null || _stareTimer < 20) {
+                } else if (_lastBlockInSight == null || _stareTimer < 10) {
                     var hitRes2 = serverPlayerEntity.raycast(64, 1, false);
                     if (hitRes2.getType() == Type.BLOCK) {
                         var blockHitRes = (BlockHitResult) hitRes2;
