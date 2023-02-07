@@ -141,7 +141,7 @@ public class EventRegistry {
         entropyEvents.put("SkyBlockEvent", SkyBlockEvent::new);
         entropyEvents.put("RideClosestMobEvent", RideClosestMobEvent::new);
         entropyEvents.put("TrueFrostWalkerEvent", TrueFrostWalkerEvent::new);
-        entropyEvents.put("PlaceBerryBushBlockEvent", PlaceBerryBushBlockEvent::new);
+        entropyEvents.put("SoSweetEvent", SoSweetEvent::new);
         entropyEvents.put("PlaceCobwebBlockEvent", PlaceCobwebBlockEvent::new);
         entropyEvents.put("FlipMobsEvent", FlipMobsEvent::new);
         entropyEvents.put("RainbowSheepEvents", RainbowSheepEvents::new);
