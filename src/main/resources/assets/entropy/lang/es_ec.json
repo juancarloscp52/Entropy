@@ -148,6 +148,7 @@
   "entropy.events.FlingEntitiesEvent": "Lanzar todas las entidades",
   "entropy.events.BlackAndWhiteEvent": "Los 50s",
   "entropy.events.CreativeFlightEvent": "¡Hora de volar!",
+  "entropy.events.SoSweetEvent": "¡Que dulce!",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",
