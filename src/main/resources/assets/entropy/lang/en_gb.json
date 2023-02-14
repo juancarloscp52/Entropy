@@ -151,6 +151,7 @@
   "entropy.options.integrations.youtube.sendChatFeedBack": "Show Current Event Poll on YouTube Chat",
   "entropy.options.integrations.youtube.returnToGame": "Access token acquired, you can close this tab and return to the game.",
   "entropy.options.integrations.youtube.error.auth": "Failed to authorize",
+  "entropy.options.integrations.youtube.quotaExceeded": "Quota Exceeded",
 
   "entropy.options.disableEvents": "Disable Events",
   "entropy.options.eventDuration": "Base Event Duration: %ds",
