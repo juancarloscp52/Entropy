@@ -149,6 +149,8 @@
   "entropy.events.FlingEntitiesEvent": "Fling All Entities",
   "entropy.events.BlackAndWhiteEvent": "1950s",
   "entropy.events.CreativeFlightEvent": "Time To Fly!",
+  "entropy.events.FakeTeleportEvent": "Fake Teleport",
+  "entropy.events.FakeFakeTeleportEvent": "Fake Fake Teleport",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",

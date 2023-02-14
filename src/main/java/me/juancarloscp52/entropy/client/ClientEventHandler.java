@@ -122,8 +122,7 @@ public class ClientEventHandler {
         currentEvents.remove(index);
     }
 
-    public void addEvent(String registryIndex) {
-        Event event = EventRegistry.get(registryIndex);
+    public void addEvent(Event event) {
         if(!client.player.isSpectator() && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
             event.initClient();
         currentEvents.add(event);

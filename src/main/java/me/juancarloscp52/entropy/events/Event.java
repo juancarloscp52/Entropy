@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.events;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 
@@ -68,4 +69,9 @@ public interface Event {
     default boolean isDisabledByAccessibilityMode() {
         return false;
     }
+
+    default void writeExtraData(PacketByteBuf buf) {}
+
+    @Environment(EnvType.CLIENT)
+    default void readExtraData(PacketByteBuf buf) {}
 }
