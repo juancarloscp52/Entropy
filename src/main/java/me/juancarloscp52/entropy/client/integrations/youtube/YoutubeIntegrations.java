@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import me.juancarloscp52.entropy.client.ClientEventHandler;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
@@ -21,6 +22,11 @@ import org.apache.logging.log4j.Logger;
 public class YoutubeIntegrations implements Integrations {
     public static final Logger LOGGER = LogManager.getLogger();
 
+    private static final int BASE_POLLING_INTERVAL = 4800;
+    private static final int THRESHOLD_INTERVAL = 3000;
+    private static final int END_POLLING_OFFSET = 300;
+
+    private ClientEventHandler _clientEventHandler;
     private VotingClient _votingClient;
     private ExecutorService _executor;
     private EntropyIntegrationsSettings _settings = EntropyClient.getInstance().integrationsSettings;
@@ -30,7 +36,8 @@ public class YoutubeIntegrations implements Integrations {
     private boolean _isRunning = false;
     private List<String> _messagesToSend = new ArrayList<String>();
 
-    public YoutubeIntegrations(VotingClient votingClient) {
+    public YoutubeIntegrations(ClientEventHandler clientEventHandler, VotingClient votingClient) {
+        _clientEventHandler = clientEventHandler;
         _votingClient = votingClient;
         _executor = Executors.newCachedThreadPool();
 
@@ -90,7 +97,12 @@ public class YoutubeIntegrations implements Integrations {
                                     _messagesToSend.get(0));
                             _messagesToSend.remove(0);
                         }
-                        Thread.sleep(Math.max(messages.pollingIntervalMillis + 100, 4800));
+
+                        int sleep = BASE_POLLING_INTERVAL;
+                        int timeBeforeEvent = _clientEventHandler.eventCountDown * 50;
+                        if (THRESHOLD_INTERVAL < timeBeforeEvent && timeBeforeEvent < sleep)
+                            sleep = timeBeforeEvent - END_POLLING_OFFSET;
+                        Thread.sleep(Math.max(messages.pollingIntervalMillis + 100, sleep));
                     }
 
                 } catch (Exception ex) {
