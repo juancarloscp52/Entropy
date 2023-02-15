@@ -57,4 +57,6 @@ public class Variables {
     public static boolean forceRiding = false;
     public static boolean blackAndWhite = false;
     public static boolean fireEvent = false;
+    public static int shouldLounchEntity = 0;
+    public static int isOnePunchActivated = 0;
 }

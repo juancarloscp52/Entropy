@@ -185,6 +185,7 @@ public class EventRegistry {
         entropyEvents.put("FlingEntitiesEvent", FlingEntitiesEvent::new);
         entropyEvents.put("BlackAndWhiteEvent", BlackAndWhiteEvent::new);
         entropyEvents.put("CreativeFlightEvent", CreativeFlightEvent::new);
+        entropyEvents.put("OnePunchEvent", OnePunchEvent::new);
 
     }
 
