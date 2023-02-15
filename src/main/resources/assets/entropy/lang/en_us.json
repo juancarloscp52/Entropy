@@ -149,6 +149,7 @@
   "entropy.events.FlingEntitiesEvent": "Fling All Entities",
   "entropy.events.BlackAndWhiteEvent": "1950s",
   "entropy.events.CreativeFlightEvent": "Time To Fly!",
+  "entropy.events.RainbowPathEvent": "Rainbow Path",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",
