@@ -148,6 +148,8 @@
   "entropy.events.FlingEntitiesEvent": "Alle Entitäten wegschleudern",
   "entropy.events.BlackAndWhiteEvent": "1950er",
   "entropy.events.CreativeFlightEvent": "Zeit zum Fliegen!",
+  "entropy.events.ForcefieldEvent": "Kraftfeld",
+  "entropy.events.EntityMagnetEvent": "Entitätenmagnet",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",

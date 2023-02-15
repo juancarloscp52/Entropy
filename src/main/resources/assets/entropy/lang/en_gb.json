@@ -124,6 +124,7 @@
   "entropy.events.JumpscareEvent": "Jumpscare",
   "entropy.events.FlingEntitiesEvent": "Fling all entities",
   "entropy.events.CreativeFlightEvent": "Time to fly!",
+  "entropy.events.EntityMagnetEvent": "Entity magnet",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",
