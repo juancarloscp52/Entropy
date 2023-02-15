@@ -1,7 +1,6 @@
 package me.juancarloscp52.entropy.events.db;
 
-
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -11,26 +10,20 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class ForcefieldEvent extends AbstractTimedEvent {
-    private static final List<EntityType<?>> DISALLOWED_ENTITY_TYPES = Util.make(() -> {
-        List<EntityType<?>> list = new ArrayList<>();
-
-        list.add(EntityType.AREA_EFFECT_CLOUD);
-        list.add(EntityType.END_CRYSTAL);
-        list.add(EntityType.GLOW_ITEM_FRAME);
-        list.add(EntityType.ITEM_FRAME);
-        list.add(EntityType.LEASH_KNOT);
-        list.add(EntityType.LIGHTNING_BOLT);
-        list.add(EntityType.MARKER);
-        list.add(EntityType.PAINTING);
-        list.add(EntityType.PLAYER);
-        return list;
-    });
+    private static final List<EntityType<?>> DISALLOWED_ENTITY_TYPES = Arrays.asList(EntityType.AREA_EFFECT_CLOUD,
+            EntityType.END_CRYSTAL,
+            EntityType.GLOW_ITEM_FRAME,
+            EntityType.ITEM_FRAME,
+            EntityType.LEASH_KNOT,
+            EntityType.LIGHTNING_BOLT,
+            EntityType.MARKER,
+            EntityType.PAINTING,
+            EntityType.PLAYER);
     private static final Predicate<Entity> ALLOWED_ENTITY = EntityPredicates.VALID_ENTITY.and(entity -> !DISALLOWED_ENTITY_TYPES.contains(entity.getType()));
 
     @Override
