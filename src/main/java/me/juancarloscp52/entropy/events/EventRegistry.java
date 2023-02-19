@@ -185,6 +185,11 @@ public class EventRegistry {
         entropyEvents.put("FlingEntitiesEvent", FlingEntitiesEvent::new);
         entropyEvents.put("BlackAndWhiteEvent", BlackAndWhiteEvent::new);
         entropyEvents.put("CreativeFlightEvent", CreativeFlightEvent::new);
+        entropyEvents.put("FakeTeleportEvent", FakeTeleportEvent::new);
+        entropyEvents.put("FakeFakeTeleportEvent", FakeFakeTeleportEvent::new);
+        entropyEvents.put("ForcefieldEvent", ForcefieldEvent::new);
+        entropyEvents.put("EntityMagnetEvent", EntityMagnetEvent::new);
+        entropyEvents.put("OnePunchEvent", OnePunchEvent::new);
         entropyEvents.put("InfestationEvent", InfestationEvent::new);
 
     }
