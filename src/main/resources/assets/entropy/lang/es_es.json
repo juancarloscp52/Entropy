@@ -149,6 +149,8 @@
   "entropy.events.BlackAndWhiteEvent": "Los 50s",
   "entropy.events.CreativeFlightEvent": "¡Hora de volar!",
   "entropy.events.SoSweetEvent": "¡Que dulce!",
+  "entropy.events.FakeTeleportEvent": "Teletransporte falso",
+  "entropy.events.FakeFakeTeleportEvent": "Falso teletransporte falso",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",
