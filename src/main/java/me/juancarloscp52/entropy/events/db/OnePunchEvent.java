@@ -9,13 +9,13 @@ public class OnePunchEvent extends AbstractTimedEvent {
 
     @Override
     public void init() {
-        Variables.shouldLounchEntity++;
+        Variables.shouldLaunchEntity++;
         Variables.isOnePunchActivated++;
     }
 
     @Override
     public void end() {
-        Variables.shouldLounchEntity--;
+        Variables.shouldLaunchEntity--;
         Variables.isOnePunchActivated--;
         super.end();
     }
