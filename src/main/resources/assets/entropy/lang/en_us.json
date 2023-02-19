@@ -149,6 +149,12 @@
   "entropy.events.FlingEntitiesEvent": "Fling All Entities",
   "entropy.events.BlackAndWhiteEvent": "1950s",
   "entropy.events.CreativeFlightEvent": "Time To Fly!",
+  "entropy.events.FakeTeleportEvent": "Fake Teleport",
+  "entropy.events.FakeFakeTeleportEvent": "Fake Fake Teleport",
+  "entropy.events.ForcefieldEvent": "Forcefield",
+  "entropy.events.EntityMagnetEvent": "Entity Magnet",
+  "entropy.events.OnePunchEvent": "One Punch",
+  "entropy.events.InfestationEvent": "Infestation",
   "entropy.events.RainbowPathEvent": "Rainbow Path",
 
   "entropy.title": "Entropy: Chaos Mod",
@@ -179,6 +185,7 @@
   "entropy.options.integrations.youtube.sendChatFeedBack": "Show Current Event Poll on YouTube Chat",
   "entropy.options.integrations.youtube.returnToGame": "Access token acquired, you can close this tab and return to the game.",
   "entropy.options.integrations.youtube.error.auth": "Failed to authorize",
+  "entropy.options.integrations.youtube.quotaExceeded": "Quota Exceeded",
 
   "entropy.options.disableEvents": "Disable Events",
   "entropy.options.search": "Search...",
