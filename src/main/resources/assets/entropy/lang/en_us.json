@@ -155,6 +155,7 @@
   "entropy.events.EntityMagnetEvent": "Entity Magnet",
   "entropy.events.OnePunchEvent": "One Punch",
   "entropy.events.InfestationEvent": "Infestation",
+  "entropy.events.RainbowPathEvent": "Rainbow Path",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",

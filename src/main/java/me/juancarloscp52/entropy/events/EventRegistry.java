@@ -191,6 +191,7 @@ public class EventRegistry {
         entropyEvents.put("EntityMagnetEvent", EntityMagnetEvent::new);
         entropyEvents.put("OnePunchEvent", OnePunchEvent::new);
         entropyEvents.put("InfestationEvent", InfestationEvent::new);
+        entropyEvents.put("RainbowPathEvent", RainbowPathEvent::new);
 
     }
 
