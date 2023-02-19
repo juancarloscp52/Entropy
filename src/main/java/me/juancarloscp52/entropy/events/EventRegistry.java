@@ -189,6 +189,7 @@ public class EventRegistry {
         entropyEvents.put("FakeFakeTeleportEvent", FakeFakeTeleportEvent::new);
         entropyEvents.put("ForcefieldEvent", ForcefieldEvent::new);
         entropyEvents.put("EntityMagnetEvent", EntityMagnetEvent::new);
+        entropyEvents.put("OnePunchEvent", OnePunchEvent::new);
 
     }
 

@@ -127,6 +127,7 @@
   "entropy.events.FakeTeleportEvent": "Fake teleport",
   "entropy.events.FakeFakeTeleportEvent": "Fake fake teleport",
   "entropy.events.EntityMagnetEvent": "Entity magnet",
+  "entropy.events.OnePunchEvent": "One Punch",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

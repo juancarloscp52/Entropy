@@ -153,6 +153,8 @@
   "entropy.events.FakeFakeTeleportEvent": "Falso teletransporte falso",
   "entropy.events.ForcefieldEvent": "Campo de fuerza",
   "entropy.events.EntityMagnetEvent": "Imán de entidates",
+  "entropy.events.OnePunchEvent": "De un puñetazo",
+
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",

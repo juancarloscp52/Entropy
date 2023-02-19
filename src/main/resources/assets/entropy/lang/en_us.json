@@ -153,6 +153,7 @@
   "entropy.events.FakeFakeTeleportEvent": "Fake Fake Teleport",
   "entropy.events.ForcefieldEvent": "Forcefield",
   "entropy.events.EntityMagnetEvent": "Entity Magnet",
+  "entropy.events.OnePunchEvent": "One Punch",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",
