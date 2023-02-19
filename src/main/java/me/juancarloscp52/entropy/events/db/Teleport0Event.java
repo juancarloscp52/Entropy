@@ -65,6 +65,12 @@ public class Teleport0Event extends AbstractInstantEvent {
     }
 
     @Override
+    public void tickClient() {
+        if(count <= 2)
+            count++;
+    }
+
+    @Override
     public boolean hasEnded() {
         return count > 2;
     }
