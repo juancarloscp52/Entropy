@@ -177,6 +177,7 @@
   "entropy.options.integrations.youtube.sendChatFeedBack": "Mostrar encuesta actual en el chat de YouTube",
   "entropy.options.integrations.youtube.returnToGame": "Token de acceso adquirido, puedes cerrar esta pestaña y volver al juego.",
   "entropy.options.integrations.youtube.error.auth": "Fallo al autorizar",
+  "entropy.options.integrations.youtube.quotaExceeded": "Cuota Excedida",
 
   "entropy.options.disableEvents": "Desactivar eventos",
   "entropy.options.search": "Buscar...",

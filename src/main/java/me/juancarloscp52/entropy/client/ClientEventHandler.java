@@ -40,7 +40,7 @@ public class ClientEventHandler {
     public List<Event> currentEvents = new ArrayList<>();
     public VotingClient votingClient;
     public MinecraftClient client;
-    short eventCountDown;
+    public short eventCountDown;
 
     short timerDuration;
     UIRenderer renderer = null;
@@ -61,7 +61,7 @@ public class ClientEventHandler {
             votingClient.setIntegrations(switch(EntropyClient.getInstance().integrationsSettings.integrationType) {
                 case 1 -> new TwitchIntegrations(votingClient);
                 case 2 -> new DiscordIntegration(votingClient);
-                default  -> new YoutubeIntegrations(votingClient);
+                default  -> new YoutubeIntegrations(this, votingClient);
             });
             votingClient.enable();
         }
