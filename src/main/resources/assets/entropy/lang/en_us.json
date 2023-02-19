@@ -151,6 +151,8 @@
   "entropy.events.CreativeFlightEvent": "Time To Fly!",
   "entropy.events.FakeTeleportEvent": "Fake Teleport",
   "entropy.events.FakeFakeTeleportEvent": "Fake Fake Teleport",
+  "entropy.events.ForcefieldEvent": "Forcefield",
+  "entropy.events.EntityMagnetEvent": "Entity Magnet",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",

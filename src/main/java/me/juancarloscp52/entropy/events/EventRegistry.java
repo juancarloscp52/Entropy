@@ -187,6 +187,8 @@ public class EventRegistry {
         entropyEvents.put("CreativeFlightEvent", CreativeFlightEvent::new);
         entropyEvents.put("FakeTeleportEvent", FakeTeleportEvent::new);
         entropyEvents.put("FakeFakeTeleportEvent", FakeFakeTeleportEvent::new);
+        entropyEvents.put("ForcefieldEvent", ForcefieldEvent::new);
+        entropyEvents.put("EntityMagnetEvent", EntityMagnetEvent::new);
 
     }
 

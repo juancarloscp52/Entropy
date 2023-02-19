@@ -151,6 +151,8 @@
   "entropy.events.SoSweetEvent": "¡Que dulce!",
   "entropy.events.FakeTeleportEvent": "Teletransporte falso",
   "entropy.events.FakeFakeTeleportEvent": "Falso teletransporte falso",
+  "entropy.events.ForcefieldEvent": "Campo de fuerza",
+  "entropy.events.EntityMagnetEvent": "Imán de entidates",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",
