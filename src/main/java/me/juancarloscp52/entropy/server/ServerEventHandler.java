@@ -140,6 +140,7 @@ public class ServerEventHandler {
 
         PacketByteBuf packetByteBuf = PacketByteBufs.create();
         packetByteBuf.writeString(eventName);
+        event.writeExtraData(packetByteBuf);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
                 ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.ADD_EVENT, packetByteBuf));
 

@@ -69,6 +69,12 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
     }
 
     @Override
+    public void tickClient() {
+        if(count <= 2)
+            count++;
+    }
+
+    @Override
     public boolean hasEnded() {
         return count > 2;
     }

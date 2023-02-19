@@ -134,8 +134,10 @@ public class EntropyClient implements ClientModInitializer {
             if (clientEventHandler == null)
                 return;
             String index = buf.readString();
+            Event event = EventRegistry.get(index);
+            event.readExtraData(buf);
             client.execute(() -> {
-                clientEventHandler.addEvent(index);
+                clientEventHandler.addEvent(event);
             });
         });
 

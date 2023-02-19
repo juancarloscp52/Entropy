@@ -132,8 +132,16 @@ public class EntropyIntegrationsScreen extends Screen {
                 youtubeAuth.setMessage(Text.translatable("entropy.options.integrations.youtube.authorize"));
 
                 if(isSuccessful) {
-                    youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.accessTokenValid");
-                    youtubeAuthState = 1;
+                    // Checking if we can get broadcasts, if not, then we may have exceeded the quota
+                    var broadcasts = YoutubeApi.getLiveBroadcasts(integrationsSettings.youtubeAccessToken);
+                    if(broadcasts == null) {
+                        youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.quotaExceeded");
+                        youtubeAuthState = 2;
+                    }
+                    else {
+                        youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.accessTokenValid");
+                        youtubeAuthState = 1;
+                    }
                 }
                 else {
                     youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.accessTokenInvalid");
@@ -151,8 +159,16 @@ public class EntropyIntegrationsScreen extends Screen {
                 isAccessTokenValid = YoutubeApi.refreshAccessToken(youtubeClientId.getText(), youtubeSecret.getText(), integrationsSettings.youtubeRefreshToken);
 
             if(isAccessTokenValid) {
-                youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.accessTokenValid");
-                youtubeAuthState = 1;
+                // Checking if we can get broadcasts, if not, then we may have exceeded the quota
+                var broadcasts = YoutubeApi.getLiveBroadcasts(integrationsSettings.youtubeAccessToken);
+                if(broadcasts == null) {
+                    youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.quotaExceeded");
+                    youtubeAuthState = 2;
+                }
+                else {
+                    youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.accessTokenValid");
+                    youtubeAuthState = 1;
+                }
             }
             else {
                 youtubeAuthStatus = Text.translatable("entropy.options.integrations.youtube.accessTokenInvalid");

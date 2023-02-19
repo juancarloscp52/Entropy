@@ -64,7 +64,7 @@ public class YoutubeApi {
                         var code = query.get("code");
                         var incomingState = query.get("state");
 
-                        LOGGER.info("Youtube authorization: Exchanging code for tokens");
+                        LOGGER.info("[Youtube authorization] Exchanging code for tokens");
 
                         boolean isSuccessful = false;
                         try {
@@ -134,7 +134,7 @@ public class YoutubeApi {
             _youtubeServer.setExecutor(null);
             _youtubeServer.start();
 
-            LOGGER.info("Http server has started. " + _youtubeServer.getAddress().toString());
+            LOGGER.info("[Youtube authorization] Http server has started. " + _youtubeServer.getAddress().toString());
 
             var uri = new URIBuilder("https://accounts.google.com/o/oauth2/v2/auth");
             uri.addParameter("response_type", "code");
@@ -144,9 +144,10 @@ public class YoutubeApi {
             uri.addParameter("state", state);
             uri.addParameter("code_challenge", codeChallenge);
             uri.addParameter("code_challenge_method", "S256");
+            uri.addParameter("access_type", "offline");
             var url = uri.build().toString();
 
-            LOGGER.info("Youtube authorization: Opening browser authorization");
+            LOGGER.info("[Youtube authorization] Opening browser authorization");
             Util.getOperatingSystem().open(url);
 
         } catch (Exception ex) {
@@ -161,7 +162,7 @@ public class YoutubeApi {
         if (_youtubeServer != null) {
             _youtubeServer.stop(0);
             _youtubeServer = null;
-            LOGGER.info("Http server has stopped");
+            LOGGER.info("[Youtube authorization] Http server has stopped");
         }
     }
 
@@ -172,11 +173,14 @@ public class YoutubeApi {
             var response = httpClient.execute(httpGet);
             return response.getStatusLine().getStatusCode() == 200;
         } catch (Exception ex) {
+            LOGGER.error(ex);
             return false;
         }
     }
 
     public static boolean refreshAccessToken(String clientId, String secret, String refreshToken) {
+        LOGGER.info("[Youtube authorization] Trying to refresh token");
+
         try {
             var httpClient = HttpClients.createDefault();
             var httpPost = new HttpPost("https://www.googleapis.com/oauth2/v4/token");
@@ -188,8 +192,13 @@ public class YoutubeApi {
             httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
             var response = httpClient.execute(httpPost);
-            if (response.getStatusLine().getStatusCode() != 200)
+            var statusLine = response.getStatusLine();
+            if (statusLine.getStatusCode() != 200) {
+                LOGGER.error("[Youtube authorization] Failed to refresh google access token. "
+                        + statusLine.getStatusCode() + " "
+                        + statusLine.getReasonPhrase());
                 return false;
+            }
 
             var entity = response.getEntity();
 
@@ -214,6 +223,7 @@ public class YoutubeApi {
 
             return false;
         } catch (Exception ex) {
+            LOGGER.error("[Youtube authorization] Failed to refresh google access token.\n" + ex);
             return false;
         }
     }
@@ -230,8 +240,13 @@ public class YoutubeApi {
             var httpGet = new HttpGet(uri.build());
             httpGet.addHeader("Authorization", "Bearer " + accessToken);
             var response = httpClient.execute(httpGet);
-            if (response.getStatusLine().getStatusCode() != 200)
+            var statusLine = response.getStatusLine();
+            if (statusLine.getStatusCode() != 200) {
+                LOGGER.error("[Youtube authorization] Failed to get live broadcasts. "
+                        + statusLine.getStatusCode() + " "
+                        + statusLine.getReasonPhrase());
                 return null;
+            }
 
             var entity = response.getEntity();
             if (entity != null) {
@@ -245,6 +260,7 @@ public class YoutubeApi {
             return null;
 
         } catch (Exception ex) {
+            LOGGER.error(ex);
             return null;
         }
     }
@@ -266,8 +282,13 @@ public class YoutubeApi {
             var httpGet = new HttpGet(uri.build());
             httpGet.addHeader("Authorization", "Bearer " + accessToken);
             var response = httpClient.execute(httpGet);
-            if (response.getStatusLine().getStatusCode() != 200)
+            var statusLine = response.getStatusLine();
+            if (statusLine.getStatusCode() != 200) {
+                LOGGER.error("[Youtube authorization] Failed to get chat messages. "
+                        + statusLine.getStatusCode() + " "
+                        + statusLine.getReasonPhrase());
                 return null;
+            }
 
             var entity = response.getEntity();
             if (entity != null) {
@@ -280,6 +301,7 @@ public class YoutubeApi {
             return null;
 
         } catch (Exception ex) {
+            LOGGER.error(ex);
             return null;
         }
     }
@@ -319,6 +341,7 @@ public class YoutubeApi {
             httpPost.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
             httpClient.execute(httpPost);
         } catch (Exception ex) {
+            LOGGER.error(ex);
         }
     }
 
@@ -383,5 +406,7 @@ class LiveBroadcastItem {
 }
 
 class LiveBroadcastSnippet {
+    public String title;
+    public String channelId;
     public String liveChatId;
 }
