@@ -149,6 +149,8 @@
   "entropy.events.BlackAndWhiteEvent": "Los 50s",
   "entropy.events.CreativeFlightEvent": "¡Hora de volar!",
   "entropy.events.SoSweetEvent": "¡Que dulce!",
+  "entropy.events.ForcefieldEvent": "Campo de fuerza",
+  "entropy.events.EntityMagnetEvent": "Imán de entidates",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",
