@@ -150,6 +150,8 @@
   "entropy.events.CreativeFlightEvent": "Zeit zum Fliegen!",
   "entropy.events.ForcefieldEvent": "Kraftfeld",
   "entropy.events.EntityMagnetEvent": "Entitätenmagnet",
+  "entropy.events.FakeTeleportEvent": "Vorgetäuschte Teleportation",
+  "entropy.events.FakeFakeTeleportEvent": "Vorgetäuschte vorgetäuschte Teleportation",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",

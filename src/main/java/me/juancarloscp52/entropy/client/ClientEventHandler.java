@@ -40,7 +40,7 @@ public class ClientEventHandler {
     public List<Event> currentEvents = new ArrayList<>();
     public VotingClient votingClient;
     public MinecraftClient client;
-    short eventCountDown;
+    public short eventCountDown;
 
     short timerDuration;
     UIRenderer renderer = null;
@@ -61,7 +61,7 @@ public class ClientEventHandler {
             votingClient.setIntegrations(switch(EntropyClient.getInstance().integrationsSettings.integrationType) {
                 case 1 -> new TwitchIntegrations(votingClient);
                 case 2 -> new DiscordIntegration(votingClient);
-                default  -> new YoutubeIntegrations(votingClient);
+                default  -> new YoutubeIntegrations(this, votingClient);
             });
             votingClient.enable();
         }
@@ -122,8 +122,7 @@ public class ClientEventHandler {
         currentEvents.remove(index);
     }
 
-    public void addEvent(String registryIndex) {
-        Event event = EventRegistry.get(registryIndex);
+    public void addEvent(Event event) {
         if(!client.player.isSpectator() && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
             event.initClient();
         currentEvents.add(event);
