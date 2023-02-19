@@ -149,6 +149,7 @@
   "entropy.events.BlackAndWhiteEvent": "Los 50s",
   "entropy.events.CreativeFlightEvent": "¡Hora de volar!",
   "entropy.events.SoSweetEvent": "¡Que dulce!",
+  "entropy.events.InfestationEvent": "Infectar bloques",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",
