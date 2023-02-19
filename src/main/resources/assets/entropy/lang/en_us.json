@@ -154,6 +154,7 @@
   "entropy.events.ForcefieldEvent": "Forcefield",
   "entropy.events.EntityMagnetEvent": "Entity Magnet",
   "entropy.events.OnePunchEvent": "One Punch",
+  "entropy.events.InfestationEvent": "Infestation",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",
