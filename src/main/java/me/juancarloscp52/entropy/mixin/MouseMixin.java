@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -44,10 +45,20 @@ public class MouseMixin {
         }
     }
 
-    @Redirect(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"))
-    public void changeLookDirection(ClientPlayerEntity clientPlayerEntity, double cursorDeltaX, double cursorDeltaY) {
-        int i = Variables.invertedControls ? -1 : 1;
-        clientPlayerEntity.changeLookDirection(i * cursorDeltaX, i * cursorDeltaY);
+    @ModifyArg(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"), index = 0)
+    public double invertX(double x) {
+        if(Variables.invertedControls)
+            return -x;
+
+        return x;
+    }
+
+    @ModifyArg(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"), index = 1)
+    public double invertY(double y) {
+        if(Variables.invertedControls)
+            return -y;
+
+        return y;
     }
 
 }
