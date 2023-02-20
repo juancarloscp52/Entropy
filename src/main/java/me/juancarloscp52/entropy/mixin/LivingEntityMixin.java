@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
 
-    @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", at = @At("RETURN"))
     private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         var _this = (LivingEntity) (Object) this;
         var attacker = source.getAttacker();
@@ -25,7 +25,7 @@ public class LivingEntityMixin {
                 _this.kill();
             }
 
-            if (Variables.shouldLounchEntity > 0) {
+            if (Variables.shouldLaunchEntity > 0) {
                 var direction = attacker.getRotationVector().normalize().multiply(4).add(0, 1.75d, 0);
                 _this.addVelocity(direction);
             }
