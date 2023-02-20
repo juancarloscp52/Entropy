@@ -18,6 +18,9 @@ Write your OAuth Access Token and your channel name in Entropy Settings.
 In a similar fashion to the twitch integration, Entropy also includes the ability for YouTube streamers to connect with their YouTube Live Chat for event voting.
 
 It requires the creation of a Google Cloud Platform project and some configuration. [Click here](https://youtu.be/i2cn_IXLoFE) for a video tutorial, there's also a written guide in that video's description
+
+NOTICE: YouTube implements a daily limit of requests limiting the amount of time the mod can be played with YouTube integration. In order to increase the playable time, YouTube integration votes will be counted less often, making the vote bars look laggy. Usually the quota is reached after around 3 hours.
+
 ## Discord Integration:
 Users of a discord server can vote the next event by using the Entropy Discord integration. TUTORIAL: https://www.youtube.com/watch?v=waj82ownAKw
 ## Gameplay:
