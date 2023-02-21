@@ -25,7 +25,6 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry.Reference;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 
