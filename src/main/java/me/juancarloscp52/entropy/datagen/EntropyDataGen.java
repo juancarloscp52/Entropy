@@ -8,5 +8,7 @@ public class EntropyDataGen implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         Pack pack = fabricDataGenerator.createPack();
+
+        pack.addProvider(EntropyEntityTypeTagProvider::new);
     }
 }

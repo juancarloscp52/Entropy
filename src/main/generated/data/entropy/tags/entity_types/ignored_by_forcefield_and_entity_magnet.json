@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:area_effect_cloud",
+    "minecraft:end_crystal",
+    "minecraft:glow_item_frame",
+    "minecraft:item_frame",
+    "minecraft:leash_knot",
+    "minecraft:lightning_bolt",
+    "minecraft:marker",
+    "minecraft:painting",
+    "minecraft:player"
+  ]
+}

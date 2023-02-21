@@ -1,30 +1,19 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.function.Predicate;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class ForcefieldEvent extends AbstractTimedEvent {
-    private static final List<EntityType<?>> DISALLOWED_ENTITY_TYPES = Arrays.asList(EntityType.AREA_EFFECT_CLOUD,
-            EntityType.END_CRYSTAL,
-            EntityType.GLOW_ITEM_FRAME,
-            EntityType.ITEM_FRAME,
-            EntityType.LEASH_KNOT,
-            EntityType.LIGHTNING_BOLT,
-            EntityType.MARKER,
-            EntityType.PAINTING,
-            EntityType.PLAYER);
-    private static final Predicate<Entity> ALLOWED_ENTITY = EntityPredicates.VALID_ENTITY.and(entity -> !DISALLOWED_ENTITY_TYPES.contains(entity.getType()));
+    private static final Predicate<Entity> ALLOWED_ENTITY = EntityPredicates.VALID_ENTITY.and(entity -> !entity.getType().isIn(EntropyTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET));
 
     @Override
     public void tick() {
