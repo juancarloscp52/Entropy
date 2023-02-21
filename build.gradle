@@ -61,6 +61,23 @@ dependencies {
 
 }
 
+loom {
+    runs {
+        datagenClient {
+            inherit client
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+            vmArg "-Dfabric-api.datagen.modid=entropy"
+            runDir "build/datagen"
+        }
+    }
+}
+
+sourceSets.main.resources {
+	srcDir 'src/main/generated'
+}
+
 processResources {
     inputs.property "version", project.version
     filesMatching("fabric.mod.json") {
