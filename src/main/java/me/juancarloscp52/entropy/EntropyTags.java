@@ -15,6 +15,7 @@ public class EntropyTags {
     public static final TagKey<EntityType<?>> DO_NOT_HIGHLIGHT = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "do_not_highlight"));
     public static final TagKey<EntityType<?>> DO_NOT_FLING = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "do_not_fling"));
     public static final TagKey<EntityType<?>> DO_NOT_EXPLODE = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "do_not_explode"));
+    public static final TagKey<EntityType<?>> DO_NOT_DAMAGE = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "do_not_damage"));
     public static final TagKey<Block> NOT_REPLACED_BY_EVENTS = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "not_replaced_by_events"));
     public static final TagKey<Block> IGNORED_BY_MIDAS_TOUCH = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "ignored_by_midas_touch"));
     public static final TagKey<Block> VOID_SIGHT_BREAKS = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "void_sight_breaks"));
