@@ -3,6 +3,7 @@ package me.juancarloscp52.entropy;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
@@ -22,4 +23,7 @@ public class EntropyTags {
     public static final TagKey<Block> SHOWN_DURING_XRAY = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "shown_during_xray"));
     public static final TagKey<Enchantment> DO_NOT_ENCHANT_WITH = TagKey.of(Registries.ENCHANTMENT.getKey(), new Identifier("entropy", "do_not_enchant_with"));
     public static final TagKey<Enchantment> DO_NOT_REMOVE = TagKey.of(Registries.ENCHANTMENT.getKey(), new Identifier("entropy", "do_not_remove"));
+    public static final TagKey<Item> DOES_NOT_DROP_RANDOMLY = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "does_not_drop_randomly"));
+    public static final TagKey<Item> DOES_NOT_RAIN = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "does_not_rain"));
+    public static final TagKey<Item> BANNED = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "banned"));
 }
