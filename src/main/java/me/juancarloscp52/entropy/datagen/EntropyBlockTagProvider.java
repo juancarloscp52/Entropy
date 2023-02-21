@@ -16,5 +16,10 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
         getOrCreateTagBuilder(EntropyTags.NOT_REPLACED_BY_EVENTS).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
+        getOrCreateTagBuilder(EntropyTags.IGNORED_BY_MIDAS_TOUCH).addTag(EntropyTags.NOT_REPLACED_BY_EVENTS).add(Blocks.AIR,
+                Blocks.GOLD_BLOCK,
+                Blocks.GOLD_ORE,
+                Blocks.RAW_GOLD_BLOCK,
+                Blocks.NETHER_GOLD_ORE);
     }
 }

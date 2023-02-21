@@ -5,6 +5,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
@@ -65,15 +66,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                     for (int iz = minZ; iz <= maxZ; iz++) {
 
                         var blockPos = new BlockPos(ix, iy, iz);
-                        var block = world.getBlockState(blockPos).getBlock();
-                        if (block == Blocks.AIR ||
-                                block == Blocks.GOLD_BLOCK ||
-                                block == Blocks.GOLD_ORE ||
-                                block == Blocks.RAW_GOLD_BLOCK ||
-                                block == Blocks.BEDROCK ||
-                                block == Blocks.END_PORTAL_FRAME ||
-                                block == Blocks.END_PORTAL ||
-                                block == Blocks.NETHER_GOLD_ORE)
+                        if (world.getBlockState(blockPos).isIn(EntropyTags.IGNORED_BY_MIDAS_TOUCH))
                             continue;
 
                         var odds = player.getRandom().nextInt(100);
@@ -81,7 +74,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                         if (odds < 96)
                             world.setBlockState(blockPos,
                                     world.getRegistryKey() == World.NETHER
-                                            ? Blocks.NETHER_GOLD_ORE.getDefaultState()
+                                    ? Blocks.NETHER_GOLD_ORE.getDefaultState()
                                             : Blocks.GOLD_ORE.getDefaultState());
                         else if (odds < 98)
                             world.setBlockState(blockPos, Blocks.RAW_GOLD_BLOCK.getDefaultState());
