@@ -28,7 +28,7 @@ public class HighlightAllMobsEvent extends AbstractTimedEvent {
                 worlds.add(player.getWorld());
         for(var world : worlds)
             for(var entity : world.iterateEntities())
-                if(entity instanceof MobEntity && entity.getType().isIn(EntropyTags.DO_NOT_HIGHLIGHT))
+                if(entity instanceof MobEntity && !entity.getType().isIn(EntropyTags.DO_NOT_HIGHLIGHT))
                     ((MobEntity)entity).addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 2));
         super.tick();
     }
