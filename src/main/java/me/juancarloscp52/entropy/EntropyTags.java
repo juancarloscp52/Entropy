@@ -27,4 +27,5 @@ public class EntropyTags {
     public static final TagKey<Item> DOES_NOT_RAIN = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "does_not_rain"));
     public static final TagKey<Item> BANNED = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "banned"));
     public static final TagKey<Item> UNFIXABLE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "unfixable"));
+    public static final TagKey<Item> DO_NOT_CURSE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "do_not_curse"));
 }
