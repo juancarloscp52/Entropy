@@ -24,7 +24,7 @@ public class VoidSightEvent extends AbstractTimedEvent {
                     var currentBlock = serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos());
                     if (currentBlock.isIn(EntropyTags.NOT_REPLACED_BY_EVENTS))
                         continue;
-                    if(currentBlock.isOf(Blocks.CHEST) || currentBlock.isOf(Blocks.TRAPPED_CHEST) || currentBlock.isOf(Blocks.BARREL) || currentBlock.isOf(Blocks.FURNACE) || currentBlock.isOf(Blocks.BLAST_FURNACE) || currentBlock.isOf(Blocks.SMOKER)){
+                    if(currentBlock.isIn(EntropyTags.VOID_SIGHT_BREAKS)){
                         serverPlayerEntity.getWorld().breakBlock(blockHitRes.getBlockPos(), true, serverPlayerEntity);
                     }else{
                         serverPlayerEntity.getWorld().setBlockState(blockHitRes.getBlockPos(), Blocks.AIR.getDefaultState());

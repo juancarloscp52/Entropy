@@ -21,5 +21,11 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
                 Blocks.GOLD_ORE,
                 Blocks.RAW_GOLD_BLOCK,
                 Blocks.NETHER_GOLD_ORE);
+        getOrCreateTagBuilder(EntropyTags.VOID_SIGHT_BREAKS).add(Blocks.CHEST,
+                Blocks.TRAPPED_CHEST,
+                Blocks.BARREL,
+                Blocks.FURNACE,
+                Blocks.BLAST_FURNACE,
+                Blocks.SMOKER);
     }
 }

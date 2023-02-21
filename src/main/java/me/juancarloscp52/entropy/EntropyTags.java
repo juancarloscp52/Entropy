@@ -10,4 +10,5 @@ public class EntropyTags {
     public static final TagKey<EntityType<?>> IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "ignored_by_forcefield_and_entity_magnet"));
     public static final TagKey<Block> NOT_REPLACED_BY_EVENTS = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "not_replaced_by_events"));
     public static final TagKey<Block> IGNORED_BY_MIDAS_TOUCH = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "ignored_by_midas_touch"));
+    public static final TagKey<Block> VOID_SIGHT_BREAKS = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "void_sight_breaks"));
 }
