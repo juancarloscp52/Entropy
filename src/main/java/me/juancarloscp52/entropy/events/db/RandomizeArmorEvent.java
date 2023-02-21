@@ -18,7 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
@@ -63,7 +63,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
     }
     private Enchantment getRandomEnchantment(ItemStack item){
         Enchantment enchantment = Registries.ENCHANTMENT.get(Random.create().nextInt(Registries.ENCHANTMENT.getIds().size()));
-        if(enchantment!=null && enchantment.isAcceptableItem(item) && !Registries.ENCHANTMENT.getEntry(enchantment).isIn(EntropyTags.DO_NOT_ENCHANT_WITH))
+        if(enchantment!=null && enchantment.isAcceptableItem(item) && !Registries.ENCHANTMENT.getEntry(enchantment).isIn(EnchantmentTags.DO_NOT_ENCHANT_WITH))
             return enchantment;
         else
             return getRandomEnchantment(item);

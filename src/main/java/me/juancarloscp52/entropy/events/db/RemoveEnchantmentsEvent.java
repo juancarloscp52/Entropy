@@ -1,7 +1,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
@@ -36,7 +36,7 @@ public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
 
         var enchantments = EnchantmentHelper.fromNbt(itemStack.getEnchantments());
 
-        enchantments.keySet().removeIf(enchantment -> !Registries.ENCHANTMENT.getEntry(enchantment).isIn(EntropyTags.DO_NOT_REMOVE));
+        enchantments.keySet().removeIf(enchantment -> !Registries.ENCHANTMENT.getEntry(enchantment).isIn(EnchantmentTags.DO_NOT_REMOVE));
         EnchantmentHelper.set(enchantments, itemStack);
     }
 }

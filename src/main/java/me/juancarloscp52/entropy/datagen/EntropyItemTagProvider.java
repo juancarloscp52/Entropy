@@ -2,7 +2,7 @@ package me.juancarloscp52.entropy.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
 import net.minecraft.item.Item;
@@ -21,15 +21,15 @@ public class EntropyItemTagProvider extends ItemTagProvider{
     protected void configure(WrapperLookup wrapperLookup) {
         TagKey<Item> spawnEggsTag = TagKey.of(Registries.ITEM.getKey(), new Identifier("c", "spawn_eggs"));
 
-        getOrCreateTagBuilder(EntropyTags.BANNED).addTag(spawnEggsTag).add(Items.DEBUG_STICK,
+        getOrCreateTagBuilder(ItemTags.BANNED).addTag(spawnEggsTag).add(Items.DEBUG_STICK,
                 Items.COMMAND_BLOCK,
                 Items.CHAIN_COMMAND_BLOCK,
                 Items.REPEATING_COMMAND_BLOCK,
                 Items.BARRIER,
                 Items.STRUCTURE_BLOCK,
                 Items.STRUCTURE_VOID);
-        getOrCreateTagBuilder(EntropyTags.DOES_NOT_DROP_RANDOMLY).addTag(EntropyTags.BANNED);
-        getOrCreateTagBuilder(EntropyTags.DOES_NOT_RAIN).addTag(EntropyTags.BANNED);
+        getOrCreateTagBuilder(ItemTags.DOES_NOT_DROP_RANDOMLY).addTag(ItemTags.BANNED);
+        getOrCreateTagBuilder(ItemTags.DOES_NOT_RAIN).addTag(ItemTags.BANNED);
         getOrCreateTagBuilder(spawnEggsTag).add(Items.ALLAY_SPAWN_EGG,
                 Items.AXOLOTL_SPAWN_EGG,
                 Items.BAT_SPAWN_EGG,

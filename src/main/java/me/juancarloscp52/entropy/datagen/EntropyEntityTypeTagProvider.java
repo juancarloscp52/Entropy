@@ -2,7 +2,7 @@ package me.juancarloscp52.entropy.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.EntityTypeTagProvider;
 import net.minecraft.entity.EntityType;
@@ -15,7 +15,7 @@ public class EntropyEntityTypeTagProvider extends EntityTypeTagProvider {
 
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(EntropyTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET).add(EntityType.AREA_EFFECT_CLOUD,
+        getOrCreateTagBuilder(EntityTypeTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET).add(EntityType.AREA_EFFECT_CLOUD,
                 EntityType.END_CRYSTAL,
                 EntityType.GLOW_ITEM_FRAME,
                 EntityType.ITEM_FRAME,
@@ -24,7 +24,7 @@ public class EntropyEntityTypeTagProvider extends EntityTypeTagProvider {
                 EntityType.MARKER,
                 EntityType.PAINTING,
                 EntityType.PLAYER);
-        getOrCreateTagBuilder(EntropyTags.DO_NOT_IGNITE).add(EntityType.PLAYER);
-        getOrCreateTagBuilder(EntropyTags.DO_NOT_EXPLODE).add(EntityType.ENDER_DRAGON, EntityType.PLAYER);
+        getOrCreateTagBuilder(EntityTypeTags.DO_NOT_IGNITE).add(EntityType.PLAYER);
+        getOrCreateTagBuilder(EntityTypeTags.DO_NOT_EXPLODE).add(EntityType.ENDER_DRAGON, EntityType.PLAYER);
     }
 }

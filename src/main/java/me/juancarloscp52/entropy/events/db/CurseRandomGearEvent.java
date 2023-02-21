@@ -1,7 +1,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -33,7 +33,7 @@ public class CurseRandomGearEvent extends AbstractInstantEvent {
             Collections.shuffle(_curses);
 
             for (var itemStack : inventory) {
-                if(itemStack.isIn(EntropyTags.DO_NOT_CURSE))
+                if(itemStack.isIn(ItemTags.DO_NOT_CURSE))
                     continue;
 
                 for (var curse : _curses) {

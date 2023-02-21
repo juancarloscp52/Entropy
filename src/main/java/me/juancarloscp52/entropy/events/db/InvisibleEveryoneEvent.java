@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.minecraft.client.util.math.MatrixStack;
@@ -39,7 +39,7 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
     }
 
     public boolean shouldBeInvisible(Entity entity) {
-        return entity instanceof LivingEntity && !entity.getType().isIn(EntropyTags.NOT_INVISIBLE);
+        return entity instanceof LivingEntity && !entity.getType().isIn(EntityTypeTags.NOT_INVISIBLE);
     }
 
     @Override

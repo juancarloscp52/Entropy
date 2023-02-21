@@ -18,7 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.item.ItemStack;
@@ -28,7 +28,7 @@ public class FixItemsEvent extends AbstractInstantEvent {
 
 
     public void fixItem(ItemStack stack, ServerPlayerEntity player){
-        if(stack.isIn(EntropyTags.UNFIXABLE))
+        if(stack.isIn(ItemTags.UNFIXABLE))
             return;
 
         Criteria.ITEM_DURABILITY_CHANGED.trigger(player, stack, stack.getMaxDamage());

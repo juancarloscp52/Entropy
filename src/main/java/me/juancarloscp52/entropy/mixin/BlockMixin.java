@@ -17,7 +17,8 @@
 
 package me.juancarloscp52.entropy.mixin;
 
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -83,7 +84,7 @@ public class BlockMixin {
 
     private static Item getRandomItem(World world) {
         Item item = Registries.ITEM.getRandom(Random.create()).get().value();
-        if (item.getRegistryEntry().isIn(EntropyTags.DOES_NOT_DROP_RANDOMLY)) {
+        if (item.getRegistryEntry().isIn(ItemTags.DOES_NOT_DROP_RANDOMLY)) {
             item = getRandomItem(world);
         }
         return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem(world);
@@ -99,7 +100,7 @@ public class BlockMixin {
     private static void shouldDrawSide(BlockState state, BlockView world, BlockPos pos,
             Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> ci) {
         if (Variables.xrayActive) {
-            ci.setReturnValue(state.isIn(EntropyTags.SHOWN_DURING_XRAY));
+            ci.setReturnValue(state.isIn(BlockTags.SHOWN_DURING_XRAY));
         }
     }
 

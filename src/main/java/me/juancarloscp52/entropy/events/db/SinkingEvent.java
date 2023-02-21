@@ -18,7 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
@@ -50,7 +50,7 @@ public class SinkingEvent extends AbstractTimedEvent {
                 for (int j = -1;j<2;j++){
                     for (int k = -1;k<2;k++){
                         BlockPos pos = new BlockPos(x+j,y-1,z+k);
-                        if(world.getBlockState(pos).isIn(EntropyTags.NOT_REPLACED_BY_EVENTS))
+                        if(world.getBlockState(pos).isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
                             continue;
                         world.setBlockState(pos, Blocks.AIR.getDefaultState());
                     }

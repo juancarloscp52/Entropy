@@ -17,7 +17,7 @@
 
 package me.juancarloscp52.entropy.mixin;
 
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -99,7 +99,7 @@ public abstract class EntityMixin {
 
     private Item getRandomItem() {
         Item item = Registries.ITEM.getRandom(Random.create()).get().value();
-        if (item.getRegistryEntry().isIn(EntropyTags.DOES_NOT_DROP_RANDOMLY)) {
+        if (item.getRegistryEntry().isIn(ItemTags.DOES_NOT_DROP_RANDOMLY)) {
             item = getRandomItem();
         }
         return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem();

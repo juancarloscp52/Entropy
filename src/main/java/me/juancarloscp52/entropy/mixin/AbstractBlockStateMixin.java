@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.block.AbstractBlock.AbstractBlockState;
 import net.minecraft.block.BlockState;
@@ -22,7 +22,7 @@ public abstract class AbstractBlockStateMixin {
     @Inject(at = @At("HEAD"), method = "isSideInvisible", cancellable = true)
     public void isSideInvisible(BlockState state, Direction direction, CallbackInfoReturnable<Boolean> ci) {
         if (Variables.xrayActive) {
-            ci.setReturnValue(!((AbstractBlockState) (Object) this).isIn(EntropyTags.SHOWN_DURING_XRAY));
+            ci.setReturnValue(!((AbstractBlockState) (Object) this).isIn(BlockTags.SHOWN_DURING_XRAY));
             return;
         }
     }
@@ -30,7 +30,7 @@ public abstract class AbstractBlockStateMixin {
     @Inject(at = @At("HEAD"), method = "isSideSolid", cancellable = true)
     public void isSideSolid(BlockView world, BlockPos pos, Direction direction, SideShapeType shapeType, CallbackInfoReturnable<Boolean> ci) {
         if (Variables.xrayActive) {
-            ci.setReturnValue(((AbstractBlockState) (Object) this).isIn(EntropyTags.SHOWN_DURING_XRAY));
+            ci.setReturnValue(((AbstractBlockState) (Object) this).isIn(BlockTags.SHOWN_DURING_XRAY));
             return;
         }
     }
@@ -47,7 +47,7 @@ public abstract class AbstractBlockStateMixin {
     // And make these blocks highlight its surroundings
     @Inject(at = @At("HEAD"), method = "getLuminance", cancellable = true)
     public void getLuminance(CallbackInfoReturnable<Integer> ci) {
-        if (Variables.xrayActive && ((AbstractBlockState) (Object) this).isIn(EntropyTags.SHOWN_DURING_XRAY)) {
+        if (Variables.xrayActive && ((AbstractBlockState) (Object) this).isIn(BlockTags.SHOWN_DURING_XRAY)) {
             ci.setReturnValue(12);
             return;
         }
@@ -57,7 +57,7 @@ public abstract class AbstractBlockStateMixin {
     @Inject(at = @At("HEAD"), method = "getCullingFace", cancellable = true)
     public void getCullingFace(CallbackInfoReturnable<VoxelShape> ci) {
         if (Variables.xrayActive) {
-            if (((AbstractBlockState) (Object) this).isIn(EntropyTags.SHOWN_DURING_XRAY))
+            if (((AbstractBlockState) (Object) this).isIn(BlockTags.SHOWN_DURING_XRAY))
                 ci.setReturnValue(VoxelShapes.fullCube());
             else
                 ci.setReturnValue(VoxelShapes.empty());

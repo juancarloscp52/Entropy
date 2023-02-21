@@ -5,7 +5,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
@@ -66,7 +66,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                     for (int iz = minZ; iz <= maxZ; iz++) {
 
                         var blockPos = new BlockPos(ix, iy, iz);
-                        if (world.getBlockState(blockPos).isIn(EntropyTags.IGNORED_BY_MIDAS_TOUCH))
+                        if (world.getBlockState(blockPos).isIn(BlockTags.IGNORED_BY_MIDAS_TOUCH))
                             continue;
 
                         var odds = player.getRandom().nextInt(100);

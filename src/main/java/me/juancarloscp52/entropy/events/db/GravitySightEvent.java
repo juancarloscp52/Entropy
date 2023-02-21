@@ -5,7 +5,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.mixin.FallingBlockEntityAccessor;
 import net.minecraft.block.Blocks;
@@ -60,7 +60,7 @@ public class GravitySightEvent extends AbstractTimedEvent {
                 } else {
                     var world = serverPlayerEntity.getWorld();
                     var blockState = world.getBlockState(_lastBlockInSight);
-                    if (!blockState.isIn(EntropyTags.NOT_REPLACED_BY_EVENTS)) {
+                    if (!blockState.isIn(BlockTags.NOT_REPLACED_BY_EVENTS)) {
 
                         world.setBlockState(_lastBlockInSight, Blocks.AIR.getDefaultState());
 

@@ -3,7 +3,7 @@ package me.juancarloscp52.entropy.events.db;
 import java.util.function.Predicate;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
@@ -13,7 +13,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 
 public class ForcefieldEvent extends AbstractTimedEvent {
-    private static final Predicate<Entity> ALLOWED_ENTITY = EntityPredicates.VALID_ENTITY.and(entity -> !entity.getType().isIn(EntropyTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET));
+    private static final Predicate<Entity> ALLOWED_ENTITY = EntityPredicates.VALID_ENTITY.and(entity -> !entity.getType().isIn(EntityTypeTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET));
 
     @Override
     public void tick() {

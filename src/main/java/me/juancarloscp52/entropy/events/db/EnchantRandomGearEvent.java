@@ -1,7 +1,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -34,7 +34,7 @@ public class EnchantRandomGearEvent extends AbstractInstantEvent {
 
             for (var itemStack : inventory) {
                 for (var enchantment : _enchantments) {
-                    if (Registries.ENCHANTMENT.getEntry(enchantment).isIn(EntropyTags.DO_NOT_ENCHANT_WITH))
+                    if (Registries.ENCHANTMENT.getEntry(enchantment).isIn(EnchantmentTags.DO_NOT_ENCHANT_WITH))
                         continue;
 
                     if (enchantment.isAcceptableItem(itemStack)) {

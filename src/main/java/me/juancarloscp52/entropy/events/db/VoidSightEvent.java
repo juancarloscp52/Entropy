@@ -5,7 +5,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
@@ -22,9 +22,9 @@ public class VoidSightEvent extends AbstractTimedEvent {
                 if (hitRes.getType() == Type.BLOCK) {
                     var blockHitRes = (BlockHitResult) hitRes;
                     var currentBlock = serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos());
-                    if (currentBlock.isIn(EntropyTags.NOT_REPLACED_BY_EVENTS))
+                    if (currentBlock.isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
                         continue;
-                    if(currentBlock.isIn(EntropyTags.VOID_SIGHT_BREAKS)){
+                    if(currentBlock.isIn(BlockTags.VOID_SIGHT_BREAKS)){
                         serverPlayerEntity.getWorld().breakBlock(blockHitRes.getBlockPos(), true, serverPlayerEntity);
                     }else{
                         serverPlayerEntity.getWorld().setBlockState(blockHitRes.getBlockPos(), Blocks.AIR.getDefaultState());

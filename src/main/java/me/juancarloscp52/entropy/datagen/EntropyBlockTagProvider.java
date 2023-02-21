@@ -2,7 +2,7 @@ package me.juancarloscp52.entropy.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
-import me.juancarloscp52.entropy.EntropyTags;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
 import net.minecraft.block.Blocks;
@@ -15,19 +15,19 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
 
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(EntropyTags.NOT_REPLACED_BY_EVENTS).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
-        getOrCreateTagBuilder(EntropyTags.IGNORED_BY_MIDAS_TOUCH).addTag(EntropyTags.NOT_REPLACED_BY_EVENTS).add(Blocks.AIR,
+        getOrCreateTagBuilder(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
+        getOrCreateTagBuilder(BlockTags.IGNORED_BY_MIDAS_TOUCH).addTag(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.AIR,
                 Blocks.GOLD_BLOCK,
                 Blocks.GOLD_ORE,
                 Blocks.RAW_GOLD_BLOCK,
                 Blocks.NETHER_GOLD_ORE);
-        getOrCreateTagBuilder(EntropyTags.VOID_SIGHT_BREAKS).add(Blocks.CHEST,
+        getOrCreateTagBuilder(BlockTags.VOID_SIGHT_BREAKS).add(Blocks.CHEST,
                 Blocks.TRAPPED_CHEST,
                 Blocks.BARREL,
                 Blocks.FURNACE,
                 Blocks.BLAST_FURNACE,
                 Blocks.SMOKER);
-        getOrCreateTagBuilder(EntropyTags.SHOWN_DURING_XRAY).add(Blocks.COAL_ORE,
+        getOrCreateTagBuilder(BlockTags.SHOWN_DURING_XRAY).add(Blocks.COAL_ORE,
                 Blocks.COAL_BLOCK,
                 Blocks.DEEPSLATE_COAL_ORE,
                 Blocks.IRON_ORE,
