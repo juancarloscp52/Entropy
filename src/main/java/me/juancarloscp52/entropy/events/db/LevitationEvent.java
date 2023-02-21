@@ -38,7 +38,8 @@ public class LevitationEvent extends AbstractInstantEvent {
                         }
                     }
                     );
-            serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
+            if(!serverPlayerEntity.getType().isIn(EntropyTags.DO_NOT_LEVITATE))
+                serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
         });
     }
 }
