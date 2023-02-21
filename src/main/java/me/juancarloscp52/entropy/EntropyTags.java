@@ -37,6 +37,7 @@ public class EntropyTags {
         public static final TagKey<Item> DOES_NOT_DROP_RANDOMLY = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "does_not_drop_randomly"));
         public static final TagKey<Item> DOES_NOT_RAIN = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "does_not_rain"));
         public static final TagKey<Item> DO_NOT_CURSE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "do_not_curse"));
+        public static final TagKey<Item> DO_NOT_DAMAGE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "do_not_damage"));
         public static final TagKey<Item> UNFIXABLE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "unfixable"));
     }
 }
