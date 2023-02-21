@@ -14,4 +14,5 @@ public class EntropyTags {
     public static final TagKey<Block> VOID_SIGHT_BREAKS = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "void_sight_breaks"));
     public static final TagKey<Block> SHOWN_DURING_XRAY = TagKey.of(Registries.BLOCK.getKey(), new Identifier("entropy", "shown_during_xray"));
     public static final TagKey<Enchantment> DO_NOT_ENCHANT_WITH = TagKey.of(Registries.ENCHANTMENT.getKey(), new Identifier("entropy", "do_not_enchant_with"));
+    public static final TagKey<Enchantment> DO_NOT_REMOVE = TagKey.of(Registries.ENCHANTMENT.getKey(), new Identifier("entropy", "do_not_remove"));
 }
