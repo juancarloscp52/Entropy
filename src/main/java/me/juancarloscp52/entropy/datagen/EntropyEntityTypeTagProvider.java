@@ -25,5 +25,6 @@ public class EntropyEntityTypeTagProvider extends EntityTypeTagProvider {
                 EntityType.PAINTING,
                 EntityType.PLAYER);
         getOrCreateTagBuilder(EntropyTags.DO_NOT_IGNITE).add(EntityType.PLAYER);
+        getOrCreateTagBuilder(EntropyTags.DO_NOT_EXPLODE).add(EntityType.ENDER_DRAGON, EntityType.PLAYER);
     }
 }
