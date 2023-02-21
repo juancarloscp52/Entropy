@@ -17,8 +17,8 @@
 
 package me.juancarloscp52.entropy.mixin;
 
+import me.juancarloscp52.entropy.EntropyTags;
 import me.juancarloscp52.entropy.Variables;
-import me.juancarloscp52.entropy.events.db.XRayEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -99,7 +99,7 @@ public class BlockMixin {
     private static void shouldDrawSide(BlockState state, BlockView world, BlockPos pos,
                                        Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> ci) {
         if (Variables.xrayActive) {
-            ci.setReturnValue(XRayEvent.BLOCKS_TO_RENDER.contains(state.getBlock()));
+            ci.setReturnValue(state.isIn(EntropyTags.SHOWN_DURING_XRAY));
         }
     }
 
