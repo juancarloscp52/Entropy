@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.world.ServerWorld;
@@ -35,9 +36,7 @@ public class PoolEvent extends AbstractInstantEvent {
                     for (int k = -4;k<5;k++){
                         BlockPos pos = new BlockPos(x+j,i,z+k);
 
-                        if((serverPlayerEntity.getWorld().getBlockState(pos).getBlock().equals(Blocks.BEDROCK) ||
-                                serverPlayerEntity.getWorld().getBlockState(pos).getBlock().equals(Blocks.END_PORTAL_FRAME) ||
-                                serverPlayerEntity.getWorld().getBlockState(pos).getBlock().equals(Blocks.END_PORTAL)))
+                        if(serverPlayerEntity.getWorld().getBlockState(pos).isIn(EntropyTags.NOT_REPLACED_BY_EVENTS))
                             continue;   //Do not replace blocks
 
                         if(i==y-5){

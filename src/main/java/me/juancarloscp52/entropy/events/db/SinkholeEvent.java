@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.server.world.ServerWorld;
@@ -35,9 +36,7 @@ public class SinkholeEvent extends AbstractInstantEvent {
                 for (int j = -1;j<2;j++){
                     for (int k = -1;k<2;k++){
                         BlockPos pos = new BlockPos(x+j,i,z+k);
-                        if((world.getBlockState(pos).getBlock().equals(Blocks.BEDROCK) ||
-                                world.getBlockState(pos).getBlock().equals(Blocks.END_PORTAL_FRAME) ||
-                                world.getBlockState(pos).getBlock().equals(Blocks.END_PORTAL)))
+                        if(world.getBlockState(pos).isIn(EntropyTags.NOT_REPLACED_BY_EVENTS))
                             continue;
 
                         if(i<(y-38)){

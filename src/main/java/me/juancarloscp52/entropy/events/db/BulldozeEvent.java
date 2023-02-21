@@ -1,8 +1,8 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class BulldozeEvent extends AbstractTimedEvent {
@@ -17,8 +17,7 @@ public class BulldozeEvent extends AbstractTimedEvent {
                     for (int iz = -1; iz <= 1; iz++) {
                         var blockPos = playerBlockPos.add(ix, iy, iz);
                         var state = world.getBlockState(blockPos);
-                        var block = state.getBlock();
-                        if (block == Blocks.BEDROCK || block == Blocks.END_PORTAL || block == Blocks.END_PORTAL_FRAME)
+                        if (state.isIn(EntropyTags.NOT_REPLACED_BY_EVENTS))
                             continue;
                         world.breakBlock(blockPos, true);
                     }

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:bedrock",
+    "minecraft:end_portal",
+    "minecraft:end_portal_frame"
+  ]
+}

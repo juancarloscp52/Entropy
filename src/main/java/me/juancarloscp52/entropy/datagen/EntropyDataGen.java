@@ -10,5 +10,6 @@ public class EntropyDataGen implements DataGeneratorEntrypoint {
         Pack pack = fabricDataGenerator.createPack();
 
         pack.addProvider(EntropyEntityTypeTagProvider::new);
+        pack.addProvider(EntropyBlockTagProvider::new);
     }
 }
