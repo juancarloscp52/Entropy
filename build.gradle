@@ -79,6 +79,7 @@ sourceSets.main.resources {
 }
 
 processResources {
+    exclude ".cache"
     inputs.property "version", project.version
     filesMatching("fabric.mod.json") {
         expand "version": project.version
@@ -103,6 +104,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
     from "LICENSE"
+	exclude('me/juancarloscp52/entropy/datagen/**')
 }
 
 // configure the maven publication
