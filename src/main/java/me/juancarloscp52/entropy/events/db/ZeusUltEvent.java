@@ -20,7 +20,7 @@ public class ZeusUltEvent extends AbstractInstantEvent {
             var playerPos = serverPlayerEntity.getBlockPos();
             var pos = world.getTopPosition(Type.WORLD_SURFACE, playerPos);
             for (int iy = playerPos.getY(); iy < pos.getY(); iy++)
-                if (!world.getBlockState(pos).isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
+                if (!world.getBlockState(pos).isIn(BlockTags.NOT_REPLACED_BY_ZEUS_ULT))
                     world.breakBlock(playerPos.withY(iy), true);
             var lightning = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
             lightning.setPosition(playerPos.getX(), playerPos.getY(), playerPos.getZ());

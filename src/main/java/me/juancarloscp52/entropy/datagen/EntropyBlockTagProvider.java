@@ -22,6 +22,7 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
                 Blocks.RAW_GOLD_BLOCK,
                 Blocks.NETHER_GOLD_ORE);
         getOrCreateTagBuilder(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
+        getOrCreateTagBuilder(BlockTags.NOT_REPLACED_BY_ZEUS_ULT).add(Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
         getOrCreateTagBuilder(BlockTags.SHOWN_DURING_XRAY).addOptionalTag(ConventionalBlockTags.ORES).add(Blocks.COAL_BLOCK,
                 Blocks.IRON_ORE,
                 Blocks.RAW_IRON_BLOCK,
