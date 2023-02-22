@@ -29,6 +29,7 @@ public class EntropyTags {
         public static final TagKey<EntityType<?>> DO_NOT_IGNITE = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "do_not_ignite"));
         public static final TagKey<EntityType<?>> DO_NOT_LEVITATE = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "do_not_levitate"));
         public static final TagKey<EntityType<?>> IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "ignored_by_forcefield_and_entity_magnet"));
+        public static final TagKey<EntityType<?>> IGNORED_BY_MIDAS_TOUCH = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "ignored_by_midas_touch"));
         public static final TagKey<EntityType<?>> NOT_INVISIBLE = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier("entropy", "not_invisible"));
     }
 
@@ -38,6 +39,7 @@ public class EntropyTags {
         public static final TagKey<Item> DOES_NOT_RAIN = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "does_not_rain"));
         public static final TagKey<Item> DO_NOT_CURSE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "do_not_curse"));
         public static final TagKey<Item> DO_NOT_DAMAGE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "do_not_damage"));
+        public static final TagKey<Item> IGNORED_BY_MIDAS_TOUCH = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "ignored_by_midas_touch"));
         public static final TagKey<Item> UNFIXABLE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "unfixable"));
     }
 }
