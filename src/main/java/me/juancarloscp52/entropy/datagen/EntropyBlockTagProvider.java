@@ -16,16 +16,12 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
 
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
         getOrCreateTagBuilder(BlockTags.IGNORED_BY_MIDAS_TOUCH).addTag(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.AIR,
                 Blocks.GOLD_BLOCK,
                 Blocks.GOLD_ORE,
                 Blocks.RAW_GOLD_BLOCK,
                 Blocks.NETHER_GOLD_ORE);
-        getOrCreateTagBuilder(BlockTags.VOID_SIGHT_BREAKS).addOptionalTag(ConventionalBlockTags.CHESTS).add(Blocks.BARREL,
-                Blocks.FURNACE,
-                Blocks.BLAST_FURNACE,
-                Blocks.SMOKER);
+        getOrCreateTagBuilder(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
         getOrCreateTagBuilder(BlockTags.SHOWN_DURING_XRAY).addOptionalTag(ConventionalBlockTags.ORES).add(Blocks.COAL_BLOCK,
                 Blocks.IRON_ORE,
                 Blocks.RAW_IRON_BLOCK,
@@ -42,5 +38,9 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
                 Blocks.REDSTONE_BLOCK,
                 Blocks.BEDROCK,
                 Blocks.OBSIDIAN);
+        getOrCreateTagBuilder(BlockTags.VOID_SIGHT_BREAKS).addOptionalTag(ConventionalBlockTags.CHESTS).add(Blocks.BARREL,
+                Blocks.FURNACE,
+                Blocks.BLAST_FURNACE,
+                Blocks.SMOKER);
     }
 }

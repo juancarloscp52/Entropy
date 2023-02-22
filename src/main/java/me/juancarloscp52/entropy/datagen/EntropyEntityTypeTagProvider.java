@@ -15,6 +15,8 @@ public class EntropyEntityTypeTagProvider extends EntityTypeTagProvider {
 
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
+        getOrCreateTagBuilder(EntityTypeTags.DO_NOT_EXPLODE).add(EntityType.ENDER_DRAGON, EntityType.PLAYER);
+        getOrCreateTagBuilder(EntityTypeTags.DO_NOT_IGNITE).add(EntityType.PLAYER);
         getOrCreateTagBuilder(EntityTypeTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET).add(EntityType.AREA_EFFECT_CLOUD,
                 EntityType.END_CRYSTAL,
                 EntityType.GLOW_ITEM_FRAME,
@@ -24,7 +26,5 @@ public class EntropyEntityTypeTagProvider extends EntityTypeTagProvider {
                 EntityType.MARKER,
                 EntityType.PAINTING,
                 EntityType.PLAYER);
-        getOrCreateTagBuilder(EntityTypeTags.DO_NOT_IGNITE).add(EntityType.PLAYER);
-        getOrCreateTagBuilder(EntityTypeTags.DO_NOT_EXPLODE).add(EntityType.ENDER_DRAGON, EntityType.PLAYER);
     }
 }
