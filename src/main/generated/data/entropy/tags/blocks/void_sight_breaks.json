@@ -1,8 +1,10 @@
 {
   "replace": false,
   "values": [
-    "minecraft:chest",
-    "minecraft:trapped_chest",
+    {
+      "id": "#c:chests",
+      "required": false
+    },
     "minecraft:barrel",
     "minecraft:furnace",
     "minecraft:blast_furnace",
