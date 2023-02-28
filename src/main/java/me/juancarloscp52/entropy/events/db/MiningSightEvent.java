@@ -5,8 +5,8 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult.Type;
@@ -22,7 +22,7 @@ public class MiningSightEvent extends AbstractTimedEvent {
                     var blockHitRes = (BlockHitResult) hitRes;
                     var blockPos = blockHitRes.getBlockPos();
                     var world = serverPlayerEntity.getWorld();
-                    if (world.getBlockState(blockPos).getBlock() != Blocks.BEDROCK)
+                    if (!world.getBlockState(blockPos).isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
                         world.breakBlock(blockPos, true, serverPlayerEntity);
                 }
             }

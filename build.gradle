@@ -61,7 +61,25 @@ dependencies {
 
 }
 
+loom {
+    runs {
+        datagenClient {
+            inherit client
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+            vmArg "-Dfabric-api.datagen.modid=entropy"
+            runDir "build/datagen"
+        }
+    }
+}
+
+sourceSets.main.resources {
+	srcDir 'src/main/generated'
+}
+
 processResources {
+    exclude ".cache"
     inputs.property "version", project.version
     filesMatching("fabric.mod.json") {
         expand "version": project.version
@@ -86,6 +104,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
     from "LICENSE"
+	exclude('me/juancarloscp52/entropy/datagen/**')
 }
 
 // configure the maven publication

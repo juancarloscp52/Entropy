@@ -5,6 +5,9 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
+import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
@@ -65,15 +68,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                     for (int iz = minZ; iz <= maxZ; iz++) {
 
                         var blockPos = new BlockPos(ix, iy, iz);
-                        var block = world.getBlockState(blockPos).getBlock();
-                        if (block == Blocks.AIR ||
-                                block == Blocks.GOLD_BLOCK ||
-                                block == Blocks.GOLD_ORE ||
-                                block == Blocks.RAW_GOLD_BLOCK ||
-                                block == Blocks.BEDROCK ||
-                                block == Blocks.END_PORTAL_FRAME ||
-                                block == Blocks.END_PORTAL ||
-                                block == Blocks.NETHER_GOLD_ORE)
+                        if (world.getBlockState(blockPos).isIn(BlockTags.IGNORED_BY_MIDAS_TOUCH))
                             continue;
 
                         var odds = player.getRandom().nextInt(100);
@@ -81,7 +76,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                         if (odds < 96)
                             world.setBlockState(blockPos,
                                     world.getRegistryKey() == World.NETHER
-                                            ? Blocks.NETHER_GOLD_ORE.getDefaultState()
+                                    ? Blocks.NETHER_GOLD_ORE.getDefaultState()
                                             : Blocks.GOLD_ORE.getDefaultState());
                         else if (odds < 98)
                             world.setBlockState(blockPos, Blocks.RAW_GOLD_BLOCK.getDefaultState());
@@ -93,7 +88,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
             // Kill mobs around and spawn golden items
             var box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
-            var mobs = world.getOtherEntities(player, box, x -> x instanceof LivingEntity && x.isAlive());
+            var mobs = world.getOtherEntities(player, box, x -> x instanceof LivingEntity && x.isAlive() && !x.getType().isIn(EntityTypeTags.IGNORED_BY_MIDAS_TOUCH));
             for (var mob : mobs) {
 
                 ItemStack itemStack;
@@ -139,9 +134,9 @@ public class MidasTouchEvent extends AbstractTimedEvent {
             };
             for (var pair : inventoryItems) {
                 var itemStack = pair.getLeft().get(pair.getRight());
-                var item = itemStack.getItem();
-                if (item == Items.AIR)
+                if (itemStack.isEmpty() || itemStack.isIn(ItemTags.IGNORED_BY_MIDAS_TOUCH))
                     continue;
+                var item = itemStack.getItem();
                 if (_goldenItems.contains(item))
                     continue;
 

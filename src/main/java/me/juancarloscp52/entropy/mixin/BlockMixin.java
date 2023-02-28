@@ -17,8 +17,9 @@
 
 package me.juancarloscp52.entropy.mixin;
 
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.Variables;
-import me.juancarloscp52.entropy.events.db.XRayEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -83,7 +84,7 @@ public class BlockMixin {
 
     private static Item getRandomItem(World world) {
         Item item = Registries.ITEM.getRandom(Random.create()).get().value();
-        if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
+        if (item.getRegistryEntry().isIn(ItemTags.DOES_NOT_DROP_RANDOMLY)) {
             item = getRandomItem(world);
         }
         return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem(world);
@@ -97,9 +98,9 @@ public class BlockMixin {
 
     @Inject(method = "shouldDrawSide", at = @At("HEAD"), cancellable = true)
     private static void shouldDrawSide(BlockState state, BlockView world, BlockPos pos,
-                                       Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> ci) {
+            Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> ci) {
         if (Variables.xrayActive) {
-            ci.setReturnValue(XRayEvent.BLOCKS_TO_RENDER.contains(state.getBlock()));
+            ci.setReturnValue(state.isIn(BlockTags.SHOWN_DURING_XRAY));
         }
     }
 

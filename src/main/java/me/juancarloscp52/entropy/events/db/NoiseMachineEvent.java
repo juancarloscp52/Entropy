@@ -1,6 +1,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FacingBlock;
@@ -27,9 +28,7 @@ public class NoiseMachineEvent extends AbstractInstantEvent {
                         for (int iz = -((numModules / 2) + 1); iz <= (numModules + 1) / 2; iz++) {
                             var testPos = pos.add(ix, iy, iz);
                             var currentBlock = world.getBlockState(testPos);
-                            if (currentBlock.getBlock() == Blocks.BEDROCK ||
-                                    currentBlock.getBlock() == Blocks.END_PORTAL_FRAME ||
-                                    currentBlock.getBlock() == Blocks.END_PORTAL) {
+                            if (currentBlock.isIn(BlockTags.NOT_REPLACED_BY_EVENTS)) {
                                 pos = pos.up(4);
                                 continue outerloop;
                             }

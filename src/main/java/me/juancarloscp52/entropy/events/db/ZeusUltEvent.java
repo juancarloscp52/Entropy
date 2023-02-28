@@ -1,12 +1,12 @@
 /**
- * @author Kanawanagasaki 
+ * @author Kanawanagasaki
  */
 
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.world.Heightmap.Type;
@@ -20,8 +20,7 @@ public class ZeusUltEvent extends AbstractInstantEvent {
             var playerPos = serverPlayerEntity.getBlockPos();
             var pos = world.getTopPosition(Type.WORLD_SURFACE, playerPos);
             for (int iy = playerPos.getY(); iy < pos.getY(); iy++)
-                if (!world.getBlockState(pos).getBlock().equals(Blocks.END_PORTAL_FRAME)
-                        && !world.getBlockState(pos).getBlock().equals(Blocks.END_PORTAL))
+                if (!world.getBlockState(pos).isIn(BlockTags.NOT_REPLACED_BY_ZEUS_ULT))
                     world.breakBlock(playerPos.withY(iy), true);
             var lightning = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
             lightning.setPosition(playerPos.getX(), playerPos.getY(), playerPos.getZ());

@@ -1,8 +1,11 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 
 public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
 
@@ -31,7 +34,9 @@ public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
         if(nbt==null){return;}
         if(Math.random() > 1.0/3){return;} // one chance over 3 to remove an enchantment.
 
-        nbt.remove("Enchantments");
-        itemStack.setNbt(nbt);
+        var enchantments = EnchantmentHelper.fromNbt(itemStack.getEnchantments());
+
+        enchantments.keySet().removeIf(enchantment -> !Registries.ENCHANTMENT.getEntry(enchantment).isIn(EnchantmentTags.DO_NOT_REMOVE));
+        EnchantmentHelper.set(enchantments, itemStack);
     }
 }

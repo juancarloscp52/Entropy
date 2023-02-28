@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
@@ -66,7 +67,7 @@ public class ItemRainEvent extends AbstractTimedEvent {
 
     private Item getRandomItem(World world) {
         Item item = Registries.ITEM.getRandom(Random.create()).get().value();
-        if (item.toString().equals("debug_stick") || item.toString().contains("spawn_egg") || item.toString().contains("command_block") || item.toString().contains("structure_void") || item.toString().contains("barrier")) {
+        if (item.getRegistryEntry().isIn(ItemTags.DOES_NOT_RAIN)) {
             item = getRandomItem(world);
         }
         return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem(world);

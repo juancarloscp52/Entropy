@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
@@ -35,7 +36,7 @@ public class FlingEntitiesEvent extends AbstractInstantEvent {
         });
         worlds.forEach(world -> {
             world.iterateEntities().forEach(entity -> {
-                if(entity instanceof LivingEntity livingEntity) {
+                if(entity instanceof LivingEntity livingEntity && !livingEntity.getType().isIn(EntityTypeTags.DO_NOT_FLING)) {
                     fling(livingEntity);
                     livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 140));
                 }

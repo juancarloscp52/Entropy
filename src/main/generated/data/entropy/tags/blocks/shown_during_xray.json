@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#c:ores",
+      "required": false
+    },
+    "minecraft:coal_block",
+    "minecraft:iron_ore",
+    "minecraft:raw_iron_block",
+    "minecraft:iron_block",
+    "minecraft:raw_copper_block",
+    "minecraft:copper_block",
+    "minecraft:raw_gold_block",
+    "minecraft:gold_block",
+    "minecraft:diamond_block",
+    "minecraft:ancient_debris",
+    "minecraft:netherite_block",
+    "minecraft:lapis_block",
+    "minecraft:emerald_block",
+    "minecraft:redstone_block",
+    "minecraft:bedrock",
+    "minecraft:obsidian"
+  ]
+}

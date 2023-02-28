@@ -3,6 +3,7 @@ package me.juancarloscp52.entropy.events.db;
 import java.util.ArrayList;
 import java.util.HashMap;
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -40,11 +41,11 @@ public class RainbowPathEvent extends AbstractTimedEvent {
 
             var world = player.getWorld();
             var blockPos = player.getBlockPos().add(0, -1, 0);
-            var block = world.getBlockState(blockPos).getBlock();
-            if(block.equals(Blocks.BEDROCK) || block.equals(Blocks.END_PORTAL) || block.equals(Blocks.END_PORTAL_FRAME))
+            var state = world.getBlockState(blockPos);
+            if(state.isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
                 continue;
-            
-            if(block.equals(_rainbowBlocks.get(playerState % _rainbowBlocks.size())))
+
+            if(state.getBlock().equals(_rainbowBlocks.get(playerState % _rainbowBlocks.size())))
                 continue;
 
             playerState++;

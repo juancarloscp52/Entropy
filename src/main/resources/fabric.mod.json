@@ -24,6 +24,9 @@
     ],
     "modmenu": [
       "me.juancarloscp52.entropy.client.EntropyModMenu"
+    ],
+    "fabric-datagen": [
+      "me.juancarloscp52.entropy.datagen.EntropyDataGen"
     ]
   },
   "mixins": [

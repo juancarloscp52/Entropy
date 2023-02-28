@@ -5,6 +5,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.math.MatrixStack;
@@ -20,7 +21,7 @@ public class GlassSightEvent extends AbstractTimedEvent {
                 var hitRes = serverPlayerEntity.raycast(64, 1, true);
                 if (hitRes.getType() == Type.BLOCK) {
                     var blockHitRes = (BlockHitResult) hitRes;
-                    if(!(serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos()).getBlock().equals(Blocks.BEDROCK) || serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos()).getBlock().equals(Blocks.END_PORTAL_FRAME) || serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos()).getBlock().equals(Blocks.END_PORTAL))){
+                    if(!serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos()).isIn(BlockTags.NOT_REPLACED_BY_EVENTS)){
                         serverPlayerEntity.getWorld().setBlockState(blockHitRes.getBlockPos(), Blocks.GLASS.getDefaultState());
                     }
                 }

@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.util.math.MathHelper;
 
@@ -27,17 +28,17 @@ public class DamageItemsEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.getInventory().main.forEach(itemStack -> {
-                if(itemStack.isDamageable()){
+                if(itemStack.isDamageable() && !itemStack.isIn(ItemTags.DO_NOT_DAMAGE)){
                     itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()),serverPlayerEntity,serverPlayerEntity1 -> {});
                 }
             });
             serverPlayerEntity.getInventory().armor.forEach(itemStack -> {
-                if(itemStack.isDamageable()){
+                if(itemStack.isDamageable() && !itemStack.isIn(ItemTags.DO_NOT_DAMAGE)){
                     itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()),serverPlayerEntity,serverPlayerEntity1 -> {});
                 }
             });
             serverPlayerEntity.getInventory().offHand.forEach(itemStack -> {
-                if(itemStack.isDamageable()){
+                if(itemStack.isDamageable() && !itemStack.isIn(ItemTags.DO_NOT_DAMAGE)){
                     itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()),serverPlayerEntity,serverPlayerEntity1 -> {});
                 }
             });
