@@ -103,7 +103,11 @@ public class VotingClient {
 
     public void newPoll(int voteID, int size, List<String> events) {
         voteMap.clear();
-        this.overlayServer.onVoteEnd();
+        if(firstVote){
+            firstVote=false;
+        } else {
+            this.overlayServer.onVoteEnd();
+        }
         if (this.size == size) {
             this.voteID = voteID;
             this.events = events;
