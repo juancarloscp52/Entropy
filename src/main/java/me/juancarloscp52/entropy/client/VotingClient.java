@@ -19,6 +19,7 @@ package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
+import me.juancarloscp52.entropy.client.websocket.OverlayServer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
@@ -46,16 +47,21 @@ public class VotingClient {
     Integrations integrations;
     MinecraftClient client = MinecraftClient.getInstance();
 
+    OverlayServer overlayServer;
+    boolean firstVote=true;
+
     // key is user identifier and value is last vote index
     private HashMap<String, Integer> voteMap = new HashMap<>();
 
     public void enable() {
         enabled = true;
+        this.overlayServer = new OverlayServer();
     }
 
     public void disable() {
         enabled = false;
         integrations.stop();
+        overlayServer.stop();
     }
     public void removeVote(int index, String userId) {
         if (index >= 0 && index < 4) {
@@ -97,6 +103,7 @@ public class VotingClient {
 
     public void newPoll(int voteID, int size, List<String> events) {
         voteMap.clear();
+        this.overlayServer.onVoteEnd();
         if (this.size == size) {
             this.voteID = voteID;
             this.events = events;
@@ -127,9 +134,12 @@ public class VotingClient {
     }
 
     public void render(MatrixStack matrixStack) {
-        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, MathHelper.packRgb(255, 255, 255));
-        for (int i = 0; i < 4; i++) {
-            renderPollElement(matrixStack, i);
+        if(EntropyClient.getInstance().integrationsSettings.showUpcomingEvents) {
+            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, MathHelper.packRgb(255, 255, 255));
+
+            for (int i = 0; i < 4; i++) {
+                renderPollElement(matrixStack, i);
+            }
         }
     }
 
@@ -155,6 +165,7 @@ public class VotingClient {
     public void sendPoll(int voteID, List<String> events) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
             integrations.sendPoll(voteID,events);
+        this.overlayServer.onNewVote(voteID,events);
     }
     public void sendMessage(String message) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
@@ -168,6 +179,8 @@ public class VotingClient {
         buf.writeIntArray(this.votes);
         votes = new int[4];
         ClientPlayNetworking.send(NetworkingConstants.POLL_STATUS, buf);
+        this.overlayServer.updateVote(voteID,events,totalVotes);
+
     }
 
     public int getColor() {
