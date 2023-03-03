@@ -19,6 +19,7 @@ public class NoAttackingEvent extends AbstractTimedEvent {
 
         boundAttackKey = ((KeyBindingAccessor) options.attackKey).fabric_getBoundKey();
         options.attackKey.setBoundKey(InputUtil.UNKNOWN_KEY);
+        options.attackKey.setPressed(false);
         KeyBinding.updateKeysByCode();
     }
 
