@@ -59,12 +59,13 @@ public class OverlayServer {
 
 
     public void updateVote(int voteID, List<String> events, int[] votes) {
+        boolean showVotes = EntropyClient.getInstance().integrationsSettings.showCurrentPercentage;
         int altOffset = voteID % 2 == 0 ? 5 : 1;
         if(EntropyClient.getInstance().integrationsSettings.integrationType==2)
             altOffset=1;
         List<OverlayVoteOption> options=new ArrayList<>();
         for (int i = 0; i < events.size(); i++) {
-            options.add(new OverlayVoteOption(I18n.translate(events.get(i)),new String[]{Integer.toString(i+altOffset)},votes[i]));
+            options.add(new OverlayVoteOption(I18n.translate(events.get(i)),new String[]{Integer.toString(i+altOffset)}, showVotes ? votes[i]:0));
         }
         this.overlayWebsocket.UpdateVoting(options);
 

@@ -183,9 +183,7 @@ public class VotingClient {
         buf.writeIntArray(this.votes);
         votes = new int[4];
         ClientPlayNetworking.send(NetworkingConstants.POLL_STATUS, buf);
-        if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
-            this.overlayServer.updateVote(voteID,events,totalVotes);
-
+        this.overlayServer.updateVote(voteID,events,totalVotes);
     }
 
     public int getColor() {
