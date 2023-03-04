@@ -1,13 +1,12 @@
 package me.juancarloscp52.entropy.mixin;
 
+import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.Variables;
+import net.minecraft.client.gui.hud.InGameOverlayRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.Variables;
-import net.minecraft.client.gui.hud.InGameOverlayRenderer;
 
 @Mixin(InGameOverlayRenderer.class)
 public class InGameOverlayRendererMixin {

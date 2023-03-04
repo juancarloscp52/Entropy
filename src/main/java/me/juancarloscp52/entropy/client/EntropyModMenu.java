@@ -30,7 +30,7 @@ public class EntropyModMenu implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return (parent) -> {
-            if (MinecraftClient.getInstance().getGame().getCurrentSession() == null) {
+            if (MinecraftClient.getInstance().world == null) {
                 return new EntropyConfigurationScreen(parent);
             } else {
                 return new EntropyErrorScreen(parent, Text.translatable("entropy.options.error"));

@@ -1,7 +1,5 @@
 package me.juancarloscp52.entropy.datagen;
 
-import java.util.concurrent.CompletableFuture;
-
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
@@ -11,6 +9,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
+
+import java.util.concurrent.CompletableFuture;
 
 public class EntropyItemTagProvider extends ItemTagProvider{
     public EntropyItemTagProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture, BlockTagProvider blockTagProvider) {

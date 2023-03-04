@@ -46,7 +46,6 @@ public class ShaderManager {
     public static void render(PostEffectProcessor shader, float tickDelta){
         RenderSystem.disableBlend();
         RenderSystem.disableDepthTest();
-        RenderSystem.enableTexture();
         RenderSystem.resetTextureMatrix();
         shader.render(tickDelta);
         MinecraftClient.getInstance().getFramebuffer().beginWrite(true);

@@ -9,7 +9,6 @@ import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.Difficulty;
@@ -30,7 +29,7 @@ public class DeathSightEvent extends AbstractTimedEvent {
                 var dmg = difficulty == Difficulty.HARD ? 3 : difficulty == Difficulty.NORMAL ? 5 : 7;
                 var entity = hitRes.getEntity();
                 if (entity instanceof LivingEntity && !entity.getType().isIn(EntityTypeTags.DO_NOT_DAMAGE))
-                    entity.damage(DamageSource.player(serverPlayerEntity), dmg);
+                    entity.damage(entity.getDamageSources().playerAttack(serverPlayerEntity), dmg);
             }
         }
 

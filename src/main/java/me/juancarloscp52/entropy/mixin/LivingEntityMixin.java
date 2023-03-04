@@ -1,10 +1,10 @@
 package me.juancarloscp52.entropy.mixin;
 
+import me.juancarloscp52.entropy.Variables;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particle.ParticleTypes;
-import me.juancarloscp52.entropy.Variables;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

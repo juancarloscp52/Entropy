@@ -24,7 +24,6 @@ import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 
-
 import java.util.List;
 
 public class EntropyErrorScreen extends Screen {

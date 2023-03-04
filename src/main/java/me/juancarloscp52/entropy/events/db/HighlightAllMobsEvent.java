@@ -1,8 +1,5 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
@@ -12,6 +9,9 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.server.world.ServerWorld;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HighlightAllMobsEvent extends AbstractTimedEvent {
 

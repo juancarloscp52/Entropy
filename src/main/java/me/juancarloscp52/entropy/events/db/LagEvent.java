@@ -1,13 +1,14 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.HashMap;
-import java.util.Map;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LagEvent extends AbstractTimedEvent {
     Random random;

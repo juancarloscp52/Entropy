@@ -1,12 +1,12 @@
 package me.juancarloscp52.entropy.datagen;
 
-import java.util.concurrent.CompletableFuture;
-
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.EntityTypeTagProvider;
 import net.minecraft.entity.EntityType;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
+
+import java.util.concurrent.CompletableFuture;
 
 public class EntropyEntityTypeTagProvider extends EntityTypeTagProvider {
     public EntropyEntityTypeTagProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {

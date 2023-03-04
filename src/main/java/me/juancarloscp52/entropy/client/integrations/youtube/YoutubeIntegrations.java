@@ -4,11 +4,6 @@
 
 package me.juancarloscp52.entropy.client.integrations.youtube;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import me.juancarloscp52.entropy.client.ClientEventHandler;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
@@ -18,6 +13,11 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.math.MathHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class YoutubeIntegrations implements Integrations {
     public static final Logger LOGGER = LogManager.getLogger();

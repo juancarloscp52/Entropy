@@ -1,12 +1,12 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.HashMap;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.HashMap;
 
 public class InfestationEvent extends AbstractInstantEvent {
 

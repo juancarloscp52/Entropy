@@ -32,7 +32,6 @@ import net.minecraft.block.FenceGateBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.sound.BlockSoundGroup;
@@ -84,7 +83,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
         if (getTickCount() % 20 == 0)
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 if (random.nextInt(100) >= 95)
-                    serverPlayerEntity.damage(DamageSource.GENERIC, 1);
+                    serverPlayerEntity.damage(serverPlayerEntity.getDamageSources().generic(), 1);
             });
 
         super.tick();

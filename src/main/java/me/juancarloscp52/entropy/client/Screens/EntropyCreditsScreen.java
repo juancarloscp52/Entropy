@@ -19,6 +19,7 @@ package me.juancarloscp52.entropy.client.Screens;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.events.Event;
+import net.minecraft.client.gui.LogoDrawer;
 import net.minecraft.client.gui.screen.CreditsScreen;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -26,7 +27,7 @@ public class EntropyCreditsScreen extends CreditsScreen {
     Event currentEvent;
 
     public EntropyCreditsScreen(Event currentEvent) {
-        super(true, () -> {});
+        super(true, new LogoDrawer(false),() -> {});
         this.currentEvent = currentEvent;
     }
 

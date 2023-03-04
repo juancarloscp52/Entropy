@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.client.Screens.Widgets;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.Event;
@@ -28,12 +27,9 @@ import me.juancarloscp52.entropy.mixin.EntryListWidgetAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
@@ -191,7 +187,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         }
 
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            checkbox.setPos(x + 32, y);
+            checkbox.setPosition(x + 32, y);
             checkbox.render(matrices, mouseX, mouseY, tickDelta);
 
             if(Entropy.getInstance().settings.accessibilityMode && eventInfo.event.isDisabledByAccessibilityMode()) {

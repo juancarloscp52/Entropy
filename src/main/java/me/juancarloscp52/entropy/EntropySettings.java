@@ -17,10 +17,10 @@
 
 package me.juancarloscp52.entropy;
 
+import net.minecraft.text.Text;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.text.Text;
 
 public class EntropySettings {
 

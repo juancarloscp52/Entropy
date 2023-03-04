@@ -20,7 +20,6 @@ package me.juancarloscp52.entropy;
 import com.google.gson.Gson;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
