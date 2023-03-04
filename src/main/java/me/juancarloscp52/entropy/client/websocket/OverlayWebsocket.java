@@ -3,7 +3,6 @@ package me.juancarloscp52.entropy.client.websocket;
 import com.google.gson.Gson;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
-import me.juancarloscp52.entropy.client.EntropyClient;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -17,6 +16,7 @@ public class OverlayWebsocket extends WebSocketServer {
     public Gson gson;
     public OverlayWebsocket(InetSocketAddress address) {
         super(address);
+        this.setReuseAddr(true);
         gson=new Gson();
     }
     public void EndVoting() {
