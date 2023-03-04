@@ -68,6 +68,7 @@ public class EntropyIntegrationsScreen extends Screen {
     Text channelTranslatable;
     CheckboxWidget sendChatMessages;
     CheckboxWidget showPollStatus;
+    CheckboxWidget showUpcomingEvents;
 
     ButtonWidget done;
 
@@ -178,8 +179,12 @@ public class EntropyIntegrationsScreen extends Screen {
         });
 
         Text showPollStatusText = Text.translatable("entropy.options.integrations.showPollStatus");
-        showPollStatus = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showPollStatusText) / 2) + 11), 100, 150, 20, showPollStatusText, integrationsSettings.showCurrentPercentage);
+        showPollStatus = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showPollStatusText))+20), 140, 150, 20, showPollStatusText, integrationsSettings.showCurrentPercentage);
         this.addDrawableChild(showPollStatus);
+
+        Text showUpcomingEventsText = Text.translatable("entropy.options.integrations.showUpcomingEvents");
+        showUpcomingEvents = new CheckboxWidget(this.width / 2 + (20), 140, 150, 20, showUpcomingEventsText, integrationsSettings.showUpcomingEvents);
+        this.addDrawableChild(showUpcomingEvents);
 
         Text sendChatMessagesText = Text.translatable("entropy.options.integrations.twitch.sendChatFeedBack");
         sendChatMessages = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(sendChatMessagesText) / 2) + 11), 145, 150, 20, sendChatMessagesText, integrationsSettings.sendChatMessages);
@@ -207,6 +212,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 twitchToken.setVisible(true);
                 sendChatMessages.visible = true;
                 showPollStatus.visible = true;
+                showUpcomingEvents.visible = true;
                 discordChannel.setVisible(false);
                 discordToken.setVisible(false);
                 youtubeClientId.setVisible(false);
@@ -216,6 +222,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 tokenTranslatable = Text.translatable("entropy.options.integrations.twitch.OAuthToken");
                 channelTranslatable = Text.translatable("entropy.options.integrations.twitch.channelName");
                 showPollStatus.setY(140);
+                showUpcomingEvents.setY(140);
                 sendChatMessages.setY(165);
                 sendChatMessages.setMessage(Text.translatable("entropy.options.integrations.twitch.sendChatFeedBack"));
             }
@@ -224,6 +231,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 twitchToken.setVisible(false);
                 sendChatMessages.visible = false;
                 showPollStatus.visible = true;
+                showUpcomingEvents.visible = true;
                 discordChannel.setVisible(true);
                 discordToken.setVisible(true);
                 youtubeClientId.setVisible(false);
@@ -233,6 +241,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 tokenTranslatable = Text.translatable("entropy.options.integrations.discord.token");
                 channelTranslatable = Text.translatable("entropy.options.integrations.discord.channelId");
                 showPollStatus.setY(140);
+                showUpcomingEvents.setY(140);
                 sendChatMessages.setY(165);
             }
             case 3 -> {
@@ -240,6 +249,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 twitchToken.setVisible(false);
                 sendChatMessages.visible = true;
                 showPollStatus.visible = true;
+                showUpcomingEvents.visible = true;
                 discordChannel.setVisible(false);
                 discordToken.setVisible(false);
                 youtubeClientId.setVisible(true);
@@ -249,6 +259,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 tokenTranslatable = Text.translatable("entropy.options.integrations.youtube.clientId");
                 channelTranslatable = Text.translatable("entropy.options.integrations.youtube.secret");
                 showPollStatus.setY(160);
+                showUpcomingEvents.setY(160);
                 sendChatMessages.setY(185);
                 sendChatMessages.setMessage(Text.translatable("entropy.options.integrations.youtube.sendChatFeedBack"));
             }
@@ -257,6 +268,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 twitchToken.setVisible(false);
                 sendChatMessages.visible = false;
                 showPollStatus.visible = false;
+                showUpcomingEvents.visible = false;
                 discordChannel.setVisible(false);
                 discordToken.setVisible(false);
                 youtubeClientId.setVisible(false);
@@ -266,6 +278,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 tokenTranslatable = Text.translatable("");
                 channelTranslatable = Text.translatable("");
                 showPollStatus.setY(140);
+                showUpcomingEvents.setY(140);
                 sendChatMessages.setY(165);
             }
         }
@@ -314,6 +327,7 @@ public class EntropyIntegrationsScreen extends Screen {
 
         integrationsSettings.sendChatMessages = sendChatMessages.isChecked();
         integrationsSettings.showCurrentPercentage = showPollStatus.isChecked();
+        integrationsSettings.showUpcomingEvents = showUpcomingEvents.isChecked();
 
         EntropyClient.getInstance().saveSettings();
         Entropy.getInstance().saveSettings();

@@ -24,6 +24,9 @@ public class EntropyIntegrationsSettings {
     public String channel = "";
     public boolean sendChatMessages = true;
     public boolean showCurrentPercentage = true;
+
+    public boolean showUpcomingEvents = true;
+
     public String discordToken = "";
     public long discordChannel = -1;
     public String youtubeClientId = "";

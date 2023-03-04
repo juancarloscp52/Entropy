@@ -59,6 +59,9 @@ dependencies {
     include 'com.fasterxml.jackson.core:jackson-annotations:2.10.1'
     include 'com.fasterxml.jackson.core:jackson-core:2.10.1'
 
+    // Websocket Server for Overlay
+    implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+
 }
 
 loom {
