@@ -179,11 +179,11 @@ public class EntropyIntegrationsScreen extends Screen {
         });
 
         Text showPollStatusText = Text.translatable("entropy.options.integrations.showPollStatus");
-        showPollStatus = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showPollStatusText) / 2) + 11), 100, 150, 20, showPollStatusText, integrationsSettings.showCurrentPercentage);
+        showPollStatus = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showPollStatusText))+20), 140, 150, 20, showPollStatusText, integrationsSettings.showCurrentPercentage);
         this.addDrawableChild(showPollStatus);
 
         Text showUpcomingEventsText = Text.translatable("entropy.options.integrations.showUpcomingEvents");
-        showUpcomingEvents = new CheckboxWidget(this.width / 2 - ((textRenderer.getWidth(showUpcomingEventsText) / 2) + 11), 120, 150, 20, showUpcomingEventsText, integrationsSettings.showUpcomingEvents);
+        showUpcomingEvents = new CheckboxWidget(this.width / 2 + (20), 140, 150, 20, showUpcomingEventsText, integrationsSettings.showUpcomingEvents);
         this.addDrawableChild(showUpcomingEvents);
 
         Text sendChatMessagesText = Text.translatable("entropy.options.integrations.twitch.sendChatFeedBack");
@@ -222,6 +222,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 tokenTranslatable = Text.translatable("entropy.options.integrations.twitch.OAuthToken");
                 channelTranslatable = Text.translatable("entropy.options.integrations.twitch.channelName");
                 showPollStatus.setY(140);
+                showUpcomingEvents.setY(140);
                 sendChatMessages.setY(165);
                 sendChatMessages.setMessage(Text.translatable("entropy.options.integrations.twitch.sendChatFeedBack"));
             }
@@ -240,6 +241,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 tokenTranslatable = Text.translatable("entropy.options.integrations.discord.token");
                 channelTranslatable = Text.translatable("entropy.options.integrations.discord.channelId");
                 showPollStatus.setY(140);
+                showUpcomingEvents.setY(140);
                 sendChatMessages.setY(165);
             }
             case 3 -> {
@@ -257,6 +259,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 tokenTranslatable = Text.translatable("entropy.options.integrations.youtube.clientId");
                 channelTranslatable = Text.translatable("entropy.options.integrations.youtube.secret");
                 showPollStatus.setY(160);
+                showUpcomingEvents.setY(160);
                 sendChatMessages.setY(185);
                 sendChatMessages.setMessage(Text.translatable("entropy.options.integrations.youtube.sendChatFeedBack"));
             }
@@ -275,6 +278,7 @@ public class EntropyIntegrationsScreen extends Screen {
                 tokenTranslatable = Text.translatable("");
                 channelTranslatable = Text.translatable("");
                 showPollStatus.setY(140);
+                showUpcomingEvents.setY(140);
                 sendChatMessages.setY(165);
             }
         }
