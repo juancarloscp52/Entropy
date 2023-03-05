@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         java: [17]
-        minecraftVersion: [1.19.3]
+        minecraftVersion: [1.19.4-pre3]
     runs-on: ubuntu-latest
 
     steps:

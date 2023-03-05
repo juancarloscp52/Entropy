@@ -10,7 +10,7 @@ import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.ColorHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -136,8 +136,8 @@ public class YoutubeIntegrations implements Integrations {
     }
 
     @Override
-    public int getColor() {
-        return MathHelper.packRgb(255, 0, 0);
+    public int getColor(int alpha) {
+        return ColorHelper.Argb.getArgb(alpha,255, 0, 0);
     }
 
 }

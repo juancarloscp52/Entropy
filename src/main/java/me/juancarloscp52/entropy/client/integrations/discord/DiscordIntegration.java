@@ -26,7 +26,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.ColorHelper;
 
 import javax.security.auth.login.LoginException;
 import java.awt.*;
@@ -98,7 +98,7 @@ public class DiscordIntegration implements Integrations {
     }
 
     @Override
-    public int getColor() {
-        return MathHelper.packRgb(88, 101, 242);
+    public int getColor(int alpha) {
+        return ColorHelper.Argb.getArgb(alpha,88, 101, 242);
     }
 }

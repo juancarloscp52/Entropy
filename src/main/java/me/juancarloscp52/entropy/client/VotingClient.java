@@ -27,6 +27,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.HashMap;
@@ -137,7 +138,7 @@ public class VotingClient {
 
     public void render(MatrixStack matrixStack) {
         if(EntropyClient.getInstance().integrationsSettings.showUpcomingEvents) {
-            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, MathHelper.packRgb(255, 255, 255));
+            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, ColorHelper.Argb.getArgb(255,255, 255, 255));
 
             for (int i = 0; i < 4; i++) {
                 renderPollElement(matrixStack, i);
@@ -152,14 +153,14 @@ public class VotingClient {
 
         double ratio = this.totalVotesCount > 0 ? (double) this.totalVotes[i] / this.totalVotesCount : 0;
         int altOffset = (this.voteID % 2) == 0 && (EntropyClient.getInstance().integrationsSettings.integrationType!=2) ? 4 : 0;
-        DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, MathHelper.packRgb(155, 22, 217) + 150 << 24);
+        DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, ColorHelper.Argb.getArgb(150,0, 0, 0));
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
-            DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 10 + MathHelper.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor() + (150 << 24));
-        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.literal((1 + i + altOffset) + ": ").append(Text.translatable(this.events.get(i))), 15, 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
+            DrawableHelper.fill(matrixStack, 10, 31 + (i * 18), 10 + MathHelper.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));
+        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, Text.literal((1 + i + altOffset) + ": ").append(Text.translatable(this.events.get(i))), 15, 34 + (i * 18), ColorHelper.Argb.getArgb(255,255, 255, 255));
 
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
             Text percentage = Text.literal(MathHelper.floor(ratio * 100) + " %");
-            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, percentage, pollWidth + 10 + 42 - client.textRenderer.getWidth(percentage), 34 + (i * 18), MathHelper.packRgb(255, 255, 255));
+            DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, percentage, pollWidth + 10 + 42 - client.textRenderer.getWidth(percentage), 34 + (i * 18), ColorHelper.Argb.getArgb(255,255, 255, 255));
         }
 
     }
@@ -184,7 +185,7 @@ public class VotingClient {
         this.overlayServer.updateVote(voteID,events,totalVotes);
     }
 
-    public int getColor() {
-        return integrations.getColor();
+    public int getColor(int alpha) {
+        return integrations.getColor(alpha);
     }
 }

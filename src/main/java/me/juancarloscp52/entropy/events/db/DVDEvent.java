@@ -22,6 +22,7 @@ import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.Random;
@@ -95,10 +96,10 @@ public class DVDEvent extends AbstractTimedEvent {
         int leftSize = MathHelper.floor(x);
         int bottomSize = MathHelper.floor(y + size);
         int rightSize = MathHelper.floor(x + size);
-        DrawableHelper.fill(matrixStack, 0, 0, width, topSize, MathHelper.packRgb(0, 0, 0) + 255 << 24);
-        DrawableHelper.fill(matrixStack, 0, 0, leftSize, height, MathHelper.packRgb(0, 0, 0) + 255 << 24);
-        DrawableHelper.fill(matrixStack, 0, height, width, bottomSize, MathHelper.packRgb(0, 0, 0) + 255 << 24);
-        DrawableHelper.fill(matrixStack, width, 0, rightSize, height, MathHelper.packRgb(0, 0, 0) + 255 << 24);
+        DrawableHelper.fill(matrixStack, 0, 0, width, topSize, ColorHelper.Argb.getArgb(255,0, 0, 0));
+        DrawableHelper.fill(matrixStack, 0, 0, leftSize, height, ColorHelper.Argb.getArgb(255,0, 0, 0));
+        DrawableHelper.fill(matrixStack, 0, height, width, bottomSize, ColorHelper.Argb.getArgb(255,0, 0, 0));
+        DrawableHelper.fill(matrixStack, width, 0, rightSize, height, ColorHelper.Argb.getArgb(255,0, 0, 0));
 
     }
 

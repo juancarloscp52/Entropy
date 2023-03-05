@@ -33,6 +33,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
@@ -55,10 +56,10 @@ public abstract class AbstractTimedEvent implements Event {
             eventName.formatted(Formatting.STRIKETHROUGH);
 
         int size = client.textRenderer.getWidth(eventName);
-        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, eventName, client.getWindow().getScaledWidth() - size - 40, y, MathHelper.packRgb(255, 255, 255));
+        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, eventName, client.getWindow().getScaledWidth() - size - 40, y, ColorHelper.Argb.getArgb(255,255, 255, 255));
         if (!this.hasEnded()) {
-            DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 5, y + 8, MathHelper.packRgb(70, 70, 70) + (150 << 24));
-            DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 35 + MathHelper.floor(30 * (getTickCount() / (double) getDuration())), y + 8, MathHelper.packRgb(255, 255, 255) + (200 << 24));
+            DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 5, y + 8, ColorHelper.Argb.getArgb(150,70, 70, 70));
+            DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 35 + MathHelper.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ColorHelper.Argb.getArgb(200,255, 255, 255));
         }
     }
 

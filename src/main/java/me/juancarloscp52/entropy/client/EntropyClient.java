@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.client;
 
 import com.google.gson.Gson;
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
@@ -32,6 +33,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gl.PostEffectProcessor;
+import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -184,6 +186,7 @@ public class EntropyClient implements ClientModInitializer {
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
             if (clientEventHandler != null)
                 clientEventHandler.render(matrixStack, tickDelta);
+
         });
 
         //Registry.registerReference()

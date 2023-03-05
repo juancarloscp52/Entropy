@@ -22,7 +22,7 @@ import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.ColorHelper;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.cap.EnableCapHandler;
@@ -139,7 +139,7 @@ public class TwitchIntegrations extends ListenerAdapter implements Integrations 
     }
 
     @Override
-    public int getColor() {
-        return MathHelper.packRgb(145, 70, 255);
+    public int getColor(int alpha) {
+        return ColorHelper.Argb.getArgb(alpha,145, 70, 255);
     }
 }
