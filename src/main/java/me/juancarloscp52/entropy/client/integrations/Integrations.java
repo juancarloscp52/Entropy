@@ -29,6 +29,6 @@ public interface Integrations {
 
     void sendMessage(String message);
 
-    int getColor();
+    int getColor(int alpha);
 
 }
