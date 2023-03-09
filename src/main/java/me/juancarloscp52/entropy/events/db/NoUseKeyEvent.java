@@ -19,6 +19,7 @@ public class NoUseKeyEvent extends AbstractTimedEvent {
 
         boundUseKey = ((KeyBindingAccessor) options.useKey).fabric_getBoundKey();
         options.useKey.setBoundKey(InputUtil.UNKNOWN_KEY);
+        options.useKey.setPressed(false);
         KeyBinding.updateKeysByCode();
     }
 
