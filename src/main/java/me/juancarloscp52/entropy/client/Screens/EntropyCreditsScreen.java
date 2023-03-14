@@ -27,7 +27,7 @@ public class EntropyCreditsScreen extends CreditsScreen {
     Event currentEvent;
 
     public EntropyCreditsScreen(Event currentEvent) {
-        super(true, new LogoDrawer(false),() -> {});
+        super(true,() -> {});
         this.currentEvent = currentEvent;
     }
 
