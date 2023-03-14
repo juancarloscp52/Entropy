@@ -60,6 +60,12 @@ public class ServerEventHandler {
 
         if (!this.started)
             return;
+
+        //Reset timer if countdown is larger than timer duration. This prevents errors while manually executing timer speed events.
+        if(eventCountDown>settings.timerDuration/Variables.timerMultiplier)
+            resetTimer();
+
+
         if (eventCountDown == 0) {
 
             if (currentEvents.size() > 3) {
