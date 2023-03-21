@@ -62,7 +62,7 @@ public abstract class AbstractMultiEvent implements Event {
         for(int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
 
-            matrixStack.translate(0, i * 13, 0);
+            matrixStack.translate(0, 13, 0);
             event.renderQueueItem(matrixStack, tickdelta, x, y);
         }
     }
