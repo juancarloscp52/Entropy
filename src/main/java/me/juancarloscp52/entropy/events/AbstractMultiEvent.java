@@ -6,6 +6,8 @@ import java.util.List;
 import me.juancarloscp52.entropy.Entropy;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
 
@@ -59,12 +61,19 @@ public abstract class AbstractMultiEvent implements Event {
 
     @Override
     public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        int barLeft = client.getWindow().getScaledWidth() - 39;
+
+        DrawableHelper.fill(matrixStack, barLeft, y, barLeft + 2, y + events.size() * 13 - 5, 0xFFFFFFFF);
+
         for(int i = 0; i < events.size(); i++) {
             Event event = events.get(i);
 
-            matrixStack.translate(0, 13, 0);
             event.renderQueueItem(matrixStack, tickdelta, x, y);
+            matrixStack.translate(0, 13, 0);
         }
+
+        matrixStack.translate(0, -13, 0);
     }
 
     @Override

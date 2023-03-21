@@ -7,16 +7,8 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractMultiEvent;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class TwoAtOnceEvent extends AbstractMultiEvent {
-    @Override
-    public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
-        DrawableHelper.fill(matrixStack, x - 5, y, x - 3, y + 2 * 13, 0xFFFFFF);
-        super.renderQueueItem(matrixStack, tickdelta, x, y);
-    }
-
     @Override
     public List<Event> selectEvents() {
         List<Event> selectedEvents = new ArrayList<>();
