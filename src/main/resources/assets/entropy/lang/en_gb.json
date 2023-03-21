@@ -129,7 +129,9 @@
   "entropy.events.EntityMagnetEvent": "Entity magnet",
   "entropy.events.OnePunchEvent": "One Punch",
   "entropy.events.InfestationEvent": "Infestation",
-  "entropy.events.RainbowPathEvent": "Rainbow Path",
+  "entropy.events.RainbowPathEvent": "Rainbow path",
+  "entropy.events.TwoAtOnceEvent": "Two events at once",
+  "entropy.events.FiveAtOnceEvent": "Five events at once",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.errorScreen.title": "Entropy Error",

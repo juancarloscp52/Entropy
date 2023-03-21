@@ -156,6 +156,8 @@
   "entropy.events.OnePunchEvent": "Ein Schlag",
   "entropy.events.InfestationEvent": "Verseuchung",
   "entropy.events.RainbowPathEvent": "Regenbogenpfad",
+  "entropy.events.TwoAtOnceEvent": "Zwei Ereignisse gleichzeitig",
+  "entropy.events.FiveAtOnceEvent": "Fünf Ereignisse gleichzeitig",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",

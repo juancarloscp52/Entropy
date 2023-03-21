@@ -156,6 +156,8 @@
   "entropy.events.OnePunchEvent": "One Punch",
   "entropy.events.InfestationEvent": "Infestation",
   "entropy.events.RainbowPathEvent": "Rainbow Path",
+  "entropy.events.TwoAtOnceEvent": "Two Events At Once",
+  "entropy.events.FiveAtOnceEvent": "Five Events At Once",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",
