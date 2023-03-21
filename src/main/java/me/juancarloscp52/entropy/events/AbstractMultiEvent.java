@@ -151,4 +151,8 @@ public abstract class AbstractMultiEvent implements Event {
     }
 
     public abstract List<Event> selectEvents();
+
+    public List<Event> selectedEvents() {
+        return events;
+    }
 }

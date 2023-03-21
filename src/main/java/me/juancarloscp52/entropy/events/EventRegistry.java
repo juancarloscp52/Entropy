@@ -207,8 +207,13 @@ public class EventRegistry {
 
         Set<String> ignoreTypes = new HashSet<>();
         events.forEach(event -> {
-            if(event.getTickCount()>0 && !event.hasEnded() && !event.type().equalsIgnoreCase("none"))
-                ignoreTypes.add(event.type().toLowerCase());
+            if(event.getTickCount()>0 && !event.hasEnded()) {
+                if(!event.type().equalsIgnoreCase("none"))
+                    ignoreTypes.add(event.type().toLowerCase());
+
+                if(event instanceof AbstractMultiEvent multiEvent)
+                    ignoreTypes.addAll(multiEvent.selectedEvents().stream().map(ev -> ev.type().toLowerCase()).toList());
+            }
         });
         Set<String> ignoreEventsByType = new HashSet<>();
         eventKeys.forEach(eventName -> {
