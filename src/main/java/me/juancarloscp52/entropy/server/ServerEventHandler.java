@@ -72,9 +72,9 @@ public class ServerEventHandler {
 
                 if (currentEvents.get(0).hasEnded()) {
                     PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                            ServerPlayNetworking.send(serverPlayerEntity,
-                                    NetworkingConstants.REMOVE_FIRST,
-                                    PacketByteBufs.empty()));
+                    ServerPlayNetworking.send(serverPlayerEntity,
+                            NetworkingConstants.REMOVE_FIRST,
+                            PacketByteBufs.empty()));
 
                     currentEvents.remove(0);
                 }
@@ -122,22 +122,22 @@ public class ServerEventHandler {
         PacketByteBuf buf = PacketByteBufs.create();
         buf.writeShort(eventCountDown);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.TICK, buf));
+        ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.TICK, buf));
 
 
         eventCountDown--;
     }
-    
+
     public boolean runEvent(Event event) {
         if(event != null) {
             // Start the event and add it to the list.
-            event.init();
             currentEvents.add(event);
+            event.init();
 
             sendEventToPlayers(event);
             return true;
         }
-        
+
         return false;
     }
 
@@ -148,7 +148,7 @@ public class ServerEventHandler {
         packetByteBuf.writeString(eventName);
         event.writeExtraData(packetByteBuf);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.ADD_EVENT, packetByteBuf));
+        ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.ADD_EVENT, packetByteBuf));
 
     }
 
