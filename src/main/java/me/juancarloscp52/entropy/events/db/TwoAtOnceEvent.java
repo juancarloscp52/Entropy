@@ -18,8 +18,6 @@ public class TwoAtOnceEvent extends AbstractMultiEvent {
         selectedEvents.add(firstEvent);
         currentEvents.add(firstEvent);
         selectedEvents.add(EventRegistry.getRandomDifferentEvent(currentEvents));
-        System.out.println(selectedEvents);
-        System.out.println(this);
         return selectedEvents;
     }
 
