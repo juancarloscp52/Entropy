@@ -2,9 +2,6 @@ package me.juancarloscp52.entropy.events;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
-
-import com.google.common.base.Suppliers;
 
 import me.juancarloscp52.entropy.Entropy;
 import net.fabricmc.api.EnvType;
@@ -16,29 +13,19 @@ public abstract class AbstractMultiEvent implements Event {
     private List<Event> events = List.of();
     private short tickCount = 0;
     private boolean ended = false;
-    private Supplier<Short> duration = () -> Short.MAX_VALUE;
+    private short duration = Short.MAX_VALUE;
 
     @Override
     public void init() {
         events = selectEvents();
         events.forEach(Event::init);
-        duration = Suppliers.memoize(() -> {
-            short longestDuration = 0;
-
-            for(Event event : events) {
-                short eventDuration = event.getDuration();
-
-                if(eventDuration > longestDuration)
-                    longestDuration = eventDuration;
-            }
-
-            return longestDuration;
-        });
+        updateDuration();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
+        updateDuration();
         events.forEach(event -> {
             if(!(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
                 event.initClient();
@@ -82,25 +69,23 @@ public abstract class AbstractMultiEvent implements Event {
 
     @Override
     public void tick() {
-        tickCount++;
         events.forEach(event -> {
             if(!event.hasEnded())
                 event.tick();
         });
 
-        if(tickCount >= getDuration())
+        if(++tickCount >= getDuration())
             end();
     }
 
     @Override
     public void tickClient() {
-        tickCount++;
         events.forEach(event -> {
             if(!event.hasEnded())
                 event.tickClient();
         });
 
-        if(tickCount >= getDuration())
+        if(++tickCount >= getDuration())
             endClient();
     }
 
@@ -116,7 +101,20 @@ public abstract class AbstractMultiEvent implements Event {
 
     @Override
     public short getDuration() {
-        return duration.get();
+        return duration;
+    }
+
+    public void updateDuration()  {
+        short longestDuration = 0;
+
+        for(Event event : events) {
+            short eventDuration = event.getDuration();
+
+            if(eventDuration > longestDuration)
+                longestDuration = eventDuration;
+        }
+
+        duration = longestDuration;
     }
 
     @Override
