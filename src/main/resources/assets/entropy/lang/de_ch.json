@@ -156,6 +156,7 @@
   "entropy.events.OnePunchEvent": "Ein Schlag",
   "entropy.events.InfestationEvent": "Verseuchung",
   "entropy.events.RainbowPathEvent": "Regenbogenpfad",
+  "entropy.events.SilenceEvent": "Stille",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",
