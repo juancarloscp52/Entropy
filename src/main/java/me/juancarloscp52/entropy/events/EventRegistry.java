@@ -215,6 +215,7 @@ public class EventRegistry {
                         ignoreTypes.add(event.type().toLowerCase());
 
                     ignoreTypes.addAll(multiEvent.selectedEvents().stream().map(ev -> ev.type().toLowerCase()).toList());
+                    return;
                 }
 
                 if(event.getTickCount()>0) {
