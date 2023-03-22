@@ -35,7 +35,6 @@
   "entropy.events.IntenseThunderStormEvent": "雷暴",
   "entropy.events.HighPitchEvent": "高音",
   "entropy.events.LowPitchEvent": "低音",
-  "entropy.events.OneHeartEvent": "一颗心",
   "entropy.events.HyperSpeedEvent": "超高速",
   "entropy.events.HyperSlowEvent": "超低速",
   "entropy.events.UltraFovEvent": "超大大大大大视野!",
