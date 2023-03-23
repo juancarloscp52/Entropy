@@ -90,16 +90,16 @@ public class ClientEventHandler {
     }
 
     public void render(MatrixStack matrixStack, float tickdelta) {
-        MinecraftClient client = MinecraftClient.getInstance();
-
-        if (client.options.debugEnabled)
-            return;
-
         // Render active event effects
         currentEvents.forEach(event -> {
             if (!event.hasEnded() && !client.player.isSpectator())
                 event.render(matrixStack, tickdelta);
         });
+
+        MinecraftClient client = MinecraftClient.getInstance();
+
+        if (client.options.debugEnabled)
+            return;
 
         double time = timerDuration - eventCountDown;
         int width = client.getWindow().getScaledWidth();
