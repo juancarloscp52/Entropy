@@ -90,6 +90,10 @@ public class ClientEventHandler {
     }
 
     public void render(MatrixStack matrixStack, float tickdelta) {
+        MinecraftClient client = MinecraftClient.getInstance();
+
+        if (client.options.debugEnabled)
+            return;
 
         // Render active event effects
         currentEvents.forEach(event -> {
@@ -98,7 +102,7 @@ public class ClientEventHandler {
         });
 
         double time = timerDuration - eventCountDown;
-        int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        int width = client.getWindow().getScaledWidth();
 
         // Render timer bar
         /// Only the timer is differentiated in two declination for now but
