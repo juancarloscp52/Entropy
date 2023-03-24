@@ -144,7 +144,7 @@ public class EventRegistry {
         entropyEvents.put("SoSweetEvent", SoSweetEvent::new);
         entropyEvents.put("PlaceCobwebBlockEvent", PlaceCobwebBlockEvent::new);
         entropyEvents.put("FlipMobsEvent", FlipMobsEvent::new);
-        entropyEvents.put("RainbowSheepEvents", RainbowSheepEvents::new);
+        entropyEvents.put("SpawnRainbowSheepEvent", SpawnRainbowSheepEvent::new);
         entropyEvents.put("FixItemsEvent", FixItemsEvent::new);
         entropyEvents.put("MidasTouchEvent", MidasTouchEvent::new);
         entropyEvents.put("GiveRandomOreEvent", GiveRandomOreEvent::new);
@@ -192,6 +192,7 @@ public class EventRegistry {
         entropyEvents.put("OnePunchEvent", OnePunchEvent::new);
         entropyEvents.put("InfestationEvent", InfestationEvent::new);
         entropyEvents.put("RainbowPathEvent", RainbowPathEvent::new);
+        entropyEvents.put("RainbowSheepEverywhereEvent", RainbowSheepEverywhereEvent::new);
 
     }
 

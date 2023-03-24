@@ -29,6 +29,7 @@
     "MouseMixin",
     "OptionsScreenMixin",
     "PerspectiveMixin",
+    "SheepWoolFeatureRendererMixin",
     "SoundSystemMixin"
   ],
   "injectors": {

@@ -104,7 +104,7 @@
   "entropy.events.SoSweetEvent": "So Sweet",
   "entropy.events.PlaceCobwebBlockEvent": "Place Cobweb",
   "entropy.events.FlipMobsEvent": "Flip Mobs Upside Down",
-  "entropy.events.RainbowSheepEvents": "Rainbow Sheep!",
+  "entropy.events.SpawnRainbowSheepEvent": "Rainbow Sheep!",
   "entropy.events.FixItemsEvent": "Fix Player Items",
   "entropy.events.MidasTouchEvent": "Midas Touch",
   "entropy.events.GiveRandomOreEvent": "Give Random Mineral",
@@ -156,6 +156,7 @@
   "entropy.events.OnePunchEvent": "One Punch",
   "entropy.events.InfestationEvent": "Infestation",
   "entropy.events.RainbowPathEvent": "Rainbow Path",
+  "entropy.events.RainbowSheepEverywhereEvent": "jeb_",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",
