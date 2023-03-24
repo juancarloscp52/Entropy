@@ -25,32 +25,6 @@ import java.util.ArrayList;
 
 public class MidasTouchEvent extends AbstractTimedEvent {
 
-    private static ArrayList<Item> _goldenItems = new ArrayList<Item>() {
-        {
-            add(Items.ENCHANTED_GOLDEN_APPLE);
-            add(Items.GOLDEN_APPLE);
-            add(Items.GOLDEN_AXE);
-            add(Items.GOLDEN_BOOTS);
-            add(Items.GOLDEN_CHESTPLATE);
-            add(Items.GOLDEN_HELMET);
-            add(Items.GOLDEN_HOE);
-            add(Items.GOLDEN_HORSE_ARMOR);
-            add(Items.GOLDEN_LEGGINGS);
-            add(Items.GOLDEN_PICKAXE);
-            add(Items.GOLDEN_SHOVEL);
-            add(Items.GOLDEN_SWORD);
-            add(Items.GOLD_BLOCK);
-            add(Items.GOLD_INGOT);
-            add(Items.GOLD_NUGGET);
-            add(Items.GOLD_ORE);
-            add(Items.NETHER_GOLD_ORE);
-            add(Items.RAW_GOLD);
-            add(Items.RAW_GOLD_BLOCK);
-            add(Items.GOLDEN_CARROT);
-            add(Items.GLISTERING_MELON_SLICE);
-        }
-    };
-
     @Override
     public void tick() {
         for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
@@ -135,11 +109,9 @@ public class MidasTouchEvent extends AbstractTimedEvent {
             };
             for (var pair : inventoryItems) {
                 var itemStack = pair.getLeft().get(pair.getRight());
-                if (itemStack.isEmpty() || itemStack.isIn(ItemTags.IGNORED_BY_MIDAS_TOUCH))
+                if (itemStack.isEmpty() || itemStack.isIn(ItemTags.IGNORED_BY_MIDAS_TOUCH) || itemStack.isIn(ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS))
                     continue;
                 var item = itemStack.getItem();
-                if (_goldenItems.contains(item))
-                    continue;
 
                 ItemStack newItemStack;
                 if (item.isFood()) {
