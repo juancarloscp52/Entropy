@@ -47,6 +47,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
             add(Items.RAW_GOLD);
             add(Items.RAW_GOLD_BLOCK);
             add(Items.GOLDEN_CARROT);
+            add(Items.GLISTERING_MELON_SLICE);
         }
     };
 
@@ -144,7 +145,9 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                 if (item.isFood()) {
                     var odds = player.getRandom().nextInt(100);
 
-                    if (odds < 75)
+                    if(item == Items.MELON && odds < 50)
+                        newItemStack = new ItemStack(Items.GLISTERING_MELON_SLICE, itemStack.getCount());
+                    else if (odds < 75)
                         newItemStack = new ItemStack(Items.GOLDEN_CARROT, itemStack.getCount());
                     else if (odds < 95)
                         newItemStack = new ItemStack(Items.GOLDEN_APPLE, itemStack.getCount());
