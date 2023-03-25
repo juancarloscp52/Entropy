@@ -42,6 +42,7 @@ public class EntropyTags {
         public static final TagKey<Item> DO_NOT_CURSE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "do_not_curse"));
         public static final TagKey<Item> DO_NOT_DAMAGE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "do_not_damage"));
         public static final TagKey<Item> IGNORED_BY_MIDAS_TOUCH = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "ignored_by_midas_touch"));
+        public static final TagKey<Item> MIDAS_TOUCH_GOLDEN_ITEMS = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "midas_touch_golden_items"));
         public static final TagKey<Item> UNFIXABLE = TagKey.of(Registries.ITEM.getKey(), new Identifier("entropy", "unfixable"));
     }
 }
