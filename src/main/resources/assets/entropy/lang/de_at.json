@@ -35,7 +35,7 @@
   "entropy.events.IntenseThunderStormEvent": "Gewitter!",
   "entropy.events.HighPitchEvent": "Hohe Tonhöhe",
   "entropy.events.LowPitchEvent": "Tiefe Tonhöhe",
-  "entropy.events.OneHeartEvent": "Ein Herz",
+  "entropy.events.HalfHeartedEvent": "Halb-Herzig",
   "entropy.events.HyperSpeedEvent": "Hypergeschwindigkeit",
   "entropy.events.HyperSlowEvent": "Hyperlangsam",
   "entropy.events.UltraFovEvent": "Quake Fov? QUAKE FOOOOV!",
