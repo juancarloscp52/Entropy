@@ -117,7 +117,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                 if (item.isFood()) {
                     var odds = player.getRandom().nextInt(100);
 
-                    if(item == Items.MELON && odds < 50)
+                    if(item == Items.MELON_SLICE && odds < 50)
                         newItemStack = new ItemStack(Items.GLISTERING_MELON_SLICE, itemStack.getCount());
                     else if (odds < 75)
                         newItemStack = new ItemStack(Items.GOLDEN_CARROT, itemStack.getCount());
