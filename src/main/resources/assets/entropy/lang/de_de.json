@@ -104,7 +104,7 @@
   "entropy.events.SoSweetEvent": "So süß",
   "entropy.events.PlaceCobwebBlockEvent": "Spinnennetz platzieren",
   "entropy.events.FlipMobsEvent": "Mobs auf den Kopf stellen",
-  "entropy.events.RainbowSheepEvents": "Regenbogenschafe!",
+  "entropy.events.SpawnRainbowSheepEvent": "Regenbogenschafe!",
   "entropy.events.FixItemsEvent": "Spielergegenstände reparieren",
   "entropy.events.MidasTouchEvent": "Die Gabe des Midas",
   "entropy.events.GiveRandomOreEvent": "Zufälliges Mineral geben",

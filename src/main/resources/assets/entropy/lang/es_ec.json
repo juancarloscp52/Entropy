@@ -103,7 +103,7 @@
   "entropy.events.TrueFrostWalkerEvent": "Paso helado verdadero",
   "entropy.events.PlaceCobwebBlockEvent": "Colocar telaraña",
   "entropy.events.FlipMobsEvent": "Poner mobs bocabajo",
-  "entropy.events.RainbowSheepEvents": "Ovejas arcoiris!",
+  "entropy.events.SpawnRainbowSheepEvent": "Ovejas arcoiris!",
   "entropy.events.FixItemsEvent": "Arreglar objetos del jugador",
   "entropy.events.MidasTouchEvent": "Toque de Midas",
   "entropy.events.GiveRandomOreEvent": "Mineral aleatorio",

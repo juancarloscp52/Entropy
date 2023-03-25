@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.text.Text;
 
-public class RainbowSheepEvents extends AbstractInstantEvent {
+public class SpawnRainbowSheepEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
