@@ -90,15 +90,19 @@ public class ClientEventHandler {
     }
 
     public void render(MatrixStack matrixStack, float tickdelta) {
-
         // Render active event effects
         currentEvents.forEach(event -> {
             if (!event.hasEnded() && !client.player.isSpectator())
                 event.render(matrixStack, tickdelta);
         });
 
+        MinecraftClient client = MinecraftClient.getInstance();
+
+        if (client.options.debugEnabled)
+            return;
+
         double time = timerDuration - eventCountDown;
-        int width = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        int width = client.getWindow().getScaledWidth();
 
         // Render timer bar
         /// Only the timer is differentiated in two declination for now but
