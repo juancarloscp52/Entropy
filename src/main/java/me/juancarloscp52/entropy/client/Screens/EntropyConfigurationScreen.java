@@ -39,6 +39,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class EntropyConfigurationScreen extends Screen {
     private static final Identifier LOGO = new Identifier("entropy", "textures/logo-with-text.png");
+    private static final double MAX_DURATION = 3300D; //165 seconds + 15 seconds minimum for a total range of 15s-180s
     EntropySettings settings = Entropy.getInstance().settings;
 
     SliderWidget eventDurationWidget;
@@ -56,10 +57,10 @@ public class EntropyConfigurationScreen extends Screen {
         int buttonX = this.width / 2 - 100;
         int buttonWidth = 200;
 
-        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/1200d,(slider, translationKey, value) -> Text.translatable("entropy.options.eventDuration", MathHelper.floor(value*60+15)), value -> settings.baseEventDuration = (short) ((1200*value)+300));
+        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/MAX_DURATION,(slider, translationKey, value) -> Text.translatable("entropy.options.eventDuration", MathHelper.floor((value*(MAX_DURATION/20D))+15)), value -> settings.baseEventDuration = (short) ((MAX_DURATION*value)+300));
         this.addDrawableChild(eventDurationWidget);
 
-        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/1200d,(slider, translationKey, value) -> Text.translatable("entropy.options.timerDuration", MathHelper.floor(value*60+15)),value -> settings.timerDuration = (short) ((1200*value)+300));
+        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/MAX_DURATION,(slider, translationKey, value) -> Text.translatable("entropy.options.timerDuration", MathHelper.floor((value*(MAX_DURATION/20D))+15)),value -> settings.timerDuration = (short) ((MAX_DURATION*value)+300));
         this.addDrawableChild(timerDurationWidget);
 
 

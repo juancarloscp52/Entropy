@@ -17,32 +17,42 @@
 
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-public class OneHeartEvent extends AbstractTimedEvent {
+public class HalfHeartedEvent extends AbstractTimedEvent {
+    private Map<ServerPlayerEntity,Float> previousHealth = new HashMap<>();
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(2);
-            if (serverPlayerEntity.getHealth() > 2)
-                serverPlayerEntity.setHealth(2);
+            serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(1);
+            previousHealth.put(serverPlayerEntity, serverPlayerEntity.getHealth());
+
+            if (serverPlayerEntity.getHealth() > 1)
+                serverPlayerEntity.setHealth(1);
         });
     }
 
     @Override
     public void end() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
+            serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20);
+            serverPlayerEntity.setHealth(previousHealth.get(serverPlayerEntity));
+        });
         this.hasEnded = true;
     }
 
     @Override
     public void endPlayer(ServerPlayerEntity player) {
         player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20);
+        player.setHealth(previousHealth.get(player));
     }
 
     @Override
@@ -53,9 +63,13 @@ public class OneHeartEvent extends AbstractTimedEvent {
     public void tick() {
         if (this.getTickCount() % 20 == 0) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(2);
-                if (serverPlayerEntity.getHealth() > 2)
-                    serverPlayerEntity.setHealth(2);
+                serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(1);
+
+                if(!previousHealth.containsKey(serverPlayerEntity))
+                    previousHealth.put(serverPlayerEntity, serverPlayerEntity.getHealth());
+
+                if (serverPlayerEntity.getHealth() > 1)
+                    serverPlayerEntity.setHealth(1);
             });
         }
         super.tick();

@@ -30,6 +30,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.tooltip.Tooltip;
+import net.minecraft.client.gui.tooltip.WidgetTooltipPositioner;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
@@ -167,7 +169,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
     @Environment(EnvType.CLIENT)
     public static class ButtonEntry extends ElementListWidget.Entry<EntropyEventListWidget.ButtonEntry> {
         private static final Identifier ICON_OVERLAY_LOCATION = new Identifier("textures/gui/world_selection.png");
-        private static final Text ACCESSIBILITY_TOOLTIP = Text.translatable("entropy.options.accessibilityMode.eventDisabled");
+        private static final Tooltip ACCESSIBILITY_TOOLTIP = Tooltip.of(Text.translatable("entropy.options.accessibilityMode.eventDisabled"));
         public final CheckboxWidget checkbox;
         public final EventInfo eventInfo;
 
@@ -181,8 +183,17 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
             String eventID = eventInfo.id;
             boolean isDisabledByAccessibilityMode = eventInfo.event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode;
             boolean enableCheckbox = !settings.disabledEvents.contains(eventID) && !isDisabledByAccessibilityMode;
-            CheckboxWidget checkbox = new CheckboxWidget(0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), 20, Text.translatable(EventRegistry.getTranslationKey(eventID)), enableCheckbox);
-            checkbox.active = !isDisabledByAccessibilityMode;
+            CheckboxWidget checkbox = new CheckboxWidget(0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), 20, Text.translatable(EventRegistry.getTranslationKey(eventID)), enableCheckbox) {
+                @Override
+                public void onPress() {
+                    if(!isDisabledByAccessibilityMode)
+                        super.onPress();
+                }
+            };
+
+            if(isDisabledByAccessibilityMode)
+                checkbox.setTooltip(ACCESSIBILITY_TOOLTIP);
+
             return new EntropyEventListWidget.ButtonEntry(eventInfo, checkbox);
         }
 
@@ -194,18 +205,8 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
                 RenderSystem.setShaderTexture(0, ICON_OVERLAY_LOCATION);
                 DrawableHelper.drawTexture(matrices, x, y - 6, 64, 32, 32, 32, 256, 256);
 
-                if(mouseX >= x && mouseX <= x + 350 && mouseY >= y && mouseY <= y + entryHeight) {
-                    MinecraftClient client = MinecraftClient.getInstance();
-                    List<OrderedText> lines = client.textRenderer.wrapLines(ACCESSIBILITY_TOOLTIP, 200);
-                    int tooltipHeight = client.textRenderer.fontHeight * lines.size();
-                    int tooltipYPosition = (int)(y + tooltipHeight * 1.5D);
-
-                    //if the tooltip would render further down than the list reaches, render it above the entry
-                    if(tooltipYPosition + tooltipHeight > client.currentScreen.height - 32)
-                        tooltipYPosition = y - 12 - tooltipHeight / 2;
-
-                    client.currentScreen.renderOrderedTooltip(matrices, lines, x, tooltipYPosition);
-                }
+                if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight)
+                    MinecraftClient.getInstance().currentScreen.setTooltip(ACCESSIBILITY_TOOLTIP, new WidgetTooltipPositioner(checkbox), false);
             }
         }
 

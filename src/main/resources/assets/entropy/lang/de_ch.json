@@ -35,7 +35,7 @@
   "entropy.events.IntenseThunderStormEvent": "Gewitter!",
   "entropy.events.HighPitchEvent": "Hohe Tonhöhe",
   "entropy.events.LowPitchEvent": "Tiefe Tonhöhe",
-  "entropy.events.OneHeartEvent": "Ein Herz",
+  "entropy.events.HalfHeartedEvent": "Halb-Herzig",
   "entropy.events.HyperSpeedEvent": "Hypergeschwindigkeit",
   "entropy.events.HyperSlowEvent": "Hyperlangsam",
   "entropy.events.UltraFovEvent": "Quake Fov? QUAKE FOOOOV!",
@@ -156,6 +156,8 @@
   "entropy.events.OnePunchEvent": "Ein Schlag",
   "entropy.events.InfestationEvent": "Verseuchung",
   "entropy.events.RainbowPathEvent": "Regenbogenpfad",
+  "entropy.events.SilenceEvent": "Stille",
+  "entropy.events.NothingEvent": "Nichts",
   "entropy.events.RainbowTrailsEvent": "Regenbogenspuren",
 
   "entropy.title": "Entropy: Chaos Mod",
