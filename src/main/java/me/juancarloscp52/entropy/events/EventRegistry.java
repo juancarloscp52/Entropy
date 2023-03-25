@@ -74,7 +74,7 @@ public class EventRegistry {
         entropyEvents.put("MouseDriftingEvent", MouseDriftingEvent::new);
         entropyEvents.put("NoDropsEvent", NoDropsEvent::new);
         entropyEvents.put("NoJumpEvent", NoJumpEvent::new);
-        entropyEvents.put("OneHeartEvent", OneHeartEvent::new);
+        entropyEvents.put("HalfHeartedEvent", HalfHeartedEvent::new);
         entropyEvents.put("OnlyBackwardsEvent", OnlyBackwardsEvent::new);
         entropyEvents.put("OnlySidewaysEvent", OnlySidewaysEvent::new);
         entropyEvents.put("PlaceLavaBlockEvent", PlaceLavaBlockEvent::new);
@@ -193,6 +193,7 @@ public class EventRegistry {
         entropyEvents.put("InfestationEvent", InfestationEvent::new);
         entropyEvents.put("RainbowPathEvent", RainbowPathEvent::new);
         entropyEvents.put("SilenceEvent", SilenceEvent::new);
+        entropyEvents.put("NothingEvent", NothingEvent::new);
 
     }
 

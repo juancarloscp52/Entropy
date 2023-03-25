@@ -9,6 +9,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MathHelper.class)
 public class MathHelperMixin {
+    @Inject(method = "Lnet/minecraft/util/math/MathHelper;lerp(FII)I", at = @At("HEAD"), cancellable = true)
+    private static void lerp(float delta, int start, int end, CallbackInfoReturnable<Integer> cir) {
+        if(Variables.stuttering)
+            cir.setReturnValue(start);
+    }
+
     @Inject(method = "Lnet/minecraft/util/math/MathHelper;lerp(FFF)F", at = @At("HEAD"), cancellable = true)
     private static void lerp(float delta, float start, float end, CallbackInfoReturnable<Float> cir) {
         if(Variables.stuttering)
