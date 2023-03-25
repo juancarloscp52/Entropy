@@ -156,6 +156,7 @@
   "entropy.events.OnePunchEvent": "One Punch",
   "entropy.events.InfestationEvent": "Infestation",
   "entropy.events.RainbowPathEvent": "Rainbow Path",
+  "entropy.events.SilenceEvent": "Silence",
   "entropy.events.NothingEvent": "Nothing",
 
   "entropy.title": "Entropy: Chaos Mod",

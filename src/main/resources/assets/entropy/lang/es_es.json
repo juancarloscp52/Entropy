@@ -156,6 +156,7 @@
   "entropy.events.OnePunchEvent": "De un puñetazo",
   "entropy.events.InfestationEvent": "Infectar bloques",
   "entropy.events.RainbowPathEvent": "Camino arcoiris",
+  "entropy.events.SilenceEvent": "Silencio absoluto",
   "entropy.events.NothingEvent": "Nada",
 
   "entropy.title": "Entropy: Chaos Mod",
