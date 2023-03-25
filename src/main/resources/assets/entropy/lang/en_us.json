@@ -158,6 +158,7 @@
   "entropy.events.RainbowPathEvent": "Rainbow Path",
   "entropy.events.SilenceEvent": "Silence",
   "entropy.events.NothingEvent": "Nothing",
+  "entropy.events.RainbowTrailsEvent": "Rainbow Trails",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",

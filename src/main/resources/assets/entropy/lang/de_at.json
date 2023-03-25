@@ -158,6 +158,7 @@
   "entropy.events.RainbowPathEvent": "Regenbogenpfad",
   "entropy.events.SilenceEvent": "Stille",
   "entropy.events.NothingEvent": "Nichts",
+  "entropy.events.RainbowTrailsEvent": "Regenbogenspuren",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",

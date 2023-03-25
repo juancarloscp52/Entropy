@@ -158,6 +158,7 @@
   "entropy.events.RainbowPathEvent": "Camino arcoiris",
   "entropy.events.SilenceEvent": "Silencio absoluto",
   "entropy.events.NothingEvent": "Nada",
+  "entropy.events.RainbowTrailsEvent": "Cola arcoiris",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",

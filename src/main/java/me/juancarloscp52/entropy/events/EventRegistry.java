@@ -194,6 +194,7 @@ public class EventRegistry {
         entropyEvents.put("RainbowPathEvent", RainbowPathEvent::new);
         entropyEvents.put("SilenceEvent", SilenceEvent::new);
         entropyEvents.put("NothingEvent", NothingEvent::new);
+        entropyEvents.put("RainbowTrailsEvent", RainbowTrailsEvent::new);
 
     }
 

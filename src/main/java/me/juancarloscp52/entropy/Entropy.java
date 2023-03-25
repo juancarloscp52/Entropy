@@ -22,6 +22,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
@@ -32,13 +33,19 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.particle.ParticleType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,6 +60,7 @@ public class Entropy implements ModInitializer {
     public static Entropy instance;
     public ServerEventHandler eventHandler;
     public EntropySettings settings;
+    public static final ParticleType<ConstantColorDustParticleEffect> CONSTANT_COLOR_DUST = FabricParticleTypes.complex(false, ConstantColorDustParticleEffect.PARAMETERS_FACTORY);
 
 
     public static Entropy getInstance() {
@@ -65,6 +73,7 @@ public class Entropy implements ModInitializer {
         loadSettings();
         LOGGER.info("Entropy Started");
         EventRegistry.register();
+        Registry.register(Registries.PARTICLE_TYPE, new Identifier("entropy", "constant_color_dust"), CONSTANT_COLOR_DUST);
 
         ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (server, player, handler, buf, responseSender) -> {
             String clientVersion = buf.readString(32767);

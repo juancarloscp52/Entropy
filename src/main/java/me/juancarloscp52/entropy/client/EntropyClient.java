@@ -18,7 +18,6 @@
 package me.juancarloscp52.entropy.client;
 
 import com.google.gson.Gson;
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
@@ -29,11 +28,11 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gl.PostEffectProcessor;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -191,6 +190,7 @@ public class EntropyClient implements ClientModInitializer {
 
         //Registry.registerReference()
         Registry.register(Registries.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
+        ParticleFactoryRegistry.getInstance().register(Entropy.CONSTANT_COLOR_DUST, ConstantColorDustParticle.Factory::new);
     }
 
 
