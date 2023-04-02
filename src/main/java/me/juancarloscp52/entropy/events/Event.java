@@ -17,6 +17,7 @@
 
 package me.juancarloscp52.entropy.events;
 
+import me.juancarloscp52.entropy.events.db.NothingEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
@@ -74,4 +75,8 @@ public interface Event {
 
     @Environment(EnvType.CLIENT)
     default void readExtraData(PacketByteBuf buf) {}
+
+    public static boolean isValidEvent(Event event) {
+        return event != null && (!(event instanceof NothingEvent nothing) || !nothing.isPlaceholder());
+    }
 }

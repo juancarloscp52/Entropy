@@ -105,7 +105,7 @@ public class ServerEventHandler {
 
                 // Reset timer.
                 resetTimer();
-                if(event != null)
+                if(Event.isValidEvent(event))
                     Entropy.LOGGER.info("New Event: " + EventRegistry.getTranslationKey(event) + " total duration: " + event.getDuration());
                 else
                     Entropy.LOGGER.info("New Event not found");
@@ -129,7 +129,7 @@ public class ServerEventHandler {
     }
 
     public boolean runEvent(Event event) {
-        if(event != null) {
+        if(Event.isValidEvent(event)) {
             // Start the event and add it to the list.
             currentEvents.add(event);
             event.init();

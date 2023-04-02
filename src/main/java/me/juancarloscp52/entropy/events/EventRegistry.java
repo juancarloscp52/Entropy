@@ -234,7 +234,7 @@ public class EventRegistry {
                 ignoreEventsByType.add(eventName);
             }
         });
-        if(eventKeys.size()>ignoreEventsByType.size())
+        if(eventKeys.size()>=ignoreEventsByType.size())
             eventKeys.removeAll(ignoreEventsByType);
 
         //Only enable the stuttering event on a dedicated server, because otherwise worldgen will be all wrong.
@@ -248,7 +248,7 @@ public class EventRegistry {
 
     private static Event getRandomEvent(List<String> eventKeys) {
         if(eventKeys.isEmpty())
-            return null;
+            return new NothingEvent(true);
 
         int index = random.nextInt(eventKeys.size());
         String newEventName = eventKeys.get(index);
