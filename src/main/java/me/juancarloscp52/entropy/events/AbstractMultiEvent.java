@@ -128,7 +128,7 @@ public abstract class AbstractMultiEvent implements Event {
 
     @Override
     public boolean hasEnded() {
-        return ended || events.stream().allMatch(Event::hasEnded);
+        return ended || !events.isEmpty() && events.stream().allMatch(Event::hasEnded);
     }
 
     @Override
