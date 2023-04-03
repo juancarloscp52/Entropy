@@ -160,6 +160,8 @@
   "entropy.events.NothingEvent": "Nothing",
   "entropy.events.RainbowTrailsEvent": "Rainbow Trails",
   "entropy.events.RainbowSheepEverywhereEvent": "jeb_",
+  "entropy.events.TwoAtOnceEvent": "Two Events At Once",
+  "entropy.events.FiveAtOnceEvent": "Five Events At Once",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",

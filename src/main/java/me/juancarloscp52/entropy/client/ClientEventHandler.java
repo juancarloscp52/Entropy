@@ -110,9 +110,11 @@ public class ClientEventHandler {
         renderer.renderTimer(matrixStack, width, time, timerDuration);
 
         // Render Event Queue...
+        matrixStack.push();
         for (int i = 0; i < currentEvents.size(); i++) {
             currentEvents.get(i).renderQueueItem(matrixStack, tickdelta, width - 200, 20 + (i * 13));
         }
+        matrixStack.pop();
 
         // Render Poll...
         if (Entropy.getInstance().settings.integrations && serverIntegrations && votingClient != null && votingClient.enabled) {

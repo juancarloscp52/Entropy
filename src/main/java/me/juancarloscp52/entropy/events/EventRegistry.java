@@ -196,6 +196,8 @@ public class EventRegistry {
         entropyEvents.put("NothingEvent", NothingEvent::new);
         entropyEvents.put("RainbowTrailsEvent", RainbowTrailsEvent::new);
         entropyEvents.put("RainbowSheepEverywhereEvent", RainbowSheepEverywhereEvent::new);
+        entropyEvents.put("TwoAtOnceEvent", TwoAtOnceEvent::new);
+        entropyEvents.put("FiveAtOnceEvent", FiveAtOnceEvent::new);
 
     }
 
@@ -211,8 +213,20 @@ public class EventRegistry {
 
         Set<String> ignoreTypes = new HashSet<>();
         events.forEach(event -> {
-            if(event.getTickCount()>0 && !event.hasEnded() && !event.type().equalsIgnoreCase("none"))
-                ignoreTypes.add(event.type().toLowerCase());
+            if(!event.hasEnded()) {
+                if(event instanceof AbstractMultiEvent multiEvent) {
+                    if(!event.type().equalsIgnoreCase("none"))
+                        ignoreTypes.add(event.type().toLowerCase());
+
+                    ignoreTypes.addAll(multiEvent.selectedEvents().stream().map(ev -> ev.type().toLowerCase()).toList());
+                    return;
+                }
+
+                if(event.getTickCount()>0) {
+                    if(!event.type().equalsIgnoreCase("none"))
+                        ignoreTypes.add(event.type().toLowerCase());
+                }
+            }
         });
         Set<String> ignoreEventsByType = new HashSet<>();
         eventKeys.forEach(eventName -> {
@@ -220,7 +234,7 @@ public class EventRegistry {
                 ignoreEventsByType.add(eventName);
             }
         });
-        if(eventKeys.size()>ignoreEventsByType.size())
+        if(eventKeys.size()>=ignoreEventsByType.size())
             eventKeys.removeAll(ignoreEventsByType);
 
         //Only enable the stuttering event on a dedicated server, because otherwise worldgen will be all wrong.
@@ -234,7 +248,7 @@ public class EventRegistry {
 
     private static Event getRandomEvent(List<String> eventKeys) {
         if(eventKeys.isEmpty())
-            return null;
+            return Event.INVALID;
 
         int index = random.nextInt(eventKeys.size());
         String newEventName = eventKeys.get(index);
