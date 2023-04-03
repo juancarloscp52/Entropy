@@ -129,7 +129,7 @@ public class ServerEventHandler {
     }
     
     public boolean runEvent(Event event) {
-        if(event != null) {
+        if(event != null && EventRegistry.doesWorldHaveRequiredFeatures(EventRegistry.getEventId(event), server.getOverworld())) {
             // Start the event and add it to the list.
             event.init();
             currentEvents.add(event);
