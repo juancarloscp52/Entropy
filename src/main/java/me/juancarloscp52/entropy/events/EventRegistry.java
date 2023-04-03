@@ -248,7 +248,7 @@ public class EventRegistry {
 
     private static Event getRandomEvent(List<String> eventKeys) {
         if(eventKeys.isEmpty())
-            return new NothingEvent(true);
+            return Event.INVALID;
 
         int index = random.nextInt(eventKeys.size());
         String newEventName = eventKeys.get(index);

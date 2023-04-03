@@ -24,8 +24,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-
 public interface Event {
+    public static final Event INVALID = new NothingEvent();
 
     default void init() {
     }
@@ -77,6 +77,6 @@ public interface Event {
     default void readExtraData(PacketByteBuf buf) {}
 
     public static boolean isValidEvent(Event event) {
-        return event != null && (!(event instanceof NothingEvent nothing) || !nothing.isPlaceholder());
+        return event != null && event != INVALID;
     }
 }
