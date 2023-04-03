@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap.Type;
 
 public class SoSweetEvent extends AbstractInstantEvent {
-    private final BlockState sweetBerryBush = Blocks.SWEET_BERRY_BUSH.getDefaultState().with(Properties.AGE_3, 2);;
+    private final BlockState sweetBerryBush = Blocks.SWEET_BERRY_BUSH.getDefaultState().with(Properties.AGE_3, 2);
 
     @Override
     public void init() {
