@@ -10,8 +10,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Heightmap.Type;
 
 public class SoSweetEvent extends AbstractInstantEvent {
     private final BlockState sweetBerryBush = Blocks.SWEET_BERRY_BUSH.getDefaultState().with(Properties.AGE_3, 2);
@@ -28,12 +26,15 @@ public class SoSweetEvent extends AbstractInstantEvent {
                     if ((ix + iz + 100) % 2 == 1)
                         continue;
 
-                    var blockPos = world.getTopPosition(Type.MOTION_BLOCKING, new BlockPos(playerPos.getX() + ix, 0, playerPos.getZ() + iz));
-                    var blockState = world.getBlockState(blockPos);
-                    var downBlockState = world.getBlockState(blockPos.down());
-                    if ((blockState.getBlock().equals(Blocks.AIR) || blockState.canBucketPlace(Fluids.WATER))
-                            && downBlockState.isFullCube(world, blockPos.down())) {
-                        world.setBlockState(blockPos, sweetBerryBush);
+                    for (int iy = -4; iy < 5; iy++) {
+                        var blockPos = playerPos.add(ix, iy, iz);
+                        var downBlockPos = blockPos.down();
+                        var blockState = world.getBlockState(blockPos);
+                        if ((blockState.getBlock().equals(Blocks.AIR) || blockState.canBucketPlace(Fluids.WATER))
+                                && world.getBlockState(downBlockPos).isFullCube(world, downBlockPos)) {
+                            world.setBlockState(blockPos, sweetBerryBush);
+                            iy++; //no need to check the position above this berry bush, because once won't be placed there anyway
+                        }
                     }
                 }
             }
