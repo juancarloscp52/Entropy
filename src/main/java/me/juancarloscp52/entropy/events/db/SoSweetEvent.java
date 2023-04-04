@@ -33,7 +33,7 @@ public class SoSweetEvent extends AbstractInstantEvent {
                         if ((blockState.getBlock().equals(Blocks.AIR) || blockState.canBucketPlace(Fluids.WATER))
                                 && world.getBlockState(downBlockPos).isFullCube(world, downBlockPos)) {
                             world.setBlockState(blockPos, sweetBerryBush);
-                            iy++; //no need to check the position above this berry bush, because once won't be placed there anyway
+                            iy++; //no need to check the position above this berry bush, because one won't be placed there anyway
                         }
                     }
                 }
