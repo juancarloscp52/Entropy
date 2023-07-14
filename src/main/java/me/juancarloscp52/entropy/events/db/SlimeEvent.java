@@ -17,12 +17,12 @@
 
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.Random;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-
-import java.util.Random;
 
 public class SlimeEvent extends AbstractInstantEvent {
 
@@ -32,7 +32,7 @@ public class SlimeEvent extends AbstractInstantEvent {
             Random random = new Random();
             int slimes = random.nextInt(4,12);
             for(int i = 0; i<slimes; i++){
-                EntityType.SLIME.spawn(serverPlayerEntity.getWorld(), serverPlayerEntity.getBlockPos().add(random.nextInt(-4,5),random.nextInt(2),random.nextInt(-4,5)), SpawnReason.SPAWN_EGG);
+                EntityType.SLIME.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos().add(random.nextInt(-4,5),random.nextInt(2),random.nextInt(-4,5)), SpawnReason.SPAWN_EGG);
             }
         });
     }

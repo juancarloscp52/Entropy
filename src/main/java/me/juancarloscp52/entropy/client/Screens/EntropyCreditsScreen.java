@@ -19,9 +19,8 @@ package me.juancarloscp52.entropy.client.Screens;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.events.Event;
-import net.minecraft.client.gui.LogoDrawer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.CreditsScreen;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class EntropyCreditsScreen extends CreditsScreen {
     Event currentEvent;
@@ -37,9 +36,9 @@ public class EntropyCreditsScreen extends CreditsScreen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.render(matrices, mouseX, mouseY, delta);
-        EntropyClient.getInstance().clientEventHandler.render(matrices, delta);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        super.render(drawContext, mouseX, mouseY, delta);
+        EntropyClient.getInstance().clientEventHandler.render(drawContext, delta);
     }
 
     @Override

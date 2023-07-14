@@ -16,28 +16,28 @@ public class NoiseMachineEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            ServerWorld world = serverPlayerEntity.getWorld();
+            ServerWorld world = serverPlayerEntity.getServerWorld();
             BlockPos pos = serverPlayerEntity.getBlockPos().up(15);
             // Check for end portal blocks & bedrock
             // Retry to place the noise machine higher up to 3 times, afterwards abort
             boolean placeable = false;
             outerloop:
-            for (int retries = 3; retries >= 0; retries--) {
-                for (int ix = -2; ix <= 2; ix++) {
-                    for (int iy = -1; iy <= 2; iy++) {
-                        for (int iz = -((numModules / 2) + 1); iz <= (numModules + 1) / 2; iz++) {
-                            var testPos = pos.add(ix, iy, iz);
-                            var currentBlock = world.getBlockState(testPos);
-                            if (currentBlock.isIn(BlockTags.NOT_REPLACED_BY_EVENTS)) {
-                                pos = pos.up(4);
-                                continue outerloop;
+                for (int retries = 3; retries >= 0; retries--) {
+                    for (int ix = -2; ix <= 2; ix++) {
+                        for (int iy = -1; iy <= 2; iy++) {
+                            for (int iz = -((numModules / 2) + 1); iz <= (numModules + 1) / 2; iz++) {
+                                var testPos = pos.add(ix, iy, iz);
+                                var currentBlock = world.getBlockState(testPos);
+                                if (currentBlock.isIn(BlockTags.NOT_REPLACED_BY_EVENTS)) {
+                                    pos = pos.up(4);
+                                    continue outerloop;
+                                }
                             }
                         }
                     }
+                    placeable = true;
+                    break;
                 }
-                placeable = true;
-                break;
-            }
             if (!placeable) return;
 
             // Noise machine

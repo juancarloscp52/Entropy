@@ -21,7 +21,7 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.world.ServerWorld;
@@ -41,24 +41,24 @@ public class FireEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override
     public void tick() {
         if(tickCount%5==0){
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                ServerWorld world = serverPlayerEntity.getWorld();
+                ServerWorld world = serverPlayerEntity.getServerWorld();
                 BlockPos pos = serverPlayerEntity.getBlockPos();
-                if(world.getBlockState(pos).getMaterial().isReplaceable()){
+                if(world.getBlockState(pos).isReplaceable()){
                     world.setBlockState(pos,Blocks.FIRE.getDefaultState());
                 }
                 pos = serverPlayerEntity.getBlockPos().up();
-                if(world.getBlockState(pos).getMaterial().isReplaceable()){
+                if(world.getBlockState(pos).isReplaceable()){
                     world.setBlockState(pos,Blocks.FIRE.getDefaultState());
                 }
                 pos = serverPlayerEntity.getBlockPos().down();
-                if(world.getBlockState(pos).getMaterial().isReplaceable()){
+                if(world.getBlockState(pos).isReplaceable()){
                     world.setBlockState(pos,Blocks.FIRE.getDefaultState());
                 }
                 serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,20,1));

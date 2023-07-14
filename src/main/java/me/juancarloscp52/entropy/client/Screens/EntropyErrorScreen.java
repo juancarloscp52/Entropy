@@ -17,14 +17,14 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
+import java.util.List;
+
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
-
-import java.util.List;
 
 public class EntropyErrorScreen extends Screen {
     Screen parent;
@@ -45,14 +45,14 @@ public class EntropyErrorScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        renderBackground(matrices);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        renderBackground(drawContext);
         List<OrderedText> lines = textRenderer.wrapLines(message, this.width / 2);
         for (int i = 0; i < lines.size(); i++) {
             OrderedText line = lines.get(i);
-            textRenderer.drawWithShadow(matrices, line, this.width / 4f, this.height / 2f - (lines.size() * 9 / 2f) + i * 9, 16777215);
+            drawContext.drawTextWithShadow(textRenderer, line, this.width / 4, this.height / 2 - (lines.size() * 9 / 2) + i * 9, 16777215);
         }
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     @Override

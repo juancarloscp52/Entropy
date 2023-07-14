@@ -17,13 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.Random;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-
-import java.util.Random;
 
 public class ChickenRainEvent extends AbstractTimedEvent {
 
@@ -40,7 +40,7 @@ public class ChickenRainEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ChickenRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 20 == 0) {
             for (int i = 0; i < 5; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity ->
-                        EntityType.CHICKEN.spawn(serverPlayerEntity.getWorld(), serverPlayerEntity.getBlockPos().add((random.nextInt(100) - 50), 50, (random.nextInt(100) - 50)), SpawnReason.COMMAND));
+                EntityType.CHICKEN.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos().add((random.nextInt(100) - 50), 50, (random.nextInt(100) - 50)), SpawnReason.COMMAND));
             }
         }
         super.tick();

@@ -13,7 +13,7 @@ public class SpawnPetDogEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
             Random random = player.getRandom();
 
-            EntityType.WOLF.spawn(player.getWorld(), null, wolf -> {
+            EntityType.WOLF.spawn(player.getServerWorld(), null, wolf -> {
                 wolf.setOwner(player);
                 wolf.setCollarColor(DyeColor.values()[random.nextInt(DyeColor.values().length)]);
             }, player.getBlockPos().add(random.nextBetween(-4, 4), random.nextInt(2), random.nextBetween(-4, 4)), SpawnReason.SPAWN_EGG, false, false);

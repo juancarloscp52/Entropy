@@ -17,8 +17,13 @@
 
 package me.juancarloscp52.entropy.client.Screens.Widgets;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.systems.RenderSystem;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.Event;
@@ -27,7 +32,7 @@ import me.juancarloscp52.entropy.mixin.EntryListWidgetAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.tooltip.Tooltip;
@@ -35,17 +40,10 @@ import net.minecraft.client.gui.tooltip.WidgetTooltipPositioner;
 import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
 
 public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWidget.ButtonEntry> {
     public final List<ButtonEntry> visibleEntries = new ArrayList<>();
@@ -123,7 +121,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
     }
 
     @Override
-    protected void renderList(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+    protected void renderList(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         int rowLeft = this.getRowLeft();
         int rowWidth = this.getRowWidth();
         int entryHeight = this.itemHeight - 4;
@@ -138,7 +136,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
                 drawIndex++;
 
                 if (rowBottom >= this.top && rowTop <= this.bottom)
-                    this.renderEntry(matrices, mouseX, mouseY, delta, index, rowLeft, rowTop, rowWidth, entryHeight);
+                    this.renderEntry(drawContext, mouseX, mouseY, delta, index, rowLeft, rowTop, rowWidth, entryHeight);
             }
         }
     }
@@ -197,13 +195,12 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
             return new EntropyEventListWidget.ButtonEntry(eventInfo, checkbox);
         }
 
-        public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        public void render(DrawContext drawContext, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             checkbox.setPosition(x + 32, y);
-            checkbox.render(matrices, mouseX, mouseY, tickDelta);
+            checkbox.render(drawContext, mouseX, mouseY, tickDelta);
 
             if(Entropy.getInstance().settings.accessibilityMode && eventInfo.event.isDisabledByAccessibilityMode()) {
-                RenderSystem.setShaderTexture(0, ICON_OVERLAY_LOCATION);
-                DrawableHelper.drawTexture(matrices, x, y - 6, 64, 32, 32, 32, 256, 256);
+                drawContext.drawTexture(ICON_OVERLAY_LOCATION, x, y - 6, 64, 32, 32, 32, 256, 256);
 
                 if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight)
                     MinecraftClient.getInstance().currentScreen.setTooltip(ACCESSIBILITY_TOOLTIP, new WidgetTooltipPositioner(checkbox), false);

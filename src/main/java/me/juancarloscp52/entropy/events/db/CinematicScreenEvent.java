@@ -21,8 +21,7 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 
 public class CinematicScreenEvent extends AbstractTimedEvent {
@@ -53,11 +52,11 @@ public class CinematicScreenEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
         client = MinecraftClient.getInstance();
         int borderHeight = MathHelper.floor(client.getWindow().getScaledHeight() * 0.12f);
-        DrawableHelper.fill(matrixStack, 0, 0, client.getWindow().getScaledWidth(), borderHeight, 255 << 24);
-        DrawableHelper.fill(matrixStack, 0, client.getWindow().getScaledHeight() - borderHeight, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(), 255 << 24);
+        drawContext.fill(0, 0, client.getWindow().getScaledWidth(), borderHeight, 255 << 24);
+        drawContext.fill(0, client.getWindow().getScaledHeight() - borderHeight, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(), 255 << 24);
     }
 
     @Override

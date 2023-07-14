@@ -5,7 +5,7 @@ import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.mixin.ClientPlayerInteractionManagerAccessor;
 import me.juancarloscp52.entropy.mixin.MinecraftClientAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Hand;
 
 public class ConstantAttackingEvent extends AbstractTimedEvent {
@@ -44,7 +44,7 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

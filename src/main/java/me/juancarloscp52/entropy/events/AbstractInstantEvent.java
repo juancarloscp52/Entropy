@@ -22,13 +22,11 @@ import me.juancarloscp52.entropy.Variables;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
 
 public abstract class AbstractInstantEvent implements Event {
 
@@ -41,11 +39,11 @@ public abstract class AbstractInstantEvent implements Event {
     }
 
     @Environment(EnvType.CLIENT)
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
+    public void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y) {
         if(Variables.doNotShowEvents)
             return;
         MinecraftClient client = MinecraftClient.getInstance();
@@ -55,7 +53,7 @@ public abstract class AbstractInstantEvent implements Event {
             eventName.formatted(Formatting.STRIKETHROUGH);
 
         int size = client.textRenderer.getWidth(eventName);
-        DrawableHelper.drawTextWithShadow(matrixStack, MinecraftClient.getInstance().textRenderer, eventName, client.getWindow().getScaledWidth() - size - 40, y, ColorHelper.Argb.getArgb(255,255, 255, 255));
+        drawContext.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, eventName, client.getWindow().getScaledWidth() - size - 40, y, ColorHelper.Argb.getArgb(255,255, 255, 255));
     }
 
     public void tick() {

@@ -19,13 +19,13 @@ public class WardenEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
-                    WardenEntity warden = EntityType.WARDEN.spawn(serverPlayerEntity.getWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
+                    WardenEntity warden = EntityType.WARDEN.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
                     if(warden!=null) {
                         warden.setHealth(4);
                         warden.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 9999, 5));
                     }
                 }
-        );
+                );
     }
 
 }

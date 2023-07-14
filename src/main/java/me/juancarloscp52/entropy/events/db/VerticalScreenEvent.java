@@ -20,8 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 
 public class VerticalScreenEvent extends AbstractTimedEvent {
@@ -38,11 +37,11 @@ public class VerticalScreenEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
         client = MinecraftClient.getInstance();
         int borderWidth = MathHelper.floor(client.getWindow().getScaledWidth() * 0.341f);
-        DrawableHelper.fill(matrixStack, 0, 0, borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
-        DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth(), 0, client.getWindow().getScaledWidth() - borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
+        drawContext.fill(0, 0, borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
+        drawContext.fill(client.getWindow().getScaledWidth(), 0, client.getWindow().getScaledWidth() - borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
     }
 
     @Override

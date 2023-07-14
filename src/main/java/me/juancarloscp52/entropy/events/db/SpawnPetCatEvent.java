@@ -14,7 +14,7 @@ public class SpawnPetCatEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
             Random random = player.getRandom();
 
-            EntityType.CAT.spawn(player.getWorld(), null, cat -> {
+            EntityType.CAT.spawn(player.getServerWorld(), null, cat -> {
                 cat.setOwner(player);
                 cat.setCollarColor(DyeColor.values()[random.nextInt(DyeColor.values().length)]);
                 cat.setVariant(Registries.CAT_VARIANT.getRandom(random).get().value());

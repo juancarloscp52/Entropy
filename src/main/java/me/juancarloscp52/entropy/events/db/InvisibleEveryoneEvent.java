@@ -4,19 +4,19 @@
 
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.world.ServerWorld;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InvisibleEveryoneEvent extends AbstractTimedEvent {
 
@@ -28,9 +28,11 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
     public void tick() {
         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
         List<ServerWorld> worlds = new ArrayList<>();
-        for(var player : eventHandler.getActivePlayers())
-            if(!worlds.contains(player.getWorld()))
-                worlds.add(player.getWorld());
+        for(var player : eventHandler.getActivePlayers()) {
+            ServerWorld playerWorld = player.getServerWorld();
+            if(!worlds.contains(playerWorld))
+                worlds.add(playerWorld);
+        }
         for(var world : worlds)
             for(var entity : world.iterateEntities())
                 if(shouldBeInvisible(entity))
@@ -48,7 +50,7 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

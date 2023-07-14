@@ -1,5 +1,8 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
@@ -12,9 +15,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.random.Random;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FlingEntitiesEvent extends AbstractInstantEvent {
     @Override
@@ -30,9 +30,9 @@ public class FlingEntitiesEvent extends AbstractInstantEvent {
 
         eventHandler.getActivePlayers().forEach(player -> {
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 140));
-
-            if(!worlds.contains(player.getWorld()))
-                worlds.add(player.getWorld());
+            ServerWorld playerWorld = player.getServerWorld();
+            if(!worlds.contains(playerWorld))
+                worlds.add(playerWorld);
         });
         worlds.forEach(world -> {
             world.iterateEntities().forEach(entity -> {

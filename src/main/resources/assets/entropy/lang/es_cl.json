@@ -156,7 +156,10 @@
   "entropy.events.OnePunchEvent": "De un puñetazo",
   "entropy.events.InfestationEvent": "Infectar bloques",
   "entropy.events.RainbowPathEvent": "Camino arcoiris",
+  "entropy.events.SilenceEvent": "Silencio absoluto",
   "entropy.events.NothingEvent": "Nada",
+  "entropy.events.RainbowTrailsEvent": "Cola arcoiris",
+  "entropy.events.RainbowSheepEverywhereEvent": "jeb_",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",

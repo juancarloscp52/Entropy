@@ -49,7 +49,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
         Random random = Random.create();
         Item item = Registries.ITEM.getRandom(random).get().value();
         if(item instanceof ArmorItem && ((ArmorItem)item).getSlotType()==slot){
-            if(!item.getRequiredFeatures().isSubsetOf(serverPlayerEntity.world.getEnabledFeatures()))
+            if(!item.getRequiredFeatures().isSubsetOf(serverPlayerEntity.getWorld().getEnabledFeatures()))
                 return getRandomItem(serverPlayerEntity, slot);
             ItemStack stack = new ItemStack(item);
             for(int i=0;i< random.nextInt(4);i++){

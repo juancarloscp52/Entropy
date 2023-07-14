@@ -1,14 +1,14 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.Random;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
-
-import java.util.Random;
+import net.minecraft.client.gui.DrawContext;
 
 public class RollingCameraEvent extends AbstractTimedEvent {
     int sign = 0;
@@ -26,7 +26,7 @@ public class RollingCameraEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
         Variables.cameraRoll = (Variables.cameraRoll+(sign*1.25f*MinecraftClient.getInstance().getLastFrameDuration()))%360;
     }
 

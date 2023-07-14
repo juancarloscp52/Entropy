@@ -21,41 +21,41 @@ import net.minecraft.world.tick.ChunkTickScheduler;
 public class SkyBlockEvent extends AbstractInstantEvent {
 
     private static byte[][][] _leavesPlacement = new byte[][][] {
-            new byte[][] {
-                    new byte[] { 0, 1, 1, 1, 1 },
-                    new byte[] { 1, 1, 1, 1, 1 },
-                    new byte[] { 1, 1, 0, 1, 1 },
-                    new byte[] { 1, 1, 1, 1, 1 },
-                    new byte[] { 1, 1, 1, 1, 0 },
-            },
-            new byte[][] {
-                    new byte[] { 0, 1, 1, 1, 0 },
-                    new byte[] { 1, 1, 1, 1, 1 },
-                    new byte[] { 1, 1, 0, 1, 1 },
-                    new byte[] { 1, 1, 1, 1, 1 },
-                    new byte[] { 0, 1, 1, 1, 0 },
-            },
-            new byte[][] {
-                    new byte[] { 0, 0, 0, 0, 0 },
-                    new byte[] { 0, 1, 1, 0, 0 },
-                    new byte[] { 0, 1, 0, 1, 0 },
-                    new byte[] { 0, 0, 1, 0, 0 },
-                    new byte[] { 0, 0, 0, 0, 0 },
-            },
-            new byte[][] {
-                    new byte[] { 0, 0, 0, 0, 0 },
-                    new byte[] { 0, 0, 1, 0, 0 },
-                    new byte[] { 0, 1, 1, 1, 0 },
-                    new byte[] { 0, 0, 1, 0, 0 },
-                    new byte[] { 0, 0, 0, 0, 0 },
-            }
+        new byte[][] {
+            new byte[] { 0, 1, 1, 1, 1 },
+            new byte[] { 1, 1, 1, 1, 1 },
+            new byte[] { 1, 1, 0, 1, 1 },
+            new byte[] { 1, 1, 1, 1, 1 },
+            new byte[] { 1, 1, 1, 1, 0 },
+        },
+        new byte[][] {
+            new byte[] { 0, 1, 1, 1, 0 },
+            new byte[] { 1, 1, 1, 1, 1 },
+            new byte[] { 1, 1, 0, 1, 1 },
+            new byte[] { 1, 1, 1, 1, 1 },
+            new byte[] { 0, 1, 1, 1, 0 },
+        },
+        new byte[][] {
+            new byte[] { 0, 0, 0, 0, 0 },
+            new byte[] { 0, 1, 1, 0, 0 },
+            new byte[] { 0, 1, 0, 1, 0 },
+            new byte[] { 0, 0, 1, 0, 0 },
+            new byte[] { 0, 0, 0, 0, 0 },
+        },
+        new byte[][] {
+            new byte[] { 0, 0, 0, 0, 0 },
+            new byte[] { 0, 0, 1, 0, 0 },
+            new byte[] { 0, 1, 1, 1, 0 },
+            new byte[] { 0, 0, 1, 0, 0 },
+            new byte[] { 0, 0, 0, 0, 0 },
+        }
     };
 
     @Override
     public void init() {
 
         for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
-            var world = serverPlayerEntity.getWorld();
+            var world = serverPlayerEntity.getServerWorld();
             int height = 280;
             // Check if the player is in the nether or end.
             if(world.getRegistryKey() != World.OVERWORLD){

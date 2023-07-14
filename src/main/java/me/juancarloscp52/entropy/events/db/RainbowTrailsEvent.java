@@ -8,7 +8,7 @@ import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 
 public class RainbowTrailsEvent extends AbstractTimedEvent {
@@ -31,7 +31,7 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
                 rotation *= -1;
 
             relativePosition.rotateLocalY(rotation);
-            entity.world.addParticle(new ConstantColorDustParticleEffect(color, 1.0F),
+            entity.getWorld().addParticle(new ConstantColorDustParticleEffect(color, 1.0F),
                     entity.getX() + relativePosition.x,
                     entity.getY() + 0.5D + relativePosition.y + yOffset,
                     entity.getZ() + relativePosition.z,
@@ -40,7 +40,7 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(DrawContext drawContext, float tickdelta) {}
 
     @Override
     public short getDuration() {

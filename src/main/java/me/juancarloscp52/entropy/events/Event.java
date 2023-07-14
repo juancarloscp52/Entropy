@@ -19,7 +19,7 @@ package me.juancarloscp52.entropy.events;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -42,10 +42,10 @@ public interface Event {
     }
 
     @Environment(EnvType.CLIENT)
-    void render(MatrixStack matrixStack, float tickdelta);
+    void render(DrawContext drawContext, float tickdelta);
 
     @Environment(EnvType.CLIENT)
-    void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y);
+    void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y);
 
     void tick();
 

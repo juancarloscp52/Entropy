@@ -17,12 +17,12 @@
 
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.Random;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.util.math.MatrixStack;
-
-import java.util.Random;
+import net.minecraft.client.gui.DrawContext;
 
 public class MouseDriftingEvent extends AbstractTimedEvent {
 
@@ -44,7 +44,7 @@ public class MouseDriftingEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override
