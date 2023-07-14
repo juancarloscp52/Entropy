@@ -1,16 +1,16 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.function.Predicate;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-
-import java.util.function.Predicate;
 
 public class ForcefieldEvent extends AbstractTimedEvent {
     private static final Predicate<Entity> ALLOWED_ENTITY = EntityPredicates.VALID_ENTITY.and(entity -> !entity.getType().isIn(EntityTypeTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET));
@@ -20,7 +20,7 @@ public class ForcefieldEvent extends AbstractTimedEvent {
         super.tick();
 
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
-            player.world.getEntitiesByClass(Entity.class, new Box(player.getBlockPos()).expand(5.0D), ALLOWED_ENTITY).forEach(entity -> {
+            player.getWorld().getEntitiesByClass(Entity.class, new Box(player.getBlockPos()).expand(5.0D), ALLOWED_ENTITY).forEach(entity -> {
                 entity.setVelocity(getVelocity(player.getBlockPos().subtract(entity.getBlockPos())));
             });
         });
@@ -31,7 +31,7 @@ public class ForcefieldEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(DrawContext drawContext, float tickdelta) {}
 
     @Override
     public short getDuration() {

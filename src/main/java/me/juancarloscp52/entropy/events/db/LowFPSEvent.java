@@ -20,7 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 
 public class LowFPSEvent extends AbstractTimedEvent {
 
@@ -42,7 +42,7 @@ public class LowFPSEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

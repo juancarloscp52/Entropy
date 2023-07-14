@@ -17,6 +17,8 @@
 
 package me.juancarloscp52.entropy.events;
 
+import java.util.List;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
@@ -27,8 +29,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -36,15 +37,13 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.List;
-
 public abstract class AbstractTimedEvent implements Event {
 
     protected short tickCount = 0;
     protected boolean hasEnded = false;
 
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
+    public void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y) {
         if(Variables.doNotShowEvents && !(this instanceof HideEventsEvent))
             return;
         if(Variables.doNotShowEvents)
@@ -56,10 +55,10 @@ public abstract class AbstractTimedEvent implements Event {
             eventName.formatted(Formatting.STRIKETHROUGH);
 
         int size = client.textRenderer.getWidth(eventName);
-        DrawableHelper.drawTextWithShadow(matrixStack, client.textRenderer, eventName, client.getWindow().getScaledWidth() - size - 40, y, ColorHelper.Argb.getArgb(255,255, 255, 255));
+        drawContext.drawTextWithShadow(client.textRenderer, eventName, client.getWindow().getScaledWidth() - size - 40, y, ColorHelper.Argb.getArgb(255,255, 255, 255));
         if (!this.hasEnded()) {
-            DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 5, y + 8, ColorHelper.Argb.getArgb(150,70, 70, 70));
-            DrawableHelper.fill(matrixStack, client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 35 + MathHelper.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ColorHelper.Argb.getArgb(200,255, 255, 255));
+            drawContext.fill(client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 5, y + 8, ColorHelper.Argb.getArgb(150,70, 70, 70));
+            drawContext.fill(client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 35 + MathHelper.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ColorHelper.Argb.getArgb(200,255, 255, 255));
         }
     }
 

@@ -1,15 +1,15 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.db.FakeTeleportEvent.TeleportInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class FakeFakeTeleportEvent extends AbstractInstantEvent {
     private final Map<ServerPlayerEntity,TeleportInfo> positionsBeforeFakeTeleport = new HashMap<>();
@@ -43,11 +43,11 @@ public class FakeFakeTeleportEvent extends AbstractInstantEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
+    public void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y) {
         if(hasEnded())
-            super.renderQueueItem(matrixStack, tickdelta, x, y);
+            super.renderQueueItem(drawContext, tickdelta, x, y);
         else
-            fakeTeleportEvent.renderQueueItem(matrixStack, tickdelta, x, y);
+            fakeTeleportEvent.renderQueueItem(drawContext, tickdelta, x, y);
     }
 
     @Override

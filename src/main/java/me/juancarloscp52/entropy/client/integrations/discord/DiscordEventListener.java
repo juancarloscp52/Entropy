@@ -17,17 +17,24 @@
 
 package me.juancarloscp52.entropy.client.integrations.discord;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
+
 import me.juancarloscp52.entropy.client.EntropyClient;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.ReadyEvent;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.entities.emoji.UnicodeEmoji;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 
 public class DiscordEventListener extends ListenerAdapter {
-
     private final DiscordIntegration discordIntegration;
 
     public DiscordEventListener(DiscordIntegration discordIntegration){
@@ -58,33 +65,25 @@ public class DiscordEventListener extends ListenerAdapter {
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
         if(event.getMessageIdLong()==discordIntegration.lastId && event.getUserIdLong()!= discordIntegration.jda.getSelfUser().getIdLong()){
-            switch (event.getReactionEmote().getName()){
-                case "1️⃣":
-                    // Remove all previous user reactions to the message.
-                    event.retrieveMessage().complete().removeReaction("2️⃣",event.getUser()).queue();
-                    event.retrieveMessage().complete().removeReaction("3️⃣",event.getUser()).queue();
-                    event.retrieveMessage().complete().removeReaction("4️⃣",event.getUser()).queue();
-                    discordIntegration.votingClient.processVote(0, event.getUserId());
-                    break;
-                case "2️⃣":
-                    event.retrieveMessage().complete().removeReaction("1️⃣",event.getUser()).queue();
-                    event.retrieveMessage().complete().removeReaction("3️⃣",event.getUser()).queue();
-                    event.retrieveMessage().complete().removeReaction("4️⃣",event.getUser()).queue();
-                    discordIntegration.votingClient.processVote(1, event.getUserId());
-                    break;
-                case "3️⃣":
-                    event.retrieveMessage().complete().removeReaction("2️⃣",event.getUser()).queue();
-                    event.retrieveMessage().complete().removeReaction("1️⃣",event.getUser()).queue();
-                    event.retrieveMessage().complete().removeReaction("4️⃣",event.getUser()).queue();
-                    discordIntegration.votingClient.processVote(2, event.getUserId());
-                    break;
-                case "4️⃣":
-                    event.retrieveMessage().complete().removeReaction("2️⃣",event.getUser()).queue();
-                    event.retrieveMessage().complete().removeReaction("3️⃣",event.getUser()).queue();
-                    event.retrieveMessage().complete().removeReaction("1️⃣",event.getUser()).queue();
-                    discordIntegration.votingClient.processVote(3, event.getUserId());
-                    break;
-                default: break;
+            List<UnicodeEmoji> emojisToRemove = new ArrayList<>();
+            UnicodeEmoji addedEmoji = event.getReaction().getEmoji().asUnicode();
+
+            emojisToRemove.add(Emoji.fromUnicode("1️⃣"));
+            emojisToRemove.add(Emoji.fromUnicode("2️⃣"));
+            emojisToRemove.add(Emoji.fromUnicode("3️⃣"));
+            emojisToRemove.add(Emoji.fromUnicode("4️⃣"));
+
+            if(emojisToRemove.contains(addedEmoji)) {
+                Message message = event.retrieveMessage().complete();
+                User user = event.getUser();
+                int index = emojisToRemove.indexOf(addedEmoji);
+
+                emojisToRemove.remove(index);
+                discordIntegration.votingClient.processVote(index, event.getUserId());
+
+                for(UnicodeEmoji emoji : emojisToRemove) {
+                    message.removeReaction(emoji, user).queue();
+                }
             }
         }
     }
@@ -92,7 +91,7 @@ public class DiscordEventListener extends ListenerAdapter {
     @Override
     public void onMessageReactionRemove(@NotNull MessageReactionRemoveEvent event) {
         if(event.getMessageIdLong()==discordIntegration.lastId && event.getUserIdLong()!= discordIntegration.jda.getSelfUser().getIdLong()){
-            switch (event.getReactionEmote().getName()){
+            switch (event.getReaction().getEmoji().asUnicode().getName()){
                 case "1️⃣":
                     discordIntegration.votingClient.removeVote(0, event.getUserId());
                     break;

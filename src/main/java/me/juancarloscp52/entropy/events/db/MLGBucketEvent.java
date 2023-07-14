@@ -1,5 +1,10 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
@@ -7,15 +12,10 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MLGBucketEvent extends AbstractTimedEvent {
     private Map<World, List<BlockPos>> placedWaterSourcePositions = new HashMap<>();
@@ -52,7 +52,7 @@ public class MLGBucketEvent extends AbstractTimedEvent {
     }
 
     private void doTickForPlayer(PlayerEntity player) {
-        World world = player.world;
+        World world = player.getWorld();
         BlockPos posDown = player.getBlockPos().down();
         BlockState state = world.getBlockState(posDown);
 
@@ -83,7 +83,7 @@ public class MLGBucketEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(DrawContext drawContext, float tickdelta) {}
 
     @Override
     public short getDuration() {

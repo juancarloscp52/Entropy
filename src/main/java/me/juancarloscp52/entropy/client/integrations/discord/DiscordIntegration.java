@@ -17,6 +17,10 @@
 
 package me.juancarloscp52.entropy.client.integrations.discord;
 
+import java.awt.Color;
+import java.util.List;
+import java.util.Random;
+
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
@@ -24,14 +28,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.math.ColorHelper;
-
-import javax.security.auth.login.LoginException;
-import java.awt.*;
-import java.util.List;
-import java.util.Random;
 
 public class DiscordIntegration implements Integrations {
 
@@ -48,8 +48,8 @@ public class DiscordIntegration implements Integrations {
         try {
             jda = JDABuilder.createDefault(EntropyClient.getInstance().integrationsSettings.discordToken).setActivity(Activity.playing("Entropy: Chaos Mod")).build();
             jda.addEventListener(new DiscordEventListener(this));
-        } catch (LoginException e) {
-            System.err.println("Could not connect to discord, re-trying");
+        } catch(Exception e) {
+            System.err.println("Error occured while connecting to Discord");
             e.printStackTrace();
         }
 
@@ -74,15 +74,15 @@ public class DiscordIntegration implements Integrations {
         poll.addField("2️⃣  " + I18n.translate(events.get(1)),"",false);
         poll.addField("3️⃣  " + I18n.translate(events.get(2)),"",false);
         poll.addField("4️⃣  " + I18n.translate(events.get(3)),"",false);
-        poll.setFooter("React to this message with one of this emojis","https://media.forgecdn.net/avatars/356/538/637516966184620115.png");
+        poll.setFooter("React to this message with one of these emojis","https://media.forgecdn.net/avatars/356/538/637516966184620115.png");
         try{
-            this.channel.sendMessageEmbeds(poll.build()).flatMap(message -> {
+            this.channel.sendMessageEmbeds(poll.build()).queue(message -> {
                 setLastId(message.getIdLong());
-                message.addReaction("1️⃣").queue();
-                message.addReaction("2️⃣").queue();
-                message.addReaction("3️⃣").queue();
-                return message.addReaction("4️⃣");
-            }).queue();
+                message.addReaction(Emoji.fromUnicode("1️⃣")).queue();
+                message.addReaction(Emoji.fromUnicode("2️⃣")).queue();
+                message.addReaction(Emoji.fromUnicode("3️⃣")).queue();
+                message.addReaction(Emoji.fromUnicode("4️⃣")).queue();
+            });
         }catch (NullPointerException e){
             System.err.println("Could not send discord poll. Channel was null.");
         }

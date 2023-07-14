@@ -19,12 +19,14 @@ package me.juancarloscp52.entropy.client.Screens;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.EntropySettings.UIStyle;
 import me.juancarloscp52.entropy.EntropySettings.VotingMode;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropySliderWidget;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -95,21 +97,21 @@ public class EntropyConfigurationScreen extends Screen {
         this.addDrawableChild(done);
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
 
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+        MatrixStack matrices = drawContext.getMatrices();
         matrices.push();
         matrices.translate(5, 0, 0);
         matrices.scale(0.2f, 0.2f, 0.2f);
-        RenderSystem.setShaderTexture(0,LOGO);
-        this.drawTexture(matrices, 0, 0, 0, 0, 188, 187);
+        drawContext.drawTexture(LOGO, 0, 0, 0, 0, 188, 187);
         matrices.pop();
         RenderSystem.disableBlend();
         Text title = Text.translatable("entropy.options.title");
-        drawTextWithShadow(matrices, this.textRenderer, title, this.width / 2 - textRenderer.getWidth(title)/2, 10, 16777215);
-        super.render(matrices, mouseX, mouseY, delta);
+        drawContext.drawTextWithShadow(this.textRenderer, title, this.width / 2 - textRenderer.getWidth(title)/2, 10, 16777215);
+        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     private void onDone() {

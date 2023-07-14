@@ -19,7 +19,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.server.MinecraftServer;
 
 public class SpinningMobsEvent extends AbstractTimedEvent {
@@ -52,7 +52,7 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

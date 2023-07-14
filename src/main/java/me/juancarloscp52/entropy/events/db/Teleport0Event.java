@@ -38,8 +38,8 @@ public class Teleport0Event extends AbstractInstantEvent {
             server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers 0 0 0 10 false " + serverPlayerEntity.getName().getString());
             serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
             serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
-            BlockHitResult blockHitResult = serverPlayerEntity.world.raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
-            if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).getMaterial().isLiquid()) {
+            BlockHitResult blockHitResult = serverPlayerEntity.getWorld().raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
+            if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).isLiquid()) {
                 serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
             }
         });
@@ -53,8 +53,8 @@ public class Teleport0Event extends AbstractInstantEvent {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                     serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
                     serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
-                    BlockHitResult blockHitResult = serverPlayerEntity.world.raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
-                    if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).getMaterial().isLiquid()) {
+                    BlockHitResult blockHitResult = serverPlayerEntity.getWorld().raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
+                    if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).isLiquid()) {
                         serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
                     }
                 });

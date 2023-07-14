@@ -17,6 +17,9 @@
 
 package me.juancarloscp52.entropy.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings.UIStyle;
 import me.juancarloscp52.entropy.Variables;
@@ -28,10 +31,7 @@ import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrations;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations;
 import me.juancarloscp52.entropy.events.Event;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.client.gui.DrawContext;
 
 public class ClientEventHandler {
 
@@ -66,7 +66,7 @@ public class ClientEventHandler {
         }
 
         if(Entropy.getInstance().settings.UIstyle == UIStyle.MINECRAFT){
-            renderer = new MinecraftUIRenderer(votingClient);
+            renderer = new MinecraftUIRenderer();
         }
         else if (Entropy.getInstance().settings.UIstyle == UIStyle.GTAV) {
             renderer = new GTAVUIRenderer(votingClient);
@@ -89,11 +89,11 @@ public class ClientEventHandler {
         }
     }
 
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
         // Render active event effects
         currentEvents.forEach(event -> {
             if (!event.hasEnded() && !client.player.isSpectator())
-                event.render(matrixStack, tickdelta);
+                event.render(drawContext, tickdelta);
         });
 
         MinecraftClient client = MinecraftClient.getInstance();
@@ -107,16 +107,16 @@ public class ClientEventHandler {
         // Render timer bar
         /// Only the timer is differentiated in two declination for now but
         /// it will be interesting to adapt the event queue and poll rendering too
-        renderer.renderTimer(matrixStack, width, time, timerDuration);
+        renderer.renderTimer(drawContext, width, time, timerDuration);
 
         // Render Event Queue...
         for (int i = 0; i < currentEvents.size(); i++) {
-            currentEvents.get(i).renderQueueItem(matrixStack, tickdelta, width - 200, 20 + (i * 13));
+            currentEvents.get(i).renderQueueItem(drawContext, tickdelta, width - 200, 20 + (i * 13));
         }
 
         // Render Poll...
         if (Entropy.getInstance().settings.integrations && serverIntegrations && votingClient != null && votingClient.enabled) {
-            votingClient.render(matrixStack);
+            votingClient.render(drawContext);
         }
 
     }

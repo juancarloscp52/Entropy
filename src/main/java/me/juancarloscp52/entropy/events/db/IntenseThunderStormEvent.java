@@ -17,16 +17,16 @@
 
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.Random;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
-
-import java.util.Random;
 
 public class IntenseThunderStormEvent extends AbstractTimedEvent {
 
@@ -44,7 +44,7 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
+    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

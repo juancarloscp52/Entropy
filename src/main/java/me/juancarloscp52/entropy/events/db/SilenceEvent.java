@@ -3,7 +3,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.sound.SoundCategory;
 
 public class SilenceEvent extends AbstractTimedEvent {
@@ -31,7 +31,7 @@ public class SilenceEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(DrawContext drawContext, float tickdelta) {}
 
     @Override
     public short getDuration() {

@@ -17,13 +17,21 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeApi;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -36,11 +44,6 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class EntropyIntegrationsScreen extends Screen {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -194,10 +197,10 @@ public class EntropyIntegrationsScreen extends Screen {
                 help = ButtonWidget.builder(Text.translatable("entropy.options.questionMark"), (button -> {
                 })).position((this.width / 2) + 110, 30).width(20).tooltip(Tooltip.of(
                         Text.translatable(
-                            switch(platformIntegrationValue) {
-                                case 1 -> "entropy.options.integrations.twitch.help";
-                                case 2 -> "entropy.options.integrations.discord.help";
-                                default -> "entropy.options.integrations.youtube.help"; }))).build());
+                                switch(platformIntegrationValue) {
+                                    case 1 -> "entropy.options.integrations.twitch.help";
+                                    case 2 -> "entropy.options.integrations.discord.help";
+                                    default -> "entropy.options.integrations.youtube.help"; }))).build());
 
         changeContent();
     }
@@ -281,33 +284,33 @@ public class EntropyIntegrationsScreen extends Screen {
         }
         help.setTooltip(Tooltip.of(
                 Text.translatable(
-                    switch(platformIntegrationValue) {
-                        case 1 -> "entropy.options.integrations.twitch.help";
-                        case 2 -> "entropy.options.integrations.discord.help";
-                        default -> "entropy.options.integrations.youtube.help"; })));
+                        switch(platformIntegrationValue) {
+                            case 1 -> "entropy.options.integrations.twitch.help";
+                            case 2 -> "entropy.options.integrations.discord.help";
+                            default -> "entropy.options.integrations.youtube.help"; })));
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+        MatrixStack matrices = drawContext.getMatrices();
         matrices.push();
         matrices.translate(5, 0, 0);
         matrices.scale(0.2f, 0.2f, 0.2f);
-        RenderSystem.setShaderTexture(0,LOGO);
-        this.drawTexture(matrices, 0, 0, 0, 0, 188, 187);
+        drawContext.drawTexture(LOGO, 0, 0, 0, 0, 188, 187);
         matrices.pop();
         RenderSystem.disableBlend();
         if(platformIntegrationValue !=0){
-            drawTextWithShadow(matrices, this.textRenderer, tokenTranslatable, this.width / 2 - 10 - textRenderer.getWidth(tokenTranslatable), 66, 16777215);
-            drawTextWithShadow(matrices, this.textRenderer, channelTranslatable, this.width / 2 - 10 - textRenderer.getWidth(channelTranslatable), 96, 16777215);
+            drawContext.drawTextWithShadow(this.textRenderer, tokenTranslatable, this.width / 2 - 10 - textRenderer.getWidth(tokenTranslatable), 66, 16777215);
+            drawContext.drawTextWithShadow(this.textRenderer, channelTranslatable, this.width / 2 - 10 - textRenderer.getWidth(channelTranslatable), 96, 16777215);
         }
         if(platformIntegrationValue == 3) {
             var color = youtubeAuthState == 0 ? 0xFFAA00 : youtubeAuthState == 1 ? 0x00AA00 : 0xAA0000;
-            drawTextWithShadow(matrices, this.textRenderer, youtubeAuthStatus, this.width / 2 - textRenderer.getWidth(youtubeAuthStatus) / 2, 116, color);
+            drawContext.drawTextWithShadow(this.textRenderer, youtubeAuthStatus, this.width / 2 - textRenderer.getWidth(youtubeAuthStatus) / 2, 116, color);
         }
 
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     private void onDone() {
