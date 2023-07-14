@@ -18,7 +18,6 @@
 package me.juancarloscp52.entropy.client.integrations.discord;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
