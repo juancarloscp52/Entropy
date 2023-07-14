@@ -1,17 +1,17 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.sound.SoundCategory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ForceHorseRidingEvent extends AbstractTimedEvent {
     private List<HorseEntity> spawnedHorses = new ArrayList<>();
@@ -24,7 +24,7 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
-            spawnedHorses.add(EntityType.HORSE.spawn(player.getWorld(), null, horse -> {
+            spawnedHorses.add(EntityType.HORSE.spawn(player.getServerWorld(), null, horse -> {
                 horse.bondWithPlayer(player);
                 horse.saddle(SoundCategory.NEUTRAL);
                 horse.setInvulnerable(true);
@@ -48,7 +48,7 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {}
+    public void render(DrawContext drawContext, float tickdelta) {}
 
     @Override
     public short getDuration() {

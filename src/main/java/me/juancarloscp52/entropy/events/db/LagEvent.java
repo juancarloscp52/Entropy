@@ -1,14 +1,14 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LagEvent extends AbstractTimedEvent {
     Random random;
@@ -51,7 +51,7 @@ public class LagEvent extends AbstractTimedEvent {
         super.tick();
     }
 
-    public void render(MatrixStack matrixStack, float tickdelta) { }
+    public void render(DrawContext drawContext, float tickdelta) { }
 
     public short getDuration() {
         return Entropy.getInstance().settings.baseEventDuration;

@@ -17,13 +17,17 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
+import java.util.ArrayList;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget.FilterMode;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
@@ -32,8 +36,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-
-import java.util.ArrayList;
 
 public class EntropyEventConfigurationScreen extends Screen {
     private static final Identifier LOGO = new Identifier("entropy", "textures/logo-with-text.png");
@@ -81,21 +83,21 @@ public class EntropyEventConfigurationScreen extends Screen {
         this.addDrawableChild(filterEvents);
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
 
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+        MatrixStack matrices = drawContext.getMatrices();
         matrices.push();
         matrices.translate(this.width / 2f - 18.8f, 0, 0);
         matrices.scale(0.2f, 0.2f, 0.2f);
-        RenderSystem.setShaderTexture(0, LOGO);
-        this.drawTexture(matrices, 0, 0, 0, 0, 188, 187);
+        drawContext.drawTexture(LOGO, 0, 0, 0, 0, 188, 187);
         matrices.pop();
         RenderSystem.disableBlend();
-        this.list.render(matrices, mouseX, mouseY, delta);
-        this.textRenderer.drawWithShadow(matrices, this.title, this.width / 2f - textRenderer.getWidth(this.title) / 2f, 12, 14737632);
-        super.render(matrices, mouseX, mouseY, delta);
+        this.list.render(drawContext, mouseX, mouseY, delta);
+        drawContext.drawTextWithShadow(textRenderer, this.title, this.width / 2 - textRenderer.getWidth(this.title) / 2, 12, 14737632);
+        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     public boolean mouseReleased(double mouseX, double mouseY, int button) {

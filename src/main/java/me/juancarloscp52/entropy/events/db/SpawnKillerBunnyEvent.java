@@ -15,7 +15,7 @@ public class SpawnKillerBunnyEvent extends AbstractInstantEvent {
             int bunnyAmount = random.nextBetween(1, 6);
 
             for(int i = 0; i < bunnyAmount; i++) {
-                EntityType.RABBIT.spawn(player.getWorld(), null, rabbit -> rabbit.setVariant(RabbitType.EVIL), player.getBlockPos().add(random.nextBetween(-4, 4), random.nextInt(2), random.nextBetween(-4, 4)), SpawnReason.SPAWN_EGG, false, false);
+                EntityType.RABBIT.spawn(player.getServerWorld(), null, rabbit -> rabbit.setVariant(RabbitType.EVIL), player.getBlockPos().add(random.nextBetween(-4, 4), random.nextInt(2), random.nextBetween(-4, 4)), SpawnReason.SPAWN_EGG, false, false);
             }
         });
     }

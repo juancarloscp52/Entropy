@@ -1,18 +1,22 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.function.Supplier;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.*;
-import java.util.function.Supplier;
 
 public class FakeTeleportEvent extends AbstractInstantEvent {
     private static final List<Supplier<Event>> TELEPORT_EVENTS = Arrays.asList(CloseRandomTPEvent::new, FarRandomTPEvent::new, SkyBlockEvent::new, SkyEvent::new, Teleport0Event::new, TeleportHeavenEvent::new);
@@ -45,11 +49,11 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(MatrixStack matrixStack, float tickdelta, int x, int y) {
+    public void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y) {
         if(hasEnded())
-            super.renderQueueItem(matrixStack, tickdelta, x, y);
+            super.renderQueueItem(drawContext, tickdelta, x, y);
         else
-            teleportEvent.renderQueueItem(matrixStack, tickdelta, x, y);
+            teleportEvent.renderQueueItem(drawContext, tickdelta, x, y);
     }
 
     @Override
@@ -81,7 +85,7 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
             TeleportInfo info = positions.get(player);
 
             player.fallDistance = 0;
-            player.teleport(player.getWorld(), info.x + 0.5D, info.y, info.z + 0.5D, info.yaw, info.pitch);
+            player.teleport(player.getServerWorld(), info.x + 0.5D, info.y, info.z + 0.5D, info.yaw, info.pitch);
         });
     }
 

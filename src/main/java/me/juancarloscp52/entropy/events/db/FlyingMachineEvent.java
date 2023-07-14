@@ -14,9 +14,9 @@ public class FlyingMachineEvent extends AbstractInstantEvent {
     public void init() {
         for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
             if(player.getRandom().nextInt(2) == 0)
-                spawnEastWest(player.getWorld(), player.getBlockPos().add(1, 2, -4));
+                spawnEastWest(player.getServerWorld(), player.getBlockPos().add(1, 2, -4));
             else
-                spawnNorthSouth(player.getWorld(), player.getBlockPos().add(-4, 2, 1));
+                spawnNorthSouth(player.getServerWorld(), player.getBlockPos().add(-4, 2, 1));
         }
     }
 
@@ -46,15 +46,15 @@ public class FlyingMachineEvent extends AbstractInstantEvent {
         world.setBlockState(startPos.add(1, 1, 4), Blocks.SLIME_BLOCK.getDefaultState());
         world.setBlockState(startPos.add(1, 1, 5), Blocks.SLIME_BLOCK.getDefaultState());
         world.setBlockState(startPos.add(1, 1, 6), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.SOUTH));
-        
+
         world.setBlockState(startPos.add(2, 1, 1), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.NORTH));
         world.setBlockState(startPos.add(2, 1, 2), Blocks.SLIME_BLOCK.getDefaultState());
         world.setBlockState(startPos.add(2, 1, 3), Blocks.SLIME_BLOCK.getDefaultState());
         world.setBlockState(startPos.add(2, 1, 4), Blocks.STICKY_PISTON.getDefaultState().with(FacingBlock.FACING, Direction.WEST));
-        
+
         world.setBlockState(startPos.add(1, 2, 4), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.SOUTH));
         world.setBlockState(startPos.add(1, 2, 5), Blocks.REDSTONE_LAMP.getDefaultState());
-        
+
         world.setBlockState(startPos.add(2, 2, 2), Blocks.REDSTONE_LAMP.getDefaultState());
         world.setBlockState(startPos.add(2, 2, 3), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.NORTH));
     }
@@ -66,15 +66,15 @@ public class FlyingMachineEvent extends AbstractInstantEvent {
         world.setBlockState(startPos.add(4, 1, 1), Blocks.SLIME_BLOCK.getDefaultState());
         world.setBlockState(startPos.add(5, 1, 1), Blocks.SLIME_BLOCK.getDefaultState());
         world.setBlockState(startPos.add(6, 1, 1), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.EAST));
-        
+
         world.setBlockState(startPos.add(1, 1, 2), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.WEST));
         world.setBlockState(startPos.add(2, 1, 2), Blocks.SLIME_BLOCK.getDefaultState());
         world.setBlockState(startPos.add(3, 1, 2), Blocks.SLIME_BLOCK.getDefaultState());
         world.setBlockState(startPos.add(4, 1, 2), Blocks.STICKY_PISTON.getDefaultState().with(FacingBlock.FACING, Direction.NORTH));
-        
+
         world.setBlockState(startPos.add(4, 2, 1), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.EAST));
         world.setBlockState(startPos.add(5, 2, 1), Blocks.REDSTONE_LAMP.getDefaultState());
-        
+
         world.setBlockState(startPos.add(2, 2, 2), Blocks.REDSTONE_LAMP.getDefaultState());
         world.setBlockState(startPos.add(3, 2, 2), Blocks.OBSERVER.getDefaultState().with(FacingBlock.FACING, Direction.WEST));
     }

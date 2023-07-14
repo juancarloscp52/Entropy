@@ -17,15 +17,14 @@
 
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.Random;
+
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.Random;
 
 public class DVDEvent extends AbstractTimedEvent {
 
@@ -55,8 +54,8 @@ public class DVDEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, float tickdelta) {
-        renderDVDOverlay(matrixStack, tickdelta);
+    public void render(DrawContext drawContext, float tickdelta) {
+        renderDVDOverlay(drawContext, tickdelta);
     }
 
     @Override
@@ -87,7 +86,7 @@ public class DVDEvent extends AbstractTimedEvent {
         return (short) (Entropy.getInstance().settings.baseEventDuration * 0.75d);
     }
 
-    private void renderDVDOverlay(MatrixStack matrixStack, float tickdelta) {
+    private void renderDVDOverlay(DrawContext drawContext, float tickdelta) {
         if (client == null)
             return;
         int height = client.getWindow().getScaledHeight();
@@ -96,10 +95,10 @@ public class DVDEvent extends AbstractTimedEvent {
         int leftSize = MathHelper.floor(x);
         int bottomSize = MathHelper.floor(y + size);
         int rightSize = MathHelper.floor(x + size);
-        DrawableHelper.fill(matrixStack, 0, 0, width, topSize, ColorHelper.Argb.getArgb(255,0, 0, 0));
-        DrawableHelper.fill(matrixStack, 0, 0, leftSize, height, ColorHelper.Argb.getArgb(255,0, 0, 0));
-        DrawableHelper.fill(matrixStack, 0, height, width, bottomSize, ColorHelper.Argb.getArgb(255,0, 0, 0));
-        DrawableHelper.fill(matrixStack, width, 0, rightSize, height, ColorHelper.Argb.getArgb(255,0, 0, 0));
+        drawContext.fill(0, 0, width, topSize, ColorHelper.Argb.getArgb(255,0, 0, 0));
+        drawContext.fill(0, 0, leftSize, height, ColorHelper.Argb.getArgb(255,0, 0, 0));
+        drawContext.fill(0, height, width, bottomSize, ColorHelper.Argb.getArgb(255,0, 0, 0));
+        drawContext.fill(width, 0, rightSize, height, ColorHelper.Argb.getArgb(255,0, 0, 0));
 
     }
 

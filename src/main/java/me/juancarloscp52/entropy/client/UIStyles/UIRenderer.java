@@ -1,9 +1,9 @@
 package me.juancarloscp52.entropy.client.UIStyles;
 
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 
 public interface UIRenderer {
-    public void renderTimer(MatrixStack matrixStack, int width, double time, double timerDuration);
+    public void renderTimer(DrawContext drawContext, int width, double time, double timerDuration);
     // TODO renderPoll and renderEventQueue
 }
 
