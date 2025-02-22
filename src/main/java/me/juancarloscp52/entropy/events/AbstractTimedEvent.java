@@ -18,17 +18,15 @@
 package me.juancarloscp52.entropy.events;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.db.HideEventsEvent;
+import me.juancarloscp52.entropy.networking.S2CEndEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -68,12 +66,10 @@ public abstract class AbstractTimedEvent implements Event {
             List<Event> currentEvents = Entropy.getInstance().eventHandler.currentEvents;
             for (byte i = 0; i < currentEvents.size(); i++) {
                 if (currentEvents.get(i).equals(this)) {
-                    byte finalI = i;
-                    PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity -> {
-                        PacketByteBuf packetByteBuf = PacketByteBufs.create();
-                        packetByteBuf.writeByte(finalI);
-                        ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.END_EVENT, packetByteBuf);
-                    });
+                    final S2CEndEvent endEvent = new S2CEndEvent(i);
+                    PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
+                        ServerPlayNetworking.send(serverPlayerEntity, endEvent)
+                    );
                 }
             }
             this.end();

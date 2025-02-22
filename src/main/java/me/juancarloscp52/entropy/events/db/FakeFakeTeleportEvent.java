@@ -10,6 +10,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class FakeFakeTeleportEvent extends AbstractInstantEvent {
     private final Map<ServerPlayerEntity,TeleportInfo> positionsBeforeFakeTeleport = new HashMap<>();
@@ -56,13 +57,13 @@ public class FakeFakeTeleportEvent extends AbstractInstantEvent {
     }
 
     @Override
-    public void writeExtraData(PacketByteBuf buf) {
-        fakeTeleportEvent.writeExtraData(buf);
+    public Optional<String> getExtraData() {
+        return fakeTeleportEvent.getExtraData();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void readExtraData(PacketByteBuf buf) {
-        fakeTeleportEvent.readExtraData(buf);
+    public void readExtraData(String id) {
+        fakeTeleportEvent.readExtraData(id);
     }
 }

@@ -11,14 +11,15 @@ import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.AnimalArmorItem;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.HoeItem;
-import net.minecraft.item.HorseArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
@@ -44,7 +45,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
             var maxY = minY + 3;
             var maxZ = minZ + 1;
 
-            var world = player.getWorld();
+            var world = player.getServerWorld();
 
             // Replace blocks around with golden blocks
             for (int ix = minX; ix <= maxX; ix++) {
@@ -123,7 +124,8 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                 var item = itemStack.getItem();
 
                 ItemStack newItemStack;
-                if (item.isFood()) {
+                var food = item.getComponents().get(DataComponentTypes.FOOD);
+                if (food != null) {
                     var odds = player.getRandom().nextInt(100);
 
                     if(item == Items.MELON_SLICE && odds < 50)
@@ -170,7 +172,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                     newItemStack = new ItemStack(Items.GOLDEN_HOE, itemStack.getCount());
                 } else if (item instanceof SwordItem) {
                     newItemStack = new ItemStack(Items.GOLDEN_SWORD, itemStack.getCount());
-                } else if (item instanceof HorseArmorItem) {
+                } else if (item instanceof AnimalArmorItem && item != Items.WOLF_ARMOR) {
                     newItemStack = new ItemStack(Items.GOLDEN_HORSE_ARMOR, itemStack.getCount());
                 } else {
                     switch (player.getRandom().nextInt(3)) {

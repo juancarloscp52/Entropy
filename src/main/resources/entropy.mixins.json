@@ -6,9 +6,11 @@
   "mixins": [
     "AbstractBlockStateMixin",
     "BlockMixin",
+    "CatInvoker",
     "EntityMixin",
+    "FallingBlockEntityAccessor",
     "LivingEntityMixin",
-    "FallingBlockEntityAccessor"
+    "WolfInvoker"
   ],
   "client": [
     "BackgroundRendererMixin",
@@ -17,7 +19,6 @@
     "CameraMixin",
     "ClientPlayerEntityMixin",
     "ClientPlayerInteractionManagerAccessor",
-    "ClientPlayerInteractionManagerMixin",
     "ClientWorldMixin",
     "EntryListWidgetAccessor",
     "GameRendererMixin",

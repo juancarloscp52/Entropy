@@ -18,45 +18,16 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
+import me.juancarloscp52.entropy.events.AbstractAttributeEvent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.server.network.ServerPlayerEntity;
 
-public class HyperSlowEvent extends AbstractTimedEvent {
-    EntityAttributeModifier modifier;
+import java.util.List;
 
+public class HyperSlowEvent extends AbstractAttributeEvent {
     @Override
-    public void init() {
-        modifier = new EntityAttributeModifier("hyperSpeed", -0.8d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL);
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).addTemporaryModifier(modifier));
-    }
-
-    @Override
-    public void end() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).removeModifier(modifier.getId()));
-        this.hasEnded = true;
-    }
-
-    @Override
-    public void endPlayer(ServerPlayerEntity player) {
-        player.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).removeModifier(modifier.getId());
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Override
-    public void tick() {
-        if (getTickCount() % 20 == 0) {
-            Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                if (serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).getModifier(modifier.getId()) == null)
-                    serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MOVEMENT_SPEED).addTemporaryModifier(modifier);
-            });
-        }
-        super.tick();
+    public List<ActiveModifier> getModifiers() {
+        return List.of(new ActiveModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("hyperSpeed", -0.8d, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
     }
 
     @Override

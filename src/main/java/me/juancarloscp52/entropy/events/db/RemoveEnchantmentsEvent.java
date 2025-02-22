@@ -5,7 +5,6 @@ import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
 
 public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
 
@@ -29,14 +28,13 @@ public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
     }
 
     private void removeEnchant(ItemStack itemStack) {
-        var nbt = itemStack.getNbt();
+        if (Math.random() > 1.0/3) {
+            // one chance over 3 to remove an enchantment.
+            return;
+        }
 
-        if(nbt==null){return;}
-        if(Math.random() > 1.0/3){return;} // one chance over 3 to remove an enchantment.
-
-        var enchantments = EnchantmentHelper.fromNbt(itemStack.getEnchantments());
-
-        enchantments.keySet().removeIf(enchantment -> !Registries.ENCHANTMENT.getEntry(enchantment).isIn(EnchantmentTags.DO_NOT_REMOVE));
-        EnchantmentHelper.set(enchantments, itemStack);
+        EnchantmentHelper.apply(itemStack, enchantments ->
+            enchantments.remove(enchantment -> !enchantment.isIn(EnchantmentTags.DO_NOT_REMOVE))
+        );
     }
 }

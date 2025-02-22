@@ -19,14 +19,14 @@ package me.juancarloscp52.entropy.server;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
-import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import me.juancarloscp52.entropy.networking.S2CAddEvent;
+import me.juancarloscp52.entropy.networking.S2CRemoveFirst;
+import me.juancarloscp52.entropy.networking.S2CTick;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -72,9 +72,7 @@ public class ServerEventHandler {
 
                 if (currentEvents.get(0).hasEnded()) {
                     PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                            ServerPlayNetworking.send(serverPlayerEntity,
-                                    NetworkingConstants.REMOVE_FIRST,
-                                    PacketByteBufs.empty()));
+                            ServerPlayNetworking.send(serverPlayerEntity, S2CRemoveFirst.INSTANCE));
 
                     currentEvents.remove(0);
                 }
@@ -119,10 +117,9 @@ public class ServerEventHandler {
         }
 
         // Send tick to clients.
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeShort(eventCountDown);
+        final S2CTick tick = new S2CTick(eventCountDown);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.TICK, buf));
+                ServerPlayNetworking.send(serverPlayerEntity, tick));
 
 
         eventCountDown--;
@@ -143,13 +140,8 @@ public class ServerEventHandler {
 
     private void sendEventToPlayers(Event event) {
         String eventName = EventRegistry.getEventId(event);
-
-        PacketByteBuf packetByteBuf = PacketByteBufs.create();
-        packetByteBuf.writeString(eventName);
-        event.writeExtraData(packetByteBuf);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.ADD_EVENT, packetByteBuf));
-
+                ServerPlayNetworking.send(serverPlayerEntity, new S2CAddEvent(eventName, event.getExtraData())));
     }
 
     private Event getRandomEvent(List<Event> eventArray) {
