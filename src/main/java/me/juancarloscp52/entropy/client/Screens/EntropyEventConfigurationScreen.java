@@ -83,7 +83,7 @@ public class EntropyEventConfigurationScreen extends Screen {
     }
 
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
-        this.renderBackground(drawContext);
+        this.renderBackground(drawContext, mouseX, mouseY, delta);
 
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
