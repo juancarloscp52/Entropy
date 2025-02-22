@@ -289,15 +289,10 @@ public class EntropyIntegrationsScreen extends Screen {
     }
 
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
-        this.renderBackground(drawContext, mouseX, mouseY, delta);
+        super.render(drawContext, mouseX, mouseY, delta);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-        MatrixStack matrices = drawContext.getMatrices();
-        matrices.push();
-        matrices.translate(5, 0, 0);
-        matrices.scale(0.2f, 0.2f, 0.2f);
-        drawContext.drawTexture(LOGO, 0, 0, 0, 0, 188, 187);
-        matrices.pop();
+        EntropyConfigurationScreen.drawLogo(drawContext);
         RenderSystem.disableBlend();
         if(platformIntegrationValue !=0){
             drawContext.drawTextWithShadow(this.textRenderer, tokenTranslatable, this.width / 2 - 10 - textRenderer.getWidth(tokenTranslatable), 66, 16777215);
@@ -307,8 +302,6 @@ public class EntropyIntegrationsScreen extends Screen {
             var color = youtubeAuthState == 0 ? 0xFFAA00 : youtubeAuthState == 1 ? 0x00AA00 : 0xAA0000;
             drawContext.drawTextWithShadow(this.textRenderer, youtubeAuthStatus, this.width / 2 - textRenderer.getWidth(youtubeAuthStatus) / 2, 116, color);
         }
-
-        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     private void onDone() {

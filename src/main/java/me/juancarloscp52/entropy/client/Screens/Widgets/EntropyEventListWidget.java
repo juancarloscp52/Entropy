@@ -50,6 +50,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
     public EntropyEventListWidget(MinecraftClient minecraftClient, int i, int j, int k, int l, int m) {
         super(minecraftClient, i, j, k, l, m);
         this.centerListVertically = false;
+        this.setRenderBackground(true);
     }
 
     public void addAllFromRegistry() {
