@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy;
 import com.google.gson.Gson;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
@@ -35,7 +36,6 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.CommandSource;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleType;
@@ -64,6 +64,8 @@ public class Entropy implements ModInitializer {
     public EntropySettings settings;
     public static final ParticleType<ConstantColorDustParticleEffect> CONSTANT_COLOR_DUST = FabricParticleTypes.complex(false, ConstantColorDustParticleEffect.PARAMETERS_FACTORY);
 
+    private static final DynamicCommandExceptionType ERROR_INVALID_ON_CLIENT = new DynamicCommandExceptionType(eventId -> Text.translatable("entropy.command.invalidClientSide", eventId));
+    private static final DynamicCommandExceptionType ERROR_UNKNOWN_EVENT = new DynamicCommandExceptionType(eventId -> Text.translatable("entropy.command.unknownEvent", eventId));
 
     public static Entropy getInstance() {
         return instance;
@@ -107,7 +109,7 @@ public class Entropy implements ModInitializer {
                     eventHandler.voting.sendNewPollToPlayer(handler.player);
                 }
             } else {
-                LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...", player.getEntityName(), player.getUuidAsString(), clientVersion, version));
+                LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...", player.getName(), player.getUuidAsString(), clientVersion, version));
                 player.networkHandler.disconnect(Text.literal(String.format("Client entropy version (%s) does not match server version (%s).", clientVersion, version)));
             }
         });
@@ -164,13 +166,13 @@ public class Entropy implements ModInitializer {
 
                                             // If running on integrated server, prevent running Stuttering event.
                                             if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals("StutteringEvent")){
-                                                throw new CommandException(Text.translatable("entropy.command.invalidClientSide", eventId));
+                                                throw ERROR_INVALID_ON_CLIENT.create(eventId);
                                             }
 
                                             if(eventHandler.runEvent(EventRegistry.get(eventId)))
                                                 Entropy.LOGGER.warn("New event run via command: " + EventRegistry.getTranslationKey(eventId));
                                             else
-                                                throw new CommandException(Text.translatable("entropy.command.unknownEvent", eventId));
+                                                throw ERROR_UNKNOWN_EVENT.create(eventId);
                                         }
 
                                         return 0;

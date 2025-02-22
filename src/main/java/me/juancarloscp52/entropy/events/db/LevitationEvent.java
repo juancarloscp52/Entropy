@@ -31,7 +31,7 @@ public class LevitationEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getBlockPos().add(50, 50, 50), serverPlayerEntity.getBlockPos().add(-50, -50, -50))).forEach(
+            serverPlayerEntity.getWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getPos().add(50, 50, 50), serverPlayerEntity.getPos().add(-50, -50, -50))).forEach(
                     entity ->  {
                         if(!(entity instanceof PlayerEntity) && entity instanceof LivingEntity livingEntity && !livingEntity.getType().isIn(EntityTypeTags.DO_NOT_LEVITATE)){
                             livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
