@@ -5,6 +5,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -15,8 +16,11 @@ import net.minecraft.item.Items;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.tick.ChunkTickScheduler;
+
+import java.util.Set;
 
 public class SkyBlockEvent extends AbstractInstantEvent {
 
@@ -143,8 +147,7 @@ public class SkyBlockEvent extends AbstractInstantEvent {
 
             var playerPos = startPos.add(-4, 3, 1);
 
-            serverPlayerEntity.stopRiding();
-            serverPlayerEntity.teleport(playerPos.getX() + .5, playerPos.getY(), playerPos.getZ() + .5);
+            EntropyUtils.teleportPlayer(serverPlayerEntity, Vec3d.ofBottomCenter(playerPos));
         }
     }
 

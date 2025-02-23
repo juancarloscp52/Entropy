@@ -1,14 +1,17 @@
 package me.juancarloscp52.entropy.events.db;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LagEvent extends AbstractTimedEvent {
     Random random;
@@ -34,8 +37,7 @@ public class LagEvent extends AbstractTimedEvent {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach((serverPlayerEntity) -> {
                 BlockPos pos = player_positions.get(serverPlayerEntity);
                 if (pos != null) {
-                    serverPlayerEntity.stopRiding();
-                    serverPlayerEntity.teleport(pos.getX(), pos.getY(), pos.getZ());
+                    EntropyUtils.teleportPlayer(serverPlayerEntity, Vec3d.ofBottomCenter(pos));
                 }
 
             });

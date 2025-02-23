@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -40,8 +41,7 @@ public class TeleportHeavenEvent extends AbstractInstantEvent {
                 }
             }
 
-            serverPlayerEntity.stopRiding();
-            serverPlayerEntity.teleport(serverPlayerEntity.getX(), 380, serverPlayerEntity.getZ());
+            EntropyUtils.teleportPlayer(serverPlayerEntity, serverPlayerEntity.getX(), 380.0, serverPlayerEntity.getZ());
         });
     }
 }
