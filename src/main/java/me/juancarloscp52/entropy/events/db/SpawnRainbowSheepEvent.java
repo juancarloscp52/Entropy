@@ -23,7 +23,7 @@ public class SpawnRainbowSheepEvent extends AbstractInstantEvent {
                         }, serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG, true,false);
                     }
                 }
-                );
+        );
     }
 
 }

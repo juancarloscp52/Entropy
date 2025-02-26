@@ -49,7 +49,7 @@ public class ChickenRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 20 == 0) {
             for (int i = 0; i < 5; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity ->
-                EntityType.CHICKEN.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos().add((random.nextInt(100) - 50), 50, (random.nextInt(100) - 50)), SpawnReason.COMMAND));
+                        EntityType.CHICKEN.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos().add((random.nextInt(100) - 50), 50, (random.nextInt(100) - 50)), SpawnReason.COMMAND));
             }
         }
         super.tick();

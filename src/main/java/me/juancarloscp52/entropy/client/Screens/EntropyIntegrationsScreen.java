@@ -197,10 +197,10 @@ public class EntropyIntegrationsScreen extends Screen {
                 help = ButtonWidget.builder(Text.translatable("entropy.options.questionMark"), (button -> {
                 })).position((this.width / 2) + 110, 30).width(20).tooltip(Tooltip.of(
                         Text.translatable(
-                                switch(platformIntegrationValue) {
-                                    case 1 -> "entropy.options.integrations.twitch.help";
-                                    case 2 -> "entropy.options.integrations.discord.help";
-                                    default -> "entropy.options.integrations.youtube.help"; }))).build());
+                            switch(platformIntegrationValue) {
+                                case 1 -> "entropy.options.integrations.twitch.help";
+                                case 2 -> "entropy.options.integrations.discord.help";
+                                default -> "entropy.options.integrations.youtube.help"; }))).build());
 
         changeContent();
     }
@@ -284,10 +284,10 @@ public class EntropyIntegrationsScreen extends Screen {
         }
         help.setTooltip(Tooltip.of(
                 Text.translatable(
-                        switch(platformIntegrationValue) {
-                            case 1 -> "entropy.options.integrations.twitch.help";
-                            case 2 -> "entropy.options.integrations.discord.help";
-                            default -> "entropy.options.integrations.youtube.help"; })));
+                    switch(platformIntegrationValue) {
+                        case 1 -> "entropy.options.integrations.twitch.help";
+                        case 2 -> "entropy.options.integrations.discord.help";
+                        default -> "entropy.options.integrations.youtube.help"; })));
     }
 
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {

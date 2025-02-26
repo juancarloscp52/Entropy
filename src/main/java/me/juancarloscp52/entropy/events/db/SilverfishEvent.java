@@ -19,7 +19,7 @@ public class SilverfishEvent extends AbstractInstantEvent {
                         EntityType.SILVERFISH.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
                     }
                 }
-                );
+        );
     }
 
 }

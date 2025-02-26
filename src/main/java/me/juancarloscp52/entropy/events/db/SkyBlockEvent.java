@@ -21,34 +21,34 @@ import net.minecraft.world.tick.ChunkTickScheduler;
 public class SkyBlockEvent extends AbstractInstantEvent {
 
     private static byte[][][] _leavesPlacement = new byte[][][] {
-        new byte[][] {
-            new byte[] { 0, 1, 1, 1, 1 },
-            new byte[] { 1, 1, 1, 1, 1 },
-            new byte[] { 1, 1, 0, 1, 1 },
-            new byte[] { 1, 1, 1, 1, 1 },
-            new byte[] { 1, 1, 1, 1, 0 },
-        },
-        new byte[][] {
-            new byte[] { 0, 1, 1, 1, 0 },
-            new byte[] { 1, 1, 1, 1, 1 },
-            new byte[] { 1, 1, 0, 1, 1 },
-            new byte[] { 1, 1, 1, 1, 1 },
-            new byte[] { 0, 1, 1, 1, 0 },
-        },
-        new byte[][] {
-            new byte[] { 0, 0, 0, 0, 0 },
-            new byte[] { 0, 1, 1, 0, 0 },
-            new byte[] { 0, 1, 0, 1, 0 },
-            new byte[] { 0, 0, 1, 0, 0 },
-            new byte[] { 0, 0, 0, 0, 0 },
-        },
-        new byte[][] {
-            new byte[] { 0, 0, 0, 0, 0 },
-            new byte[] { 0, 0, 1, 0, 0 },
-            new byte[] { 0, 1, 1, 1, 0 },
-            new byte[] { 0, 0, 1, 0, 0 },
-            new byte[] { 0, 0, 0, 0, 0 },
-        }
+            new byte[][] {
+                    new byte[] { 0, 1, 1, 1, 1 },
+                    new byte[] { 1, 1, 1, 1, 1 },
+                    new byte[] { 1, 1, 0, 1, 1 },
+                    new byte[] { 1, 1, 1, 1, 1 },
+                    new byte[] { 1, 1, 1, 1, 0 },
+            },
+            new byte[][] {
+                    new byte[] { 0, 1, 1, 1, 0 },
+                    new byte[] { 1, 1, 1, 1, 1 },
+                    new byte[] { 1, 1, 0, 1, 1 },
+                    new byte[] { 1, 1, 1, 1, 1 },
+                    new byte[] { 0, 1, 1, 1, 0 },
+            },
+            new byte[][] {
+                    new byte[] { 0, 0, 0, 0, 0 },
+                    new byte[] { 0, 1, 1, 0, 0 },
+                    new byte[] { 0, 1, 0, 1, 0 },
+                    new byte[] { 0, 0, 1, 0, 0 },
+                    new byte[] { 0, 0, 0, 0, 0 },
+            },
+            new byte[][] {
+                    new byte[] { 0, 0, 0, 0, 0 },
+                    new byte[] { 0, 0, 1, 0, 0 },
+                    new byte[] { 0, 1, 1, 1, 0 },
+                    new byte[] { 0, 0, 1, 0, 0 },
+                    new byte[] { 0, 0, 0, 0, 0 },
+            }
     };
 
     @Override

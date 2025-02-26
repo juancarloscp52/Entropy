@@ -22,7 +22,7 @@ public class AngryBeeEvent extends AbstractInstantEvent {
                         bee.chooseRandomAngerTime();
                     }
                 }
-                );
+        );
     }
 
 }
