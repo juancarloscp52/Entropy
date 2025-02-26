@@ -19,6 +19,7 @@ package me.juancarloscp52.entropy.client.integrations.discord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -67,10 +68,7 @@ public class DiscordEventListener extends ListenerAdapter {
             List<UnicodeEmoji> emojisToRemove = new ArrayList<>();
             UnicodeEmoji addedEmoji = event.getReaction().getEmoji().asUnicode();
 
-            emojisToRemove.add(Emoji.fromUnicode("1️⃣"));
-            emojisToRemove.add(Emoji.fromUnicode("2️⃣"));
-            emojisToRemove.add(Emoji.fromUnicode("3️⃣"));
-            emojisToRemove.add(Emoji.fromUnicode("4️⃣"));
+            Stream.of("1️⃣", "2️⃣", "3️⃣", "4️⃣").map(Emoji::fromUnicode).forEach(emojisToRemove::add);
 
             if(emojisToRemove.contains(addedEmoji)) {
                 Message message = event.retrieveMessage().complete();
