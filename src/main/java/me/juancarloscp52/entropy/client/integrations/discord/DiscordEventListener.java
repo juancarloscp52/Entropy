@@ -88,7 +88,7 @@ public class DiscordEventListener extends ListenerAdapter {
     @Override
     public void onMessageReactionRemove(@NotNull MessageReactionRemoveEvent event) {
         if(event.getMessageIdLong()==discordIntegration.lastId && event.getUserIdLong()!= discordIntegration.jda.getSelfUser().getIdLong()){
-            switch (event.getReaction().getEmoji().asUnicode().getName()){
+            switch (event.getReaction().getEmoji().getName()){
                 case "1️⃣":
                     discordIntegration.votingClient.removeVote(0, event.getUserId());
                     break;
