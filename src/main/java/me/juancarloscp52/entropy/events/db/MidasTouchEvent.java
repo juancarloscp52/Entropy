@@ -4,8 +4,6 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.ArrayList;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
@@ -31,6 +29,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
+
+import java.util.ArrayList;
 
 public class MidasTouchEvent extends AbstractTimedEvent {
 

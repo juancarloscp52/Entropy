@@ -17,12 +17,6 @@
 
 package me.juancarloscp52.entropy.client.integrations.discord;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.jetbrains.annotations.NotNull;
-
 import me.juancarloscp52.entropy.client.EntropyClient;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
@@ -33,6 +27,11 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class DiscordEventListener extends ListenerAdapter {
     private final DiscordIntegration discordIntegration;

@@ -17,13 +17,7 @@
 
 package me.juancarloscp52.entropy.client.Screens.Widgets;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
 import com.google.common.collect.ImmutableList;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.Event;
@@ -44,6 +38,11 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
 
 public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWidget.ButtonEntry> {
     public final List<ButtonEntry> visibleEntries = new ArrayList<>();

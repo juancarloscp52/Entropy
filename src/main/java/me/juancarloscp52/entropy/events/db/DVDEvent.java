@@ -17,14 +17,14 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Random;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.Random;
 
 public class DVDEvent extends AbstractTimedEvent {
 

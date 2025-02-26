@@ -17,12 +17,12 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Random;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+
+import java.util.Random;
 
 public class SlimeEvent extends AbstractInstantEvent {
 

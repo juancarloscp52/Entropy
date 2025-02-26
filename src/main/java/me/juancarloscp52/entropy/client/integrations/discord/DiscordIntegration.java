@@ -17,10 +17,6 @@
 
 package me.juancarloscp52.entropy.client.integrations.discord;
 
-import java.awt.Color;
-import java.util.List;
-import java.util.Random;
-
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
@@ -32,6 +28,10 @@ import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.util.math.ColorHelper;
+
+import java.awt.*;
+import java.util.List;
+import java.util.Random;
 
 public class DiscordIntegration implements Integrations {
 

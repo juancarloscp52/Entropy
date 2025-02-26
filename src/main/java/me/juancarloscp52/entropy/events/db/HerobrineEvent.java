@@ -17,11 +17,8 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Random;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.EntropyClient;
@@ -46,6 +43,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.Random;
 
 public class HerobrineEvent extends AbstractTimedEvent {
 

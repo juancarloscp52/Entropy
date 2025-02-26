@@ -17,8 +17,6 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Random;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.gui.DrawContext;
@@ -28,6 +26,8 @@ import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+
+import java.util.Random;
 
 public class RandomCreeperEvent extends AbstractTimedEvent {
 

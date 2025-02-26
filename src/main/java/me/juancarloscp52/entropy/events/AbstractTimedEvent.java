@@ -17,8 +17,6 @@
 
 package me.juancarloscp52.entropy.events;
 
-import java.util.List;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
@@ -36,6 +34,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.List;
 
 public abstract class AbstractTimedEvent implements Event {
 

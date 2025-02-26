@@ -17,8 +17,6 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Random;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.Blocks;
@@ -27,6 +25,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.RaycastContext;
+
+import java.util.Random;
 
 public class FarRandomTPEvent extends AbstractInstantEvent {
     int count = 0;
