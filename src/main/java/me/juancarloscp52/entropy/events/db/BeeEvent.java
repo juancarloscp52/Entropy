@@ -19,7 +19,7 @@ public class BeeEvent extends AbstractInstantEvent {
                         EntityType.BEE.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
                     }
                 }
-                );
+        );
     }
 
 }

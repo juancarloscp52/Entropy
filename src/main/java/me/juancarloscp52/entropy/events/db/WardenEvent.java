@@ -25,7 +25,7 @@ public class WardenEvent extends AbstractInstantEvent {
                         warden.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 9999, 5));
                     }
                 }
-                );
+        );
     }
 
 }

@@ -19,7 +19,7 @@ public class EndermiteEvent extends AbstractInstantEvent {
                         EntityType.ENDERMITE.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
                     }
                 }
-                );
+        );
     }
 
 }
