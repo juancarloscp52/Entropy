@@ -1,8 +1,5 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
@@ -12,6 +9,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.HorseEntity;
 import net.minecraft.sound.SoundCategory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ForceHorseRidingEvent extends AbstractTimedEvent {
     private List<HorseEntity> spawnedHorses = new ArrayList<>();

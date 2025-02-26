@@ -1,12 +1,5 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.function.Supplier;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.Event;
@@ -17,6 +10,13 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.function.Supplier;
 
 public class FakeTeleportEvent extends AbstractInstantEvent {
     private static final List<Supplier<Event>> TELEPORT_EVENTS = Arrays.asList(CloseRandomTPEvent::new, FarRandomTPEvent::new, SkyBlockEvent::new, SkyEvent::new, Teleport0Event::new, TeleportHeavenEvent::new);

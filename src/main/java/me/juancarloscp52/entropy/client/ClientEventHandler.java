@@ -17,9 +17,6 @@
 
 package me.juancarloscp52.entropy.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings.UIStyle;
 import me.juancarloscp52.entropy.Variables;
@@ -32,6 +29,9 @@ import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations
 import me.juancarloscp52.entropy.events.Event;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientEventHandler {
 

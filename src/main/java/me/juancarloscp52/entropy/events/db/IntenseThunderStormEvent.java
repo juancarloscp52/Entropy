@@ -17,8 +17,6 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.Random;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.gui.DrawContext;
@@ -27,6 +25,8 @@ import net.minecraft.entity.LightningEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Heightmap;
+
+import java.util.Random;
 
 public class IntenseThunderStormEvent extends AbstractTimedEvent {
 

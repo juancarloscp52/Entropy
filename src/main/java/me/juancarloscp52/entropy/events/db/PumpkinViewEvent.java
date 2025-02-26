@@ -18,7 +18,6 @@
 package me.juancarloscp52.entropy.events.db;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;

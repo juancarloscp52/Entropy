@@ -1,7 +1,5 @@
 package me.juancarloscp52.entropy.client.UIStyles;
 
-import java.util.UUID;
-
 import me.juancarloscp52.entropy.mixin.BossBarHudAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -9,6 +7,8 @@ import net.minecraft.client.gui.hud.ClientBossBar;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.UUID;
 
 public class MinecraftUIRenderer implements UIRenderer {
     private final ClientBossBar bar;

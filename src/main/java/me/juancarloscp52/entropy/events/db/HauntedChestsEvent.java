@@ -1,8 +1,5 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
@@ -16,6 +13,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HauntedChestsEvent extends AbstractTimedEvent {
     private List<ChestBlockEntity> openedChests = new ArrayList<>();

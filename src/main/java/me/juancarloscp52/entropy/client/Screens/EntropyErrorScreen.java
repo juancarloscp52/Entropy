@@ -17,14 +17,14 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
-import java.util.List;
-
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
+
+import java.util.List;
 
 public class EntropyErrorScreen extends Screen {
     Screen parent;

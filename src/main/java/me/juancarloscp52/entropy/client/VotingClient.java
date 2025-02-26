@@ -17,9 +17,6 @@
 
 package me.juancarloscp52.entropy.client;
 
-import java.util.HashMap;
-import java.util.List;
-
 import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
 import me.juancarloscp52.entropy.client.websocket.OverlayServer;
@@ -31,6 +28,9 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class VotingClient {
 
