@@ -200,9 +200,7 @@ public class EventRegistry {
         entropyEvents.put("NothingEvent", NothingEvent::new);
         entropyEvents.put("RainbowTrailsEvent", RainbowTrailsEvent::new);
         entropyEvents.put("RainbowSheepEverywhereEvent", RainbowSheepEverywhereEvent::new);
-        String armorTrimEvent = "ArmorTrimEvent";
-        entropyEvents.put(armorTrimEvent, ArmorTrimEvent::new);
-        requiredFeatures.put(armorTrimEvent, FeatureFlags.FEATURE_MANAGER.featureSetOf(FeatureFlags.UPDATE_1_20));
+        entropyEvents.put("ArmorTrimEvent", ArmorTrimEvent::new);
 
     }
 

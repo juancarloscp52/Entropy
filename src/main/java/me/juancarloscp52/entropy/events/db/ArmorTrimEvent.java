@@ -15,9 +15,9 @@ public class ArmorTrimEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
-            World world = player.world;
+            World world = player.getWorld();
             Random random = world.random;
-            DynamicRegistryManager registryManager = player.world.getRegistryManager();
+            DynamicRegistryManager registryManager = player.getWorld().getRegistryManager();
             Registry<ArmorTrimMaterial> trimMaterials = registryManager.get(RegistryKeys.TRIM_MATERIAL);
             Registry<ArmorTrimPattern> trimPatterns = registryManager.get(RegistryKeys.TRIM_PATTERN);
 
