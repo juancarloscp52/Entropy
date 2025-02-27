@@ -21,6 +21,9 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.db.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
+import net.minecraft.resource.featuretoggle.FeatureSet;
+import net.minecraft.world.World;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -31,10 +34,11 @@ public class EventRegistry {
     private static final Random random = new Random();
     //Store constructors for all Entropy Events.
     public static HashMap<String, Supplier<Event>> entropyEvents;
+    public static HashMap<String, FeatureSet> requiredFeatures;
 
     public static void register() {
-
         entropyEvents = new HashMap<>();
+        requiredFeatures = new HashMap<>();
         entropyEvents.put("RemoveEnchantmentsEvent", RemoveEnchantmentsEvent::new);
         entropyEvents.put("ArmorCurseEvent", ArmorCurseEvent::new);
         entropyEvents.put("RaidEvent", RaidEvent::new);
@@ -196,6 +200,7 @@ public class EventRegistry {
         entropyEvents.put("NothingEvent", NothingEvent::new);
         entropyEvents.put("RainbowTrailsEvent", RainbowTrailsEvent::new);
         entropyEvents.put("RainbowSheepEverywhereEvent", RainbowSheepEverywhereEvent::new);
+        entropyEvents.put("ArmorTrimEvent", ArmorTrimEvent::new);
 
     }
 
@@ -229,6 +234,7 @@ public class EventRegistry {
         if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
             eventKeys.remove("StutteringEvent");
 
+        eventKeys.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, Entropy.getInstance().eventHandler.server.getOverworld()));
         return getRandomEvent(eventKeys);
     }
 
@@ -276,5 +282,9 @@ public class EventRegistry {
 
     public static String getTranslationKey(String eventID) {
         return "entropy.events." + eventID;
+    }
+
+    public static boolean doesWorldHaveRequiredFeatures(String event, World world) {
+        return requiredFeatures.getOrDefault(event, FeatureFlags.VANILLA_FEATURES).isSubsetOf(world.getEnabledFeatures());
     }
 }

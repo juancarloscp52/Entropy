@@ -159,6 +159,7 @@
   "entropy.events.SilenceEvent": "Stille",
   "entropy.events.NothingEvent": "Nichts",
   "entropy.events.RainbowTrailsEvent": "Regenbogenspuren",
+  "entropy.events.ArmorTrimEvent": "Verziert",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",

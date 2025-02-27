@@ -160,6 +160,7 @@
   "entropy.events.NothingEvent": "Nada",
   "entropy.events.RainbowTrailsEvent": "Cola arcoiris",
   "entropy.events.RainbowSheepEverywhereEvent": "jeb_",
+  "entropy.events.ArmorTrimEvent": "Tuneado",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Evento desconocido: %s",

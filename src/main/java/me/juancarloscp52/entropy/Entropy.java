@@ -54,6 +54,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Entropy implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -148,7 +150,12 @@ public class Entropy implements ModInitializer {
                             }))
                     .then(CommandManager.literal("run")
                             .then(CommandManager.argument("event", StringArgumentType.word())
-                                    .suggests((context, builder) -> CommandSource.suggestMatching(EventRegistry.entropyEvents.keySet(), builder))
+                                    .suggests((context, builder) -> {
+                                        Set<String> events = new TreeSet<>(EventRegistry.entropyEvents.keySet());
+
+                                        events.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, context.getSource().getWorld()));
+                                        return CommandSource.suggestMatching(events, builder);
+                                    })
                                     .executes(source -> {
                                         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
