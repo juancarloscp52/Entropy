@@ -37,7 +37,6 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 
 public class EntropyEventConfigurationScreen extends Screen {
-    private static final Identifier LOGO = new Identifier("entropy", "textures/logo-with-text.png");
     EntropySettings settings = Entropy.getInstance().settings;
 
     EntropyEventListWidget list;

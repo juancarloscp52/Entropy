@@ -45,7 +45,6 @@ import java.util.concurrent.Executors;
 
 public class EntropyIntegrationsScreen extends Screen {
     public static final Logger LOGGER = LogManager.getLogger();
-    private static final Identifier LOGO = new Identifier("entropy", "textures/logo-with-text.png");
     EntropySettings settings = Entropy.getInstance().settings;
     EntropyIntegrationsSettings integrationsSettings = EntropyClient.getInstance().integrationsSettings;
 

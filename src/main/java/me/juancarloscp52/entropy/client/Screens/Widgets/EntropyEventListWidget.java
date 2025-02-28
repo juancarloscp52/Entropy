@@ -166,7 +166,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
 
     @Environment(EnvType.CLIENT)
     public static class ButtonEntry extends ElementListWidget.Entry<EntropyEventListWidget.ButtonEntry> {
-        private static final Identifier ICON_OVERLAY_LOCATION = new Identifier("textures/gui/world_selection.png");
+        private static final Identifier ICON_OVERLAY_LOCATION = new Identifier("world_list/warning_highlighted");
         private static final Tooltip ACCESSIBILITY_TOOLTIP = Tooltip.of(Text.translatable("entropy.options.accessibilityMode.eventDisabled"));
         public final CheckboxWidget checkbox;
         public final EventInfo eventInfo;
@@ -200,7 +200,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
             checkbox.render(drawContext, mouseX, mouseY, tickDelta);
 
             if(Entropy.getInstance().settings.accessibilityMode && eventInfo.event.isDisabledByAccessibilityMode()) {
-                drawContext.drawTexture(ICON_OVERLAY_LOCATION, x, y - 6, 64, 32, 32, 32, 256, 256);
+                drawContext.drawGuiTexture(ICON_OVERLAY_LOCATION, x, y - 6, 32, 32);
 
                 if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight)
                     MinecraftClient.getInstance().currentScreen.setTooltip(ACCESSIBILITY_TOOLTIP, new WidgetTooltipPositioner(checkbox), false);
