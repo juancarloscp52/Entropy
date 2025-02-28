@@ -8,11 +8,12 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.state.property.Properties;
 
 public class SoSweetEvent extends AbstractInstantEvent {
-    private final BlockState sweetBerryBush = Blocks.SWEET_BERRY_BUSH.getDefaultState().with(Properties.AGE_3, 2);
+    private final BlockState sweetBerryBush = Blocks.SWEET_BERRY_BUSH.getDefaultState().with(SweetBerryBushBlock.AGE, 2);
 
     @Override
     public void init() {
