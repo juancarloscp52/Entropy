@@ -11,6 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.math.Direction;
 
 public class SoSweetEvent extends AbstractInstantEvent {
     private final BlockState sweetBerryBush = Blocks.SWEET_BERRY_BUSH.getDefaultState().with(SweetBerryBushBlock.AGE, 2);
@@ -32,7 +33,7 @@ public class SoSweetEvent extends AbstractInstantEvent {
                         var downBlockPos = blockPos.down();
                         var blockState = world.getBlockState(blockPos);
                         if ((blockState.getBlock().equals(Blocks.AIR) || blockState.canBucketPlace(Fluids.WATER))
-                                && world.getBlockState(downBlockPos).isFullCube(world, downBlockPos)) {
+                                && world.getBlockState(downBlockPos).isSideSolidFullSquare(world, downBlockPos, Direction.UP)) {
                             world.setBlockState(blockPos, sweetBerryBush);
                             iy++; //no need to check the position above this berry bush, because one won't be placed there anyway
                         }
