@@ -22,7 +22,6 @@ public abstract class AbstractBlockStateMixin {
     public void isSideInvisible(BlockState state, Direction direction, CallbackInfoReturnable<Boolean> ci) {
         if (Variables.xrayActive) {
             ci.setReturnValue(!((AbstractBlockState) (Object) this).isIn(BlockTags.SHOWN_DURING_XRAY));
-            return;
         }
     }
 
@@ -30,7 +29,6 @@ public abstract class AbstractBlockStateMixin {
     public void isSideSolid(BlockView world, BlockPos pos, Direction direction, SideShapeType shapeType, CallbackInfoReturnable<Boolean> ci) {
         if (Variables.xrayActive) {
             ci.setReturnValue(((AbstractBlockState) (Object) this).isIn(BlockTags.SHOWN_DURING_XRAY));
-            return;
         }
     }
 
@@ -39,7 +37,6 @@ public abstract class AbstractBlockStateMixin {
     public void getAmbientOcclusionLightLevel(BlockView world, BlockPos pos, CallbackInfoReturnable<Float> ci) {
         if (Variables.xrayActive) {
             ci.setReturnValue(1f);
-            return;
         }
     }
 
@@ -48,7 +45,6 @@ public abstract class AbstractBlockStateMixin {
     public void getLuminance(CallbackInfoReturnable<Integer> ci) {
         if (Variables.xrayActive && ((AbstractBlockState) (Object) this).isIn(BlockTags.SHOWN_DURING_XRAY)) {
             ci.setReturnValue(12);
-            return;
         }
     }
 
@@ -60,7 +56,6 @@ public abstract class AbstractBlockStateMixin {
                 ci.setReturnValue(VoxelShapes.fullCube());
             else
                 ci.setReturnValue(VoxelShapes.empty());
-            return;
         }
     }
 }
