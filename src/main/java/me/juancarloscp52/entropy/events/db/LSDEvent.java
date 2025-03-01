@@ -31,7 +31,7 @@ public class LSDEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.wobble = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

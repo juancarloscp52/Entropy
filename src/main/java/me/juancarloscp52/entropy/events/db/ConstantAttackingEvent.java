@@ -34,7 +34,7 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         cancelBlockBreaking(MinecraftClient.getInstance());
-        this.hasEnded = true;
+        super.endClient();
     }
 
     private void cancelBlockBreaking(MinecraftClient mc) {

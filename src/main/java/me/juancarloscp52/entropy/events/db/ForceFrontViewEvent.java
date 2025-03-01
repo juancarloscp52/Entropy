@@ -33,7 +33,7 @@ public class ForceFrontViewEvent extends AbstractTimedEvent {
     public void endClient() {
         Variables.thirdPersonView = false;
         Variables.frontView = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

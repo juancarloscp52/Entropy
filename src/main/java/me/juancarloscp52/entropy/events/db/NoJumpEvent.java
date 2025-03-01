@@ -31,7 +31,7 @@ public class NoJumpEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.noJump = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

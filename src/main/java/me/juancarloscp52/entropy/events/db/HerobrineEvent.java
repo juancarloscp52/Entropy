@@ -73,7 +73,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
         client = MinecraftClient.getInstance();
         client.getSoundManager().stopSounds(EntropyClient.herobrineAmbienceID, SoundCategory.BLOCKS);
         client.getSoundManager().resumeAll();
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

@@ -31,7 +31,7 @@ public class CRTEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.monitor = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

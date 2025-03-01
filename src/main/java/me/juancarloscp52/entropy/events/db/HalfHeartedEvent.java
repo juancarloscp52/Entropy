@@ -17,13 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.network.ServerPlayerEntity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HalfHeartedEvent extends AbstractTimedEvent {
     private Map<ServerPlayerEntity,Float> previousHealth = new HashMap<>();
@@ -45,7 +45,7 @@ public class HalfHeartedEvent extends AbstractTimedEvent {
             serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20);
             serverPlayerEntity.setHealth(previousHealth.get(serverPlayerEntity));
         });
-        this.hasEnded = true;
+        super.end();
     }
 
     @Override

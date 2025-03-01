@@ -13,7 +13,7 @@ public class BlackAndWhiteEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.blackAndWhite = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

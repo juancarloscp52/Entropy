@@ -31,7 +31,7 @@ public class OnlySidewaysEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.onlySidewaysMovement = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

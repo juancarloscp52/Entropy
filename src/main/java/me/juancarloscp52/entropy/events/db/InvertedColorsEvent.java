@@ -31,7 +31,7 @@ public class InvertedColorsEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.invertedShader = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

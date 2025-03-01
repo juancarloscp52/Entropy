@@ -32,7 +32,7 @@ public class UpsideDownEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.cameraRoll = 0;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

@@ -31,7 +31,7 @@ public class HideEventsEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.doNotShowEvents = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

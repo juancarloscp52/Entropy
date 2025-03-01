@@ -39,7 +39,7 @@ public class MouseDriftingEvent extends AbstractTimedEvent {
         Variables.mouseDrifting = false;
         Variables.mouseDriftingSignX = 0;
         Variables.mouseDriftingSignY = 0;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

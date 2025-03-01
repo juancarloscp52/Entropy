@@ -31,7 +31,7 @@ public class FlipMobsEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.flipEntities = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

@@ -31,7 +31,7 @@ public class ForceSneakEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.forceSneak = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

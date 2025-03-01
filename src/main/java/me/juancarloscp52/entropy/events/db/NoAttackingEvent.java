@@ -28,7 +28,7 @@ public class NoAttackingEvent extends AbstractTimedEvent {
 
         options.setKeyCode(options.attackKey, boundAttackKey);
         KeyBinding.updateKeysByCode();
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

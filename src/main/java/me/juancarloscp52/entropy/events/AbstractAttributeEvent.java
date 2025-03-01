@@ -31,7 +31,7 @@ public abstract class AbstractAttributeEvent extends AbstractTimedEvent {
     public void end() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(this::endPlayer);
         modifiers = List.of();
-        this.hasEnded = true;
+        super.end();
     }
 
     @Override

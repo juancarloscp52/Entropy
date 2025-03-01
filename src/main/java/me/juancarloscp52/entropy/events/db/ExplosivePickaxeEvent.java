@@ -31,7 +31,7 @@ public class ExplosivePickaxeEvent extends AbstractTimedEvent {
     @Override
     public void end() {
         Variables.explodingPickaxe = false;
-        this.hasEnded = true;
+        super.end();
     }
 
     @Override

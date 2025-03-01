@@ -31,7 +31,7 @@ public class InvertedControlsEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.invertedControls = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

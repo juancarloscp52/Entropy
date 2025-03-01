@@ -31,7 +31,7 @@ public class OnlyBackwardsEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.onlyBackwardsMovement = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

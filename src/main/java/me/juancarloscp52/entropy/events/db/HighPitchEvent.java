@@ -33,7 +33,7 @@ public class HighPitchEvent extends AbstractTimedEvent {
     public void endClient() {
         Variables.forcePitch = false;
         Variables.forcedPitch = 0;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

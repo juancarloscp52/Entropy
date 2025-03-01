@@ -31,7 +31,7 @@ public class BlurEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.blur = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

@@ -31,7 +31,7 @@ public class AdventureEvent extends AbstractTimedEvent {
     @Override
     public void end() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.SURVIVAL));
-        this.hasEnded = true;
+        super.end();
     }
 
     @Override

@@ -35,7 +35,7 @@ public class UltraLowFovEvent extends AbstractTimedEvent {
         Variables.forcedFov = false;
         Variables.ignoreVariableFov = false;
         Variables.fov = 0;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

@@ -30,7 +30,7 @@ public class SlipperyEvent extends AbstractTimedEvent {
 
     @Override
     public void end() {
-        this.hasEnded = true;
+        super.end();
         Variables.slippery = false;
     }
 
@@ -41,7 +41,7 @@ public class SlipperyEvent extends AbstractTimedEvent {
 
     @Override
     public void endClient() {
-        this.hasEnded = true;
+        super.endClient();
         Variables.slippery = false;
     }
 

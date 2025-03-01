@@ -31,7 +31,7 @@ public class RandomDropsEvent extends AbstractTimedEvent {
     @Override
     public void end() {
         Variables.randomDrops = false;
-        this.hasEnded = true;
+        super.end();
     }
 
     @Override

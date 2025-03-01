@@ -36,7 +36,7 @@ public class FireEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.fireEvent = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

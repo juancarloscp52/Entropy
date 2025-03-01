@@ -24,7 +24,7 @@ public class XRayEvent extends AbstractTimedEvent {
         var client = MinecraftClient.getInstance();
         client.worldRenderer.reload();
 
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

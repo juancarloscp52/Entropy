@@ -33,7 +33,7 @@ public class TopDownViewEvent extends AbstractTimedEvent {
     public void endClient() {
         Variables.thirdPersonView = false;
         Variables.topView = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

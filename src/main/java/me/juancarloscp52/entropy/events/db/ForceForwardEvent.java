@@ -31,7 +31,7 @@ public class ForceForwardEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.forceForward = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

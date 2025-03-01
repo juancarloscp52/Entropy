@@ -31,7 +31,7 @@ public class NoDropsEvent extends AbstractTimedEvent {
     @Override
     public void end() {
         Variables.noDrops = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

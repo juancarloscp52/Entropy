@@ -28,7 +28,7 @@ public class NoUseKeyEvent extends AbstractTimedEvent {
 
         options.setKeyCode(options.useKey, boundUseKey);
         KeyBinding.updateKeysByCode();
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

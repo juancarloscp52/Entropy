@@ -31,7 +31,7 @@ public class TimerSpeed2Event extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.timerMultiplier = 1;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class TimerSpeed2Event extends AbstractTimedEvent {
     @Override
     public void end() {
         Variables.timerMultiplier = 1;
-        this.hasEnded = true;
+        super.end();
     }
 
     @Override

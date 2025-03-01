@@ -44,7 +44,7 @@ public class RollCreditsEvent extends AbstractTimedEvent {
             client.currentScreen.close();
             this.client.mouse.lockCursor();
         }
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override

@@ -47,7 +47,7 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
     @Override
     public void end() {
         server.getCommandManager().executeWithPrefix(server.getCommandSource(), "gamerule sendCommandFeedback true");
-        this.hasEnded = true;
+        super.end();
     }
 
     @Override

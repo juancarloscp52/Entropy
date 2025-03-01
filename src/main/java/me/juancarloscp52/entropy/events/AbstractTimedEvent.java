@@ -38,7 +38,7 @@ import java.util.List;
 public abstract class AbstractTimedEvent implements Event {
 
     protected short tickCount = 0;
-    protected boolean hasEnded = false;
+    private boolean hasEnded = false;
 
     @Environment(EnvType.CLIENT)
     public void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y) {

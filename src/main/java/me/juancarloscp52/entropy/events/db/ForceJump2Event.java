@@ -37,7 +37,7 @@ public class ForceJump2Event extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.forceJump = false;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override
