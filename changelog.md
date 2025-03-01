@@ -30,4 +30,4 @@ Available versions:
 
 ## [1.12] - 2023-03-14
 
-For releases prior to Entropy 1.12, please check the changelog attached to the version download page.
+For releases prior to Entropy 1.13, please check the changelog attached to the version download page.
