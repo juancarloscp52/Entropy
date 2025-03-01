@@ -37,7 +37,7 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
             server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers " + randomLocation.getX() + " " + randomLocation.getZ() + " 0 120 false " + serverPlayerEntity.getEntityName());
-            EntropyUtils.clearPLayerArea(serverPlayerEntity);
+            EntropyUtils.clearPlayerArea(serverPlayerEntity);
         });
 
     }
@@ -46,7 +46,7 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
     public void tick() {
         if (count <= 2) {
             if (count == 2) {
-                Entropy.getInstance().eventHandler.getActivePlayers().forEach(EntropyUtils::clearPLayerArea);
+                Entropy.getInstance().eventHandler.getActivePlayers().forEach(EntropyUtils::clearPlayerArea);
             }
             count++;
         }

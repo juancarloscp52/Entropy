@@ -20,7 +20,7 @@ public class EntropyUtils {
         teleportPlayer(serverPlayerEntity, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public static void clearPLayerArea(ServerPlayerEntity serverPlayerEntity){
+    public static void clearPlayerArea(ServerPlayerEntity serverPlayerEntity){
         serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
         serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
         BlockHitResult blockHitResult = serverPlayerEntity.getWorld().raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));

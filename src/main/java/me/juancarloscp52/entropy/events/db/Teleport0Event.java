@@ -32,7 +32,7 @@ public class Teleport0Event extends AbstractInstantEvent {
         server = Entropy.getInstance().eventHandler.server;
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             EntropyUtils.teleportPlayer(serverPlayerEntity, serverPlayerEntity.getServerWorld().getSpawnPos().toCenterPos());
-            EntropyUtils.clearPLayerArea(serverPlayerEntity);
+            EntropyUtils.clearPlayerArea(serverPlayerEntity);
         });
 
     }
@@ -41,7 +41,7 @@ public class Teleport0Event extends AbstractInstantEvent {
     public void tick() {
         if (count <= 2) {
             if (count == 2) {
-                Entropy.getInstance().eventHandler.getActivePlayers().forEach(EntropyUtils::clearPLayerArea);
+                Entropy.getInstance().eventHandler.getActivePlayers().forEach(EntropyUtils::clearPlayerArea);
             }
             count++;
         }
