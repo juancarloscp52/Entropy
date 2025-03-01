@@ -97,20 +97,22 @@ public class EntropyConfigurationScreen extends Screen {
     }
 
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
-        this.renderBackground(drawContext);
+        super.render(drawContext, mouseX, mouseY, delta);
 
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-        MatrixStack matrices = drawContext.getMatrices();
-        matrices.push();
-        matrices.translate(5, 0, 0);
-        matrices.scale(0.2f, 0.2f, 0.2f);
-        drawContext.drawTexture(LOGO, 0, 0, 0, 0, 188, 187);
-        matrices.pop();
-        RenderSystem.disableBlend();
+        drawLogo(drawContext);
         Text title = Text.translatable("entropy.options.title");
         drawContext.drawTextWithShadow(this.textRenderer, title, this.width / 2 - textRenderer.getWidth(title)/2, 10, 16777215);
-        super.render(drawContext, mouseX, mouseY, delta);
+    }
+
+    public static void drawLogo(final DrawContext drawContext) {
+        MatrixStack matrices = drawContext.getMatrices();
+        matrices.push();
+        matrices.scale(0.2f, 0.2f, 0.2f);
+        drawContext.drawTexture(LOGO, 0, 0, -1, 0, 0, 188, 187, 256, 256);
+        matrices.pop();
+        RenderSystem.disableBlend();
     }
 
     private void onDone() {

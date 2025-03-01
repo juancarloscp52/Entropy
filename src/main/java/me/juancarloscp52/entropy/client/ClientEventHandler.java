@@ -98,7 +98,7 @@ public class ClientEventHandler {
 
         MinecraftClient client = MinecraftClient.getInstance();
 
-        if (client.options.debugEnabled)
+        if (client.getDebugHud().shouldShowDebugHud())
             return;
 
         double time = timerDuration - eventCountDown;
