@@ -18,13 +18,10 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.block.Blocks;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.RaycastContext;
 
 import java.util.Random;
 
@@ -40,12 +37,7 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
             server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers " + randomLocation.getX() + " " + randomLocation.getZ() + " 0 120 false " + serverPlayerEntity.getEntityName());
-            serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
-            serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
-            BlockHitResult blockHitResult = serverPlayerEntity.getWorld().raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
-            if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).isLiquid()) {
-                serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
-            }
+            EntropyUtils.clearPLayerArea(serverPlayerEntity);
         });
 
     }
@@ -54,14 +46,7 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
     public void tick() {
         if (count <= 2) {
             if (count == 2) {
-                Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                    serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
-                    serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
-                    BlockHitResult blockHitResult = serverPlayerEntity.getWorld().raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
-                    if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).isLiquid()) {
-                        serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
-                    }
-                });
+                Entropy.getInstance().eventHandler.getActivePlayers().forEach(EntropyUtils::clearPLayerArea);
             }
             count++;
         }
