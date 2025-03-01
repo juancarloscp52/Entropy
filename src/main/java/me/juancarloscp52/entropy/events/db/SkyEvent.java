@@ -18,9 +18,11 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class SkyEvent extends AbstractInstantEvent {
@@ -51,8 +53,7 @@ public class SkyEvent extends AbstractInstantEvent {
                     serverPlayerEntity.getWorld().setBlockState(new BlockPos(pos.getX()+i,pos.getY(),pos.getZ()+j),Blocks.GLASS.getDefaultState());
                 }
             }
-            serverPlayerEntity.stopRiding();
-            serverPlayerEntity.refreshPositionAfterTeleport(pos.getX(),pos.getY()+2,pos.getZ());
+            EntropyUtils.teleportPlayer(serverPlayerEntity, Vec3d.ofBottomCenter(pos.up(2)));
 
         });
     }
