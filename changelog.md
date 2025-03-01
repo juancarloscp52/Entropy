@@ -10,7 +10,7 @@ Find your version by looking for the file for your mod-loader:
 
 ## [1.13] - 2025-03-01
 
-Special to the Entropy Contributors: bl4ckscor3, Kanawanagasaki and slicedlime! <3
+Special thanks to the Entropy Contributors: bl4ckscor3, Kanawanagasaki and slicedlime! <3
 
 Available versions:
 -   Minecraft 1.20.1
