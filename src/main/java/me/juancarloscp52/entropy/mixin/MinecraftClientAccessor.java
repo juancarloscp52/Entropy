@@ -9,12 +9,12 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface MinecraftClientAccessor {
 
     @Accessor
-    public void setAttackCooldown(int attackCooldown);
+    void setAttackCooldown(int attackCooldown);
 
     @Invoker
-    public boolean callDoAttack();
+    boolean callDoAttack();
 
     @Invoker
-    public void callHandleBlockBreaking(boolean breaking);
+    void callHandleBlockBreaking(boolean breaking);
 
 }
