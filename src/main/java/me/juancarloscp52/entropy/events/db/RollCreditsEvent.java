@@ -23,6 +23,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 
 public class RollCreditsEvent extends AbstractTimedEvent {
 
@@ -53,7 +54,7 @@ public class RollCreditsEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(DrawContext drawContext, float tickdelta) {
+    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
     }
 
     @Override

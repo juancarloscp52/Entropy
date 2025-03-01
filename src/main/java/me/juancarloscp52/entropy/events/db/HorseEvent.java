@@ -23,6 +23,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.HorseEntity;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 
 public class HorseEvent extends AbstractInstantEvent {
@@ -33,7 +34,7 @@ public class HorseEvent extends AbstractInstantEvent {
             HorseEntity horse = EntityType.HORSE.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
             if(horse==null)
                 return;
-            horse.saddle(SoundCategory.NEUTRAL);
+            horse.saddle(Items.SADDLE.getDefaultStack(), SoundCategory.NEUTRAL);
             horse.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(2);
             horse.setHealth(2);
         });

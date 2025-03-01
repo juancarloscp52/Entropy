@@ -21,6 +21,7 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.math.MathHelper;
 
 public class VerticalScreenEvent extends AbstractTimedEvent {
@@ -28,7 +29,7 @@ public class VerticalScreenEvent extends AbstractTimedEvent {
     MinecraftClient client;
 
     @Override
-    public void render(DrawContext drawContext, float tickdelta) {
+    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
         client = MinecraftClient.getInstance();
         int borderWidth = MathHelper.floor(client.getWindow().getScaledWidth() * 0.341f);
         drawContext.fill(0, 0, borderWidth, client.getWindow().getScaledHeight(), 255 << 24);

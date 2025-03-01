@@ -19,10 +19,11 @@ package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.EntropyClient;
+import net.minecraft.block.enums.CameraSubmersionType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.CameraSubmersionType;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.MathHelper;
@@ -71,7 +72,7 @@ public class GameRendererMixin {
             }
             CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
             if (cameraSubmersionType == CameraSubmersionType.LAVA || cameraSubmersionType == CameraSubmersionType.WATER) {
-                fov *= (double)MathHelper.lerp(this.client.options.getFovEffectScale().getValue(), 1.0F, 0.85714287F);
+                fov *= MathHelper.lerp(this.client.options.getFovEffectScale().getValue(), 1.0F, 0.85714287F);
             }
 //            FluidState fluidState = camera.getSubmergedFluidState();
 //            if (!fluidState.isEmpty()) {
@@ -83,13 +84,13 @@ public class GameRendererMixin {
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;drawEntityOutlinesFramebuffer()V", shift = At.Shift.AFTER))
-    public void renderShaders(float tickDelta, long startTime, boolean tick, CallbackInfo ci){
-        EntropyClient.getInstance().renderShaders(tickDelta);
+    public void renderShaders(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci){
+        EntropyClient.getInstance().renderShaders(tickCounter.getTickDelta(false));
     }
 
     @Inject(method = "render", at = @At(value = "TAIL"))
-    public void renderBlackWhiteShader(float tickDelta, long startTime, boolean tick, CallbackInfo ci) {
-        EntropyClient.getInstance().renderBlackAndWhite(tickDelta);
+    public void renderBlackWhiteShader(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+        EntropyClient.getInstance().renderBlackAndWhite(tickCounter.getTickDelta(false));
     }
 
     @ModifyVariable(method = "renderWorld", at = @At("STORE"), ordinal = 0)

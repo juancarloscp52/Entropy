@@ -170,7 +170,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
 
     @Environment(EnvType.CLIENT)
     public static class ButtonEntry extends ElementListWidget.Entry<EntropyEventListWidget.ButtonEntry> {
-        private static final Identifier ICON_OVERLAY_LOCATION = new Identifier("world_list/warning_highlighted");
+        private static final Identifier ICON_OVERLAY_LOCATION = Identifier.ofVanilla("world_list/warning_highlighted");
         private static final Tooltip ACCESSIBILITY_TOOLTIP = Tooltip.of(Text.translatable("entropy.options.accessibilityMode.eventDisabled"));
         public final CheckboxWidget checkbox;
         public final EventInfo eventInfo;

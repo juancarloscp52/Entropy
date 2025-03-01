@@ -49,6 +49,6 @@ public class NetworkingConstants {
     }
 
     private static <T extends CustomPayload> CustomPayload.Id<T> register(final String name) {
-        return new CustomPayload.Id<>(new Identifier("entropy", name));
+        return new CustomPayload.Id<>(Identifier.of("entropy", name));
     }
 }

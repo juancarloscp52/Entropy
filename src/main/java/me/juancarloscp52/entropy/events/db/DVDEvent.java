@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
 
@@ -48,8 +49,8 @@ public class DVDEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-        renderDVDOverlay(drawContext, tickdelta);
+    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
+        renderDVDOverlay(drawContext, tickCounter);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class DVDEvent extends AbstractTimedEvent {
         return (short) (super.getDuration() * 0.75d);
     }
 
-    private void renderDVDOverlay(DrawContext drawContext, float tickdelta) {
+    private void renderDVDOverlay(DrawContext drawContext, RenderTickCounter tickCounter) {
         if (client == null)
             return;
         int height = client.getWindow().getScaledHeight();

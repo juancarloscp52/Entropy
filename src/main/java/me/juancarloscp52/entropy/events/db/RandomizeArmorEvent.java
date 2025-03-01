@@ -25,9 +25,14 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.random.Random;
+
+import java.util.Optional;
 
 
 public class RandomizeArmorEvent extends AbstractInstantEvent {
@@ -53,20 +58,21 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
                 return getRandomItem(serverPlayerEntity, slot);
             ItemStack stack = new ItemStack(item);
             for(int i=0;i< random.nextInt(4);i++){
-                Enchantment enchantment = getRandomEnchantment(stack);
-                stack.addEnchantment(enchantment,getRandomLevel(enchantment));
+                RegistryEntry<Enchantment> enchantment = getRandomEnchantment(serverPlayerEntity, stack);
+                stack.addEnchantment(enchantment, getRandomLevel(enchantment.value()));
             }
             return stack;
         }
         else
             return getRandomItem(serverPlayerEntity, slot);
     }
-    private Enchantment getRandomEnchantment(ItemStack item){
-        Enchantment enchantment = Registries.ENCHANTMENT.get(Random.create().nextInt(Registries.ENCHANTMENT.getIds().size()));
-        if(enchantment!=null && enchantment.isAcceptableItem(item) && !Registries.ENCHANTMENT.getEntry(enchantment).isIn(EnchantmentTags.DO_NOT_ENCHANT_WITH))
-            return enchantment;
+    private RegistryEntry<Enchantment> getRandomEnchantment(ServerPlayerEntity player, ItemStack item) {
+        final DynamicRegistryManager registries = player.getRegistryManager();
+        Optional<RegistryEntry.Reference<Enchantment>> enchantment = registries.get(RegistryKeys.ENCHANTMENT).getRandom(player.getRandom());
+        if (enchantment.isPresent() && enchantment.get().value().isAcceptableItem(item) && !enchantment.get().isIn(EnchantmentTags.DO_NOT_ENCHANT_WITH))
+            return enchantment.get();
         else
-            return getRandomEnchantment(item);
+            return getRandomEnchantment(player, item);
     }
     private int getRandomLevel(Enchantment enchantment){
         return Random.create().nextInt(enchantment.getMaxLevel()-enchantment.getMinLevel()+1)+ enchantment.getMinLevel();
