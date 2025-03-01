@@ -22,6 +22,10 @@ repositories {
         name 'm2-dv8tion'
         url 'https://m2.dv8tion.net/releases'
     }
+    maven {
+        name = "Nucleoid"
+        url = "https://maven.nucleoid.xyz/"
+    }
 }
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"

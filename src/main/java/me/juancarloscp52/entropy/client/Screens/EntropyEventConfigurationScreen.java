@@ -51,7 +51,7 @@ public class EntropyEventConfigurationScreen extends Screen {
     }
 
     protected void init() {
-        list = addDrawableChild(new EntropyEventListWidget(MinecraftClient.getInstance(), this.width, this.height, 56, this.height - 32, 25));
+        list = addDrawableChild(new EntropyEventListWidget(MinecraftClient.getInstance(), this.width, this.height - 65 - 30, 0, 65, 25));
         list.addAllFromRegistry();
         this.addSelectableChild(list);
         // Done button
