@@ -42,11 +42,6 @@ public class LowPitchEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public short getDuration() {
         return (short) (Entropy.getInstance().settings.baseEventDuration * 2);
     }

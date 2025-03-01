@@ -44,25 +44,8 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void endClient() {
-        this.hasEnded = true;
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
     public void render(DrawContext drawContext, float tickdelta) {
         renderVignetteOverlay();
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void tickClient() {
-        super.tickClient();
     }
 
     @Override

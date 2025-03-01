@@ -41,16 +41,6 @@ public class ForceJump2Event extends AbstractTimedEvent {
     }
 
     @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public String type() {
         return "jump";
     }

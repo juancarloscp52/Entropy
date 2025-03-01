@@ -33,11 +33,6 @@ public class LowGravityEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
-    @Override
     public void tick() {
         if (getTickCount() % 30 == 0) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {

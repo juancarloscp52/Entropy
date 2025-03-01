@@ -29,17 +29,6 @@ import net.minecraft.sound.SoundEvents;
 import java.util.Random;
 
 public class RandomCreeperEvent extends AbstractTimedEvent {
-
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
     @Override
     public void tick() {
         if(tickCount%70==0){

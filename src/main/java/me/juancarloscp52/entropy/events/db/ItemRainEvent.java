@@ -37,11 +37,6 @@ public class ItemRainEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
-    @Override
     public String type() {
         return "rain";
     }

@@ -35,11 +35,6 @@ public class OnlySidewaysEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public String type() {
         return "movement";
     }

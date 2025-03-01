@@ -18,11 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InvisibleEveryoneEvent extends AbstractTimedEvent {
-
-    @Override
-    public void init() {
-    }
-
     @Override
     public void tick() {
         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
@@ -41,11 +36,6 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
 
     public boolean shouldBeInvisible(Entity entity) {
         return entity instanceof LivingEntity && !entity.getType().isIn(EntityTypeTags.NOT_INVISIBLE);
-    }
-
-    @Override
-    public void end() {
-        this.hasEnded = true;
     }
 
     @Override

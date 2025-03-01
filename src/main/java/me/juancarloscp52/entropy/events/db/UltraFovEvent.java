@@ -38,12 +38,6 @@ public class UltraFovEvent extends AbstractTimedEvent {
         this.hasEnded = true;
     }
 
-
-    @Override
-    public void tick() {
-        super.tick();
-    }
-
     @Override
     public short getDuration() {
         return Entropy.getInstance().settings.baseEventDuration;

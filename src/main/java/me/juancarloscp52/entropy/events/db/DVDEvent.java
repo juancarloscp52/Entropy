@@ -49,11 +49,6 @@ public class DVDEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void endClient() {
-        this.hasEnded = true;
-    }
-
-    @Override
     public void render(DrawContext drawContext, float tickdelta) {
         renderDVDOverlay(drawContext, tickdelta);
     }

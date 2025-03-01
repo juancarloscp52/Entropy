@@ -25,17 +25,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 
 public class SinkingEvent extends AbstractTimedEvent {
-
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
     @Override
     public void tick() {
         if(tickCount%30==0){

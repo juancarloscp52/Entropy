@@ -22,16 +22,6 @@ import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.server.world.ServerWorld;
 
 public class TimelapseEvent extends AbstractTimedEvent {
-
-    @Override
-    public void init() {
-    }
-
-    @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
     @Override
     public void tick() {
         for (ServerWorld serverWorld : Entropy.getInstance().eventHandler.server.getWorlds()) {

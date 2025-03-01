@@ -41,11 +41,6 @@ public class WhereIsEverythingEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public short getDuration() {
         return Entropy.getInstance().settings.baseEventDuration;
     }

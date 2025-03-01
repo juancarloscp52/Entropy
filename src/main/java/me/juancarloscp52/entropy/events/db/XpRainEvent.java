@@ -33,11 +33,6 @@ public class XpRainEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
-    @Override
     public void tick() {
 
         if (getTickCount() % 10 == 0) {

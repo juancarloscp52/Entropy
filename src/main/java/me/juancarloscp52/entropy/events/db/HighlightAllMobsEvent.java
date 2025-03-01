@@ -13,11 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HighlightAllMobsEvent extends AbstractTimedEvent {
-
-    @Override
-    public void init() {
-    }
-
     @Override
     public void tick() {
         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
@@ -32,11 +27,6 @@ public class HighlightAllMobsEvent extends AbstractTimedEvent {
                 if(entity instanceof MobEntity && !entity.getType().isIn(EntityTypeTags.DO_NOT_HIGHLIGHT))
                     ((MobEntity)entity).addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 2));
         super.tick();
-    }
-
-    @Override
-    public void end() {
-        this.hasEnded = true;
     }
 
     @Override

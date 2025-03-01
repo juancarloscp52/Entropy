@@ -35,11 +35,6 @@ public class ExplosivePickaxeEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public short getDuration() {
         return (short)(Entropy.getInstance().settings.baseEventDuration);
     }

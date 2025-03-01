@@ -51,11 +51,6 @@ public class TimerSpeed2Event extends AbstractTimedEvent {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public short getDuration() {
         return (short) (Entropy.getInstance().settings.baseEventDuration*1.5f);
         //return 300;

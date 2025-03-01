@@ -34,11 +34,6 @@ public class ChickenRainEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
-    @Override
     public void tick() {
 
         if (getTickCount() % 20 == 0) {
