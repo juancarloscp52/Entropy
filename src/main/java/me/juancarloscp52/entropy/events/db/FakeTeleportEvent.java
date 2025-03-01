@@ -7,11 +7,9 @@ import me.juancarloscp52.entropy.events.EventRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
-import javax.swing.text.html.Option;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
