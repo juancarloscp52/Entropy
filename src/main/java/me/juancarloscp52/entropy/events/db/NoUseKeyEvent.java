@@ -4,7 +4,6 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -30,10 +29,6 @@ public class NoUseKeyEvent extends AbstractTimedEvent {
         options.setKeyCode(options.useKey, boundUseKey);
         KeyBinding.updateKeysByCode();
         this.hasEnded = true;
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

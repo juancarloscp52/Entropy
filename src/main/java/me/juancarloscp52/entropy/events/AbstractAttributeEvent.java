@@ -1,7 +1,6 @@
 package me.juancarloscp52.entropy.events;
 
 import me.juancarloscp52.entropy.Entropy;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -38,10 +37,6 @@ public abstract class AbstractAttributeEvent extends AbstractTimedEvent {
     @Override
     public void endPlayer(ServerPlayerEntity player) {
         modifiers.forEach(active -> player.getAttributeInstance(active.attribute()).removeModifier(active.modifier().uuid()));
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

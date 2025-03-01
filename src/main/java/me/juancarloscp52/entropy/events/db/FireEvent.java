@@ -21,7 +21,6 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.server.world.ServerWorld;
@@ -38,10 +37,6 @@ public class FireEvent extends AbstractTimedEvent {
     public void endClient() {
         Variables.fireEvent = false;
         this.hasEnded = true;
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

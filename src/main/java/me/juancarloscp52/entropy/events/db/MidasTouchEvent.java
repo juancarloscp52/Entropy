@@ -10,7 +10,6 @@ import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
@@ -193,10 +192,6 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
         super.tick();
 
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

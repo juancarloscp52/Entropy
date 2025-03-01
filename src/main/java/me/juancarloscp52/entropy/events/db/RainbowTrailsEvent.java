@@ -8,7 +8,6 @@ import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 
 public class RainbowTrailsEvent extends AbstractTimedEvent {
@@ -38,9 +37,6 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
                     0.0D, 0.0D, 0.0D);
         });
     }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {}
 
     @Override
     public short getDuration() {

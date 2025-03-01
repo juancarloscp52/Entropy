@@ -4,7 +4,6 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 
 public class XRayEvent extends AbstractTimedEvent {
 
@@ -26,10 +25,6 @@ public class XRayEvent extends AbstractTimedEvent {
         client.worldRenderer.reload();
 
         this.hasEnded = true;
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

@@ -20,7 +20,6 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 
 public class LowRenderDistanceEvent extends AbstractTimedEvent {
 
@@ -39,10 +38,6 @@ public class LowRenderDistanceEvent extends AbstractTimedEvent {
         this.hasEnded = true;
         client = MinecraftClient.getInstance();
         this.client.options.getViewDistance().setValue(viewDistance);
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

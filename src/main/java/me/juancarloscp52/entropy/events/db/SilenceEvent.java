@@ -3,7 +3,6 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.sound.SoundCategory;
 
 public class SilenceEvent extends AbstractTimedEvent {
@@ -29,9 +28,6 @@ public class SilenceEvent extends AbstractTimedEvent {
         options.getShowSubtitles().setValue(wereSubtitlesActive);
         super.endClient();
     }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {}
 
     @Override
     public short getDuration() {

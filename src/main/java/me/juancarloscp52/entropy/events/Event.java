@@ -44,7 +44,8 @@ public interface Event {
     }
 
     @Environment(EnvType.CLIENT)
-    void render(DrawContext drawContext, float tickdelta);
+    default void render(DrawContext drawContext, float tickdelta) {
+    }
 
     @Environment(EnvType.CLIENT)
     void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y);

@@ -7,7 +7,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -75,9 +74,6 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
             player.playSound(SoundEvents.BLOCK_CHEST_CLOSE, 1f, 1f);
         }
     }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {}
 
     @Override
     public short getDuration() {

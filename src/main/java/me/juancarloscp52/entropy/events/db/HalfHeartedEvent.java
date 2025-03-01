@@ -22,7 +22,6 @@ import java.util.Map;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -53,10 +52,6 @@ public class HalfHeartedEvent extends AbstractTimedEvent {
     public void endPlayer(ServerPlayerEntity player) {
         player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20);
         player.setHealth(previousHealth.get(player));
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

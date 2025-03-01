@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.ExperienceOrbEntity;
 
 import java.util.Random;
@@ -36,10 +35,6 @@ public class XpRainEvent extends AbstractTimedEvent {
     @Override
     public void end() {
         this.hasEnded = true;
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override

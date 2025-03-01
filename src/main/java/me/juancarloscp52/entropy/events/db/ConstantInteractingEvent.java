@@ -3,7 +3,6 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 
 public class ConstantInteractingEvent extends AbstractTimedEvent {
@@ -39,10 +38,6 @@ public class ConstantInteractingEvent extends AbstractTimedEvent {
     public void endClient() {
         super.endClient();
         MinecraftClient.getInstance().options.useKey.setPressed(false);
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override
