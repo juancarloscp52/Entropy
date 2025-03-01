@@ -63,9 +63,4 @@ public class CinematicScreenEvent extends AbstractTimedEvent {
     public String type() {
         return "screenAspect";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

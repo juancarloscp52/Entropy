@@ -40,8 +40,4 @@ public class VerticalScreenEvent extends AbstractTimedEvent {
         return "screenAspect";
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

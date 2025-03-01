@@ -113,4 +113,9 @@ public abstract class AbstractTimedEvent implements Event {
     public void setEnded(boolean ended) {
         this.hasEnded = ended;
     }
+
+    @Override
+    public short getDuration() {
+        return Entropy.getInstance().settings.baseEventDuration;
+    }
 }

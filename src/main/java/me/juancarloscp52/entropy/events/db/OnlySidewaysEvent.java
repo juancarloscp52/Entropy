@@ -39,8 +39,4 @@ public class OnlySidewaysEvent extends AbstractTimedEvent {
         return "movement";
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

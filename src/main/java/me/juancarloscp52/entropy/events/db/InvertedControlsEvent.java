@@ -38,9 +38,4 @@ public class InvertedControlsEvent extends AbstractTimedEvent {
     public String type() {
         return "movement";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

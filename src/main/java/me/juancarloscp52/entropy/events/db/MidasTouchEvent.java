@@ -196,7 +196,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration * .2);
+        return (short) (super.getDuration() * .2);
     }
 
 }

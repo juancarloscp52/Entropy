@@ -18,9 +18,4 @@ public class OnePunchEvent extends AbstractTimedEvent {
         Variables.isOnePunchActivated--;
         super.end();
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

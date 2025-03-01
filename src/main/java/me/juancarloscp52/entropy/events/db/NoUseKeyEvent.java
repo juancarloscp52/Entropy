@@ -35,9 +35,4 @@ public class NoUseKeyEvent extends AbstractTimedEvent {
     public String type() {
         return "use";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

@@ -38,11 +38,6 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
         });
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
-
     private Vector3f HSBtoRGB(float hue, float saturation, float brightness) {
         int r = 0;
         int g = 0;

@@ -53,7 +53,6 @@ public class TimerSpeedHalfEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration*3.5f);
-        //return 300;
+        return (short) (super.getDuration() * 3.5f);
     }
 }

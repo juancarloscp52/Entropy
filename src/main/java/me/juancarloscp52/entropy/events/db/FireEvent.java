@@ -61,9 +61,4 @@ public class FireEvent extends AbstractTimedEvent {
         }
         super.tick();
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

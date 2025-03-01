@@ -17,7 +17,6 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 
@@ -39,10 +38,5 @@ public class TopDownViewEvent extends AbstractTimedEvent {
     @Override
     public String type() {
         return "camera";
-    }
-
-    @Override
-    public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration*1f);
     }
 }

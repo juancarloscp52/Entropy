@@ -51,9 +51,4 @@ public class ArrowRainEvent extends AbstractTimedEvent {
     public String type() {
         return "rain";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

@@ -80,9 +80,4 @@ public class MLGBucketEvent extends AbstractTimedEvent {
             positions.clear();
         });
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

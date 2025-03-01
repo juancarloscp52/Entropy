@@ -33,8 +33,4 @@ public class ReducedReachEvent extends AbstractAttributeEvent {
         );
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

@@ -39,13 +39,7 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
-
-    @Override
     public String type() {
         return "invisibility";
     }
-
 }

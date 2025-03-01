@@ -38,9 +38,4 @@ public class LuckyDropsEvent extends AbstractTimedEvent {
     public String type() {
         return "drops";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

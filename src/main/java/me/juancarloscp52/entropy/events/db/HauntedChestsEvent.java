@@ -74,9 +74,4 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
             player.playSound(SoundEvents.BLOCK_CHEST_CLOSE, 1f, 1f);
         }
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

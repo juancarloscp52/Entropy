@@ -46,6 +46,6 @@ public class SinkingEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration*0.75);
+        return (short)(super.getDuration()*0.75);
     }
 }

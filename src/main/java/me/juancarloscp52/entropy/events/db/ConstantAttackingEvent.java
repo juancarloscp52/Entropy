@@ -46,9 +46,4 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
     public String type() {
         return "attack";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

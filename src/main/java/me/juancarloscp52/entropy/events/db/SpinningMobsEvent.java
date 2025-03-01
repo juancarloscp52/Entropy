@@ -55,8 +55,4 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
         return "spinning";
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

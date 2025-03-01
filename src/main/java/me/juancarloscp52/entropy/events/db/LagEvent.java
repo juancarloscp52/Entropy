@@ -52,10 +52,6 @@ public class LagEvent extends AbstractTimedEvent {
         super.tick();
     }
 
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
-
     public String type() {
         return "movement";
     }

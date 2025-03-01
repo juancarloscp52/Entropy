@@ -18,9 +18,4 @@ public class InfiniteLavaEvent extends AbstractTimedEvent {
         server.getGameRules().get(GameRules.LAVA_SOURCE_CONVERSION).set(false, server);
         super.end();
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

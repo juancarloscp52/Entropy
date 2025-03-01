@@ -62,9 +62,4 @@ public class ItemRainEvent extends AbstractTimedEvent {
         }
         return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem(world);
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

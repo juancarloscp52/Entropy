@@ -38,9 +38,4 @@ public class ForceJumpEvent extends AbstractTimedEvent {
     public String type() {
         return "jump";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

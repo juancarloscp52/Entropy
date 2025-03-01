@@ -36,13 +36,7 @@ public class DeathSightEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
-
-    @Override
     public String type() {
         return "sight";
     }
-
 }

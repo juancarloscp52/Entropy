@@ -28,9 +28,4 @@ public class ForcefieldEvent extends AbstractTimedEvent {
     public Vec3d getVelocity(BlockPos relativePos) {
         return new Vec3d(-relativePos.getX(), -relativePos.getY(), -relativePos.getZ()).multiply(0.25D);
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

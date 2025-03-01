@@ -52,8 +52,4 @@ public class XpRainEvent extends AbstractTimedEvent {
         return "rain";
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

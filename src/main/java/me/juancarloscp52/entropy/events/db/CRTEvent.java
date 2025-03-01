@@ -38,9 +38,4 @@ public class CRTEvent extends AbstractTimedEvent {
     public String type() {
         return "shader";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

@@ -28,9 +28,4 @@ public class HighlightAllMobsEvent extends AbstractTimedEvent {
                     ((MobEntity)entity).addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 2));
         super.tick();
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

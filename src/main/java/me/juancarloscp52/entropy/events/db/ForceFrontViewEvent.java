@@ -40,9 +40,4 @@ public class ForceFrontViewEvent extends AbstractTimedEvent {
     public String type() {
         return "camera";
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

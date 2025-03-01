@@ -16,8 +16,4 @@ public class RainbowSheepEverywhereEvent extends AbstractTimedEvent {
         Variables.rainbowSheepEverywhere = false;
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

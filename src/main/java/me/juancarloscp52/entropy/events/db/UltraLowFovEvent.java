@@ -17,7 +17,6 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 
@@ -40,7 +39,7 @@ public class UltraLowFovEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration*0.8);
+        return (short)(super.getDuration()*0.8);
     }
 
     @Override

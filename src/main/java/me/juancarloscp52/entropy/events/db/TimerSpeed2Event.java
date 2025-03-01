@@ -17,7 +17,6 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 
@@ -52,7 +51,6 @@ public class TimerSpeed2Event extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration*1.5f);
-        //return 300;
+        return (short) (super.getDuration()*1.5f);
     }
 }

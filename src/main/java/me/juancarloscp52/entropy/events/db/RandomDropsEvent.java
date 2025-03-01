@@ -39,8 +39,4 @@ public class RandomDropsEvent extends AbstractTimedEvent {
         return "drops";
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

@@ -18,7 +18,6 @@
 package me.juancarloscp52.entropy.events.db;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -50,7 +49,7 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration * 1.25);
+        return (short) (super.getDuration() * 1.25);
     }
 
     @Environment(EnvType.CLIENT)

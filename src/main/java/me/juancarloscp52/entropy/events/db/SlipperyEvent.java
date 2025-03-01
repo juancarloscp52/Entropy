@@ -45,8 +45,4 @@ public class SlipperyEvent extends AbstractTimedEvent {
         Variables.slippery = false;
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

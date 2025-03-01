@@ -57,6 +57,6 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration*1.25);
+        return (short) (super.getDuration() * 1.25);
     }
 }

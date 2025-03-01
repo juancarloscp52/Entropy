@@ -29,8 +29,4 @@ public class SilenceEvent extends AbstractTimedEvent {
         super.endClient();
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

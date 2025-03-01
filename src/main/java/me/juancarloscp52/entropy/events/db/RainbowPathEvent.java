@@ -56,9 +56,4 @@ public class RainbowPathEvent extends AbstractTimedEvent {
         super.tick();
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
-
 }

@@ -45,9 +45,4 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
         Variables.forceRiding = false;
         spawnedHorses.forEach(Entity::discard);
     }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }
