@@ -3,11 +3,12 @@
   "id": "entropy",
   "version": "${version}",
   "name": "Entropy: Chaos Mod",
-  "description": "Entropy is a Chaos Mod where random events happens every 30 seconds. This mod allows twitch chat voting integration!",
+  "description": "Entropy is a Chaos Mod where random events happens every 30 seconds. This mod includes Youtube/Twitch/Discord integration for voting events!",
   "authors": [
     "juancarloscp52",
     "bl4ckscor3",
     "Kanawanagasaki",
+    "slicedlime",
     "curio-sitas",
     "More contributors at GitHub!"
   ],
@@ -37,9 +38,9 @@
     "entropy.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.13.3",
+    "fabricloader": ">=0.16.0",
     "fabric": "*",
-    "minecraft": ">=1.18.2"
+    "minecraft": "=1.20.1"
   },
   "suggests": {
     "modmenu": ">=3.1.0"
