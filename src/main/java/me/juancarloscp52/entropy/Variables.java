@@ -31,7 +31,6 @@ public class Variables {
     public static boolean forcedFov = false;
     public static boolean ignoreVariableFov = false;
     public static int fov = 0;
-    public static boolean reducedReachDistance = false;
     public static boolean slippery = false;
     public static boolean invertedControls = false;
     public static boolean forcePitch = false;

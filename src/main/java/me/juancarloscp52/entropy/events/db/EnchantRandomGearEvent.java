@@ -4,7 +4,6 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 
@@ -39,10 +38,10 @@ public class EnchantRandomGearEvent extends AbstractInstantEvent {
 
                     if (enchantment.isAcceptableItem(itemStack)) {
                         var hasEnchantment = false;
-                        var existingEnchantments = EnchantmentHelper.get(itemStack);
+                        var existingEnchantments = itemStack.getEnchantments();
 
-                        for (var existingEnchantment : existingEnchantments.keySet())
-                            if (existingEnchantment == enchantment || !existingEnchantment.canCombine(enchantment)) {
+                        for (var existingEnchantment : existingEnchantments.getEnchantments())
+                            if (existingEnchantment.value() == enchantment || !existingEnchantment.value().canCombine(enchantment)) {
                                 hasEnchantment = true;
                                 break;
                             }

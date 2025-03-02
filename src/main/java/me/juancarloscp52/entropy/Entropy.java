@@ -23,6 +23,10 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.networking.NetworkingConstants;
+import me.juancarloscp52.entropy.networking.S2CJoinConfirm;
+import me.juancarloscp52.entropy.networking.S2CJoinSync;
+import me.juancarloscp52.entropy.networking.S2CRemoveEnded;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
@@ -30,22 +34,20 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.CommandSource;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,7 +64,7 @@ public class Entropy implements ModInitializer {
     public static Entropy instance;
     public ServerEventHandler eventHandler;
     public EntropySettings settings;
-    public static final ParticleType<ConstantColorDustParticleEffect> CONSTANT_COLOR_DUST = FabricParticleTypes.complex(false, ConstantColorDustParticleEffect.PARAMETERS_FACTORY);
+    public static final ParticleType<ConstantColorDustParticleEffect> CONSTANT_COLOR_DUST = FabricParticleTypes.complex(false, ConstantColorDustParticleEffect.CODEC, ConstantColorDustParticleEffect.PACKET_CODEC);
 
     private static final DynamicCommandExceptionType ERROR_INVALID_ON_CLIENT = new DynamicCommandExceptionType(eventId -> Text.translatable("entropy.command.invalidClientSide", eventId));
     private static final DynamicCommandExceptionType ERROR_UNKNOWN_EVENT = new DynamicCommandExceptionType(eventId -> Text.translatable("entropy.command.unknownEvent", eventId));
@@ -79,38 +81,33 @@ public class Entropy implements ModInitializer {
         EventRegistry.register();
         Registry.register(Registries.PARTICLE_TYPE, new Identifier("entropy", "constant_color_dust"), CONSTANT_COLOR_DUST);
 
-        ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (server, player, handler, buf, responseSender) -> {
-            String clientVersion = buf.readString(32767);
+        ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (handshake, context) -> {
             String version = FabricLoader.getInstance().getModContainer("entropy").get().getMetadata().getVersion().getFriendlyString();
-            if (version.equals(clientVersion)) {
-                PacketByteBuf buf1 = PacketByteBufs.create();
-                buf1.writeShort(settings.timerDuration);
-                buf1.writeShort(settings.baseEventDuration);
-                buf1.writeBoolean(settings.integrations);
-                ServerPlayNetworking.send(player, NetworkingConstants.JOIN_CONFIRM, buf1);
-                if (PlayerLookup.all(server).size() == 1) {
+            if (version.equals(handshake.clientVersion())) {
+                final S2CJoinConfirm confirm = new S2CJoinConfirm(settings.timerDuration, settings.baseEventDuration, settings.integrations);
+                final ServerPlayerEntity player = context.player();
+                ServerPlayNetworking.send(player, confirm);
+                if (PlayerLookup.all(context.server()).size() == 1) {
                     eventHandler = new ServerEventHandler();
-                    eventHandler.init(server);
+                    eventHandler.init(context.server());
                 }
 
                 List<Event> currentEvents = eventHandler.currentEvents;
-                if (currentEvents.size() > 0) {
-                    PacketByteBuf packet = PacketByteBufs.create();
-                    packet.writeInt(currentEvents.size());
-                    currentEvents.forEach(currentEvent -> {
-                        packet.writeString(EventRegistry.getEventId(currentEvent));
-                        packet.writeBoolean(currentEvent.hasEnded());
-                        packet.writeShort(currentEvent.getTickCount());
-                    });
-                    ServerPlayNetworking.send(handler.player, NetworkingConstants.JOIN_SYNC, packet);
+                if (!currentEvents.isEmpty()) {
+                    S2CJoinSync sync = new S2CJoinSync(currentEvents.stream().map(currentEvent -> new S2CJoinSync.EventData(
+                        EventRegistry.getEventId(currentEvent),
+                        currentEvent.hasEnded(),
+                        currentEvent.getTickCount()
+                    )).toList());
+                    ServerPlayNetworking.send(player, sync);
                 }
 
                 if (settings.integrations && eventHandler.voting != null) {
-                    eventHandler.voting.sendNewPollToPlayer(handler.player);
+                    eventHandler.voting.sendNewPollToPlayer(player);
                 }
             } else {
-                LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...", player.getName(), player.getUuidAsString(), clientVersion, version));
-                player.networkHandler.disconnect(Text.literal(String.format("Client entropy version (%s) does not match server version (%s).", clientVersion, version)));
+                LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...", context.player().getName(), context.player().getUuidAsString(), handshake.clientVersion(), version));
+                context.player().networkHandler.disconnect(Text.literal(String.format("Client entropy version (%s) does not match server version (%s).", handshake.clientVersion(), version)));
             }
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
@@ -123,12 +120,10 @@ public class Entropy implements ModInitializer {
             }
         });
 
-        ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.POLL_STATUS, (server, player, handler, buf, responseSender) -> {
+        ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.VOTES, (votes, context) -> {
             if (eventHandler == null || eventHandler.voting == null)
                 return;
-            int voteID = buf.readInt();
-            int[] votes = buf.readIntArray();
-            server.execute(() -> eventHandler.voting.receiveVotes(voteID, votes));
+            context.server().execute(() -> eventHandler.voting.receiveVotes(votes.voteId(), votes.votes()));
         });
 
         ServerTickEvents.START_SERVER_TICK.register(server -> {
@@ -146,8 +141,8 @@ public class Entropy implements ModInitializer {
                             .executes(source -> {
                                 ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
-                                eventHandler.currentEvents.removeIf(event -> event.hasEnded());
-                                PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, NetworkingConstants.REMOVE_ENDED, PacketByteBufs.create()));
+                                eventHandler.currentEvents.removeIf(Event::hasEnded);
+                                PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, S2CRemoveEnded.INSTANCE));
                                 return 0;
                             }))
                     .then(CommandManager.literal("run")

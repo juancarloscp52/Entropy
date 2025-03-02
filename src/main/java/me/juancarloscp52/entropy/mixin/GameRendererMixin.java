@@ -32,6 +32,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -91,9 +92,11 @@ public class GameRendererMixin {
         EntropyClient.getInstance().renderBlackAndWhite(tickDelta);
     }
 
-    @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;update(Lnet/minecraft/world/BlockView;Lnet/minecraft/entity/Entity;ZZF)V", shift = At.Shift.AFTER))
-    private void rollCamera(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
-        if(Variables.cameraRoll != 0f)
-            matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(Variables.cameraRoll));
+    @ModifyVariable(method = "renderWorld", at = @At("STORE"), ordinal = 0)
+    private MatrixStack matrixStack(MatrixStack matrixStack) {
+        if (Variables.cameraRoll != 0f) {
+            matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(Variables.cameraRoll));
+        }
+        return matrixStack;
     }
 }

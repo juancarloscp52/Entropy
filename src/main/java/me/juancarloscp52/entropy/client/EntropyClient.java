@@ -19,10 +19,12 @@ package me.juancarloscp52.entropy.client;
 
 import com.google.gson.Gson;
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.networking.C2SJoinHandshake;
+import me.juancarloscp52.entropy.networking.NetworkingConstants;
+import me.juancarloscp52.entropy.networking.S2CJoinSync;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -30,10 +32,9 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.gl.PostEffectProcessor;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvent;
@@ -45,8 +46,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
 public class EntropyClient implements ClientModInitializer {
@@ -71,100 +71,82 @@ public class EntropyClient implements ClientModInitializer {
         LOGGER.info("Initializing Entropy Client Mod");
         instance = this;
         loadSettings();
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_CONFIRM, (client, handler, buf, responseSender) -> {
-            short timerDuration = buf.readShort();
-            short baseEventDuration = buf.readShort();
-            boolean serverIntegrationsEnabled = buf.readBoolean();
-            clientEventHandler = new ClientEventHandler(timerDuration, baseEventDuration, serverIntegrationsEnabled);
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_CONFIRM, (confirm, context) -> {
+            clientEventHandler = new ClientEventHandler(confirm.timerDuration(), confirm.baseEventDuration(), confirm.integrations());
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_SYNC, (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_SYNC, (sync, context) -> {
             if (clientEventHandler == null)
                 return;
-            int size = buf.readInt();
-            if (size == clientEventHandler.currentEvents.size())
+
+            if (sync.events().size() == clientEventHandler.currentEvents.size())
                 return;
-            for (int i = 0; i < size; i++) {
-                String eventName = buf.readString();
-                boolean ended = buf.readBoolean();
-                short tickCount = buf.readShort();
-                Event event = EventRegistry.get(eventName);
+            for (final S2CJoinSync.EventData data : sync.events()) {
+                Event event = EventRegistry.get(data.id());
                 if(event==null)
                     continue;
-                event.setEnded(ended);
-                event.setTickCount(tickCount);
-                if (tickCount > 0 && !ended && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
+                event.setEnded(data.ended());
+                event.setTickCount(data.tickCount());
+                if (data.tickCount() > 0 && !data.ended() && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
                     event.initClient();
-                client.execute(() -> clientEventHandler.currentEvents.add(event));
+                context.client().execute(() -> clientEventHandler.currentEvents.add(event));
             }
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.TICK, (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.TICK, (tick, context) -> {
             if (clientEventHandler == null)
                 return;
-            short eventCountDown = buf.readShort();
-            client.execute(() -> clientEventHandler.tick(eventCountDown));
+            context.client().execute(() -> clientEventHandler.tick(tick.eventCountDown()));
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.REMOVE_FIRST, (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.REMOVE_FIRST, (removeFirst, context) -> {
             if (clientEventHandler == null)
                 return;
-            client.execute(() -> {
-                if(clientEventHandler.currentEvents.size()!=0)
+            context.client().execute(() -> {
+                if (!clientEventHandler.currentEvents.isEmpty())
                     clientEventHandler.remove((byte) 0);
             });
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.REMOVE_ENDED, (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.REMOVE_ENDED, (removeEnded, context) -> {
             if (clientEventHandler == null)
                 return;
-            client.execute(() -> {
-                if(clientEventHandler.currentEvents.size() != 0)
-                    clientEventHandler.currentEvents.removeIf(event -> event.hasEnded());
+            context.client().execute(() -> {
+                if (!clientEventHandler.currentEvents.isEmpty())
+                    clientEventHandler.currentEvents.removeIf(Event::hasEnded);
             });
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.ADD_EVENT, (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.ADD_EVENT, (addEvent, context) -> {
             if (clientEventHandler == null)
                 return;
-            String index = buf.readString();
-            Event event = EventRegistry.get(index);
-            event.readExtraData(buf);
-            client.execute(() -> {
+            Event event = EventRegistry.get(addEvent.id());
+            addEvent.subEventId().ifPresent(event::readExtraData);
+            context.client().execute(() -> {
                 clientEventHandler.addEvent(event);
             });
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.END_EVENT, (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.END_EVENT, (endEvent, context) -> {
             if (clientEventHandler == null)
                 return;
-            byte index = buf.readByte();
-            client.execute(() -> {
-                Event event = clientEventHandler.currentEvents.get(index);
+            context.client().execute(() -> {
+                Event event = clientEventHandler.currentEvents.get(endEvent.index());
                 if(event != null)
                     event.endClient();
             });
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.NEW_POLL, (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.NEW_POLL, (newPoll, context) -> {
             if (clientEventHandler == null || clientEventHandler.votingClient == null)
                 return;
-            int voteID = buf.readInt();
-            int size = buf.readInt();
-            List<String> events = new ArrayList<>();
-            for (int i = 0; i < size - 1; i++) {
-                events.add(buf.readString());
-            }
-            client.execute(() -> clientEventHandler.votingClient.newPoll(voteID, size, events));
+            context.client().execute(() -> clientEventHandler.votingClient.newPoll(newPoll.voteId(), newPoll.events()));
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.POLL_STATUS, (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.POLL_STATUS, (pollStatus, context) -> {
             if (clientEventHandler == null || clientEventHandler.votingClient == null)
                 return;
-            int voteID = buf.readInt();
-            int[] totalVotes = buf.readIntArray();
-            int totalVotesCount = buf.readInt();
-            client.execute(() -> clientEventHandler.votingClient.updatePollStatus(voteID, totalVotes, totalVotesCount));
+            context.client().execute(() -> clientEventHandler.votingClient.updatePollStatus(pollStatus.voteId(), pollStatus.totalVotes(), pollStatus.totalVotesCount()));
         });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
@@ -175,10 +157,10 @@ public class EntropyClient implements ClientModInitializer {
         });
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            if (FabricLoader.getInstance().getModContainer("entropy").isPresent()) {
-                PacketByteBuf buf = PacketByteBufs.create();
-                buf.writeString(FabricLoader.getInstance().getModContainer("entropy").get().getMetadata().getVersion().getFriendlyString());
-                ClientPlayNetworking.send(NetworkingConstants.JOIN_HANDSHAKE, buf);
+            final Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer("entropy");
+            if (modContainer.isPresent()) {
+                final String version = modContainer.get().getMetadata().getVersion().getFriendlyString();
+                ClientPlayNetworking.send(new C2SJoinHandshake(version));
             }
         });
 

@@ -18,31 +18,19 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.Variables;
-import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
+import me.juancarloscp52.entropy.events.AbstractAttributeEvent;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributes;
 
-public class ReducedReachEvent extends AbstractTimedEvent {
+import java.util.List;
 
+public class ReducedReachEvent extends AbstractAttributeEvent {
     @Override
-    public void initClient() {
-        Variables.reducedReachDistance = true;
-    }
-
-    @Override
-    public void endClient() {
-        Variables.reducedReachDistance = false;
-        this.hasEnded = true;
-
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
+    protected List<ActiveModifier> getModifiers() {
+        return List.of(
+            new ActiveModifier(EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE, new EntityAttributeModifier("block_reach", -2.5d, EntityAttributeModifier.Operation.ADD_VALUE)),
+            new ActiveModifier(EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE, new EntityAttributeModifier("entity_reach", -2.5d, EntityAttributeModifier.Operation.ADD_VALUE))
+        );
     }
 
     @Override

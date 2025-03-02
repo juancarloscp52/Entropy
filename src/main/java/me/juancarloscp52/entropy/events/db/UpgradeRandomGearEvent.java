@@ -2,7 +2,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -122,13 +122,11 @@ public class UpgradeRandomGearEvent extends AbstractInstantEvent {
             Random random) {
         var newItem = _upgrades.get(item);
         var newDamage = (float) itemStack.getDamage() / (float) itemStack.getMaxDamage()
-                * (float) newItem.getMaxDamage();
+                * (float) newItem.getDefaultStack().getMaxDamage();
         var newItemStack = new ItemStack(newItem);
 
         newItemStack.setDamage((int) newDamage);
-        var enchantments = EnchantmentHelper.get(itemStack);
-        for (var enchantment : enchantments.entrySet())
-            newItemStack.addEnchantment(enchantment.getKey(), enchantment.getValue());
+        newItemStack.set(DataComponentTypes.ENCHANTMENTS, itemStack.getEnchantments());
 
         inventoryList.set(index, newItemStack);
 

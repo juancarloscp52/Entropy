@@ -53,7 +53,6 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         super(minecraftClient, width, height, y, itemHeight);
         this.setX(x);
         this.centerListVertically = false;
-        this.setRenderBackground(true);
         this.textRenderer = minecraftClient.textRenderer;
     }
 
@@ -83,8 +82,9 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         return 400;
     }
 
-    protected int getScrollbarPositionX() {
-        return super.getScrollbarPositionX() + 32;
+    @Override
+    protected int getScrollbarX() {
+        return super.getScrollbarX() + 32;
     }
 
     @Override
@@ -121,7 +121,7 @@ public class EntropyEventListWidget extends ElementListWidget<EntropyEventListWi
         int l = j + i;
         int m = MathHelper.floor(y - (double)this.getY()) - this.headerHeight + (int)this.getScrollAmount() - 4;
         int n = m / this.itemHeight;
-        return x < (double)this.getScrollbarPositionX() && x >= (double)k && x <= (double)l && n >= 0 && m >= 0 && n < this.getEntryCount() ? this.visibleEntries.get(n) : null;
+        return x < (double)this.getScrollbarX() && x >= (double)k && x <= (double)l && n >= 0 && m >= 0 && n < this.getEntryCount() ? this.visibleEntries.get(n) : null;
     }
 
     @Override

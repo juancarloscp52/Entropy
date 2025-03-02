@@ -19,13 +19,12 @@ package me.juancarloscp52.entropy.server;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
-import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import me.juancarloscp52.entropy.networking.S2CNewPoll;
+import me.juancarloscp52.entropy.networking.S2CPollStatus;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.ArrayList;
@@ -134,36 +133,26 @@ public class VotingServer {
     }
 
     public void sendNewPoll() {
+        final S2CNewPoll packet = getNewPollPacket();
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.NEW_POLL, getNewPollPacket()));
+                ServerPlayNetworking.send(serverPlayerEntity, packet));
     }
 
     public void sendNewPollToPlayer(ServerPlayerEntity player) {
-        ServerPlayNetworking.send(player, NetworkingConstants.NEW_POLL, getNewPollPacket());
+        ServerPlayNetworking.send(player, getNewPollPacket());
     }
 
-    public PacketByteBuf getNewPollPacket() {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(voteID);
-        if(events.isEmpty()){
-            buf.writeInt(1);
-            buf.writeString("No Event");
-        }else{
-            buf.writeInt(size);
-            for (int i = 0; i < size - 1; i++) {
-                buf.writeString(EventRegistry.getTranslationKey(events.get(i)));
-            }
-        }
-        return buf;
+    public S2CNewPoll getNewPollPacket() {
+        return new S2CNewPoll(voteID, events.isEmpty()
+            ? List.of("No Event")
+            : events.stream().map(EventRegistry::getTranslationKey).toList()
+        );
     }
 
     public void sendPollStatusToPlayers() {
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(voteID);
-        buf.writeIntArray(totalVotes);
-        buf.writeInt(totalVoteCount);
+        final S2CPollStatus pollStatus = new S2CPollStatus(voteID, totalVotes, totalVoteCount);
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, NetworkingConstants.POLL_STATUS, buf));
+                ServerPlayNetworking.send(serverPlayerEntity, pollStatus));
     }
 
 }

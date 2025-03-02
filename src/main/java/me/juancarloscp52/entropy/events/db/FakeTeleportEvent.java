@@ -7,7 +7,6 @@ import me.juancarloscp52.entropy.events.EventRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -15,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -62,14 +62,14 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
     }
 
     @Override
-    public void writeExtraData(PacketByteBuf buf) {
-        buf.writeString(EventRegistry.getEventId(teleportEvent));
+    public Optional<String> getExtraData() {
+        return Optional.of(EventRegistry.getEventId(teleportEvent));
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void readExtraData(PacketByteBuf buf) {
-        teleportEvent = EventRegistry.get(buf.readString());
+    public void readExtraData(String id) {
+        teleportEvent = EventRegistry.get(id);
     }
 
     public static void savePositions(Map<ServerPlayerEntity,TeleportInfo> positions) {

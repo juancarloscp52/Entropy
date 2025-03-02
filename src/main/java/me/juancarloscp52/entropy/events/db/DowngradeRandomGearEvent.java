@@ -2,7 +2,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -121,13 +120,13 @@ public class DowngradeRandomGearEvent extends AbstractInstantEvent {
     private void downgrade(Item item, ItemStack itemStack, DefaultedList<ItemStack> inventoryList, int index, Random random) {
         var newItem = _downgrades.get(item);
         var newDamage = (float) itemStack.getDamage() / (float) itemStack.getMaxDamage()
-                * (float) newItem.getMaxDamage();
+                * (float) newItem.getDefaultStack().getMaxDamage();
         var newItemStack = new ItemStack(newItem);
 
         newItemStack.setDamage((int) newDamage);
-        var enchantments = EnchantmentHelper.get(itemStack);
-        for (var enchantment : enchantments.entrySet())
-            newItemStack.addEnchantment(enchantment.getKey(), enchantment.getValue());
+        var enchantments = itemStack.getEnchantments();
+        for (var enchantment : enchantments.getEnchantmentsMap())
+            newItemStack.addEnchantment(enchantment.getKey().value(), enchantment.getIntValue());
 
         inventoryList.set(index, newItemStack);
 

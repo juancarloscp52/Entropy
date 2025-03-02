@@ -23,6 +23,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
+import java.util.Optional;
+
 
 public interface Event {
 
@@ -70,8 +72,10 @@ public interface Event {
         return false;
     }
 
-    default void writeExtraData(PacketByteBuf buf) {}
+    default Optional<String> getExtraData() {
+        return Optional.empty();
+    }
 
     @Environment(EnvType.CLIENT)
-    default void readExtraData(PacketByteBuf buf) {}
+    default void readExtraData(String subEventId) {}
 }

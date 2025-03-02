@@ -17,14 +17,12 @@
 
 package me.juancarloscp52.entropy.client;
 
-import me.juancarloscp52.entropy.NetworkingConstants;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
 import me.juancarloscp52.entropy.client.websocket.OverlayServer;
+import me.juancarloscp52.entropy.networking.C2SVotes;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ColorHelper;
 import net.minecraft.util.math.MathHelper;
@@ -99,14 +97,14 @@ public class VotingClient {
         }
     }
 
-    public void newPoll(int voteID, int size, List<String> events) {
+    public void newPoll(int voteID, List<String> events) {
         voteMap.clear();
         if(firstVote){
             firstVote=false;
         } else {
             this.overlayServer.onVoteEnd();
         }
-        if (this.size == size) {
+        if (this.size == events.size()) {
             this.voteID = voteID;
             this.events = events;
             this.events.add("entropy.voting.randomEvent");
@@ -124,10 +122,10 @@ public class VotingClient {
         }
     }
 
-    public void updatePollStatus(int voteID, int[] totalVotes, int totalVoteCount) {
+    public void updatePollStatus(int voteID, int[] totalVotes, int totalVotesCount) {
         if (this.voteID == voteID) {
             this.totalVotes = totalVotes;
-            this.totalVotesCount = totalVoteCount;
+            this.totalVotesCount = totalVotesCount;
         }
     }
 
@@ -176,11 +174,8 @@ public class VotingClient {
     public void sendVotes() {
         if (voteID == -1)
             return;
-        PacketByteBuf buf = PacketByteBufs.create();
-        buf.writeInt(this.voteID);
-        buf.writeIntArray(this.votes);
+        ClientPlayNetworking.send(new C2SVotes(voteID, votes));
         votes = new int[4];
-        ClientPlayNetworking.send(NetworkingConstants.POLL_STATUS, buf);
         this.overlayServer.updateVote(voteID,events,totalVotes);
     }
 

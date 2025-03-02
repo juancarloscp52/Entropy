@@ -4,7 +4,6 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
 
@@ -39,10 +38,10 @@ public class CurseRandomGearEvent extends AbstractInstantEvent {
                 for (var curse : _curses) {
                     if (curse.isAcceptableItem(itemStack)) {
                         var hasCurse = false;
-                        var existingEnchantments = EnchantmentHelper.get(itemStack);
+                        var existingEnchantments = itemStack.getEnchantments();
 
-                        for (var enchantment : existingEnchantments.keySet())
-                            if (enchantment == curse) {
+                        for (var enchantment : existingEnchantments.getEnchantments())
+                            if (enchantment.value() == curse) {
                                 hasCurse = true;
                                 break;
                             }
