@@ -6,9 +6,10 @@
     ],
     "passes": [
         {
-            "name": "blur",
+            "name": "box_blur",
             "intarget": "minecraft:main",
             "outtarget": "swap",
+            "use_linear_filter": true,
             "uniforms": [
                 {
                     "name": "BlurDir",
@@ -16,14 +17,15 @@
                 },
                 {
                     "name": "Radius",
-                    "values": [ 20.0 ]
+                    "values": [ 15.0 ]
                 }
             ]
         },
         {
-            "name": "blur",
+            "name": "box_blur",
             "intarget": "swap",
             "outtarget": "minecraft:main",
+            "use_linear_filter": true,
             "uniforms": [
                 {
                     "name": "BlurDir",
@@ -31,7 +33,40 @@
                 },
                 {
                     "name": "Radius",
-                    "values": [ 20.0 ]
+                    "values": [ 15.0 ]
+                }
+            ]
+        }, {
+            "name": "box_blur",
+            "intarget": "minecraft:main",
+            "outtarget": "swap",
+            "use_linear_filter": true,
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 1.0, 0.0 ],
+                    "RadiusMultiplier" : 0.5
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 15.0 ]
+                }
+            ]
+        },
+        {
+            "name": "box_blur",
+            "intarget": "swap",
+            "outtarget": "minecraft:main",
+            "use_linear_filter": true,
+            "uniforms": [
+                {
+                    "name": "BlurDir",
+                    "values": [ 0.0, 1.0 ],
+                    "RadiusMultiplier" : 0.5
+                },
+                {
+                    "name": "Radius",
+                    "values": [ 15.0 ]
                 }
             ]
         },

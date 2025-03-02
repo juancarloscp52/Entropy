@@ -191,7 +191,7 @@ public class EntropyClient implements ClientModInitializer {
             ShaderManager.render(shader_invertedColor,tickDelta);
         } else if (Variables.wobble) {
             if(shader_wobble==null){
-                shader_wobble=ShaderManager.register(new Identifier("shaders/post/wobble.json"));
+                shader_wobble=ShaderManager.register(new Identifier("entropy","shaders/post/wobble.json"));
             }
             assert shader_wobble != null : "Wobble shader is null";
             ShaderManager.render(shader_wobble,tickDelta);
