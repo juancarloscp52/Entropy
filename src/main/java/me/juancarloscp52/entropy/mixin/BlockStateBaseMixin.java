@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockStateBase.class)
-public abstract class AbstractBlockStateMixin {
+public abstract class BlockStateBaseMixin {
     // BlockMixin's shouldRenderFace function is enough for vanilla, but in order for the event to work with Sodium, skipRendering and isFaceSturdy need to be modified
     @Inject(at = @At("HEAD"), method = "skipRendering", cancellable = true)
     public void isSideInvisible(BlockState state, Direction direction, CallbackInfoReturnable<Boolean> ci) {

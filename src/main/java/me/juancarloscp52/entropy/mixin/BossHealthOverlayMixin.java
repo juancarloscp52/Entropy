@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 /*
   Move bossbar down if GTA V timer is active.
  */
-public abstract class BossBarHudMixin {
+public abstract class BossHealthOverlayMixin {
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/components/BossHealthOverlay;drawBar(Lnet/minecraft/client/gui/GuiGraphics;IILnet/minecraft/world/BossEvent;)V"),index = 2)
     public int applyScreenBorderToBossBar(int y){

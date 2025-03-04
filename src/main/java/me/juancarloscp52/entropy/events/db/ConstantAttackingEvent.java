@@ -1,8 +1,8 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import me.juancarloscp52.entropy.mixin.ClientPlayerInteractionManagerAccessor;
-import me.juancarloscp52.entropy.mixin.MinecraftClientAccessor;
+import me.juancarloscp52.entropy.mixin.MultiPlayerGameModeAccessor;
+import me.juancarloscp52.entropy.mixin.MinecraftAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 
@@ -15,12 +15,12 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
 
         switch(mc.hitResult.getType()) {
             case BLOCK:
-                ((MinecraftClientAccessor) mc).setMissTime(0);
-                ((MinecraftClientAccessor) mc).callContinueAttack(true);
+                ((MinecraftAccessor) mc).setMissTime(0);
+                ((MinecraftAccessor) mc).callContinueAttack(true);
                 return;
             case ENTITY:
                 if(mc.player.getAttackStrengthScale(0.0F) >= 1.0F)
-                    ((MinecraftClientAccessor) mc).callStartAttack();
+                    ((MinecraftAccessor) mc).callStartAttack();
                 break;
             case MISS:
                 mc.player.swing(InteractionHand.MAIN_HAND);
@@ -37,8 +37,8 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
     }
 
     private void cancelBlockBreaking(Minecraft mc) {
-        ((ClientPlayerInteractionManagerAccessor) mc.gameMode).setIsDestroying(true);
-        ((MinecraftClientAccessor) mc).callContinueAttack(false);
+        ((MultiPlayerGameModeAccessor) mc.gameMode).setIsDestroying(true);
+        ((MinecraftAccessor) mc).callContinueAttack(false);
     }
 
     @Override

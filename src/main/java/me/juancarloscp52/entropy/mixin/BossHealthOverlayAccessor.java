@@ -9,7 +9,7 @@ import net.minecraft.client.gui.components.BossHealthOverlay;
 import net.minecraft.client.gui.components.LerpingBossEvent;
 
 @Mixin(BossHealthOverlay.class)
-public interface BossBarHudAccessor {
+public interface BossHealthOverlayAccessor {
 
     @Accessor
     Map<UUID, LerpingBossEvent> getEvents();

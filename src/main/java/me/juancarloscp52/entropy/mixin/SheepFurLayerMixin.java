@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.entity.layers.SheepFurLayer;
 import net.minecraft.world.entity.animal.Sheep;
 
 @Mixin(SheepFurLayer.class)
-public class SheepWoolFeatureRendererMixin {
+public class SheepFurLayerMixin {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Sheep;hasCustomName()Z"))
     private boolean makeAllSheepRainbow1(Sheep sheep) {
         return Variables.rainbowSheepEverywhere || sheep.hasCustomName();

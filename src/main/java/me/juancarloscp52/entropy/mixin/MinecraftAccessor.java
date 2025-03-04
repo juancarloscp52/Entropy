@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Minecraft.class)
-public interface MinecraftClientAccessor {
+public interface MinecraftAccessor {
 
     @Accessor
     void setMissTime(int attackCooldown);

@@ -22,7 +22,7 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.mixin.EntryListWidgetAccessor;
+import me.juancarloscp52.entropy.mixin.AbstractSelectionListAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -109,7 +109,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
                 return true;
             }
 
-            return ((EntryListWidgetAccessor) this).getScrolling();
+            return ((AbstractSelectionListAccessor) this).getScrolling();
         }
     }
 

@@ -17,24 +17,22 @@
 
 package me.juancarloscp52.entropy.mixin;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.entropy.Variables;
-import net.minecraft.client.Camera;
-import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.CameraType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(FogRenderer.class)
-public class BackgroundRendererMixin {
+@Mixin(CameraType.class)
+public class CameraTypeMixin {
 
-    @Inject(method = "setupFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogEnd(F)V",remap = false))
-    private static void changeFogDistance(Camera camera, FogRenderer.FogMode fogType, float viewDistance, boolean thickFog, float tickDelta, CallbackInfo ci) {
-        if (Variables.customFog) {
-            RenderSystem.setShaderFogStart(-150.0F);
-            RenderSystem.setShaderFogEnd(-100.0F);
-        }
+    @Inject(method = "isFirstPerson",at=@At("RETURN"), cancellable = true)
+    private void isFirstPerson(CallbackInfoReturnable<Boolean> cir){
+        cir.setReturnValue(cir.getReturnValue()&& !Variables.thirdPersonView);
     }
-
+    @Inject(method = "isMirrored",at=@At("RETURN"), cancellable = true)
+    private void isFrontView(CallbackInfoReturnable<Boolean> cir){
+        cir.setReturnValue(cir.getReturnValue()&& !Variables.thirdPersonView || Variables.frontView);
+    }
 }
