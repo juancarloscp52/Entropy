@@ -13,30 +13,30 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.FastColor;
 import org.joml.Vector3f;
 
-public class ConstantColorDustParticleEffect extends ScalableParticleOptionsBase {
-    public static final MapCodec<ConstantColorDustParticleEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+public class ConstantColorDustParticleOptions extends ScalableParticleOptionsBase {
+    public static final MapCodec<ConstantColorDustParticleOptions> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         Codec.INT.fieldOf("color").forGetter(effect -> effect.color),
         SCALE.fieldOf("scale").forGetter(ScalableParticleOptionsBase::getScale)
-    ).apply(instance, ConstantColorDustParticleEffect::new));
-    public static final StreamCodec<ByteBuf, ConstantColorDustParticleEffect> PACKET_CODEC = StreamCodec.composite(
+    ).apply(instance, ConstantColorDustParticleOptions::new));
+    public static final StreamCodec<ByteBuf, ConstantColorDustParticleOptions> PACKET_CODEC = StreamCodec.composite(
         ByteBufCodecs.VAR_INT, effect -> effect.color,
         ByteBufCodecs.FLOAT, ScalableParticleOptionsBase::getScale,
-        ConstantColorDustParticleEffect::new
+        ConstantColorDustParticleOptions::new
     );
 
     private final int color;
 
-    public ConstantColorDustParticleEffect(int color, float scale) {
+    public ConstantColorDustParticleOptions(int color, float scale) {
         super(scale);
         this.color = color;
     }
 
-    public ConstantColorDustParticleEffect(Vector3f color, float scale) {
+    public ConstantColorDustParticleOptions(Vector3f color, float scale) {
         this(FastColor.ARGB32.colorFromFloat(1.0f, color.x(), color.y(), color.z()), scale);
     }
 
     @Override
-    public ParticleType<ConstantColorDustParticleEffect> getType() {
+    public ParticleType<ConstantColorDustParticleOptions> getType() {
         return Entropy.CONSTANT_COLOR_DUST;
     }
 

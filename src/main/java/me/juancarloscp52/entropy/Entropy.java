@@ -27,7 +27,7 @@ import me.juancarloscp52.entropy.networking.NetworkingConstants;
 import me.juancarloscp52.entropy.networking.ClientboundJoinConfirm;
 import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
 import me.juancarloscp52.entropy.networking.ClientboundRemoveEnded;
-import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
+import me.juancarloscp52.entropy.server.ConstantColorDustParticleOptions;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
@@ -64,7 +64,7 @@ public class Entropy implements ModInitializer {
     public static Entropy instance;
     public ServerEventHandler eventHandler;
     public EntropySettings settings;
-    public static final ParticleType<ConstantColorDustParticleEffect> CONSTANT_COLOR_DUST = FabricParticleTypes.complex(false, ConstantColorDustParticleEffect.CODEC, ConstantColorDustParticleEffect.PACKET_CODEC);
+    public static final ParticleType<ConstantColorDustParticleOptions> CONSTANT_COLOR_DUST = FabricParticleTypes.complex(false, ConstantColorDustParticleOptions.CODEC, ConstantColorDustParticleOptions.PACKET_CODEC);
 
     private static final DynamicCommandExceptionType ERROR_INVALID_ON_CLIENT = new DynamicCommandExceptionType(eventId -> Component.translatable("entropy.command.invalidClientSide", eventId));
     private static final DynamicCommandExceptionType ERROR_UNKNOWN_EVENT = new DynamicCommandExceptionType(eventId -> Component.translatable("entropy.command.unknownEvent", eventId));
