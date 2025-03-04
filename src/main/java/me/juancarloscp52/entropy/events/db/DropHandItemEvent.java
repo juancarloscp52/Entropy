@@ -17,13 +17,16 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 
 public class DropHandItemEvent extends AbstractInstantEvent {
 
     @Override
-    public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.dropSelectedItem(true));
+    public void initClient() {
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if(player != null)
+            player.dropSelectedItem(true);
     }
 }
