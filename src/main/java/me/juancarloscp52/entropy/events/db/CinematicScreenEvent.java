@@ -20,44 +20,44 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
 
 public class CinematicScreenEvent extends AbstractTimedEvent {
 
-    MinecraftClient client;
+    Minecraft client;
 
     @Override
     public void initClient() {
-        client = MinecraftClient.getInstance();
-        client.options.smoothCameraEnabled = true;
+        client = Minecraft.getInstance();
+        client.options.smoothCamera = true;
         Variables.forcedFov = true;
         Variables.fov = 60;
     }
 
     @Override
     public void tickClient() {
-        client = MinecraftClient.getInstance();
-        client.options.smoothCameraEnabled = true;
+        client = Minecraft.getInstance();
+        client.options.smoothCamera = true;
     }
 
     @Override
     public void endClient() {
         super.endClient();
-        client = MinecraftClient.getInstance();
-        client.options.smoothCameraEnabled = false;
+        client = Minecraft.getInstance();
+        client.options.smoothCamera = false;
         Variables.forcedFov = false;
         Variables.fov = 0;
     }
 
     @Override
-    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
-        client = MinecraftClient.getInstance();
-        int borderHeight = MathHelper.floor(client.getWindow().getScaledHeight() * 0.12f);
-        drawContext.fill(0, 0, client.getWindow().getScaledWidth(), borderHeight, 255 << 24);
-        drawContext.fill(0, client.getWindow().getScaledHeight() - borderHeight, client.getWindow().getScaledWidth(), client.getWindow().getScaledHeight(), 255 << 24);
+    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
+        client = Minecraft.getInstance();
+        int borderHeight = Mth.floor(client.getWindow().getGuiScaledHeight() * 0.12f);
+        drawContext.fill(0, 0, client.getWindow().getGuiScaledWidth(), borderHeight, 255 << 24);
+        drawContext.fill(0, client.getWindow().getGuiScaledHeight() - borderHeight, client.getWindow().getGuiScaledWidth(), client.getWindow().getGuiScaledHeight(), 255 << 24);
     }
 
     @Override

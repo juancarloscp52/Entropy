@@ -18,12 +18,11 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import java.util.Random;
 
 public class DVDEvent extends AbstractTimedEvent {
@@ -34,22 +33,22 @@ public class DVDEvent extends AbstractTimedEvent {
     double velY = 0;
     int size = 250;
     Random random = new Random();
-    MinecraftClient client;
+    Minecraft client;
 
     @Override
     public void initClient() {
         velX = random.nextDouble() * 8 + 2d;
         velY = random.nextDouble() * 8 + 2d;
-        client = MinecraftClient.getInstance();
+        client = Minecraft.getInstance();
         System.out.println("values");
-        System.out.println(client.getWindow().getScaleFactor());
-        if(client.getWindow().getScaleFactor()>=3){
+        System.out.println(client.getWindow().getGuiScale());
+        if(client.getWindow().getGuiScale()>=3){
             size=200;
         }
     }
 
     @Override
-    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
+    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
         renderDVDOverlay(drawContext, tickCounter);
     }
 
@@ -57,14 +56,14 @@ public class DVDEvent extends AbstractTimedEvent {
     public void tickClient() {
         y += velY;
         x += velX;
-        int height = client.getWindow().getScaledHeight();
-        int width = client.getWindow().getScaledWidth();
+        int height = client.getWindow().getGuiScaledHeight();
+        int width = client.getWindow().getGuiScaledWidth();
         if (y + size > height || y < 0) {
-            y = MathHelper.clamp(y, 0, height - size);
+            y = Mth.clamp(y, 0, height - size);
             velY = (velY > 0 ? -1 : 1) * (getRandomSpeed());
         }
         if (x + size > width || x < 0) {
-            x = MathHelper.clamp(x, 0, width - size);
+            x = Mth.clamp(x, 0, width - size);
             velX = (velX > 0 ? -1 : 1) * (getRandomSpeed());
         }
 
@@ -81,19 +80,19 @@ public class DVDEvent extends AbstractTimedEvent {
         return (short) (super.getDuration() * 0.75d);
     }
 
-    private void renderDVDOverlay(DrawContext drawContext, RenderTickCounter tickCounter) {
+    private void renderDVDOverlay(GuiGraphics drawContext, DeltaTracker tickCounter) {
         if (client == null)
             return;
-        int height = client.getWindow().getScaledHeight();
-        int width = client.getWindow().getScaledWidth();
-        int topSize = MathHelper.floor(y);
-        int leftSize = MathHelper.floor(x);
-        int bottomSize = MathHelper.floor(y + size);
-        int rightSize = MathHelper.floor(x + size);
-        drawContext.fill(0, 0, width, topSize, ColorHelper.Argb.getArgb(255,0, 0, 0));
-        drawContext.fill(0, 0, leftSize, height, ColorHelper.Argb.getArgb(255,0, 0, 0));
-        drawContext.fill(0, height, width, bottomSize, ColorHelper.Argb.getArgb(255,0, 0, 0));
-        drawContext.fill(width, 0, rightSize, height, ColorHelper.Argb.getArgb(255,0, 0, 0));
+        int height = client.getWindow().getGuiScaledHeight();
+        int width = client.getWindow().getGuiScaledWidth();
+        int topSize = Mth.floor(y);
+        int leftSize = Mth.floor(x);
+        int bottomSize = Mth.floor(y + size);
+        int rightSize = Mth.floor(x + size);
+        drawContext.fill(0, 0, width, topSize, FastColor.ARGB32.color(255,0, 0, 0));
+        drawContext.fill(0, 0, leftSize, height, FastColor.ARGB32.color(255,0, 0, 0));
+        drawContext.fill(0, height, width, bottomSize, FastColor.ARGB32.color(255,0, 0, 0));
+        drawContext.fill(width, 0, rightSize, height, FastColor.ARGB32.color(255,0, 0, 0));
 
     }
 

@@ -21,28 +21,28 @@ import me.juancarloscp52.entropy.client.Screens.EntropyCreditsScreen;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class RollCreditsEvent extends AbstractTimedEvent {
 
-    MinecraftClient client;
+    Minecraft client;
 
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
-        client = MinecraftClient.getInstance();
+        client = Minecraft.getInstance();
         client.setScreen(new EntropyCreditsScreen(this));
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public void endClient() {
-        client = MinecraftClient.getInstance();
-        if (client.currentScreen instanceof EntropyCreditsScreen) {
-            client.currentScreen.close();
-            this.client.mouse.lockCursor();
+        client = Minecraft.getInstance();
+        if (client.screen instanceof EntropyCreditsScreen) {
+            client.screen.onClose();
+            this.client.mouseHandler.grabMouse();
         }
         super.endClient();
     }
@@ -54,14 +54,14 @@ public class RollCreditsEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
+    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public void tickClient() {
-        client = MinecraftClient.getInstance();
-        if (getTickCount() % 20 == 0 && client.currentScreen == null) {
+        client = Minecraft.getInstance();
+        if (getTickCount() % 20 == 0 && client.screen == null) {
             client.setScreen(new EntropyCreditsScreen(this));
         }
         super.tickClient();

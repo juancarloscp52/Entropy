@@ -25,8 +25,8 @@ public class SatiationEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getHungerManager().setFoodLevel(20);
-            serverPlayerEntity.getHungerManager().setSaturationLevel(3);
+            serverPlayerEntity.getFoodData().setFoodLevel(20);
+            serverPlayerEntity.getFoodData().setSaturation(3);
 
         });
     }

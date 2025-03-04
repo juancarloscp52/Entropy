@@ -3,8 +3,8 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
 public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
 
@@ -13,11 +13,11 @@ public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
 
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
 
-            player.getInventory().main.forEach(itemStack -> {
+            player.getInventory().items.forEach(itemStack -> {
                 removeEnchant(itemStack);
             });
 
-            player.getInventory().offHand.forEach(itemStack -> {
+            player.getInventory().offhand.forEach(itemStack -> {
                 removeEnchant(itemStack);
             });
 
@@ -33,8 +33,8 @@ public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
             return;
         }
 
-        EnchantmentHelper.apply(itemStack, enchantments ->
-            enchantments.remove(enchantment -> !enchantment.isIn(EnchantmentTags.DO_NOT_REMOVE))
+        EnchantmentHelper.updateEnchantments(itemStack, enchantments ->
+            enchantments.removeIf(enchantment -> !enchantment.is(EnchantmentTags.DO_NOT_REMOVE))
         );
     }
 }

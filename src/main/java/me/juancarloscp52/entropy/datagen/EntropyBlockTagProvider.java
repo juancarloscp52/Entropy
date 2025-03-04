@@ -4,18 +4,17 @@ import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
-import net.minecraft.block.Blocks;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
-
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.world.level.block.Blocks;
 import java.util.concurrent.CompletableFuture;
 
 public class EntropyBlockTagProvider extends BlockTagProvider {
-    public EntropyBlockTagProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {
+    public EntropyBlockTagProvider(FabricDataOutput output, CompletableFuture<Provider> completableFuture) {
         super(output, completableFuture);
     }
 
     @Override
-    protected void configure(WrapperLookup wrapperLookup) {
+    protected void addTags(Provider wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.IGNORED_BY_MIDAS_TOUCH).addTag(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.AIR,
                 Blocks.GOLD_BLOCK,
                 Blocks.GOLD_ORE,

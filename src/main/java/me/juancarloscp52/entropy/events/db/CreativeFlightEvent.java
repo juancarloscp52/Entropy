@@ -4,17 +4,17 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
 
 public class CreativeFlightEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        Player player = Minecraft.getInstance().player;
         if(null != player) {
             if (!(player.isCreative() || player.isSpectator())) {
-                player.getAbilities().allowFlying = true;
+                player.getAbilities().mayfly = true;
             }
         }
     }
@@ -23,12 +23,12 @@ public class CreativeFlightEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void endClient() {
         super.endClient();
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        Player player = Minecraft.getInstance().player;
         if(null != player){
             if(!(player.isCreative() || player.isSpectator())){
-                player.getAbilities().allowFlying = false;
+                player.getAbilities().mayfly = false;
                 player.getAbilities().flying=false;
-                player.sendAbilitiesUpdate();
+                player.onUpdateAbilities();
             }
         }
     }
@@ -37,7 +37,7 @@ public class CreativeFlightEvent extends AbstractTimedEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
             if(!(player.isCreative() || player.isSpectator())) {
-                player.getAbilities().allowFlying = true;
+                player.getAbilities().mayfly = true;
             }
         });
     }
@@ -47,9 +47,9 @@ public class CreativeFlightEvent extends AbstractTimedEvent {
         super.end();
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
             if(!(player.isCreative() || player.isSpectator())){
-                player.getAbilities().allowFlying = false;
+                player.getAbilities().mayfly = false;
                 player.getAbilities().flying=false;
-                player.sendAbilitiesUpdate();
+                player.onUpdateAbilities();
             }
         });
     }

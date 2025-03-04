@@ -9,8 +9,8 @@ import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.util.FastColor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -125,7 +125,7 @@ public class YoutubeIntegrations implements Integrations {
         int altOffset = voteID % 2 == 0 ? 4 : 0;
         StringBuilder stringBuilder = new StringBuilder("Current poll:");
         for (int i = 0; i < events.size(); i++)
-            stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, I18n.translate(events.get(i))));
+            stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, I18n.get(events.get(i))));
 
         sendMessage(stringBuilder.toString());
     }
@@ -137,7 +137,7 @@ public class YoutubeIntegrations implements Integrations {
 
     @Override
     public int getColor(int alpha) {
-        return ColorHelper.Argb.getArgb(alpha,255, 0, 0);
+        return FastColor.ARGB32.color(alpha,255, 0, 0);
     }
 
 }

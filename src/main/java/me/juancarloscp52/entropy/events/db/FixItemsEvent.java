@@ -20,36 +20,36 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public class FixItemsEvent extends AbstractInstantEvent {
 
 
-    public void fixItem(ItemStack stack, ServerPlayerEntity player){
-        if(stack.isIn(ItemTags.UNFIXABLE))
+    public void fixItem(ItemStack stack, ServerPlayer player){
+        if(stack.is(ItemTags.UNFIXABLE))
             return;
 
-        Criteria.ITEM_DURABILITY_CHANGED.trigger(player, stack, stack.getMaxDamage());
-        stack.setDamage(0);
+        CriteriaTriggers.ITEM_DURABILITY_CHANGED.trigger(player, stack, stack.getMaxDamage());
+        stack.setDamageValue(0);
     }
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getInventory().main.forEach(itemStack -> {
-                if(itemStack.isDamageable()){
+            serverPlayerEntity.getInventory().items.forEach(itemStack -> {
+                if(itemStack.isDamageableItem()){
                     fixItem(itemStack,serverPlayerEntity);
                 }
             });
             serverPlayerEntity.getInventory().armor.forEach(itemStack -> {
-                if(itemStack.isDamageable()){
+                if(itemStack.isDamageableItem()){
                     fixItem(itemStack,serverPlayerEntity);
                 }
             });
-            serverPlayerEntity.getInventory().offHand.forEach(itemStack -> {
-                if(itemStack.isDamageable()){
+            serverPlayerEntity.getInventory().offhand.forEach(itemStack -> {
+                if(itemStack.isDamageableItem()){
                     fixItem(itemStack,serverPlayerEntity);
                 }
             });

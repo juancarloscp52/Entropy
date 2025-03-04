@@ -25,8 +25,7 @@ import me.juancarloscp52.entropy.networking.S2CNewPoll;
 import me.juancarloscp52.entropy.networking.S2CPollStatus;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.server.network.ServerPlayerEntity;
-
+import net.minecraft.server.level.ServerPlayer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -138,7 +137,7 @@ public class VotingServer {
                 ServerPlayNetworking.send(serverPlayerEntity, packet));
     }
 
-    public void sendNewPollToPlayer(ServerPlayerEntity player) {
+    public void sendNewPollToPlayer(ServerPlayer player) {
         ServerPlayNetworking.send(player, getNewPollPacket());
     }
 

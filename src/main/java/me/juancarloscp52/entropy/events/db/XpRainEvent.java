@@ -19,8 +19,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.entity.ExperienceOrbEntity;
-
+import net.minecraft.world.entity.ExperienceOrb;
 import java.util.Random;
 
 public class XpRainEvent extends AbstractTimedEvent {
@@ -38,8 +37,8 @@ public class XpRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 10 == 0) {
             for (int i = 0; i < 7; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                    ExperienceOrbEntity orb = new ExperienceOrbEntity(serverPlayerEntity.getWorld(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), random.nextInt(20) + 1);
-                    serverPlayerEntity.getWorld().spawnEntity(orb);
+                    ExperienceOrb orb = new ExperienceOrb(serverPlayerEntity.level(), serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), random.nextInt(20) + 1);
+                    serverPlayerEntity.level().addFreshEntity(orb);
                 });
 
             }

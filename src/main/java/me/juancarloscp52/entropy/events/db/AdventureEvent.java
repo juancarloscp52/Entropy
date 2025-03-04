@@ -19,18 +19,18 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.world.GameMode;
+import net.minecraft.world.level.GameType;
 
 public class AdventureEvent extends AbstractTimedEvent {
 
     @Override
     public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.ADVENTURE));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.setGameMode(GameType.ADVENTURE));
     }
 
     @Override
     public void end() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.changeGameMode(GameMode.SURVIVAL));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.setGameMode(GameType.SURVIVAL));
         super.end();
     }
 }

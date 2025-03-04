@@ -1,15 +1,15 @@
 package me.juancarloscp52.entropy.networking;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record S2CRemoveEnded() implements CustomPayload {
+public record S2CRemoveEnded() implements CustomPacketPayload {
     public static final S2CRemoveEnded INSTANCE = new S2CRemoveEnded();
-    public static final PacketCodec<PacketByteBuf, S2CRemoveEnded> CODEC = PacketCodec.unit(INSTANCE);
+    public static final StreamCodec<FriendlyByteBuf, S2CRemoveEnded> CODEC = StreamCodec.unit(INSTANCE);
 
     @Override
-    public Id<S2CRemoveEnded> getId() {
+    public Type<S2CRemoveEnded> type() {
         return NetworkingConstants.REMOVE_ENDED;
     }
 }

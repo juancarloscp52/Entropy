@@ -3,13 +3,13 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.RandomSource;
 
 public class RandomCameraTiltEvent extends AbstractTimedEvent {
     @Override
     public void initClient() {
-        Random random = MinecraftClient.getInstance().world.getRandom();
+        RandomSource random = Minecraft.getInstance().level.getRandom();
         Variables.cameraRoll = random.nextInt(360) + random.nextFloat();
     }
 

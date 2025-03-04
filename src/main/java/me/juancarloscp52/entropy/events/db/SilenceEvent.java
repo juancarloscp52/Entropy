@@ -2,8 +2,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.sounds.SoundSource;
 
 public class SilenceEvent extends AbstractTimedEvent {
     private double previousVolume;
@@ -11,21 +11,21 @@ public class SilenceEvent extends AbstractTimedEvent {
 
     @Override
     public void initClient() {
-        var options = MinecraftClient.getInstance().options;
-        var master = options.getSoundVolumeOption(SoundCategory.MASTER);
+        var options = Minecraft.getInstance().options;
+        var master = options.getSoundSourceOptionInstance(SoundSource.MASTER);
 
-        previousVolume = master.getValue();
-        master.setValue(0.0D);
-        wereSubtitlesActive = options.getShowSubtitles().getValue();
-        options.getShowSubtitles().setValue(false);
+        previousVolume = master.get();
+        master.set(0.0D);
+        wereSubtitlesActive = options.showSubtitles().get();
+        options.showSubtitles().set(false);
     }
 
     @Override
     public void endClient() {
-        var options = MinecraftClient.getInstance().options;
+        var options = Minecraft.getInstance().options;
 
-        options.getSoundVolumeOption(SoundCategory.MASTER).setValue(previousVolume);
-        options.getShowSubtitles().setValue(wereSubtitlesActive);
+        options.getSoundSourceOptionInstance(SoundSource.MASTER).set(previousVolume);
+        options.showSubtitles().set(wereSubtitlesActive);
         super.endClient();
     }
 

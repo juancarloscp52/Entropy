@@ -3,23 +3,24 @@ package me.juancarloscp52.entropy.datagen;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryWrapper.WrapperLookup;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
-
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import java.util.concurrent.CompletableFuture;
 
 public class EntropyItemTagProvider extends ItemTagProvider{
-    public EntropyItemTagProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture, BlockTagProvider blockTagProvider) {
+    public EntropyItemTagProvider(FabricDataOutput output, CompletableFuture<Provider> completableFuture, BlockTagProvider blockTagProvider) {
         super(output, completableFuture, blockTagProvider);
     }
 
     @Override
-    protected void configure(WrapperLookup wrapperLookup) {
-        TagKey<Item> spawnEggsTag = TagKey.of(Registries.ITEM.getKey(), Identifier.of("c", "spawn_eggs"));
+    protected void addTags(Provider wrapperLookup) {
+        TagKey<Item> spawnEggsTag = TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.fromNamespaceAndPath("c", "spawn_eggs"));
 
         getOrCreateTagBuilder(ItemTags.BANNED).addTag(spawnEggsTag).add(Items.DEBUG_STICK,
                 Items.COMMAND_BLOCK,
@@ -31,7 +32,7 @@ public class EntropyItemTagProvider extends ItemTagProvider{
         getOrCreateTagBuilder(ItemTags.DOES_NOT_DROP_RANDOMLY).addTag(ItemTags.BANNED);
         getOrCreateTagBuilder(ItemTags.DOES_NOT_RAIN).addTag(ItemTags.BANNED);
         getOrCreateTagBuilder(ItemTags.IGNORED_BY_MIDAS_TOUCH).add(Items.AIR);
-        getOrCreateTagBuilder(ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS).addOptionalTag(net.minecraft.registry.tag.ItemTags.PIGLIN_LOVED).add(Items.GOLD_NUGGET);
+        getOrCreateTagBuilder(ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS).addOptionalTag(net.minecraft.tags.ItemTags.PIGLIN_LOVED).add(Items.GOLD_NUGGET);
         getOrCreateTagBuilder(spawnEggsTag).add(
                 Items.ARMADILLO_SPAWN_EGG,
                 Items.ALLAY_SPAWN_EGG,

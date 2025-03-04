@@ -19,25 +19,25 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class LowFPSEvent extends AbstractTimedEvent {
 
-    MinecraftClient client;
+    Minecraft client;
     private int fps = 0;
 
     @Override
     public void initClient() {
-        client = MinecraftClient.getInstance();
-        fps = this.client.options.getMaxFps().getValue();
-        this.client.options.getMaxFps().setValue(10);
+        client = Minecraft.getInstance();
+        fps = this.client.options.framerateLimit().get();
+        this.client.options.framerateLimit().set(10);
     }
 
     @Override
     public void endClient() {
         super.endClient();
-        client = MinecraftClient.getInstance();
-        this.client.options.getMaxFps().setValue(fps);
+        client = Minecraft.getInstance();
+        this.client.options.framerateLimit().set(fps);
     }
 
     @Override

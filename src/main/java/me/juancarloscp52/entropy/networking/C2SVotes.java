@@ -1,19 +1,19 @@
 package me.juancarloscp52.entropy.networking;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record C2SVotes(int voteId, int[] votes) implements CustomPayload {
-    public static final PacketCodec<PacketByteBuf, C2SVotes> CODEC = PacketCodec.tuple(
-        PacketCodecs.VAR_INT, C2SVotes::voteId,
+public record C2SVotes(int voteId, int[] votes) implements CustomPacketPayload {
+    public static final StreamCodec<FriendlyByteBuf, C2SVotes> CODEC = StreamCodec.composite(
+        ByteBufCodecs.VAR_INT, C2SVotes::voteId,
         ExtraPacketCodecs.intArray(), C2SVotes::votes,
         C2SVotes::new
     );
 
     @Override
-    public Id<C2SVotes> getId() {
+    public Type<C2SVotes> type() {
         return NetworkingConstants.VOTES;
     }
 }

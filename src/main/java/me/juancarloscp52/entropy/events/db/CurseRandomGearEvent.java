@@ -3,20 +3,19 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class CurseRandomGearEvent extends AbstractInstantEvent {
 
-    private static ArrayList<RegistryKey<Enchantment>> _curses = new ArrayList<>() {
+    private static ArrayList<ResourceKey<Enchantment>> _curses = new ArrayList<>() {
         {
             add(Enchantments.BINDING_CURSE);
             add(Enchantments.VANISHING_CURSE);
@@ -28,32 +27,32 @@ public class CurseRandomGearEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
 
             var inventory = new ArrayList<ItemStack>();
-            inventory.addAll(serverPlayerEntity.getInventory().main);
+            inventory.addAll(serverPlayerEntity.getInventory().items);
             inventory.addAll(serverPlayerEntity.getInventory().armor);
-            inventory.addAll(serverPlayerEntity.getInventory().offHand);
+            inventory.addAll(serverPlayerEntity.getInventory().offhand);
 
             Collections.shuffle(inventory);
             Collections.shuffle(_curses);
 
             for (var itemStack : inventory) {
-                if(itemStack.isIn(ItemTags.DO_NOT_CURSE))
+                if(itemStack.is(ItemTags.DO_NOT_CURSE))
                     continue;
 
-                final Registry<Enchantment> enchantments = serverPlayerEntity.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+                final Registry<Enchantment> enchantments = serverPlayerEntity.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
                 for (var curseKey : _curses) {
-                    final RegistryEntry<Enchantment> curse = enchantments.getEntry(curseKey).get();
-                    if (curse.value().isAcceptableItem(itemStack)) {
+                    final Holder<Enchantment> curse = enchantments.getHolder(curseKey).get();
+                    if (curse.value().canEnchant(itemStack)) {
                         var hasCurse = false;
                         var existingEnchantments = itemStack.getEnchantments();
 
-                        for (var enchantment : existingEnchantments.getEnchantments())
+                        for (var enchantment : existingEnchantments.keySet())
                             if (enchantment == curse) {
                                 hasCurse = true;
                                 break;
                             }
 
                         if (!hasCurse) {
-                            itemStack.addEnchantment(curse, curse.value().getMaxLevel());
+                            itemStack.enchant(curse, curse.value().getMaxLevel());
                             return;
                         }
                     }

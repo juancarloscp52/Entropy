@@ -6,10 +6,10 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.client.EntropyClient;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -40,7 +40,7 @@ public class YoutubeApi {
     private static SecureRandom _rng = new SecureRandom();
     private static Gson _gson = new Gson();
 
-    public static void authorize(String clientId, String secret, BiConsumer<Boolean, MutableText> callback) {
+    public static void authorize(String clientId, String secret, BiConsumer<Boolean, MutableComponent> callback) {
 
         stopHttpServer();
 
@@ -108,7 +108,7 @@ public class YoutubeApi {
                         }
 
                         var res = "<html><body>"
-                                + I18n.translate(isSuccessful ? "entropy.options.integrations.youtube.returnToGame"
+                                + I18n.get(isSuccessful ? "entropy.options.integrations.youtube.returnToGame"
                                         : "entropy.options.integrations.youtube.error.auth")
                                 + "</body></html>";
                         var bytes = res.getBytes();
@@ -119,11 +119,11 @@ public class YoutubeApi {
                         outStream.close();
 
                         callback.accept(isSuccessful, isSuccessful ? null
-                                : Text.translatable("entropy.options.integrations.youtube.error.auth"));
+                                : Component.translatable("entropy.options.integrations.youtube.error.auth"));
                     } catch (IOException ex) {
                         LOGGER.error(ex);
 
-                        callback.accept(false, Text.translatable("entropy.options.integrations.youtube.error.auth"));
+                        callback.accept(false, Component.translatable("entropy.options.integrations.youtube.error.auth"));
                     } finally {
                         stopHttpServer();
                     }
@@ -146,13 +146,13 @@ public class YoutubeApi {
             var url = uri.build().toString();
 
             LOGGER.info("[Youtube authorization] Opening browser authorization");
-            Util.getOperatingSystem().open(url);
+            Util.getPlatform().openUri(url);
 
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage());
             stopHttpServer();
 
-            callback.accept(false, Text.translatable("entropy.options.integrations.youtube.error.auth"));
+            callback.accept(false, Component.translatable("entropy.options.integrations.youtube.error.auth"));
         }
     }
 

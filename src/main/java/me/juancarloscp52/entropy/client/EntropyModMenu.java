@@ -21,8 +21,8 @@ import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import me.juancarloscp52.entropy.client.Screens.EntropyConfigurationScreen;
 import me.juancarloscp52.entropy.client.Screens.EntropyErrorScreen;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.Text;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 
 
 public class EntropyModMenu implements ModMenuApi {
@@ -30,10 +30,10 @@ public class EntropyModMenu implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return (parent) -> {
-            if (MinecraftClient.getInstance().world == null) {
+            if (Minecraft.getInstance().level == null) {
                 return new EntropyConfigurationScreen(parent);
             } else {
-                return new EntropyErrorScreen(parent, Text.translatable("entropy.options.error"));
+                return new EntropyErrorScreen(parent, Component.translatable("entropy.options.error"));
             }
 
         };

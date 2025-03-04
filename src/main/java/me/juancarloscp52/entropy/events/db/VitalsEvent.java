@@ -26,8 +26,8 @@ public class VitalsEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.heal(serverPlayerEntity.getMaxHealth());
-            serverPlayerEntity.getHungerManager().setFoodLevel(20);
-            serverPlayerEntity.getHungerManager().setSaturationLevel(3);
+            serverPlayerEntity.getFoodData().setFoodLevel(20);
+            serverPlayerEntity.getFoodData().setSaturation(3);
         });
     }
 

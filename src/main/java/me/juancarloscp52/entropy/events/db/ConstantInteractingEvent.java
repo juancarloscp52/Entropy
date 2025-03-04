@@ -2,8 +2,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 
 public class ConstantInteractingEvent extends AbstractTimedEvent {
     private boolean hasScreenOpen = false;
@@ -20,24 +20,24 @@ public class ConstantInteractingEvent extends AbstractTimedEvent {
             return;
         }
 
-        MinecraftClient mc = MinecraftClient.getInstance();
+        Minecraft mc = Minecraft.getInstance();
         this.hadScreenOpenLastTick = this.hasScreenOpen;
-        this.hasScreenOpen = mc.currentScreen != null && !(mc.currentScreen instanceof AbstractInventoryScreen);
+        this.hasScreenOpen = mc.screen != null && !(mc.screen instanceof EffectRenderingInventoryScreen);
 
         //screen was closed
         if(this.hadScreenOpenLastTick && !this.hasScreenOpen) {
             //no automatic interaction for half a second after closing the screen
             this.afterScreenClosedCooldown = 10;
-            mc.options.useKey.setPressed(false);
+            mc.options.keyUse.setDown(false);
         }
         else
-            mc.options.useKey.setPressed(true);
+            mc.options.keyUse.setDown(true);
     }
 
     @Override
     public void endClient() {
         super.endClient();
-        MinecraftClient.getInstance().options.useKey.setPressed(false);
+        Minecraft.getInstance().options.keyUse.setDown(false);
     }
 
     @Override

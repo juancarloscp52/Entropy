@@ -3,10 +3,9 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.server.network.ServerPlayerEntity;
-
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -24,7 +23,7 @@ public class RainbowPathEvent extends AbstractTimedEvent {
         }
     };
 
-    private HashMap<ServerPlayerEntity, Integer> _playerStates = new HashMap<>();
+    private HashMap<ServerPlayer, Integer> _playerStates = new HashMap<>();
 
     @Override
     public void init() {
@@ -39,17 +38,17 @@ public class RainbowPathEvent extends AbstractTimedEvent {
             if(_playerStates.containsKey(player))
                 playerState = _playerStates.get(player);
 
-            var world = player.getWorld();
-            var blockPos = player.getBlockPos().add(0, -1, 0);
+            var world = player.level();
+            var blockPos = player.blockPosition().offset(0, -1, 0);
             var state = world.getBlockState(blockPos);
-            if(state.isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
+            if(state.is(BlockTags.NOT_REPLACED_BY_EVENTS))
                 continue;
 
             if(state.getBlock().equals(_rainbowBlocks.get(playerState % _rainbowBlocks.size())))
                 continue;
 
             playerState++;
-            world.setBlockState(blockPos, _rainbowBlocks.get(playerState % _rainbowBlocks.size()).getDefaultState());
+            world.setBlockAndUpdate(blockPos, _rainbowBlocks.get(playerState % _rainbowBlocks.size()).defaultBlockState());
             _playerStates.put(player, playerState);
         }
 

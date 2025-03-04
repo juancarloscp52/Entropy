@@ -23,17 +23,14 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget.FilterMode;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CyclingButtonWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
 import java.util.ArrayList;
 
 public class EntropyEventConfigurationScreen extends Screen {
@@ -43,49 +40,49 @@ public class EntropyEventConfigurationScreen extends Screen {
 
     Screen parent;
 
-    CyclingButtonWidget<EntropyEventListWidget.FilterMode> filterEvents;
+    CycleButton<EntropyEventListWidget.FilterMode> filterEvents;
 
     public EntropyEventConfigurationScreen(Screen parent) {
-        super(Text.translatable("entropy.options.disableEvents"));
+        super(Component.translatable("entropy.options.disableEvents"));
         this.parent = parent;
     }
 
     protected void init() {
-        list = addDrawableChild(new EntropyEventListWidget(MinecraftClient.getInstance(), this.width, this.height - 65 - 30, 0, 65, 25));
+        list = addRenderableWidget(new EntropyEventListWidget(Minecraft.getInstance(), this.width, this.height - 65 - 30, 0, 65, 25));
         list.addAllFromRegistry();
-        this.addSelectableChild(list);
+        this.addWidget(list);
         // Done button
-        ButtonWidget done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).position(this.width / 2 - 100, this.height - 26).width(200).build();
-        this.addDrawableChild(done);
+        Button done = Button.builder(CommonComponents.GUI_DONE, button -> onDone()).pos(this.width / 2 - 100, this.height - 26).width(200).build();
+        this.addRenderableWidget(done);
         // Check all button
-        ButtonWidget checkAll = ButtonWidget.builder(Text.translatable("entropy.options.checkAllEvents"), button -> onCheckAll()).position(this.width / 2 - 100 - 100, this.height - 26).width(100).build();
+        Button checkAll = Button.builder(Component.translatable("entropy.options.checkAllEvents"), button -> onCheckAll()).pos(this.width / 2 - 100 - 100, this.height - 26).width(100).build();
 
-        this.addDrawableChild(checkAll);
+        this.addRenderableWidget(checkAll);
         // Uncheck all button
-        ButtonWidget uncheckAll = ButtonWidget.builder(Text.translatable("entropy.options.uncheckAllEvents"), button -> onUncheckAll()).position(this.width / 2 - 100 + 200, this.height - 26).width(100).build();
-        this.addDrawableChild(uncheckAll);
+        Button uncheckAll = Button.builder(Component.translatable("entropy.options.uncheckAllEvents"), button -> onUncheckAll()).pos(this.width / 2 - 100 + 200, this.height - 26).width(100).build();
+        this.addRenderableWidget(uncheckAll);
 
         // Search box
-        Text searchText = Text.translatable("entropy.options.search");
-        TextFieldWidget search = new TextFieldWidget(MinecraftClient.getInstance().textRenderer, this.width / 2 - 170, 29, 200, 20, searchText);
-        search.setPlaceholder(searchText);
+        Component searchText = Component.translatable("entropy.options.search");
+        EditBox search = new EditBox(Minecraft.getInstance().font, this.width / 2 - 170, 29, 200, 20, searchText);
+        search.setHint(searchText);
         setInitialFocus(search);
-        search.setChangedListener(newText -> list.updateVisibleEntries(newText, filterEvents.getValue()));
-        this.addDrawableChild(search);
+        search.setResponder(newText -> list.updateVisibleEntries(newText, filterEvents.getValue()));
+        this.addRenderableWidget(search);
 
         // Filter events button
-        filterEvents = CyclingButtonWidget.<EntropyEventListWidget.FilterMode>builder(mode -> mode.text)
-                .initially(FilterMode.ALL)
-                .values(FilterMode.values())
-                .build(this.width / 2 + 40, 29, 120, 20, Text.translatable("entropy.options.filterEvents"), (button, newValue) -> list.updateVisibleEntries(search.getText(), newValue));
-        this.addDrawableChild(filterEvents);
+        filterEvents = CycleButton.<EntropyEventListWidget.FilterMode>builder(mode -> mode.text)
+                .withInitialValue(FilterMode.ALL)
+                .withValues(FilterMode.values())
+                .create(this.width / 2 + 40, 29, 120, 20, Component.translatable("entropy.options.filterEvents"), (button, newValue) -> list.updateVisibleEntries(search.getValue(), newValue));
+        this.addRenderableWidget(filterEvents);
     }
 
-    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
-        drawContext.drawTextWithShadow(textRenderer, this.title, this.width / 2 - textRenderer.getWidth(this.title) / 2, 12, 14737632);
+        drawContext.drawString(font, this.title, this.width / 2 - font.width(this.title) / 2, 12, 14737632);
         RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         EntropyConfigurationScreen.drawLogo(drawContext);
         RenderSystem.disableBlend();
     }
@@ -99,27 +96,27 @@ public class EntropyEventConfigurationScreen extends Screen {
     private void onDone() {
         settings.disabledEvents = new ArrayList<>();
         this.list.children().forEach(buttonEntry -> {
-            if (!buttonEntry.checkbox.isChecked())
+            if (!buttonEntry.checkbox.selected())
                 settings.disabledEvents.add(buttonEntry.eventInfo.id());
         });
         Entropy.getInstance().saveSettings();
-        close();
+        onClose();
     }
 
     private void onCheckAll() {
         this.list.children().forEach(buttonEntry -> {
-            if (buttonEntry.checkbox.visible && !buttonEntry.checkbox.isChecked()) {buttonEntry.checkbox.onPress();}
+            if (buttonEntry.checkbox.visible && !buttonEntry.checkbox.selected()) {buttonEntry.checkbox.onPress();}
         });
     }
 
     private void onUncheckAll() {
         this.list.children().forEach(buttonEntry -> {
-            if (buttonEntry.checkbox.visible && buttonEntry.checkbox.isChecked()) {buttonEntry.checkbox.onPress();}
+            if (buttonEntry.checkbox.visible && buttonEntry.checkbox.selected()) {buttonEntry.checkbox.onPress();}
         });
     }
 
     @Override
-    public void close() {
-        this.client.setScreen(this.parent);
+    public void onClose() {
+        this.minecraft.setScreen(this.parent);
     }
 }

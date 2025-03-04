@@ -18,37 +18,37 @@
 package me.juancarloscp52.entropy.networking;
 
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
 public class NetworkingConstants {
-    public static final CustomPayload.Id<C2SJoinHandshake> JOIN_HANDSHAKE = registerC2S("join-handshake", C2SJoinHandshake.CODEC);
-    public static final CustomPayload.Id<S2CJoinConfirm> JOIN_CONFIRM = registerS2C("join-confirm", S2CJoinConfirm.CODEC);
-    public static final CustomPayload.Id<S2CJoinSync> JOIN_SYNC = registerS2C("join-sync", S2CJoinSync.CODEC);
-    public static final CustomPayload.Id<S2CRemoveFirst> REMOVE_FIRST = registerS2C("remove-first", S2CRemoveFirst.CODEC);
-    public static final CustomPayload.Id<S2CRemoveEnded> REMOVE_ENDED = registerS2C("remove-ended", S2CRemoveEnded.CODEC);
-    public static final CustomPayload.Id<S2CAddEvent> ADD_EVENT = registerS2C("add-event", S2CAddEvent.CODEC);
-    public static final CustomPayload.Id<S2CEndEvent> END_EVENT = registerS2C("end-event", S2CEndEvent.CODEC);
-    public static final CustomPayload.Id<S2CTick> TICK = registerS2C("tick", S2CTick.CODEC);
-    public static final CustomPayload.Id<S2CNewPoll> NEW_POLL = registerS2C("new-poll", S2CNewPoll.CODEC);
-    public static final CustomPayload.Id<S2CPollStatus> POLL_STATUS = registerS2C("poll-status", S2CPollStatus.CODEC);
-    public static final CustomPayload.Id<C2SVotes> VOTES = registerC2S("votes", C2SVotes.CODEC);
+    public static final CustomPacketPayload.Type<C2SJoinHandshake> JOIN_HANDSHAKE = registerC2S("join-handshake", C2SJoinHandshake.CODEC);
+    public static final CustomPacketPayload.Type<S2CJoinConfirm> JOIN_CONFIRM = registerS2C("join-confirm", S2CJoinConfirm.CODEC);
+    public static final CustomPacketPayload.Type<S2CJoinSync> JOIN_SYNC = registerS2C("join-sync", S2CJoinSync.CODEC);
+    public static final CustomPacketPayload.Type<S2CRemoveFirst> REMOVE_FIRST = registerS2C("remove-first", S2CRemoveFirst.CODEC);
+    public static final CustomPacketPayload.Type<S2CRemoveEnded> REMOVE_ENDED = registerS2C("remove-ended", S2CRemoveEnded.CODEC);
+    public static final CustomPacketPayload.Type<S2CAddEvent> ADD_EVENT = registerS2C("add-event", S2CAddEvent.CODEC);
+    public static final CustomPacketPayload.Type<S2CEndEvent> END_EVENT = registerS2C("end-event", S2CEndEvent.CODEC);
+    public static final CustomPacketPayload.Type<S2CTick> TICK = registerS2C("tick", S2CTick.CODEC);
+    public static final CustomPacketPayload.Type<S2CNewPoll> NEW_POLL = registerS2C("new-poll", S2CNewPoll.CODEC);
+    public static final CustomPacketPayload.Type<S2CPollStatus> POLL_STATUS = registerS2C("poll-status", S2CPollStatus.CODEC);
+    public static final CustomPacketPayload.Type<C2SVotes> VOTES = registerC2S("votes", C2SVotes.CODEC);
 
-    private static <T extends CustomPayload> CustomPayload.Id<T> registerC2S(String name, PacketCodec<? super RegistryByteBuf, T> codec) {
-        final CustomPayload.Id<T> type = register(name);
+    private static <T extends CustomPacketPayload> CustomPacketPayload.Type<T> registerC2S(String name, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
+        final CustomPacketPayload.Type<T> type = register(name);
         PayloadTypeRegistry.playC2S().register(type, codec);
         return type;
     }
 
-    private static <T extends CustomPayload> CustomPayload.Id<T> registerS2C(String name, PacketCodec<? super RegistryByteBuf, T> codec) {
-        final CustomPayload.Id<T> type = register(name);
+    private static <T extends CustomPacketPayload> CustomPacketPayload.Type<T> registerS2C(String name, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
+        final CustomPacketPayload.Type<T> type = register(name);
         PayloadTypeRegistry.playS2C().register(type, codec);
         return type;
     }
 
-    private static <T extends CustomPayload> CustomPayload.Id<T> register(final String name) {
-        return new CustomPayload.Id<>(Identifier.of("entropy", name));
+    private static <T extends CustomPacketPayload> CustomPacketPayload.Type<T> register(final String name) {
+        return new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("entropy", name));
     }
 }

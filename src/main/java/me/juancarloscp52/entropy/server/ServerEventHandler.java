@@ -28,8 +28,7 @@ import me.juancarloscp52.entropy.networking.S2CTick;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-
+import net.minecraft.server.level.ServerPlayer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -126,7 +125,7 @@ public class ServerEventHandler {
     }
     
     public boolean runEvent(Event event) {
-        if(event != null && EventRegistry.doesWorldHaveRequiredFeatures(EventRegistry.getEventId(event), server.getOverworld())) {
+        if(event != null && EventRegistry.doesWorldHaveRequiredFeatures(EventRegistry.getEventId(event), server.overworld())) {
             // Start the event and add it to the list.
             event.init();
             currentEvents.add(event);
@@ -157,7 +156,7 @@ public class ServerEventHandler {
         currentEvents.forEach(Event::end);
     }
 
-    public void endChaosPlayer(ServerPlayerEntity player) {
+    public void endChaosPlayer(ServerPlayer player) {
         currentEvents.forEach(event -> {
             if (!event.hasEnded())
                 event.endPlayer(player);
@@ -169,7 +168,7 @@ public class ServerEventHandler {
     }
 
 
-    public List<ServerPlayerEntity> getActivePlayers(){
+    public List<ServerPlayer> getActivePlayers(){
         return PlayerLookup.all(Entropy.getInstance().eventHandler.server).stream().filter(serverPlayerEntity -> !serverPlayerEntity.isSpectator()).collect(Collectors.toList());
     }
 }

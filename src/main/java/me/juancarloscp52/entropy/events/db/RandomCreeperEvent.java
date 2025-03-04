@@ -19,13 +19,12 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.network.packet.s2c.play.PlaySoundS2CPacket;
-import net.minecraft.registry.Registries;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import java.util.Random;
 
 public class RandomCreeperEvent extends AbstractTimedEvent {
@@ -34,8 +33,8 @@ public class RandomCreeperEvent extends AbstractTimedEvent {
         if(tickCount%70==0){
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 if(new Random().nextInt(10)>=6)
-                    EntityType.CREEPER.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos().north(), SpawnReason.SPAWN_EGG);
-                serverPlayerEntity.networkHandler.sendPacket(new PlaySoundS2CPacket(Registries.SOUND_EVENT.getEntry(SoundEvents.ENTITY_CREEPER_PRIMED), SoundCategory.HOSTILE, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 1f, 0.5f, net.minecraft.util.math.random.Random.create().nextLong()));
+                    EntityType.CREEPER.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().north(), MobSpawnType.SPAWN_EGG);
+                serverPlayerEntity.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.CREEPER_PRIMED), SoundSource.HOSTILE, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 1f, 0.5f, net.minecraft.util.RandomSource.create().nextLong()));
             });
         }
         super.tick();

@@ -19,40 +19,39 @@ package me.juancarloscp52.entropy.events.db;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
 import java.util.Random;
 
 public class HerobrineEvent extends AbstractTimedEvent {
 
-    private static final Identifier VIGNETTE_TEXTURE = Identifier.of("entropy", "textures/vignette.png");
+    private static final ResourceLocation VIGNETTE_TEXTURE = ResourceLocation.fromNamespaceAndPath("entropy", "textures/vignette.png");
     Random random;
-    MinecraftClient client;
+    Minecraft client;
 
     public HerobrineEvent() {
         random = new Random();
@@ -62,9 +61,9 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
-        client = MinecraftClient.getInstance();
+        client = Minecraft.getInstance();
         Variables.customFog = true;
-        client.getSoundManager().pauseAll();
+        client.getSoundManager().pause();
 
     }
 
@@ -72,15 +71,15 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void endClient() {
         Variables.customFog = false;
-        client = MinecraftClient.getInstance();
-        client.getSoundManager().stopSounds(EntropyClient.herobrineAmbienceID, SoundCategory.BLOCKS);
-        client.getSoundManager().resumeAll();
+        client = Minecraft.getInstance();
+        client.getSoundManager().stop(EntropyClient.herobrineAmbienceID, SoundSource.BLOCKS);
+        client.getSoundManager().resume();
         super.endClient();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
+    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
         renderVignetteOverlay();
     }
 
@@ -89,7 +88,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
         if (getTickCount() % 20 == 0)
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 if (random.nextInt(100) >= 95)
-                    serverPlayerEntity.damage(serverPlayerEntity.getDamageSources().generic(), 1);
+                    serverPlayerEntity.hurt(serverPlayerEntity.damageSources().generic(), 1);
             });
 
         super.tick();
@@ -98,13 +97,13 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void tickClient() {
-        PlayerEntity player = client.player;
+        Player player = client.player;
         if (getTickCount() % 10 == 0) {
-            playStepSound(getLandingPos(), player.getEntityWorld().getBlockState(getLandingPos()));
+            playStepSound(getLandingPos(), player.getCommandSenderWorld().getBlockState(getLandingPos()));
         }
 
         if (getTickCount() % 70 == 0) {
-            player.getEntityWorld().playSound(player, player.getBlockPos(), EntropyClient.herobrineAmbience, SoundCategory.BLOCKS, 1, 0.9f);
+            player.getCommandSenderWorld().playSound(player, player.blockPosition(), EntropyClient.herobrineAmbience, SoundSource.BLOCKS, 1, 0.9f);
         }
 
         super.tickClient();
@@ -118,16 +117,16 @@ public class HerobrineEvent extends AbstractTimedEvent {
 
     @Environment(EnvType.CLIENT)
     private BlockPos getLandingPos() {
-        PlayerEntity player = client.player;
-        int i = MathHelper.floor(player.getPos().x);
-        int j = MathHelper.floor(player.getPos().y - 0.20000000298023224D);
-        int k = MathHelper.floor(player.getPos().z);
+        Player player = client.player;
+        int i = Mth.floor(player.position().x);
+        int j = Mth.floor(player.position().y - 0.20000000298023224D);
+        int k = Mth.floor(player.position().z);
         BlockPos blockPos = new BlockPos(i, j, k);
-        if (player.getEntityWorld().getBlockState(blockPos).isAir()) {
-            BlockPos blockPos2 = blockPos.down();
-            BlockState blockState = player.getEntityWorld().getBlockState(blockPos2);
+        if (player.getCommandSenderWorld().getBlockState(blockPos).isAir()) {
+            BlockPos blockPos2 = blockPos.below();
+            BlockState blockState = player.getCommandSenderWorld().getBlockState(blockPos2);
             Block block = blockState.getBlock();
-            if (block.getDefaultState().isIn(BlockTags.FENCES) || block.getDefaultState().isIn(BlockTags.WALLS) || block instanceof FenceGateBlock) {
+            if (block.defaultBlockState().is(BlockTags.FENCES) || block.defaultBlockState().is(BlockTags.WALLS) || block instanceof FenceGateBlock) {
                 return blockPos2;
             }
         }
@@ -136,10 +135,10 @@ public class HerobrineEvent extends AbstractTimedEvent {
 
     @Environment(EnvType.CLIENT)
     private void playStepSound(BlockPos pos, BlockState state) {
-        PlayerEntity player = client.player;
-        if (!state.isLiquid()) {
-            BlockState blockState = player.getEntityWorld().getBlockState(pos.up());
-            BlockSoundGroup blockSoundGroup = blockState.isOf(Blocks.SNOW) ? blockState.getSoundGroup() : state.getSoundGroup();
+        Player player = client.player;
+        if (!state.liquid()) {
+            BlockState blockState = player.getCommandSenderWorld().getBlockState(pos.above());
+            SoundType blockSoundGroup = blockState.is(Blocks.SNOW) ? blockState.getSoundType() : state.getSoundType();
             player.playSound(blockSoundGroup.getStepSound(), blockSoundGroup.getVolume() * 0.25F, blockSoundGroup.getPitch());
         }
     }
@@ -149,20 +148,20 @@ public class HerobrineEvent extends AbstractTimedEvent {
         RenderSystem.enableBlend();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
-        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
-        float sin = 0.75f + MathHelper.abs(0.25f * MathHelper.sin(getTickCount() * 0.0625f));
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        float sin = 0.75f + Mth.abs(0.25f * Mth.sin(getTickCount() * 0.0625f));
         RenderSystem.setShaderColor(sin, sin, sin, 1.0f);
-        int scaledHeight = client.getWindow().getScaledHeight();
-        int scaledWidth = client.getWindow().getScaledWidth();
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+        int scaledHeight = client.getWindow().getGuiScaledHeight();
+        int scaledWidth = client.getWindow().getGuiScaledWidth();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, VIGNETTE_TEXTURE);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(0.0F, scaledHeight, -90.0F).texture(0.0F, 1.0F);
-        bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0F).texture(1.0F, 1.0F);
-        bufferBuilder.vertex(scaledWidth, 0.0F, -90.0F).texture(1.0F, 0.0F);
-        bufferBuilder.vertex(0.0F, 0.0F, -90.0F).texture(0.0F, 0.0F);
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        Tesselator tessellator = Tesselator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferBuilder.addVertex(0.0F, scaledHeight, -90.0F).setUv(0.0F, 1.0F);
+        bufferBuilder.addVertex(scaledWidth, scaledHeight, -90.0F).setUv(1.0F, 1.0F);
+        bufferBuilder.addVertex(scaledWidth, 0.0F, -90.0F).setUv(1.0F, 0.0F);
+        bufferBuilder.addVertex(0.0F, 0.0F, -90.0F).setUv(0.0F, 0.0F);
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

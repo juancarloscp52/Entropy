@@ -17,18 +17,18 @@
 
 package me.juancarloscp52.entropy.client.Screens.Widgets;
 
-import net.minecraft.client.gui.widget.SliderWidget;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.network.chat.Component;
 
 
-public class EntropySliderWidget extends SliderWidget {
+public class EntropySliderWidget extends AbstractSliderButton {
 
     String translationKey;
     MessageSupplier messageSupplier;
     ValueUpdater valueUpdater;
 
     public EntropySliderWidget(int x, int y, int width, int height, String translationKey, double value, MessageSupplier messageSupplier, ValueUpdater valueUpdater) {
-        super(x, y, width, height, Text.translatable(translationKey), value);
+        super(x, y, width, height, Component.translatable(translationKey), value);
         this.translationKey=translationKey;
         this.messageSupplier=messageSupplier;
         this.valueUpdater=valueUpdater;
@@ -39,7 +39,7 @@ public class EntropySliderWidget extends SliderWidget {
     }
 
     @Override
-    public Text getMessage() {
+    public Component getMessage() {
         return this.messageSupplier.updateMessage(this,this.translationKey,this.value);
     }
 
@@ -49,7 +49,7 @@ public class EntropySliderWidget extends SliderWidget {
     }
 
     public interface MessageSupplier {
-        Text updateMessage(EntropySliderWidget slider,String translationKey, double value);
+        Component updateMessage(EntropySliderWidget slider,String translationKey, double value);
     }
 
     public interface ValueUpdater {

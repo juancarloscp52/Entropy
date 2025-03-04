@@ -19,10 +19,9 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import java.util.Random;
 
 public class ArrowRainEvent extends AbstractTimedEvent {
@@ -39,8 +38,8 @@ public class ArrowRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 10 == 0) {
             for (int i = 0; i < 10; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                    ArrowEntity arrow = new ArrowEntity(serverPlayerEntity.getWorld(), serverPlayerEntity.getX() + (random.nextInt(50) - 25), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(50) - 25), new ItemStack(Items.ARROW), null);
-                    serverPlayerEntity.getWorld().spawnEntity(arrow);
+                    Arrow arrow = new Arrow(serverPlayerEntity.level(), serverPlayerEntity.getX() + (random.nextInt(50) - 25), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(50) - 25), new ItemStack(Items.ARROW), null);
+                    serverPlayerEntity.level().addFreshEntity(arrow);
                 });
             }
         }

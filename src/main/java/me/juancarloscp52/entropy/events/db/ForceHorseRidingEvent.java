@@ -3,18 +3,17 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.passive.HorseEntity;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundCategory;
-
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ForceHorseRidingEvent extends AbstractTimedEvent {
-    private List<HorseEntity> spawnedHorses = new ArrayList<>();
+    private List<Horse> spawnedHorses = new ArrayList<>();
 
     @Override
     public void initClient() {
@@ -24,12 +23,12 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
-            spawnedHorses.add(EntityType.HORSE.spawn(player.getServerWorld(), horse -> {
-                horse.bondWithPlayer(player);
-                horse.saddle(Items.SADDLE.getDefaultStack(), SoundCategory.NEUTRAL);
+            spawnedHorses.add(EntityType.HORSE.spawn(player.serverLevel(), horse -> {
+                horse.tameWithName(player);
+                horse.equipSaddle(Items.SADDLE.getDefaultInstance(), SoundSource.NEUTRAL);
                 horse.setInvulnerable(true);
                 player.startRiding(horse);
-            }, player.getBlockPos(), SpawnReason.SPAWN_EGG, false, false));
+            }, player.blockPosition(), MobSpawnType.SPAWN_EGG, false, false));
         });
         Variables.forceRiding = true;
     }

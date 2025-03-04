@@ -19,12 +19,11 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LightningEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Heightmap;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 import java.util.Random;
 
 public class IntenseThunderStormEvent extends AbstractTimedEvent {
@@ -34,7 +33,7 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
     @Override
     public void init() {
         random = new Random();
-        Entropy.getInstance().eventHandler.server.getOverworld().setWeather(0, this.getDuration(), true, true);
+        Entropy.getInstance().eventHandler.server.overworld().setWeatherParameters(0, this.getDuration(), true, true);
     }
 
     @Override
@@ -42,9 +41,9 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
 
         if (getTickCount() % 10 == 0) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(serverPlayerEntity.getWorld());
-                lightningEntity.refreshPositionAfterTeleport(Vec3d.ofCenter(serverPlayerEntity.getWorld().getTopPosition(Heightmap.Type.MOTION_BLOCKING, new BlockPos(serverPlayerEntity.getBlockX() + (random.nextInt(50) - 25), serverPlayerEntity.getBlockY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getBlockZ() + (random.nextInt(60) - 25)))));
-                serverPlayerEntity.getWorld().spawnEntity(lightningEntity);
+                LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverPlayerEntity.level());
+                lightningEntity.moveTo(Vec3.atCenterOf(serverPlayerEntity.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, new BlockPos(serverPlayerEntity.getBlockX() + (random.nextInt(50) - 25), serverPlayerEntity.getBlockY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getBlockZ() + (random.nextInt(60) - 25)))));
+                serverPlayerEntity.level().addFreshEntity(lightningEntity);
             });
         }
         super.tick();

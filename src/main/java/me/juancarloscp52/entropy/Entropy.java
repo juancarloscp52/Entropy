@@ -39,15 +39,15 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.command.CommandSource;
-import net.minecraft.particle.ParticleType;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,8 +66,8 @@ public class Entropy implements ModInitializer {
     public EntropySettings settings;
     public static final ParticleType<ConstantColorDustParticleEffect> CONSTANT_COLOR_DUST = FabricParticleTypes.complex(false, ConstantColorDustParticleEffect.CODEC, ConstantColorDustParticleEffect.PACKET_CODEC);
 
-    private static final DynamicCommandExceptionType ERROR_INVALID_ON_CLIENT = new DynamicCommandExceptionType(eventId -> Text.translatable("entropy.command.invalidClientSide", eventId));
-    private static final DynamicCommandExceptionType ERROR_UNKNOWN_EVENT = new DynamicCommandExceptionType(eventId -> Text.translatable("entropy.command.unknownEvent", eventId));
+    private static final DynamicCommandExceptionType ERROR_INVALID_ON_CLIENT = new DynamicCommandExceptionType(eventId -> Component.translatable("entropy.command.invalidClientSide", eventId));
+    private static final DynamicCommandExceptionType ERROR_UNKNOWN_EVENT = new DynamicCommandExceptionType(eventId -> Component.translatable("entropy.command.unknownEvent", eventId));
 
     public static Entropy getInstance() {
         return instance;
@@ -79,13 +79,13 @@ public class Entropy implements ModInitializer {
         loadSettings();
         LOGGER.info("Entropy Started");
         EventRegistry.register();
-        Registry.register(Registries.PARTICLE_TYPE, Identifier.of("entropy", "constant_color_dust"), CONSTANT_COLOR_DUST);
+        Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath("entropy", "constant_color_dust"), CONSTANT_COLOR_DUST);
 
         ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (handshake, context) -> {
             String version = FabricLoader.getInstance().getModContainer("entropy").get().getMetadata().getVersion().getFriendlyString();
             if (version.equals(handshake.clientVersion())) {
                 final S2CJoinConfirm confirm = new S2CJoinConfirm(settings.timerDuration, settings.baseEventDuration, settings.integrations);
-                final ServerPlayerEntity player = context.player();
+                final ServerPlayer player = context.player();
                 ServerPlayNetworking.send(player, confirm);
                 if (PlayerLookup.all(context.server()).size() == 1) {
                     eventHandler = new ServerEventHandler();
@@ -106,8 +106,8 @@ public class Entropy implements ModInitializer {
                     eventHandler.voting.sendNewPollToPlayer(player);
                 }
             } else {
-                LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...", context.player().getName(), context.player().getUuidAsString(), handshake.clientVersion(), version));
-                context.player().networkHandler.disconnect(Text.literal(String.format("Client entropy version (%s) does not match server version (%s).", handshake.clientVersion(), version)));
+                LOGGER.warn(String.format("Player %s (%s) entropy version (%s) does not match server entropy version (%s). Kicking...", context.player().getName(), context.player().getStringUUID(), handshake.clientVersion(), version));
+                context.player().connection.disconnect(Component.literal(String.format("Client entropy version (%s) does not match server version (%s).", handshake.clientVersion(), version)));
             }
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
@@ -135,9 +135,9 @@ public class Entropy implements ModInitializer {
                 eventHandler.endChaos();
         });
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>literal("entropy")
-                    .requires(source -> source.hasPermissionLevel(3))
-                    .then(CommandManager.literal("clearPastEvents")
+            dispatcher.register(LiteralArgumentBuilder.<CommandSourceStack>literal("entropy")
+                    .requires(source -> source.hasPermission(3))
+                    .then(Commands.literal("clearPastEvents")
                             .executes(source -> {
                                 ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
@@ -145,13 +145,13 @@ public class Entropy implements ModInitializer {
                                 PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, S2CRemoveEnded.INSTANCE));
                                 return 0;
                             }))
-                    .then(CommandManager.literal("run")
-                            .then(CommandManager.argument("event", StringArgumentType.word())
+                    .then(Commands.literal("run")
+                            .then(Commands.argument("event", StringArgumentType.word())
                                     .suggests((context, builder) -> {
                                         Set<String> events = new TreeSet<>(EventRegistry.entropyEvents.keySet());
 
-                                        events.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, context.getSource().getWorld()));
-                                        return CommandSource.suggestMatching(events, builder);
+                                        events.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, context.getSource().getLevel()));
+                                        return SharedSuggestionProvider.suggest(events, builder);
                                     })
                                     .executes(source -> {
                                         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;

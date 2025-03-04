@@ -18,8 +18,8 @@
 package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
-import net.minecraft.client.input.Input;
-import net.minecraft.client.input.KeyboardInput;
+import net.minecraft.client.player.Input;
+import net.minecraft.client.player.KeyboardInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,21 +31,21 @@ public class KeyboardInputMixin extends Input {
     @Inject(method = "tick", at = @At("TAIL"))
     private void applyEvents(boolean slowDown, float f, CallbackInfo ci) {
         if (Variables.forceForward) {
-            this.pressingForward = true;
-            this.movementForward = 1;
+            this.up = true;
+            this.forwardImpulse = 1;
         } else if (Variables.onlySidewaysMovement) {
-            this.movementForward = 0;
-            this.pressingForward = false;
-            this.pressingBack = false;
+            this.forwardImpulse = 0;
+            this.up = false;
+            this.down = false;
         } else if (Variables.onlyBackwardsMovement) {
-            this.pressingForward = false;
-            this.pressingLeft = false;
-            this.pressingRight = false;
-            this.movementSideways = 0;
-            this.movementForward = this.movementForward <= 0 ? this.movementForward : 0;
+            this.up = false;
+            this.left = false;
+            this.right = false;
+            this.leftImpulse = 0;
+            this.forwardImpulse = this.forwardImpulse <= 0 ? this.forwardImpulse : 0;
         } else if (Variables.invertedControls) {
-            this.movementSideways = -movementSideways;
-            this.movementForward = -movementForward;
+            this.leftImpulse = -leftImpulse;
+            this.forwardImpulse = -forwardImpulse;
         }
         if (Variables.forceJump) {
             this.jumping = true;
@@ -53,7 +53,7 @@ public class KeyboardInputMixin extends Input {
             this.jumping = false;
         }
         if (Variables.forceSneak) {
-            this.sneaking = true;
+            this.shiftKeyDown = true;
         }
 
     }

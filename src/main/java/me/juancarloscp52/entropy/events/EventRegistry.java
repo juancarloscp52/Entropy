@@ -21,10 +21,9 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.db.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resource.featuretoggle.FeatureFlags;
-import net.minecraft.resource.featuretoggle.FeatureSet;
-import net.minecraft.world.World;
-
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.level.Level;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -34,7 +33,7 @@ public class EventRegistry {
     private static final Random random = new Random();
     //Store constructors for all Entropy Events.
     public static HashMap<String, Supplier<Event>> entropyEvents;
-    public static HashMap<String, FeatureSet> requiredFeatures;
+    public static HashMap<String, FeatureFlagSet> requiredFeatures;
 
     public static void register() {
         entropyEvents = new HashMap<>();
@@ -234,7 +233,7 @@ public class EventRegistry {
         if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
             eventKeys.remove("StutteringEvent");
 
-        eventKeys.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, Entropy.getInstance().eventHandler.server.getOverworld()));
+        eventKeys.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, Entropy.getInstance().eventHandler.server.overworld()));
         return getRandomEvent(eventKeys);
     }
 
@@ -284,7 +283,7 @@ public class EventRegistry {
         return "entropy.events." + eventID;
     }
 
-    public static boolean doesWorldHaveRequiredFeatures(String event, World world) {
-        return requiredFeatures.getOrDefault(event, FeatureFlags.VANILLA_FEATURES).isSubsetOf(world.getEnabledFeatures());
+    public static boolean doesWorldHaveRequiredFeatures(String event, Level world) {
+        return requiredFeatures.getOrDefault(event, FeatureFlags.VANILLA_SET).isSubsetOf(world.enabledFeatures());
     }
 }

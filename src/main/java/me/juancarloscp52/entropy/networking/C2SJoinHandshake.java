@@ -1,18 +1,18 @@
 package me.juancarloscp52.entropy.networking;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record C2SJoinHandshake(String clientVersion) implements CustomPayload {
-    public static final PacketCodec<PacketByteBuf, C2SJoinHandshake> CODEC = PacketCodec.tuple(
-        PacketCodecs.string(32767), C2SJoinHandshake::clientVersion,
+public record C2SJoinHandshake(String clientVersion) implements CustomPacketPayload {
+    public static final StreamCodec<FriendlyByteBuf, C2SJoinHandshake> CODEC = StreamCodec.composite(
+        ByteBufCodecs.stringUtf8(32767), C2SJoinHandshake::clientVersion,
         C2SJoinHandshake::new
     );
 
     @Override
-    public Id<C2SJoinHandshake> getId() {
+    public Type<C2SJoinHandshake> type() {
         return NetworkingConstants.JOIN_HANDSHAKE;
     }
 }

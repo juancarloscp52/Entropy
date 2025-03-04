@@ -18,7 +18,7 @@
 package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
-import net.minecraft.client.Mouse;
+import net.minecraft.client.MouseHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,24 +26,24 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(Mouse.class)
+@Mixin(MouseHandler.class)
 public class MouseMixin {
 
     @Shadow
-    private double cursorDeltaX;
+    private double accumulatedDX;
 
     @Shadow
-    private double cursorDeltaY;
+    private double accumulatedDY;
 
-    @Inject(method = "updateMouse", at = @At("HEAD"))
+    @Inject(method = "turnPlayer", at = @At("HEAD"))
     private void driftMouse(CallbackInfo ci) {
         if (Variables.mouseDrifting) {
-            this.cursorDeltaX += Variables.mouseDriftingSignX * 1.5d;
-            this.cursorDeltaY += Variables.mouseDriftingSignY * 0.1d;
+            this.accumulatedDX += Variables.mouseDriftingSignX * 1.5d;
+            this.accumulatedDY += Variables.mouseDriftingSignY * 0.1d;
         }
     }
 
-    @ModifyArg(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"), index = 0)
+    @ModifyArg(method = "turnPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;turn(DD)V"), index = 0)
     public double invertX(double x) {
         if(Variables.invertedControls)
             return -x;
@@ -51,7 +51,7 @@ public class MouseMixin {
         return x;
     }
 
-    @ModifyArg(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;changeLookDirection(DD)V"), index = 1)
+    @ModifyArg(method = "turnPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/LocalPlayer;turn(DD)V"), index = 1)
     public double invertY(double y) {
         if(Variables.invertedControls)
             return -y;

@@ -19,23 +19,23 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.passive.HorseEntity;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.item.Items;
 
 public class HorseEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            HorseEntity horse = EntityType.HORSE.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
+            Horse horse = EntityType.HORSE.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition(), MobSpawnType.SPAWN_EGG);
             if(horse==null)
                 return;
-            horse.saddle(Items.SADDLE.getDefaultStack(), SoundCategory.NEUTRAL);
-            horse.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(2);
+            horse.equipSaddle(Items.SADDLE.getDefaultInstance(), SoundSource.NEUTRAL);
+            horse.getAttribute(Attributes.MAX_HEALTH).setBaseValue(2);
             horse.setHealth(2);
         });
     }

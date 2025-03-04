@@ -19,21 +19,21 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.util.Mth;
 
 public class VerticalScreenEvent extends AbstractTimedEvent {
 
-    MinecraftClient client;
+    Minecraft client;
 
     @Override
-    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
-        client = MinecraftClient.getInstance();
-        int borderWidth = MathHelper.floor(client.getWindow().getScaledWidth() * 0.341f);
-        drawContext.fill(0, 0, borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
-        drawContext.fill(client.getWindow().getScaledWidth(), 0, client.getWindow().getScaledWidth() - borderWidth, client.getWindow().getScaledHeight(), 255 << 24);
+    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
+        client = Minecraft.getInstance();
+        int borderWidth = Mth.floor(client.getWindow().getGuiScaledWidth() * 0.341f);
+        drawContext.fill(0, 0, borderWidth, client.getWindow().getGuiScaledHeight(), 255 << 24);
+        drawContext.fill(client.getWindow().getGuiScaledWidth(), 0, client.getWindow().getGuiScaledWidth() - borderWidth, client.getWindow().getGuiScaledHeight(), 255 << 24);
     }
 
     @Override

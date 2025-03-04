@@ -9,16 +9,16 @@ public class BulldozeEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
-            var world = player.getWorld();
-            var playerBlockPos = player.getBlockPos();
+            var world = player.level();
+            var playerBlockPos = player.blockPosition();
             for (int ix = -1; ix <= 1; ix++) {
                 for (int iy = 0; iy <= 2; iy++) {
                     for (int iz = -1; iz <= 1; iz++) {
-                        var blockPos = playerBlockPos.add(ix, iy, iz);
+                        var blockPos = playerBlockPos.offset(ix, iy, iz);
                         var state = world.getBlockState(blockPos);
-                        if (state.isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
+                        if (state.is(BlockTags.NOT_REPLACED_BY_EVENTS))
                             continue;
-                        world.breakBlock(blockPos, true);
+                        world.destroyBlock(blockPos, true);
                     }
                 }
             }

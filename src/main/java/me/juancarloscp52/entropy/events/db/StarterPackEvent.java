@@ -19,8 +19,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class StarterPackEvent extends AbstractInstantEvent {
 
@@ -28,23 +28,23 @@ public class StarterPackEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
-            if(!serverPlayerEntity.getInventory().insertStack(pickaxe))
-                serverPlayerEntity.dropStack(pickaxe);
+            if(!serverPlayerEntity.getInventory().add(pickaxe))
+                serverPlayerEntity.spawnAtLocation(pickaxe);
             ItemStack axe = new ItemStack(Items.IRON_AXE);
-            if(!serverPlayerEntity.getInventory().insertStack(axe))
-                serverPlayerEntity.dropStack(axe);
+            if(!serverPlayerEntity.getInventory().add(axe))
+                serverPlayerEntity.spawnAtLocation(axe);
             ItemStack shovel = new ItemStack(Items.IRON_SHOVEL);
-            if(!serverPlayerEntity.getInventory().insertStack(shovel))
-                serverPlayerEntity.dropStack(shovel);
+            if(!serverPlayerEntity.getInventory().add(shovel))
+                serverPlayerEntity.spawnAtLocation(shovel);
             ItemStack sword = new ItemStack(Items.IRON_SWORD);
-            if(!serverPlayerEntity.getInventory().insertStack(sword))
-                serverPlayerEntity.dropStack(sword);
+            if(!serverPlayerEntity.getInventory().add(sword))
+                serverPlayerEntity.spawnAtLocation(sword);
             ItemStack bread = new ItemStack(Items.BREAD,10);
-            if(!serverPlayerEntity.getInventory().insertStack(bread))
-                serverPlayerEntity.dropStack(bread);
+            if(!serverPlayerEntity.getInventory().add(bread))
+                serverPlayerEntity.spawnAtLocation(bread);
             ItemStack torch = new ItemStack(Items.TORCH,10);
-            if(!serverPlayerEntity.getInventory().insertStack(torch))
-                serverPlayerEntity.dropStack(torch);
+            if(!serverPlayerEntity.getInventory().add(torch))
+                serverPlayerEntity.spawnAtLocation(torch);
         });
     }
 }

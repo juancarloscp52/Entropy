@@ -19,25 +19,25 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class LowRenderDistanceEvent extends AbstractTimedEvent {
 
-    MinecraftClient client;
+    Minecraft client;
     private int viewDistance = 0;
 
     @Override
     public void initClient() {
-        client = MinecraftClient.getInstance();
-        viewDistance = this.client.options.getViewDistance().getValue();
-        this.client.options.getViewDistance().setValue(2);
+        client = Minecraft.getInstance();
+        viewDistance = this.client.options.renderDistance().get();
+        this.client.options.renderDistance().set(2);
     }
 
     @Override
     public void endClient() {
         super.endClient();
-        client = MinecraftClient.getInstance();
-        this.client.options.getViewDistance().setValue(viewDistance);
+        client = Minecraft.getInstance();
+        this.client.options.renderDistance().set(viewDistance);
     }
 
     @Override

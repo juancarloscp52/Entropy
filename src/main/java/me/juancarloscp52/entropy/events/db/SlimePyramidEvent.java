@@ -6,8 +6,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.mob.SlimeEntity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Slime;
 
 public class SlimePyramidEvent extends AbstractInstantEvent {
 
@@ -23,18 +23,18 @@ public class SlimePyramidEvent extends AbstractInstantEvent {
             var addX = cos * 5;
             var addY = sin * 5;
 
-            var slime = new SlimeEntity(EntityType.SLIME, player.getWorld());
+            var slime = new Slime(EntityType.SLIME, player.level());
             slime.setSize(slimeSize, true);
-            slime.setPosition(player.getPos().add(addX, 0, addY));
-            player.getWorld().spawnEntity(slime);
+            slime.setPos(player.position().add(addX, 0, addY));
+            player.level().addFreshEntity(slime);
 
             while (slimeSize > 1) {
                 slimeSize--;
 
-                var slime2 = new SlimeEntity(EntityType.SLIME, player.getWorld());
+                var slime2 = new Slime(EntityType.SLIME, player.level());
                 slime2.setSize(slimeSize, true);
-                slime2.setPosition(player.getPos().add(addX, 0, addY));
-                player.getWorld().spawnEntity(slime2);
+                slime2.setPos(player.position().add(addX, 0, addY));
+                player.level().addFreshEntity(slime2);
 
                 slime2.startRiding(slime, true);
                 slime = slime2;

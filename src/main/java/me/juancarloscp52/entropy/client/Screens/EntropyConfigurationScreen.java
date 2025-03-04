@@ -19,38 +19,38 @@ package me.juancarloscp52.entropy.client.Screens;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.EntropySettings.UIStyle;
 import me.juancarloscp52.entropy.EntropySettings.VotingMode;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropySliderWidget;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.tooltip.Tooltip;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CyclingButtonWidget;
-import net.minecraft.client.gui.widget.SliderWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractSliderButton;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.CycleButton;
+import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 
 
 public class EntropyConfigurationScreen extends Screen {
-    private static final Identifier LOGO = Identifier.of("entropy", "textures/logo-with-text.png");
+    private static final ResourceLocation LOGO = ResourceLocation.fromNamespaceAndPath("entropy", "textures/logo-with-text.png");
     private static final double MAX_DURATION = 3300D; //165 seconds + 15 seconds minimum for a total range of 15s-180s
     EntropySettings settings = Entropy.getInstance().settings;
 
-    SliderWidget eventDurationWidget;
-    SliderWidget timerDurationWidget;
-    ButtonWidget done;
+    AbstractSliderButton eventDurationWidget;
+    AbstractSliderButton timerDurationWidget;
+    Button done;
 
     Screen parent;
 
     public EntropyConfigurationScreen(Screen parent) {
-        super(Text.translatable("entropy.title"));
+        super(Component.translatable("entropy.title"));
         this.parent = parent;
     }
 
@@ -58,71 +58,71 @@ public class EntropyConfigurationScreen extends Screen {
         int buttonX = this.width / 2 - 100;
         int buttonWidth = 200;
 
-        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/MAX_DURATION,(slider, translationKey, value) -> Text.translatable("entropy.options.eventDuration", MathHelper.floor((value*(MAX_DURATION/20D))+15)), value -> settings.baseEventDuration = (short) ((MAX_DURATION*value)+300));
-        this.addDrawableChild(eventDurationWidget);
+        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/MAX_DURATION,(slider, translationKey, value) -> Component.translatable("entropy.options.eventDuration", Mth.floor((value*(MAX_DURATION/20D))+15)), value -> settings.baseEventDuration = (short) ((MAX_DURATION*value)+300));
+        this.addRenderableWidget(eventDurationWidget);
 
-        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/MAX_DURATION,(slider, translationKey, value) -> Text.translatable("entropy.options.timerDuration", MathHelper.floor((value*(MAX_DURATION/20D))+15)),value -> settings.timerDuration = (short) ((MAX_DURATION*value)+300));
-        this.addDrawableChild(timerDurationWidget);
+        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/MAX_DURATION,(slider, translationKey, value) -> Component.translatable("entropy.options.timerDuration", Mth.floor((value*(MAX_DURATION/20D))+15)),value -> settings.timerDuration = (short) ((MAX_DURATION*value)+300));
+        this.addRenderableWidget(timerDurationWidget);
 
 
-        ButtonWidget eventSettings = ButtonWidget.builder(Text.translatable("entropy.options.disableEvents"), button -> this.client.setScreen(new EntropyEventConfigurationScreen(this))).position(buttonX, 75).width(buttonWidth).build();
-        this.addDrawableChild(eventSettings);
+        Button eventSettings = Button.builder(Component.translatable("entropy.options.disableEvents"), button -> this.minecraft.setScreen(new EntropyEventConfigurationScreen(this))).pos(buttonX, 75).width(buttonWidth).build();
+        this.addRenderableWidget(eventSettings);
 
-        ButtonWidget integrationSettings = ButtonWidget.builder(Text.translatable("entropy.options.integrations.title"), button -> this.client.setScreen(new EntropyIntegrationsScreen(this))).width(buttonWidth).position(buttonX, 100).build();
-        this.addDrawableChild(integrationSettings);
+        Button integrationSettings = Button.builder(Component.translatable("entropy.options.integrations.title"), button -> this.minecraft.setScreen(new EntropyIntegrationsScreen(this))).width(buttonWidth).pos(buttonX, 100).build();
+        this.addRenderableWidget(integrationSettings);
 
-        CyclingButtonWidget<VotingMode> votingModeButton = CyclingButtonWidget.<VotingMode>builder(votingMode -> votingMode.text)
-                .values(VotingMode.values())
-                .initially(settings.votingMode)
-                .tooltip(votingMode -> Tooltip.of(votingMode.tooltip))
-                .build(buttonX, 125, buttonWidth, 20, Text.translatable("entropy.options.votingMode"), (button, newValue) -> settings.votingMode = newValue);
-        this.addDrawableChild(votingModeButton);
+        CycleButton<VotingMode> votingModeButton = CycleButton.<VotingMode>builder(votingMode -> votingMode.text)
+                .withValues(VotingMode.values())
+                .withInitialValue(settings.votingMode)
+                .withTooltip(votingMode -> Tooltip.create(votingMode.tooltip))
+                .create(buttonX, 125, buttonWidth, 20, Component.translatable("entropy.options.votingMode"), (button, newValue) -> settings.votingMode = newValue);
+        this.addRenderableWidget(votingModeButton);
 
         // UI style button
-        CyclingButtonWidget<UIStyle> uiStyleButton = CyclingButtonWidget.<UIStyle>builder(uiStyle -> uiStyle.text)
-                .values(UIStyle.values())
-                .initially(settings.UIstyle)
-                .tooltip(uiStyle -> Tooltip.of(uiStyle.tooltip))
-                .build(buttonX, 150, buttonWidth, 20, Text.translatable("entropy.options.ui"), (button, newValue) -> settings.UIstyle = newValue);
-        this.addDrawableChild(uiStyleButton);
+        CycleButton<UIStyle> uiStyleButton = CycleButton.<UIStyle>builder(uiStyle -> uiStyle.text)
+                .withValues(UIStyle.values())
+                .withInitialValue(settings.UIstyle)
+                .withTooltip(uiStyle -> Tooltip.create(uiStyle.tooltip))
+                .create(buttonX, 150, buttonWidth, 20, Component.translatable("entropy.options.ui"), (button, newValue) -> settings.UIstyle = newValue);
+        this.addRenderableWidget(uiStyleButton);
 
-        this.addDrawableChild(CyclingButtonWidget.<Boolean>builder(bool -> Text.translatable("entropy.options." + (bool ? "enabled" : "disabled")))
-                .values(true, false)
-                .initially(settings.accessibilityMode)
-                .tooltip(bool -> Tooltip.of(Text.translatable("entropy.options.accessibilityMode.explanation")))
-                .build(buttonX, 175, buttonWidth, 20, Text.translatable("entropy.options.accessibilityMode"), (button, newValue) -> settings.accessibilityMode = newValue));
+        this.addRenderableWidget(CycleButton.<Boolean>builder(bool -> Component.translatable("entropy.options." + (bool ? "enabled" : "disabled")))
+                .withValues(true, false)
+                .withInitialValue(settings.accessibilityMode)
+                .withTooltip(bool -> Tooltip.create(Component.translatable("entropy.options.accessibilityMode.explanation")))
+                .create(buttonX, 175, buttonWidth, 20, Component.translatable("entropy.options.accessibilityMode"), (button, newValue) -> settings.accessibilityMode = newValue));
 
-        this.done = ButtonWidget.builder(ScreenTexts.DONE, button -> onDone()).width(buttonWidth).position(this.width / 2 - 100, this.height - 30).build();
-        this.addDrawableChild(done);
+        this.done = Button.builder(CommonComponents.GUI_DONE, button -> onDone()).width(buttonWidth).pos(this.width / 2 - 100, this.height - 30).build();
+        this.addRenderableWidget(done);
     }
 
-    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
 
         drawLogo(drawContext);
-        Text title = Text.translatable("entropy.options.title");
-        drawContext.drawTextWithShadow(this.textRenderer, title, this.width / 2 - textRenderer.getWidth(title)/2, 10, 16777215);
+        Component title = Component.translatable("entropy.options.title");
+        drawContext.drawString(this.font, title, this.width / 2 - font.width(title)/2, 10, 16777215);
     }
 
-    public static void drawLogo(final DrawContext drawContext) {
+    public static void drawLogo(final GuiGraphics drawContext) {
         RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-        MatrixStack matrices = drawContext.getMatrices();
-        matrices.push();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        PoseStack matrices = drawContext.pose();
+        matrices.pushPose();
         matrices.scale(0.2f, 0.2f, 0.2f);
-        drawContext.drawTexture(LOGO, 0, 0, 0, 0, 0, 188, 187, 256, 256);
-        matrices.pop();
+        drawContext.blit(LOGO, 0, 0, 0, 0, 0, 188, 187, 256, 256);
+        matrices.popPose();
         RenderSystem.disableBlend();
     }
 
     private void onDone() {
         EntropyClient.getInstance().saveSettings();
         Entropy.getInstance().saveSettings();
-        close();
+        onClose();
     }
 
     @Override
-    public void close() {
-        this.client.setScreen(this.parent);
+    public void onClose() {
+        this.minecraft.setScreen(this.parent);
     }
 }

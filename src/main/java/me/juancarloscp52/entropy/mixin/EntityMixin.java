@@ -19,13 +19,13 @@ package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.Variables;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,7 +37,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EntityMixin {
 
     @Shadow
-    public World world;
+    public Level level;
 
     @Shadow
     private Entity vehicle;
@@ -51,19 +51,19 @@ public abstract class EntityMixin {
     @Shadow
     public abstract double getZ();
 
-    @Inject(method = "Lnet/minecraft/entity/Entity;startRiding(Lnet/minecraft/entity/Entity;Z)Z", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At("HEAD"), cancellable = true)
     private void preventMounting(Entity entityToMount, boolean force, CallbackInfoReturnable<Boolean> cir) {
         if(Variables.forceRiding && vehicle != null)
             cir.setReturnValue(false);
     }
 
-    @Inject(method = "dismountVehicle", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "removeVehicle", at = @At("HEAD"), cancellable = true)
     private void preventDismounting(CallbackInfo ci) {
         if(Variables.forceRiding)
             ci.cancel();
     }
 
-    @Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At("HEAD"), cancellable = true)
     private void randomDrops(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir) {
         if (Variables.noDrops) {
             cir.setReturnValue(null);
@@ -73,13 +73,13 @@ public abstract class EntityMixin {
             if (stack.isEmpty()) {
                 cir.setReturnValue(null);
                 cir.cancel();
-            } else if (this.world.isClient) {
+            } else if (this.level.isClientSide) {
                 cir.setReturnValue(null);
                 cir.cancel();
             } else {
-                ItemEntity itemEntity = new ItemEntity(this.world, this.getX(), this.getY() + (double) yOffset, this.getZ(), computeItemStack(stack));
-                itemEntity.setToDefaultPickupDelay();
-                this.world.spawnEntity(itemEntity);
+                ItemEntity itemEntity = new ItemEntity(this.level, this.getX(), this.getY() + (double) yOffset, this.getZ(), computeItemStack(stack));
+                itemEntity.setDefaultPickUpDelay();
+                this.level.addFreshEntity(itemEntity);
                 cir.setReturnValue(itemEntity);
                 cir.cancel();
             }
@@ -98,11 +98,11 @@ public abstract class EntityMixin {
     }
 
     private Item getRandomItem() {
-        Item item = Registries.ITEM.getRandom(Random.create()).get().value();
-        if (item.getRegistryEntry().isIn(ItemTags.DOES_NOT_DROP_RANDOMLY)) {
+        Item item = BuiltInRegistries.ITEM.getRandom(RandomSource.create()).get().value();
+        if (item.builtInRegistryHolder().is(ItemTags.DOES_NOT_DROP_RANDOMLY)) {
             item = getRandomItem();
         }
-        return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem();
+        return item.requiredFeatures().isSubsetOf(level.enabledFeatures()) ? item : getRandomItem();
     }
 
 }

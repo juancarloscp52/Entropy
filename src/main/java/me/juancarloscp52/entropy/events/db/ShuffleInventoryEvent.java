@@ -5,9 +5,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.collection.DefaultedList;
-
+import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -17,11 +16,11 @@ public class ShuffleInventoryEvent extends AbstractInstantEvent {
     public void init() {
         for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
 
-            var inventories = new ArrayList<DefaultedList<ItemStack>>();
+            var inventories = new ArrayList<NonNullList<ItemStack>>();
             var itemStacks = new ArrayList<ItemStack>();
 
-            var main = player.getInventory().main;
-            var offhand = player.getInventory().offHand;
+            var main = player.getInventory().items;
+            var offhand = player.getInventory().offhand;
             var armor = player.getInventory().armor;
 
             for(var itemStack : main)
@@ -42,7 +41,7 @@ public class ShuffleInventoryEvent extends AbstractInstantEvent {
 
             Collections.shuffle(itemStacks);
 
-            DefaultedList<ItemStack> lastInventory = null;
+            NonNullList<ItemStack> lastInventory = null;
             int index = 0;
             for(int i = 0; i < itemStacks.size(); i++)
             {

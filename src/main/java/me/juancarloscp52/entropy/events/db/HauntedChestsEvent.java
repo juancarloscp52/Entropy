@@ -4,15 +4,14 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.WorldChunk;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.chunk.LevelChunk;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +24,9 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
         super.tickClient();
 
         if(tickCount % 20 == 0) {
-            PlayerEntity player = MinecraftClient.getInstance().player;
-            BlockPos.Mutable pos = player.getBlockPos().mutableCopy();
-            World world = player.getWorld();
+            Player player = Minecraft.getInstance().player;
+            BlockPos.MutableBlockPos pos = player.blockPosition().mutable();
+            Level world = player.level();
             boolean chestOpened = false;
             boolean chestClosed = false;
 
@@ -35,17 +34,17 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
                 for(int z = -16; z <= 16; z += 16) {
                     pos.set(pos.getX() + x, pos.getY(), pos.getZ() + z);
 
-                    WorldChunk chunk = world.getWorldChunk(pos);
+                    LevelChunk chunk = world.getChunkAt(pos);
 
-                    for(BlockEntity be : chunk.getBlockEntityPositions().stream().map(chunk::getBlockEntity).toList()) {
+                    for(BlockEntity be : chunk.getBlockEntitiesPos().stream().map(chunk::getBlockEntity).toList()) {
                         if(player.getRandom().nextInt(10) >= 7 && be instanceof ChestBlockEntity chest) {
                             if(openedChests.contains(chest)) {
-                                chest.onClose(player);
+                                chest.stopOpen(player);
                                 openedChests.remove(chest);
                                 chestClosed = true;
                             }
                             else {
-                                chest.onOpen(player);
+                                chest.startOpen(player);
                                 openedChests.add(chest);
                                 chestOpened = true;
                             }
@@ -55,10 +54,10 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
             }
 
             if(chestOpened)
-                player.playSound(SoundEvents.BLOCK_CHEST_OPEN, 1f, 1f);
+                player.playSound(SoundEvents.CHEST_OPEN, 1f, 1f);
 
             if(chestClosed)
-                player.playSound(SoundEvents.BLOCK_CHEST_CLOSE, 1f, 1f);
+                player.playSound(SoundEvents.CHEST_CLOSE, 1f, 1f);
         }
     }
 
@@ -66,12 +65,12 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void endClient() {
         super.endClient();
-        PlayerEntity player = MinecraftClient.getInstance().player;
+        Player player = Minecraft.getInstance().player;
 
         if(openedChests.size() > 0) {
-            openedChests.forEach(chest -> chest.onClose(player));
+            openedChests.forEach(chest -> chest.stopOpen(player));
             openedChests.clear();
-            player.playSound(SoundEvents.BLOCK_CHEST_CLOSE, 1f, 1f);
+            player.playSound(SoundEvents.CHEST_CLOSE, 1f, 1f);
         }
     }
 }

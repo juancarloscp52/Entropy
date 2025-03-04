@@ -27,7 +27,7 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
     @Override
     public void init() {
         server = Entropy.getInstance().eventHandler.server;
-        server.getCommandManager().executeWithPrefix(server.getCommandSource(), "gamerule sendCommandFeedback false");
+        server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "gamerule sendCommandFeedback false");
 
     }
 
@@ -37,7 +37,7 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
             super.tick();
             return;
         }
-        server.getCommandManager().executeWithPrefix(server.getCommandSource(), "execute as @e[type=!minecraft:player,type=!minecraft:falling_block] at @s run tp @s ~ ~ ~ "+rotation+" 0");
+        server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "execute as @e[type=!minecraft:player,type=!minecraft:falling_block] at @s run tp @s ~ ~ ~ "+rotation+" 0");
         rotation+=45;
         if(rotation>360)
             rotation=0;
@@ -46,7 +46,7 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
 
     @Override
     public void end() {
-        server.getCommandManager().executeWithPrefix(server.getCommandSource(), "gamerule sendCommandFeedback true");
+        server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "gamerule sendCommandFeedback true");
         super.end();
     }
 

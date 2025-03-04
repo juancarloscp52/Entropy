@@ -21,8 +21,8 @@ import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.util.FastColor;
 import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.cap.EnableCapHandler;
@@ -128,7 +128,7 @@ public class TwitchIntegrations extends ListenerAdapter implements Integrations 
         int altOffset = voteID % 2 == 0 ? 4 : 0;
         StringBuilder stringBuilder = new StringBuilder("Current poll:");
         for (int i = 0; i < events.size(); i++)
-            stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, I18n.translate(events.get(i))));
+            stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, I18n.get(events.get(i))));
 
         ircChatBot.sendIRC().message("#" + settings.channel.toLowerCase(), "/me [Entropy Bot] " + stringBuilder);
     }
@@ -140,6 +140,6 @@ public class TwitchIntegrations extends ListenerAdapter implements Integrations 
 
     @Override
     public int getColor(int alpha) {
-        return ColorHelper.Argb.getArgb(alpha,145, 70, 255);
+        return FastColor.ARGB32.color(alpha,145, 70, 255);
     }
 }
