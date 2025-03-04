@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(MultiPlayerGameMode.class)
-public interface ClientPlayerInteractionManagerAccessor {
+public interface MultiPlayerGameModeAccessor {
 
     @Accessor
     public void setIsDestroying(boolean breakingBlock);

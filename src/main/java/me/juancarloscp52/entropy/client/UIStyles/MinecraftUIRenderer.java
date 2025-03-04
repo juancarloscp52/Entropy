@@ -1,6 +1,6 @@
 package me.juancarloscp52.entropy.client.UIStyles;
 
-import me.juancarloscp52.entropy.mixin.BossBarHudAccessor;
+import me.juancarloscp52.entropy.mixin.BossHealthOverlayAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.LerpingBossEvent;
@@ -15,7 +15,7 @@ public class MinecraftUIRenderer implements UIRenderer {
     public MinecraftUIRenderer() {
         UUID uuid = Mth.createInsecureUUID();
         this.bar=new LerpingBossEvent(uuid,Component.translatable("entropy.title"), 0, BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.NOTCHED_20,false,false, false);
-        ((BossBarHudAccessor) Minecraft.getInstance().gui.getBossOverlay()).getEvents().put(uuid,bar);
+        ((BossHealthOverlayAccessor) Minecraft.getInstance().gui.getBossOverlay()).getEvents().put(uuid,bar);
     }
 
     @Override

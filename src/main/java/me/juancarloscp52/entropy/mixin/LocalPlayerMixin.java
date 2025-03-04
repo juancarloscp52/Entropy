@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LocalPlayer.class)
-public class ClientPlayerEntityMixin {
+public class LocalPlayerMixin {
 
     @Inject(method = "isAutoJumpEnabled", at=@At("RETURN"), cancellable = true)
     private void changeAutoJump(CallbackInfoReturnable<Boolean> cir){

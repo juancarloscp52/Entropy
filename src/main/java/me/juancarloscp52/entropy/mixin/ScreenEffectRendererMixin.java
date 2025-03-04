@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ScreenEffectRenderer.class)
-public class InGameOverlayRendererMixin {
+public class ScreenEffectRendererMixin {
     @Inject(method = "renderFire", at = @At("HEAD"), cancellable = true)
     private static void preventRenderingFireOverlay(CallbackInfo ci) {
         if(Variables.fireEvent && Entropy.getInstance().settings.accessibilityMode)
