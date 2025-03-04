@@ -3,10 +3,9 @@ package me.juancarloscp52.entropy.events.db;
 import org.joml.Quaterniond;
 import org.joml.Vector3f;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
+import me.juancarloscp52.entropy.server.ConstantColorDustParticleOptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 
@@ -30,7 +29,7 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
                 rotation *= -1;
 
             relativePosition.rotateLocalY(rotation);
-            entity.level().addParticle(new ConstantColorDustParticleEffect(color, 1.0F),
+            entity.level().addParticle(new ConstantColorDustParticleOptions(color, 1.0F),
                     entity.getX() + relativePosition.x,
                     entity.getY() + 0.5D + relativePosition.y + yOffset,
                     entity.getZ() + relativePosition.z,
