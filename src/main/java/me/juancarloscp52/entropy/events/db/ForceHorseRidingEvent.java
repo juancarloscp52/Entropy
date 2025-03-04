@@ -3,7 +3,6 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
@@ -45,13 +44,5 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
         super.end();
         Variables.forceRiding = false;
         spawnedHorses.forEach(Entity::discard);
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {}
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
     }
 }

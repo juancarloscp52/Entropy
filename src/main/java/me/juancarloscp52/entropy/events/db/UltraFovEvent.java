@@ -20,7 +20,6 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 
 public class UltraFovEvent extends AbstractTimedEvent {
 
@@ -36,22 +35,7 @@ public class UltraFovEvent extends AbstractTimedEvent {
         Variables.forcedFov = false;
         Variables.ignoreVariableFov = false;
         Variables.fov = 0;
-        this.hasEnded = true;
-    }
-
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
+        super.endClient();
     }
 
     @Override

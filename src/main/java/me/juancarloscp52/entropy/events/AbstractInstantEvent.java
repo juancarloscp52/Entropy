@@ -39,10 +39,6 @@ public abstract class AbstractInstantEvent implements Event {
     }
 
     @Environment(EnvType.CLIENT)
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Environment(EnvType.CLIENT)
     public void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y) {
         if(Variables.doNotShowEvents)
             return;

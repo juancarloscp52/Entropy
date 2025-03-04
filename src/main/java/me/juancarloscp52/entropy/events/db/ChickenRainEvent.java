@@ -19,7 +19,6 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 
@@ -32,15 +31,6 @@ public class ChickenRainEvent extends AbstractTimedEvent {
     @Override
     public void init() {
         random = new Random();
-    }
-
-    @Override
-    public void end() {
-        this.hasEnded = true;
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override
@@ -58,10 +48,5 @@ public class ChickenRainEvent extends AbstractTimedEvent {
     @Override
     public String type() {
         return "rain";
-    }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
     }
 }

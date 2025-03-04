@@ -28,15 +28,6 @@ public class VerticalScreenEvent extends AbstractTimedEvent {
     MinecraftClient client;
 
     @Override
-    public void initClient() {
-    }
-
-    @Override
-    public void endClient() {
-        this.hasEnded = true;
-    }
-
-    @Override
     public void render(DrawContext drawContext, float tickdelta) {
         client = MinecraftClient.getInstance();
         int borderWidth = MathHelper.floor(client.getWindow().getScaledWidth() * 0.341f);
@@ -49,13 +40,4 @@ public class VerticalScreenEvent extends AbstractTimedEvent {
         return "screenAspect";
     }
 
-    @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }

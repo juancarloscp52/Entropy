@@ -17,14 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.server.network.ServerPlayerEntity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HalfHeartedEvent extends AbstractTimedEvent {
     private Map<ServerPlayerEntity,Float> previousHealth = new HashMap<>();
@@ -46,17 +45,13 @@ public class HalfHeartedEvent extends AbstractTimedEvent {
             serverPlayerEntity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20);
             serverPlayerEntity.setHealth(previousHealth.get(serverPlayerEntity));
         });
-        this.hasEnded = true;
+        super.end();
     }
 
     @Override
     public void endPlayer(ServerPlayerEntity player) {
         player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).setBaseValue(20);
         player.setHealth(previousHealth.get(player));
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
     }
 
     @Override
@@ -82,6 +77,6 @@ public class HalfHeartedEvent extends AbstractTimedEvent {
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration * 1.25);
+        return (short) (super.getDuration() * 1.25);
     }
 }

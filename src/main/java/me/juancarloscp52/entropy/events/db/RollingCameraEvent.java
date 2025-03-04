@@ -21,7 +21,7 @@ public class RollingCameraEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.cameraRoll = 0f;
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override
@@ -33,11 +33,6 @@ public class RollingCameraEvent extends AbstractTimedEvent {
     @Override
     public String type() {
         return "camera";
-    }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
     }
 
     @Override

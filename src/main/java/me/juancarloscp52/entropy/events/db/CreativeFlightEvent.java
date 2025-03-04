@@ -5,7 +5,6 @@ import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class CreativeFlightEvent extends AbstractTimedEvent {
@@ -56,10 +55,7 @@ public class CreativeFlightEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(DrawContext drawContext, float tickdelta) {}
-
-    @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration*0.75);
+        return (short)(super.getDuration()*0.75);
     }
 }

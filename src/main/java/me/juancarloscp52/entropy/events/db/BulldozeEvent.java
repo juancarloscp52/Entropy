@@ -3,7 +3,6 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 
 public class BulldozeEvent extends AbstractTimedEvent {
 
@@ -29,12 +28,8 @@ public class BulldozeEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration * .5);
+        return (short) (super.getDuration() * .5);
     }
 
 }

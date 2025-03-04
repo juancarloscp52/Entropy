@@ -17,10 +17,8 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 
 import java.util.Random;
 
@@ -40,20 +38,11 @@ public class MouseDriftingEvent extends AbstractTimedEvent {
         Variables.mouseDrifting = false;
         Variables.mouseDriftingSignX = 0;
         Variables.mouseDriftingSignY = 0;
-        this.hasEnded = true;
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
+        super.endClient();
     }
 
     @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration * 1.5);
+        return (short) (super.getDuration() * 1.5);
     }
 }

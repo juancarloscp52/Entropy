@@ -17,7 +17,6 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.client.Screens.EntropyCreditsScreen;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
@@ -44,7 +43,7 @@ public class RollCreditsEvent extends AbstractTimedEvent {
             client.currentScreen.close();
             this.client.mouse.lockCursor();
         }
-        this.hasEnded = true;
+        super.endClient();
     }
 
     @Override
@@ -68,6 +67,6 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     }
     @Override
     public short getDuration() {
-        return (short)(Entropy.getInstance().settings.baseEventDuration*0.75);
+        return (short)(super.getDuration()*0.75);
     }
 }

@@ -18,7 +18,6 @@
 package me.juancarloscp52.entropy.events.db;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -44,30 +43,13 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void endClient() {
-        this.hasEnded = true;
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
     public void render(DrawContext drawContext, float tickdelta) {
         renderVignetteOverlay();
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void tickClient() {
-        super.tickClient();
-    }
-
-    @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration * 1.25);
+        return (short) (super.getDuration() * 1.25);
     }
 
     @Environment(EnvType.CLIENT)

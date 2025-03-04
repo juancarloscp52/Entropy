@@ -9,7 +9,6 @@ import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.mixin.FallingBlockEntityAccessor;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -87,17 +86,7 @@ public class GravitySightEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
-
-    @Override
     public String type() {
         return "sight";
     }
-
 }

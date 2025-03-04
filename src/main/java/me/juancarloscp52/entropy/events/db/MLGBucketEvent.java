@@ -7,7 +7,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -80,13 +79,5 @@ public class MLGBucketEvent extends AbstractTimedEvent {
             positions.forEach(pos -> world.setBlockState(pos, Blocks.AIR.getDefaultState()));
             positions.clear();
         });
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {}
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
     }
 }

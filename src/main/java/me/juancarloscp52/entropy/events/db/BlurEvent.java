@@ -17,10 +17,8 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 
 public class BlurEvent extends AbstractTimedEvent {
 
@@ -32,11 +30,7 @@ public class BlurEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.blur = false;
-        this.hasEnded = true;
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
+        super.endClient();
     }
 
     @Override
@@ -45,12 +39,7 @@ public class BlurEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
     public short getDuration() {
-        return (short) (Entropy.getInstance().settings.baseEventDuration*1.5f);
+        return (short) (super.getDuration()*1.5f);
     }
 }

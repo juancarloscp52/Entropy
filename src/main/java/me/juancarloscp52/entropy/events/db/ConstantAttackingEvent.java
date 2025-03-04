@@ -5,7 +5,6 @@ import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.mixin.ClientPlayerInteractionManagerAccessor;
 import me.juancarloscp52.entropy.mixin.MinecraftClientAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Hand;
 
 public class ConstantAttackingEvent extends AbstractTimedEvent {
@@ -35,7 +34,7 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         cancelBlockBreaking(MinecraftClient.getInstance());
-        this.hasEnded = true;
+        super.endClient();
     }
 
     private void cancelBlockBreaking(MinecraftClient mc) {
@@ -44,16 +43,7 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Override
     public String type() {
         return "attack";
-    }
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
     }
 }

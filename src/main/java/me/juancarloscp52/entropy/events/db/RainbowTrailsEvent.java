@@ -8,7 +8,6 @@ import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 
 public class RainbowTrailsEvent extends AbstractTimedEvent {
@@ -37,14 +36,6 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
                     entity.getZ() + relativePosition.z,
                     0.0D, 0.0D, 0.0D);
         });
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {}
-
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
     }
 
     private Vector3f HSBtoRGB(float hue, float saturation, float brightness) {

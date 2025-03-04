@@ -20,7 +20,6 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.gui.DrawContext;
 
 public class OnlySidewaysEvent extends AbstractTimedEvent {
 
@@ -32,16 +31,7 @@ public class OnlySidewaysEvent extends AbstractTimedEvent {
     @Override
     public void endClient() {
         Variables.onlySidewaysMovement = false;
-        this.hasEnded = true;
-    }
-
-    @Override
-    public void render(DrawContext drawContext, float tickdelta) {
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
+        super.endClient();
     }
 
     @Override
@@ -49,8 +39,4 @@ public class OnlySidewaysEvent extends AbstractTimedEvent {
         return "movement";
     }
 
-    @Override
-    public short getDuration() {
-        return Entropy.getInstance().settings.baseEventDuration;
-    }
 }
