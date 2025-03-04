@@ -20,20 +20,20 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class ItemRainEvent extends AbstractTimedEvent {
 
-    Random random;
+    RandomSource random;
 
     @Override
     public void init() {
-        random = Random.create();
+        random = RandomSource.create();
     }
 
     @Override
@@ -46,20 +46,20 @@ public class ItemRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 15 == 0) {
             for (int i = 0; i < 5; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                    World world = serverPlayerEntity.getWorld();
+                    Level world = serverPlayerEntity.level();
                     ItemEntity item = new ItemEntity(world, serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), new ItemStack(getRandomItem(world), 1));
-                    serverPlayerEntity.getWorld().spawnEntity(item);
+                    serverPlayerEntity.level().addFreshEntity(item);
                 });
             }
         }
         super.tick();
     }
 
-    private Item getRandomItem(World world) {
-        Item item = Registries.ITEM.getRandom(Random.create()).get().value();
-        if (item.getRegistryEntry().isIn(ItemTags.DOES_NOT_RAIN)) {
+    private Item getRandomItem(Level world) {
+        Item item = BuiltInRegistries.ITEM.getRandom(RandomSource.create()).get().value();
+        if (item.builtInRegistryHolder().is(ItemTags.DOES_NOT_RAIN)) {
             item = getRandomItem(world);
         }
-        return item.getRequiredFeatures().isSubsetOf(world.getEnabledFeatures()) ? item : getRandomItem(world);
+        return item.requiredFeatures().isSubsetOf(world.enabledFeatures()) ? item : getRandomItem(world);
     }
 }

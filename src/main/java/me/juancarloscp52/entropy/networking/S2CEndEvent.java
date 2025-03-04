@@ -1,18 +1,18 @@
 package me.juancarloscp52.entropy.networking;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record S2CEndEvent(byte index) implements CustomPayload {
-    public static final PacketCodec<PacketByteBuf, S2CEndEvent> CODEC = PacketCodec.tuple(
-        PacketCodecs.BYTE, S2CEndEvent::index,
+public record S2CEndEvent(byte index) implements CustomPacketPayload {
+    public static final StreamCodec<FriendlyByteBuf, S2CEndEvent> CODEC = StreamCodec.composite(
+        ByteBufCodecs.BYTE, S2CEndEvent::index,
         S2CEndEvent::new
     );
 
     @Override
-    public Id<S2CEndEvent> getId() {
+    public Type<S2CEndEvent> type() {
         return NetworkingConstants.END_EVENT;
     }
 }

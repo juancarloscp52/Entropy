@@ -20,11 +20,11 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.block.Blocks;
 
 public class FireEvent extends AbstractTimedEvent {
 
@@ -43,20 +43,20 @@ public class FireEvent extends AbstractTimedEvent {
     public void tick() {
         if(tickCount%5==0){
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                ServerWorld world = serverPlayerEntity.getServerWorld();
-                BlockPos pos = serverPlayerEntity.getBlockPos();
-                if(world.getBlockState(pos).isReplaceable()){
-                    world.setBlockState(pos,Blocks.FIRE.getDefaultState());
+                ServerLevel world = serverPlayerEntity.serverLevel();
+                BlockPos pos = serverPlayerEntity.blockPosition();
+                if(world.getBlockState(pos).canBeReplaced()){
+                    world.setBlockAndUpdate(pos,Blocks.FIRE.defaultBlockState());
                 }
-                pos = serverPlayerEntity.getBlockPos().up();
-                if(world.getBlockState(pos).isReplaceable()){
-                    world.setBlockState(pos,Blocks.FIRE.getDefaultState());
+                pos = serverPlayerEntity.blockPosition().above();
+                if(world.getBlockState(pos).canBeReplaced()){
+                    world.setBlockAndUpdate(pos,Blocks.FIRE.defaultBlockState());
                 }
-                pos = serverPlayerEntity.getBlockPos().down();
-                if(world.getBlockState(pos).isReplaceable()){
-                    world.setBlockState(pos,Blocks.FIRE.getDefaultState());
+                pos = serverPlayerEntity.blockPosition().below();
+                if(world.getBlockState(pos).canBeReplaced()){
+                    world.setBlockAndUpdate(pos,Blocks.FIRE.defaultBlockState());
                 }
-                serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,20,1));
+                serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,20,1));
             });
         }
         super.tick();

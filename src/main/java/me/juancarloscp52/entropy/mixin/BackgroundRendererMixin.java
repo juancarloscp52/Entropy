@@ -19,18 +19,18 @@ package me.juancarloscp52.entropy.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.entropy.Variables;
-import net.minecraft.client.render.BackgroundRenderer;
-import net.minecraft.client.render.Camera;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.FogRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BackgroundRenderer.class)
+@Mixin(FogRenderer.class)
 public class BackgroundRendererMixin {
 
-    @Inject(method = "applyFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogEnd(F)V",remap = false))
-    private static void changeFogDistance(Camera camera, BackgroundRenderer.FogType fogType, float viewDistance, boolean thickFog, float tickDelta, CallbackInfo ci) {
+    @Inject(method = "setupFog", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderFogEnd(F)V",remap = false))
+    private static void changeFogDistance(Camera camera, FogRenderer.FogMode fogType, float viewDistance, boolean thickFog, float tickDelta, CallbackInfo ci) {
         if (Variables.customFog) {
             RenderSystem.setShaderFogStart(-150.0F);
             RenderSystem.setShaderFogEnd(-100.0F);

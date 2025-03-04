@@ -18,34 +18,34 @@
 package me.juancarloscp52.entropy.events.db;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.ResourceLocation;
 
 public class PumpkinViewEvent extends AbstractTimedEvent {
 
-    private static final Identifier PUMKIN_TEXTURE = Identifier.ofVanilla("textures/misc/pumpkinblur.png");
-    MinecraftClient client;
+    private static final ResourceLocation PUMKIN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/misc/pumpkinblur.png");
+    Minecraft client;
 
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
-        client = MinecraftClient.getInstance();
+        client = Minecraft.getInstance();
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
+    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
         renderVignetteOverlay();
     }
 
@@ -57,21 +57,21 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     private void renderVignetteOverlay() {
 
-        int scaledHeight = client.getWindow().getScaledHeight();
-        int scaledWidth = client.getWindow().getScaledWidth();RenderSystem.enableBlend();
+        int scaledHeight = client.getWindow().getGuiScaledHeight();
+        int scaledWidth = client.getWindow().getGuiScaledWidth();RenderSystem.enableBlend();
         RenderSystem.disableDepthTest();
         RenderSystem.depthMask(false);
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, PUMKIN_TEXTURE);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(0.0F, scaledHeight, -90.0F).texture(0.0f, 1.0f);
-        bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0F).texture(1.0f, 1.0f);
-        bufferBuilder.vertex(scaledWidth, 0.0F, -90.0F).texture(1.0f, 0.0f);
-        bufferBuilder.vertex(0.0F, 0.0F, -90.0F).texture(0.0f, 0.0f);
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
+        Tesselator tessellator = Tesselator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferBuilder.addVertex(0.0F, scaledHeight, -90.0F).setUv(0.0f, 1.0f);
+        bufferBuilder.addVertex(scaledWidth, scaledHeight, -90.0F).setUv(1.0f, 1.0f);
+        bufferBuilder.addVertex(scaledWidth, 0.0F, -90.0F).setUv(1.0f, 0.0f);
+        bufferBuilder.addVertex(0.0F, 0.0F, -90.0F).setUv(0.0f, 0.0f);
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);

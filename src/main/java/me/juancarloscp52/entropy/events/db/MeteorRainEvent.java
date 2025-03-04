@@ -19,9 +19,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.util.math.Vec3d;
-
+import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.phys.Vec3;
 import java.util.Random;
 
 public class MeteorRainEvent extends AbstractTimedEvent {
@@ -39,18 +38,18 @@ public class MeteorRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 20 == 0) {
             for (int i = 0; i < 7; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                    FireballEntity meteor = new FireballEntity(serverPlayerEntity.getWorld(), serverPlayerEntity, new Vec3d(0, -1 * (random.nextInt(4) + 1), 0), 2);
-                    meteor.refreshPositionAndAngles(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYaw(), meteor.getPitch());
-                    serverPlayerEntity.getWorld().spawnEntity(meteor);
+                    LargeFireball meteor = new LargeFireball(serverPlayerEntity.level(), serverPlayerEntity, new Vec3(0, -1 * (random.nextInt(4) + 1), 0), 2);
+                    meteor.moveTo(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYRot(), meteor.getXRot());
+                    serverPlayerEntity.level().addFreshEntity(meteor);
                 });
 
             }
         }
         if (getTickCount() == getTickCount() / 2) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                FireballEntity meteor = new FireballEntity(serverPlayerEntity.getWorld(), serverPlayerEntity, new Vec3d(0, -1 * (random.nextInt(4) + 1), 0), 4);
-                meteor.refreshPositionAndAngles(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYaw(), meteor.getPitch());
-                serverPlayerEntity.getWorld().spawnEntity(meteor);
+                LargeFireball meteor = new LargeFireball(serverPlayerEntity.level(), serverPlayerEntity, new Vec3(0, -1 * (random.nextInt(4) + 1), 0), 4);
+                meteor.moveTo(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYRot(), meteor.getXRot());
+                serverPlayerEntity.level().addFreshEntity(meteor);
             });
         }
         super.tick();

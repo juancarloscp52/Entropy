@@ -19,16 +19,16 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 
 public class LowGravityEvent extends AbstractTimedEvent {
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 31, 2, true, false, false));
-            serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 31, 1, true, false, false));
+            serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 31, 2, true, false, false));
+            serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.JUMP, 31, 1, true, false, false));
         });
     }
 
@@ -36,8 +36,8 @@ public class LowGravityEvent extends AbstractTimedEvent {
     public void tick() {
         if (getTickCount() % 30 == 0) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 31, 2, true, false, false));
-                serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 31, 1, true, false, false));
+                serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 31, 2, true, false, false));
+                serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.JUMP, 31, 1, true, false, false));
             });
         }
         super.tick();

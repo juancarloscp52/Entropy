@@ -20,16 +20,16 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
 
 public class PlaceLavaBlockEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            if(serverPlayerEntity.getWorld().getBlockState(serverPlayerEntity.getBlockPos()).isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
+            if(serverPlayerEntity.level().getBlockState(serverPlayerEntity.blockPosition()).is(BlockTags.NOT_REPLACED_BY_EVENTS))
                 return;
-            serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos(), Blocks.LAVA.getDefaultState());
+            serverPlayerEntity.level().setBlockAndUpdate(serverPlayerEntity.blockPosition(), Blocks.LAVA.defaultBlockState());
         });
     }
 

@@ -31,7 +31,7 @@ public class CloseRandomTPEvent extends AbstractInstantEvent {
         server = Entropy.getInstance().eventHandler.server;
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
-            server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers " + serverPlayerEntity.getX() + " " + serverPlayerEntity.getZ() + " 0 50 false " + serverPlayerEntity.getName().getString());
+            server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "spreadplayers " + serverPlayerEntity.getX() + " " + serverPlayerEntity.getZ() + " 0 50 false " + serverPlayerEntity.getName().getString());
         });
 
     }
@@ -41,8 +41,8 @@ public class CloseRandomTPEvent extends AbstractInstantEvent {
         if (count <= 2) {
             if (count == 2) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                    serverPlayerEntity.getEntityWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
-                    serverPlayerEntity.getEntityWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
+                    serverPlayerEntity.getCommandSenderWorld().destroyBlock(serverPlayerEntity.blockPosition(), false);
+                    serverPlayerEntity.getCommandSenderWorld().destroyBlock(serverPlayerEntity.blockPosition().above(), false);
                 });
             }
             count++;

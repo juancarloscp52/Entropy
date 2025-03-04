@@ -20,33 +20,33 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.block.Blocks;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Blocks;
 
 public class PoolEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            ServerWorld world = serverPlayerEntity.getServerWorld();
+            ServerLevel world = serverPlayerEntity.serverLevel();
             int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
             for(int i = y; i>y-6;i--){
                 for (int j = -4;j<5;j++){
                     for (int k = -4;k<5;k++){
                         BlockPos pos = new BlockPos(x+j,i,z+k);
 
-                        if(serverPlayerEntity.getWorld().getBlockState(pos).isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
+                        if(serverPlayerEntity.level().getBlockState(pos).is(BlockTags.NOT_REPLACED_BY_EVENTS))
                             continue;   //Do not replace blocks
 
                         if(i==y-5){
                             if(j%2==0){
-                                world.setBlockState(pos,(k%2==0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.SOUL_SAND.getDefaultState());
+                                world.setBlockAndUpdate(pos,(k%2==0)?Blocks.MAGMA_BLOCK.defaultBlockState():Blocks.SOUL_SAND.defaultBlockState());
                             }else{
-                                world.setBlockState(pos,(k%2!=0)?Blocks.MAGMA_BLOCK.getDefaultState():Blocks.SOUL_SAND.getDefaultState());
+                                world.setBlockAndUpdate(pos,(k%2!=0)?Blocks.MAGMA_BLOCK.defaultBlockState():Blocks.SOUL_SAND.defaultBlockState());
                             }
                         }else{
-                            world.setBlockState(pos,(j==-4 ||j==4 ||k==-4 ||k==4) ? Blocks.COBBLESTONE.getDefaultState():Blocks.WATER.getDefaultState());
+                            world.setBlockAndUpdate(pos,(j==-4 ||j==4 ||k==-4 ||k==4) ? Blocks.COBBLESTONE.defaultBlockState():Blocks.WATER.defaultBlockState());
                         }
                     }
                 }

@@ -2,10 +2,9 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import java.util.HashMap;
 
 public class InfestationEvent extends AbstractInstantEvent {
@@ -26,9 +25,9 @@ public class InfestationEvent extends AbstractInstantEvent {
     public void init() {
         for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
             var rng = player.getRandom();
-            var world = player.getWorld();
-            var startPos = player.getBlockPos().add(-32, -32, -32);
-            var endPos = startPos.add(64, 64, 64);
+            var world = player.level();
+            var startPos = player.blockPosition().offset(-32, -32, -32);
+            var endPos = startPos.offset(64, 64, 64);
             for (int ix = startPos.getX(); ix < endPos.getX(); ix++) {
                 for (int iy = startPos.getY(); iy < endPos.getY(); iy++) {
                     for (int iz = startPos.getZ(); iz < endPos.getZ(); iz++) {
@@ -37,7 +36,7 @@ public class InfestationEvent extends AbstractInstantEvent {
                         var blockPos = new BlockPos(ix, iy, iz);
                         var block = world.getBlockState(blockPos).getBlock();
                         if (_blockConvertion.containsKey(block))
-                            world.setBlockState(blockPos, _blockConvertion.get(block).getDefaultState());
+                            world.setBlockAndUpdate(blockPos, _blockConvertion.get(block).defaultBlockState());
                     }
                 }
             }

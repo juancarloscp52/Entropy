@@ -20,9 +20,8 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-
 import java.util.Random;
 
 public class FarRandomTPEvent extends AbstractInstantEvent {
@@ -36,7 +35,7 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
         server = Entropy.getInstance().eventHandler.server;
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.stopRiding();
-            server.getCommandManager().executeWithPrefix(server.getCommandSource(), "spreadplayers " + randomLocation.getX() + " " + randomLocation.getZ() + " 0 120 false " + serverPlayerEntity.getName().getString());
+            server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "spreadplayers " + randomLocation.getX() + " " + randomLocation.getZ() + " 0 120 false " + serverPlayerEntity.getName().getString());
             EntropyUtils.clearPlayerArea(serverPlayerEntity);
         });
 

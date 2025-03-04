@@ -7,9 +7,9 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult.Type;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult.Type;
 
 public class VoidSightEvent extends AbstractTimedEvent {
 
@@ -17,16 +17,16 @@ public class VoidSightEvent extends AbstractTimedEvent {
     public void tick() {
         if(tickCount%2==0){
             for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
-                var hitRes = serverPlayerEntity.raycast(64, 1, true);
+                var hitRes = serverPlayerEntity.pick(64, 1, true);
                 if (hitRes.getType() == Type.BLOCK) {
                     var blockHitRes = (BlockHitResult) hitRes;
-                    var currentBlock = serverPlayerEntity.getWorld().getBlockState(blockHitRes.getBlockPos());
-                    if (currentBlock.isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
+                    var currentBlock = serverPlayerEntity.level().getBlockState(blockHitRes.getBlockPos());
+                    if (currentBlock.is(BlockTags.NOT_REPLACED_BY_EVENTS))
                         continue;
-                    if(currentBlock.isIn(BlockTags.VOID_SIGHT_BREAKS)){
-                        serverPlayerEntity.getWorld().breakBlock(blockHitRes.getBlockPos(), true, serverPlayerEntity);
+                    if(currentBlock.is(BlockTags.VOID_SIGHT_BREAKS)){
+                        serverPlayerEntity.level().destroyBlock(blockHitRes.getBlockPos(), true, serverPlayerEntity);
                     }else{
-                        serverPlayerEntity.getWorld().setBlockState(blockHitRes.getBlockPos(), Blocks.AIR.getDefaultState());
+                        serverPlayerEntity.level().setBlockAndUpdate(blockHitRes.getBlockPos(), Blocks.AIR.defaultBlockState());
                     }
                 }
             }

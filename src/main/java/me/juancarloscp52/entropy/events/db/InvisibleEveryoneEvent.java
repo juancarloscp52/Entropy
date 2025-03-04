@@ -8,12 +8,11 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.server.world.ServerWorld;
-
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,21 +20,21 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
-        List<ServerWorld> worlds = new ArrayList<>();
+        List<ServerLevel> worlds = new ArrayList<>();
         for(var player : eventHandler.getActivePlayers()) {
-            ServerWorld playerWorld = player.getServerWorld();
+            ServerLevel playerWorld = player.serverLevel();
             if(!worlds.contains(playerWorld))
                 worlds.add(playerWorld);
         }
         for(var world : worlds)
-            for(var entity : world.iterateEntities())
+            for(var entity : world.getAllEntities())
                 if(shouldBeInvisible(entity))
-                    ((LivingEntity)entity).addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, 2));
+                    ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 2));
         super.tick();
     }
 
     public boolean shouldBeInvisible(Entity entity) {
-        return entity instanceof LivingEntity && !entity.getType().isIn(EntityTypeTags.NOT_INVISIBLE);
+        return entity instanceof LivingEntity && !entity.getType().is(EntityTypeTags.NOT_INVISIBLE);
     }
 
     @Override

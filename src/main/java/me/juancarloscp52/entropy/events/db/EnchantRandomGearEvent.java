@@ -3,12 +3,11 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.entry.RegistryEntry;
-
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,33 +19,33 @@ public class EnchantRandomGearEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
 
             var inventory = new ArrayList<ItemStack>();
-            inventory.addAll(serverPlayerEntity.getInventory().main);
+            inventory.addAll(serverPlayerEntity.getInventory().items);
             inventory.addAll(serverPlayerEntity.getInventory().armor);
-            inventory.addAll(serverPlayerEntity.getInventory().offHand);
+            inventory.addAll(serverPlayerEntity.getInventory().offhand);
 
             Collections.shuffle(inventory);
 
-            final Registry<Enchantment> enchantmentsRegistry = serverPlayerEntity.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
-            final List<RegistryEntry.Reference<Enchantment>> enchantments = enchantmentsRegistry.streamEntries().collect(Collectors.toCollection(ArrayList::new));
+            final Registry<Enchantment> enchantmentsRegistry = serverPlayerEntity.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
+            final List<Holder.Reference<Enchantment>> enchantments = enchantmentsRegistry.holders().collect(Collectors.toCollection(ArrayList::new));
             Collections.shuffle(enchantments);
 
             for (var itemStack : inventory) {
                 for (var enchantment : enchantments) {
-                    if (enchantment.isIn(EnchantmentTags.DO_NOT_ENCHANT_WITH))
+                    if (enchantment.is(EnchantmentTags.DO_NOT_ENCHANT_WITH))
                         continue;
 
-                    if (enchantment.value().isAcceptableItem(itemStack)) {
+                    if (enchantment.value().canEnchant(itemStack)) {
                         var hasEnchantment = false;
                         var existingEnchantments = itemStack.getEnchantments();
 
-                        for (var existingEnchantment : existingEnchantments.getEnchantments())
-                            if (existingEnchantment == enchantment || !Enchantment.canBeCombined(existingEnchantment, enchantment)) {
+                        for (var existingEnchantment : existingEnchantments.keySet())
+                            if (existingEnchantment == enchantment || !Enchantment.areCompatible(existingEnchantment, enchantment)) {
                                 hasEnchantment = true;
                                 break;
                             }
 
                         if (!hasEnchantment) {
-                            itemStack.addEnchantment(enchantment,
+                            itemStack.enchant(enchantment,
                                     serverPlayerEntity.getRandom().nextInt(enchantment.value().getMaxLevel()) + 1);
                             return;
                         }

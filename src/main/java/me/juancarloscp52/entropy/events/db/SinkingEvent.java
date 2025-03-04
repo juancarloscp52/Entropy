@@ -20,23 +20,23 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.block.Blocks;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Blocks;
 
 public class SinkingEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         if(tickCount%30==0){
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                ServerWorld world = serverPlayerEntity.getServerWorld();
+                ServerLevel world = serverPlayerEntity.serverLevel();
                 int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
                 for (int j = -1;j<2;j++){
                     for (int k = -1;k<2;k++){
                         BlockPos pos = new BlockPos(x+j,y-1,z+k);
-                        if(world.getBlockState(pos).isIn(BlockTags.NOT_REPLACED_BY_EVENTS))
+                        if(world.getBlockState(pos).is(BlockTags.NOT_REPLACED_BY_EVENTS))
                             continue;
-                        world.setBlockState(pos, Blocks.AIR.getDefaultState());
+                        world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                     }
                 }
             });

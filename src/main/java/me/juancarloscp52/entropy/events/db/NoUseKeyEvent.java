@@ -1,33 +1,33 @@
 package me.juancarloscp52.entropy.events.db;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.InputConstants.Key;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.InputUtil.Key;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
 
 public class NoUseKeyEvent extends AbstractTimedEvent {
     private Key boundUseKey;
 
     @Override
     public void initClient() {
-        GameOptions options = MinecraftClient.getInstance().options;
+        Options options = Minecraft.getInstance().options;
 
-        boundUseKey = ((KeyBindingAccessor) options.useKey).fabric_getBoundKey();
-        options.useKey.setBoundKey(InputUtil.UNKNOWN_KEY);
-        options.useKey.setPressed(false);
-        KeyBinding.updateKeysByCode();
+        boundUseKey = ((KeyBindingAccessor) options.keyUse).fabric_getBoundKey();
+        options.keyUse.setKey(InputConstants.UNKNOWN);
+        options.keyUse.setDown(false);
+        KeyMapping.resetMapping();
     }
 
     @Override
     public void endClient() {
-        GameOptions options = MinecraftClient.getInstance().options;
+        Options options = Minecraft.getInstance().options;
 
-        options.setKeyCode(options.useKey, boundUseKey);
-        KeyBinding.updateKeysByCode();
+        options.setKey(options.keyUse, boundUseKey);
+        KeyMapping.resetMapping();
         super.endClient();
     }
 

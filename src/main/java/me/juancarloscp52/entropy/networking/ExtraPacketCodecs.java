@@ -1,17 +1,17 @@
 package me.juancarloscp52.entropy.networking;
 
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.codec.PacketCodec;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 
 public class ExtraPacketCodecs {
-    static PacketCodec<PacketByteBuf, int[]> intArray() {
-        return new PacketCodec<>() {
-            public int[] decode(PacketByteBuf buf) {
-                return buf.readIntArray();
+    static StreamCodec<FriendlyByteBuf, int[]> intArray() {
+        return new StreamCodec<>() {
+            public int[] decode(FriendlyByteBuf buf) {
+                return buf.readVarIntArray();
             }
 
-            public void encode(PacketByteBuf byteBuf, int[] data) {
-                byteBuf.writeIntArray(data);
+            public void encode(FriendlyByteBuf byteBuf, int[] data) {
+                byteBuf.writeVarIntArray(data);
             }
         };
     }

@@ -6,8 +6,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 
 public class EndermiteEvent extends AbstractInstantEvent {
 
@@ -16,7 +16,7 @@ public class EndermiteEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
                     for (int i = 0; i < 4; i++) {
-                        EntityType.ENDERMITE.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos(), SpawnReason.SPAWN_EGG);
+                        EntityType.ENDERMITE.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition(), MobSpawnType.SPAWN_EGG);
                     }
                 }
         );

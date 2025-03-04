@@ -6,13 +6,12 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.random.Random;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,33 +19,33 @@ public class FlingEntitiesEvent extends AbstractInstantEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
-        fling(MinecraftClient.getInstance().player);
+        fling(Minecraft.getInstance().player);
     }
 
     @Override
     public void init() {
         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
-        List<ServerWorld> worlds = new ArrayList<>();
+        List<ServerLevel> worlds = new ArrayList<>();
 
         eventHandler.getActivePlayers().forEach(player -> {
-            player.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 140));
-            ServerWorld playerWorld = player.getServerWorld();
+            player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 140));
+            ServerLevel playerWorld = player.serverLevel();
             if(!worlds.contains(playerWorld))
                 worlds.add(playerWorld);
         });
         worlds.forEach(world -> {
-            world.iterateEntities().forEach(entity -> {
-                if(entity instanceof LivingEntity livingEntity && !livingEntity.getType().isIn(EntityTypeTags.DO_NOT_FLING)) {
+            world.getAllEntities().forEach(entity -> {
+                if(entity instanceof LivingEntity livingEntity && !livingEntity.getType().is(EntityTypeTags.DO_NOT_FLING)) {
                     fling(livingEntity);
-                    livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOW_FALLING, 140));
+                    livingEntity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 140));
                 }
             });
         });
     }
 
     private void fling(LivingEntity entity) {
-        Random random = entity.getRandom();
+        RandomSource random = entity.getRandom();
 
-        entity.setVelocity(random.nextBetween(-10, 9) + random.nextDouble(), random.nextInt(3) + random.nextDouble(), random.nextBetween(-10, 9) + random.nextDouble());
+        entity.setDeltaMovement(random.nextIntBetweenInclusive(-10, 9) + random.nextDouble(), random.nextInt(3) + random.nextDouble(), random.nextIntBetweenInclusive(-10, 9) + random.nextDouble());
     }
 }

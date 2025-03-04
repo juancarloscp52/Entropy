@@ -19,12 +19,12 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.mob.PhantomEntity;
-import net.minecraft.util.math.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.monster.Phantom;
 
 public class PhantomEvent extends AbstractInstantEvent {
 
@@ -32,9 +32,9 @@ public class PhantomEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             for(int i =0; i<3;i++){
-                PhantomEntity phantom = EntityType.PHANTOM.spawn(serverPlayerEntity.getServerWorld(), serverPlayerEntity.getBlockPos().offset(Direction.UP,5), SpawnReason.SPAWN_EGG);
+                Phantom phantom = EntityType.PHANTOM.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().relative(Direction.UP,5), MobSpawnType.SPAWN_EGG);
                 if(null!=phantom)
-                    phantom.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE,460));
+                    phantom.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,460));
             }
         });
     }

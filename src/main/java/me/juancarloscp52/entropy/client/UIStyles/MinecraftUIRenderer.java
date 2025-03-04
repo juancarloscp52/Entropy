@@ -1,28 +1,27 @@
 package me.juancarloscp52.entropy.client.UIStyles;
 
 import me.juancarloscp52.entropy.mixin.BossBarHudAccessor;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.ClientBossBar;
-import net.minecraft.entity.boss.BossBar;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.LerpingBossEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.BossEvent;
 import java.util.UUID;
 
 public class MinecraftUIRenderer implements UIRenderer {
-    private final ClientBossBar bar;
+    private final LerpingBossEvent bar;
 
     public MinecraftUIRenderer() {
-        UUID uuid = MathHelper.randomUuid();
-        this.bar=new ClientBossBar(uuid,Text.translatable("entropy.title"), 0, BossBar.Color.GREEN, BossBar.Style.NOTCHED_20,false,false, false);
-        ((BossBarHudAccessor) MinecraftClient.getInstance().inGameHud.getBossBarHud()).getBossBars().put(uuid,bar);
+        UUID uuid = Mth.createInsecureUUID();
+        this.bar=new LerpingBossEvent(uuid,Component.translatable("entropy.title"), 0, BossEvent.BossBarColor.GREEN, BossEvent.BossBarOverlay.NOTCHED_20,false,false, false);
+        ((BossBarHudAccessor) Minecraft.getInstance().gui.getBossOverlay()).getEvents().put(uuid,bar);
     }
 
     @Override
-    public void renderTimer(DrawContext drawContext, int width, double time, double timerDuration) {
+    public void renderTimer(GuiGraphics drawContext, int width, double time, double timerDuration) {
 
-        this.bar.setPercent((float)(time / timerDuration));
+        this.bar.setProgress((float)(time / timerDuration));
 
     }
 

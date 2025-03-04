@@ -1,20 +1,20 @@
 package me.juancarloscp52.entropy.mixin;
 
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-@Mixin(MinecraftClient.class)
+@Mixin(Minecraft.class)
 public interface MinecraftClientAccessor {
 
     @Accessor
-    void setAttackCooldown(int attackCooldown);
+    void setMissTime(int attackCooldown);
 
     @Invoker
-    boolean callDoAttack();
+    boolean callStartAttack();
 
     @Invoker
-    void callHandleBlockBreaking(boolean breaking);
+    void callContinueAttack(boolean breaking);
 
 }

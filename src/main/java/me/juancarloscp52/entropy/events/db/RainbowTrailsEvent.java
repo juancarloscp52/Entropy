@@ -7,30 +7,30 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.Mth;
 
 public class RainbowTrailsEvent extends AbstractTimedEvent {
     @Override
     public void tickClient() {
         super.tickClient();
-        float xOffset = (MathHelper.sin(tickCount) + 1.0F) / 2.0F;
-        float yOffset = (MathHelper.cos(tickCount) + 1.0F) / 2.0F;
+        float xOffset = (Mth.sin(tickCount) + 1.0F) / 2.0F;
+        float yOffset = (Mth.cos(tickCount) + 1.0F) / 2.0F;
         Vector3f color = HSBtoRGB(((tickCount * 5) % 360) / 360.0F, 1.0F, 1.0F);
 
-        MinecraftClient.getInstance().player.clientWorld.getEntities().forEach(entity -> {
-            if(entity.getType().isIn(EntityTypeTags.NO_RAINBOW_TRAIL))
+        Minecraft.getInstance().player.clientLevel.entitiesForRendering().forEach(entity -> {
+            if(entity.getType().is(EntityTypeTags.NO_RAINBOW_TRAIL))
                 return;
 
             Quaterniond relativePosition = new Quaterniond(-0.5D + xOffset, 0.0D, -0.5D, 0.0D);
-            float bodyYaw = entity.getBodyYaw();
-            float rotation = (Math.abs(bodyYaw) % 360) * MathHelper.RADIANS_PER_DEGREE * 2.0F;
+            float bodyYaw = entity.getVisualRotationYInDegrees();
+            float rotation = (Math.abs(bodyYaw) % 360) * Mth.DEG_TO_RAD * 2.0F;
 
             if(bodyYaw > 0)
                 rotation *= -1;
 
             relativePosition.rotateLocalY(rotation);
-            entity.getWorld().addParticle(new ConstantColorDustParticleEffect(color, 1.0F),
+            entity.level().addParticle(new ConstantColorDustParticleEffect(color, 1.0F),
                     entity.getX() + relativePosition.x,
                     entity.getY() + 0.5D + relativePosition.y + yOffset,
                     entity.getZ() + relativePosition.z,

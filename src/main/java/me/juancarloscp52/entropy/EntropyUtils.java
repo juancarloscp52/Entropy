@@ -1,31 +1,30 @@
 package me.juancarloscp52.entropy;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
-
 import java.util.Set;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class EntropyUtils {
 
-    public static void teleportPlayer(final ServerPlayerEntity serverPlayerEntity, final double x, final double y, final double z) {
+    public static void teleportPlayer(final ServerPlayer serverPlayerEntity, final double x, final double y, final double z) {
         serverPlayerEntity.stopRiding();
-        serverPlayerEntity.teleport(serverPlayerEntity.getServerWorld(), x, y, z, Set.of(), serverPlayerEntity.getYaw(), serverPlayerEntity.getPitch());
+        serverPlayerEntity.teleportTo(serverPlayerEntity.serverLevel(), x, y, z, Set.of(), serverPlayerEntity.getYRot(), serverPlayerEntity.getXRot());
     }
 
-    public static void teleportPlayer(final ServerPlayerEntity serverPlayerEntity, final Vec3d pos) {
-        teleportPlayer(serverPlayerEntity, pos.getX(), pos.getY(), pos.getZ());
+    public static void teleportPlayer(final ServerPlayer serverPlayerEntity, final Vec3 pos) {
+        teleportPlayer(serverPlayerEntity, pos.x(), pos.y(), pos.z());
     }
 
-    public static void clearPlayerArea(ServerPlayerEntity serverPlayerEntity){
-        serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos(), false);
-        serverPlayerEntity.getWorld().breakBlock(serverPlayerEntity.getBlockPos().up(), false);
-        BlockHitResult blockHitResult = serverPlayerEntity.getWorld().raycast(new RaycastContext(serverPlayerEntity.getPos(), serverPlayerEntity.getPos().subtract(0, -6, 0), RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.ANY, serverPlayerEntity));
-        if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.getWorld().getBlockState(blockHitResult.getBlockPos()).isLiquid()) {
-            serverPlayerEntity.getWorld().setBlockState(serverPlayerEntity.getBlockPos().down(), Blocks.STONE.getDefaultState());
+    public static void clearPlayerArea(ServerPlayer serverPlayerEntity){
+        serverPlayerEntity.level().destroyBlock(serverPlayerEntity.blockPosition(), false);
+        serverPlayerEntity.level().destroyBlock(serverPlayerEntity.blockPosition().above(), false);
+        BlockHitResult blockHitResult = serverPlayerEntity.level().clip(new ClipContext(serverPlayerEntity.position(), serverPlayerEntity.position().subtract(0, -6, 0), ClipContext.Block.OUTLINE, ClipContext.Fluid.ANY, serverPlayerEntity));
+        if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.level().getBlockState(blockHitResult.getBlockPos()).liquid()) {
+            serverPlayerEntity.level().setBlockAndUpdate(serverPlayerEntity.blockPosition().below(), Blocks.STONE.defaultBlockState());
         }
     }
 }

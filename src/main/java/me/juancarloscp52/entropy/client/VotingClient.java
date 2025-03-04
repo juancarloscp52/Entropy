@@ -21,12 +21,11 @@ import me.juancarloscp52.entropy.client.integrations.Integrations;
 import me.juancarloscp52.entropy.client.websocket.OverlayServer;
 import me.juancarloscp52.entropy.networking.C2SVotes;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class VotingClient {
     int totalVotesCount = 0;
     boolean enabled = false;
     Integrations integrations;
-    MinecraftClient client = MinecraftClient.getInstance();
+    Minecraft client = Minecraft.getInstance();
 
     OverlayServer overlayServer;
     boolean firstVote=true;
@@ -114,7 +113,7 @@ public class VotingClient {
             sendPoll(voteID,events);
             int max = 200;
             for (String key : events){
-                int width = client.textRenderer.getWidth(Text.literal((5) + ": ").append(Text.translatable(key)));
+                int width = client.font.width(Component.literal((5) + ": ").append(Component.translatable(key)));
                 if(width > max)
                     max = width;
             }
@@ -133,9 +132,9 @@ public class VotingClient {
         this.integrations = integration;
     }
 
-    public void render(DrawContext drawContext) {
+    public void render(GuiGraphics drawContext) {
         if(EntropyClient.getInstance().integrationsSettings.showUpcomingEvents) {
-            drawContext.drawTextWithShadow(client.textRenderer, Text.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, ColorHelper.Argb.getArgb(255,255, 255, 255));
+            drawContext.drawString(client.font, Component.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, FastColor.ARGB32.color(255,255, 255, 255));
 
             for (int i = 0; i < 4; i++) {
                 renderPollElement(drawContext, i);
@@ -143,21 +142,21 @@ public class VotingClient {
         }
     }
 
-    public void renderPollElement(DrawContext drawContext, int i) {
+    public void renderPollElement(GuiGraphics drawContext, int i) {
 
         if (this.events == null)
             return;
 
         double ratio = this.totalVotesCount > 0 ? (double) this.totalVotes[i] / this.totalVotesCount : 0;
         int altOffset = (this.voteID % 2) == 0 && (EntropyClient.getInstance().integrationsSettings.integrationType!=2) ? 4 : 0;
-        drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, ColorHelper.Argb.getArgb(150,0, 0, 0));
+        drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, FastColor.ARGB32.color(150,0, 0, 0));
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
-            drawContext.fill(10, 31 + (i * 18), 10 + MathHelper.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));
-        drawContext.drawTextWithShadow(client.textRenderer, Text.literal((1 + i + altOffset) + ": ").append(Text.translatable(this.events.get(i))), 15, 34 + (i * 18), ColorHelper.Argb.getArgb(255,255, 255, 255));
+            drawContext.fill(10, 31 + (i * 18), 10 + Mth.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));
+        drawContext.drawString(client.font, Component.literal((1 + i + altOffset) + ": ").append(Component.translatable(this.events.get(i))), 15, 34 + (i * 18), FastColor.ARGB32.color(255,255, 255, 255));
 
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
-            Text percentage = Text.literal(MathHelper.floor(ratio * 100) + " %");
-            drawContext.drawTextWithShadow(client.textRenderer, percentage, pollWidth + 10 + 42 - client.textRenderer.getWidth(percentage), 34 + (i * 18), ColorHelper.Argb.getArgb(255,255, 255, 255));
+            Component percentage = Component.literal(Mth.floor(ratio * 100) + " %");
+            drawContext.drawString(client.font, percentage, pollWidth + 10 + 42 - client.font.width(percentage), 34 + (i * 18), FastColor.ARGB32.color(255,255, 255, 255));
         }
 
     }

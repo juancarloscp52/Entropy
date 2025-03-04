@@ -2,11 +2,11 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.NonNullList;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import oshi.util.tuples.Triplet;
 
 import java.util.ArrayList;
@@ -89,19 +89,19 @@ public class DowngradeRandomGearEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
 
             var inventory = serverPlayerEntity.getInventory();
-            var items = new ArrayList<Triplet<DefaultedList<ItemStack>, Integer, ItemStack>>();
+            var items = new ArrayList<Triplet<NonNullList<ItemStack>, Integer, ItemStack>>();
 
-            items.addAll(IntStream.range(0, inventory.main.size())
-                    .mapToObj(i -> new Triplet<DefaultedList<ItemStack>, Integer, ItemStack>(inventory.main, i,
-                            inventory.main.get(i)))
+            items.addAll(IntStream.range(0, inventory.items.size())
+                    .mapToObj(i -> new Triplet<NonNullList<ItemStack>, Integer, ItemStack>(inventory.items, i,
+                            inventory.items.get(i)))
                     .toList());
             items.addAll(IntStream.range(0, inventory.armor.size())
-                    .mapToObj(i -> new Triplet<DefaultedList<ItemStack>, Integer, ItemStack>(inventory.armor, i,
+                    .mapToObj(i -> new Triplet<NonNullList<ItemStack>, Integer, ItemStack>(inventory.armor, i,
                             inventory.armor.get(i)))
                     .toList());
-            items.addAll(IntStream.range(0, inventory.offHand.size())
-                    .mapToObj(i -> new Triplet<DefaultedList<ItemStack>, Integer, ItemStack>(inventory.offHand, i,
-                            inventory.offHand.get(i)))
+            items.addAll(IntStream.range(0, inventory.offhand.size())
+                    .mapToObj(i -> new Triplet<NonNullList<ItemStack>, Integer, ItemStack>(inventory.offhand, i,
+                            inventory.offhand.get(i)))
                     .toList());
 
             Collections.shuffle(items);
@@ -117,16 +117,16 @@ public class DowngradeRandomGearEvent extends AbstractInstantEvent {
         });
     }
 
-    private void downgrade(Item item, ItemStack itemStack, DefaultedList<ItemStack> inventoryList, int index, Random random) {
+    private void downgrade(Item item, ItemStack itemStack, NonNullList<ItemStack> inventoryList, int index, RandomSource random) {
         var newItem = _downgrades.get(item);
-        var newDamage = (float) itemStack.getDamage() / (float) itemStack.getMaxDamage()
-                * (float) newItem.getDefaultStack().getMaxDamage();
+        var newDamage = (float) itemStack.getDamageValue() / (float) itemStack.getMaxDamage()
+                * (float) newItem.getDefaultInstance().getMaxDamage();
         var newItemStack = new ItemStack(newItem);
 
-        newItemStack.setDamage((int) newDamage);
+        newItemStack.setDamageValue((int) newDamage);
         var enchantments = itemStack.getEnchantments();
-        for (var enchantment : enchantments.getEnchantmentEntries())
-            newItemStack.addEnchantment(enchantment.getKey(), enchantment.getIntValue());
+        for (var enchantment : enchantments.entrySet())
+            newItemStack.enchant(enchantment.getKey(), enchantment.getIntValue());
 
         inventoryList.set(index, newItemStack);
 

@@ -19,10 +19,9 @@ package me.juancarloscp52.entropy.events;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.server.network.ServerPlayerEntity;
-
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.server.level.ServerPlayer;
 import java.util.Optional;
 
 
@@ -40,15 +39,15 @@ public interface Event {
     @Environment(EnvType.CLIENT)
     void endClient();
 
-    default void endPlayer(ServerPlayerEntity player) {
+    default void endPlayer(ServerPlayer player) {
     }
 
     @Environment(EnvType.CLIENT)
-    default void render(DrawContext drawContext, RenderTickCounter tickCounter) {
+    default void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
     }
 
     @Environment(EnvType.CLIENT)
-    void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y);
+    void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y);
 
     void tick();
 

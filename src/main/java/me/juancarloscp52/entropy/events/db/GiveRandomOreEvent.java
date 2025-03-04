@@ -19,9 +19,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import java.util.Random;
 
 public class GiveRandomOreEvent extends AbstractInstantEvent {
@@ -41,8 +40,8 @@ public class GiveRandomOreEvent extends AbstractInstantEvent {
                 default -> new ItemStack(Items.COAL, random.nextInt(4, 10));
             };
 
-            if(!serverPlayerEntity.getInventory().insertStack(stack))
-                serverPlayerEntity.dropStack(stack);
+            if(!serverPlayerEntity.getInventory().add(stack))
+                serverPlayerEntity.spawnAtLocation(stack);
 
         });
     }

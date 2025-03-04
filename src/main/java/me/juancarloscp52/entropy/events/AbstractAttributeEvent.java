@@ -1,16 +1,15 @@
 package me.juancarloscp52.entropy.events;
 
 import me.juancarloscp52.entropy.Entropy;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
-
+import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import java.util.List;
 
 public abstract class AbstractAttributeEvent extends AbstractTimedEvent {
-    public record ActiveModifier(RegistryEntry<EntityAttribute> attribute, EntityAttributeModifier modifier) {
+    public record ActiveModifier(Holder<Attribute> attribute, AttributeModifier modifier) {
     }
 
     private List<ActiveModifier> modifiers = List.of();
@@ -23,8 +22,8 @@ public abstract class AbstractAttributeEvent extends AbstractTimedEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(this::startPlayer);
     }
 
-    private void startPlayer(ServerPlayerEntity player) {
-        modifiers.forEach(active -> player.getAttributeInstance(active.attribute()).addTemporaryModifier(active.modifier()));
+    private void startPlayer(ServerPlayer player) {
+        modifiers.forEach(active -> player.getAttribute(active.attribute()).addTransientModifier(active.modifier()));
     }
 
     @Override
@@ -35,18 +34,18 @@ public abstract class AbstractAttributeEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void endPlayer(ServerPlayerEntity player) {
-        modifiers.forEach(active -> player.getAttributeInstance(active.attribute()).removeModifier(active.modifier().id()));
+    public void endPlayer(ServerPlayer player) {
+        modifiers.forEach(active -> player.getAttribute(active.attribute()).removeModifier(active.modifier().id()));
     }
 
     @Override
     public void tick() {
         if (getTickCount() % 20 == 0) {
-            for (final ServerPlayerEntity player : Entropy.getInstance().eventHandler.getActivePlayers()) {
+            for (final ServerPlayer player : Entropy.getInstance().eventHandler.getActivePlayers()) {
                 for (final ActiveModifier active : modifiers) {
-                    final EntityAttributeInstance attributeInstance = player.getAttributeInstance(active.attribute());
+                    final AttributeInstance attributeInstance = player.getAttribute(active.attribute());
                     if (attributeInstance.getModifier(active.modifier().id()) == null) {
-                        attributeInstance.addTemporaryModifier(active.modifier());
+                        attributeInstance.addTransientModifier(active.modifier());
                     }
                 }
             }

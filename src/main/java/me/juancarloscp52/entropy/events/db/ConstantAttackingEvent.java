@@ -1,30 +1,29 @@
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.mixin.ClientPlayerInteractionManagerAccessor;
 import me.juancarloscp52.entropy.mixin.MinecraftClientAccessor;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.Hand;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.InteractionHand;
 
 public class ConstantAttackingEvent extends AbstractTimedEvent {
     @Override
     public void tickClient() {
         super.tickClient();
 
-        MinecraftClient mc = MinecraftClient.getInstance();
+        Minecraft mc = Minecraft.getInstance();
 
-        switch(mc.crosshairTarget.getType()) {
+        switch(mc.hitResult.getType()) {
             case BLOCK:
-                ((MinecraftClientAccessor) mc).setAttackCooldown(0);
-                ((MinecraftClientAccessor) mc).callHandleBlockBreaking(true);
+                ((MinecraftClientAccessor) mc).setMissTime(0);
+                ((MinecraftClientAccessor) mc).callContinueAttack(true);
                 return;
             case ENTITY:
-                if(mc.player.getAttackCooldownProgress(0.0F) >= 1.0F)
-                    ((MinecraftClientAccessor) mc).callDoAttack();
+                if(mc.player.getAttackStrengthScale(0.0F) >= 1.0F)
+                    ((MinecraftClientAccessor) mc).callStartAttack();
                 break;
             case MISS:
-                mc.player.swingHand(Hand.MAIN_HAND);
+                mc.player.swing(InteractionHand.MAIN_HAND);
                 break;
         }
 
@@ -33,13 +32,13 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
 
     @Override
     public void endClient() {
-        cancelBlockBreaking(MinecraftClient.getInstance());
+        cancelBlockBreaking(Minecraft.getInstance());
         super.endClient();
     }
 
-    private void cancelBlockBreaking(MinecraftClient mc) {
-        ((ClientPlayerInteractionManagerAccessor) mc.interactionManager).setBreakingBlock(true);
-        ((MinecraftClientAccessor) mc).callHandleBlockBreaking(false);
+    private void cancelBlockBreaking(Minecraft mc) {
+        ((ClientPlayerInteractionManagerAccessor) mc.gameMode).setIsDestroying(true);
+        ((MinecraftClientAccessor) mc).callContinueAttack(false);
     }
 
     @Override

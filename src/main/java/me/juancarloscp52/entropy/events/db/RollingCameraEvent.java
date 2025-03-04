@@ -4,9 +4,8 @@ import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphics;
 import java.util.Random;
 
 public class RollingCameraEvent extends AbstractTimedEvent {
@@ -25,8 +24,8 @@ public class RollingCameraEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
-        Variables.cameraRoll = (Variables.cameraRoll + (sign * 1.25f * tickCounter.getLastFrameDuration())) % 360;
+    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
+        Variables.cameraRoll = (Variables.cameraRoll + (sign * 1.25f * tickCounter.getGameTimeDeltaTicks())) % 360;
     }
 
     @Override

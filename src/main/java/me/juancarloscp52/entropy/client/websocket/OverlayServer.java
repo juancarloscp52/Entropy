@@ -1,8 +1,7 @@
 package me.juancarloscp52.entropy.client.websocket;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
-import net.minecraft.client.resource.language.I18n;
-
+import net.minecraft.client.resources.language.I18n;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +51,7 @@ public class OverlayServer {
         List<OverlayVoteOption> options=new ArrayList<>();
 
         for (int i = 0; i < events.size(); i++) {
-            options.add(new OverlayVoteOption(I18n.translate(events.get(i)),new String[]{Integer.toString(i+altOffset)},0));
+            options.add(new OverlayVoteOption(I18n.get(events.get(i)),new String[]{Integer.toString(i+altOffset)},0));
         }
         this.overlayWebsocket.NewVoting(options);
     }
@@ -65,7 +64,7 @@ public class OverlayServer {
             altOffset=1;
         List<OverlayVoteOption> options=new ArrayList<>();
         for (int i = 0; i < events.size(); i++) {
-            options.add(new OverlayVoteOption(I18n.translate(events.get(i)),new String[]{Integer.toString(i+altOffset)}, showVotes ? votes[i]:0));
+            options.add(new OverlayVoteOption(I18n.get(events.get(i)),new String[]{Integer.toString(i+altOffset)}, showVotes ? votes[i]:0));
         }
         this.overlayWebsocket.UpdateVoting(options);
 

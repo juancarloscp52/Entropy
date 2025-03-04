@@ -21,12 +21,12 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.ColorHelper;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.FastColor;
 
 public abstract class AbstractInstantEvent implements Event {
 
@@ -39,17 +39,17 @@ public abstract class AbstractInstantEvent implements Event {
     }
 
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y) {
+    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
         if(Variables.doNotShowEvents)
             return;
-        MinecraftClient client = MinecraftClient.getInstance();
-        MutableText eventName = Text.translatable(EventRegistry.getTranslationKey(this));
+        Minecraft client = Minecraft.getInstance();
+        MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(this));
 
         if(isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
-            eventName.formatted(Formatting.STRIKETHROUGH);
+            eventName.withStyle(ChatFormatting.STRIKETHROUGH);
 
-        int size = client.textRenderer.getWidth(eventName);
-        drawContext.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, eventName, client.getWindow().getScaledWidth() - size - 40, y, ColorHelper.Argb.getArgb(255,255, 255, 255));
+        int size = client.font.width(eventName);
+        drawContext.drawString(Minecraft.getInstance().font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, FastColor.ARGB32.color(255,255, 255, 255));
     }
 
     public void tick() {

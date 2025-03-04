@@ -24,7 +24,7 @@ public class HungryEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getHungerManager().setFoodLevel(0));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getFoodData().setFoodLevel(0));
     }
 
 }

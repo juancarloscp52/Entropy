@@ -20,26 +20,26 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Box;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 
 public class LevitationEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getPos().add(50, 50, 50), serverPlayerEntity.getPos().add(-50, -50, -50))).forEach(
+            serverPlayerEntity.level().getEntities(serverPlayerEntity, new AABB(serverPlayerEntity.position().add(50, 50, 50), serverPlayerEntity.position().add(-50, -50, -50))).forEach(
                     entity ->  {
-                        if(!(entity instanceof PlayerEntity) && entity instanceof LivingEntity livingEntity && !livingEntity.getType().isIn(EntityTypeTags.DO_NOT_LEVITATE)){
-                            livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
+                        if(!(entity instanceof Player) && entity instanceof LivingEntity livingEntity && !livingEntity.getType().is(EntityTypeTags.DO_NOT_LEVITATE)){
+                            livingEntity.addEffect(new MobEffectInstance(MobEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
                         }
                     }
                     );
-            if(!serverPlayerEntity.getType().isIn(EntityTypeTags.DO_NOT_LEVITATE))
-                serverPlayerEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
+            if(!serverPlayerEntity.getType().is(EntityTypeTags.DO_NOT_LEVITATE))
+                serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
         });
     }
 }

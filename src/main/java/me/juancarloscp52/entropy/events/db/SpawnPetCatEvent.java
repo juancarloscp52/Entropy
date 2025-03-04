@@ -3,24 +3,24 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.mixin.CatInvoker;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.registry.Registries;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.Util;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.item.DyeColor;
 
 public class SpawnPetCatEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
-            Random random = player.getRandom();
+            RandomSource random = player.getRandom();
 
-            EntityType.CAT.spawn(player.getServerWorld(), cat -> {
-                cat.setOwner(player);
+            EntityType.CAT.spawn(player.serverLevel(), cat -> {
+                cat.tame(player);
                 ((CatInvoker) cat).invokeSetCollarColor(Util.getRandom(DyeColor.values(), random));
-                cat.setVariant(Registries.CAT_VARIANT.getRandom(random).get());
-            }, player.getBlockPos().add(random.nextBetween(-4, 4), random.nextInt(2), random.nextBetween(-4, 4)), SpawnReason.SPAWN_EGG, false, false);
+                cat.setVariant(BuiltInRegistries.CAT_VARIANT.getRandom(random).get());
+            }, player.blockPosition().offset(random.nextIntBetweenInclusive(-4, 4), random.nextInt(2), random.nextIntBetweenInclusive(-4, 4)), MobSpawnType.SPAWN_EGG, false, false);
         });
     }
 }

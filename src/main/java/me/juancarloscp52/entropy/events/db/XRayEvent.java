@@ -3,7 +3,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public class XRayEvent extends AbstractTimedEvent {
 
@@ -12,8 +12,8 @@ public class XRayEvent extends AbstractTimedEvent {
         Variables.xrayActive = true;
 
         // Rerender the world because of the caching
-        var client = MinecraftClient.getInstance();
-        client.worldRenderer.reload();
+        var client = Minecraft.getInstance();
+        client.levelRenderer.allChanged();
     }
 
     @Override
@@ -21,8 +21,8 @@ public class XRayEvent extends AbstractTimedEvent {
         Variables.xrayActive = false;
 
         // Rerender the world because of the caching
-        var client = MinecraftClient.getInstance();
-        client.worldRenderer.reload();
+        var client = Minecraft.getInstance();
+        client.levelRenderer.allChanged();
 
         super.endClient();
     }

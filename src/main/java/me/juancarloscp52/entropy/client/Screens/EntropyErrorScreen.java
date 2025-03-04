@@ -17,21 +17,20 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.screen.ScreenTexts;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Text;
-
 import java.util.List;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 
 public class EntropyErrorScreen extends Screen {
     Screen parent;
-    Text message;
+    Component message;
 
-    public EntropyErrorScreen(Screen parent, Text message) {
-        super(Text.translatable("entropy.errorScreen.title"));
+    public EntropyErrorScreen(Screen parent, Component message) {
+        super(Component.translatable("entropy.errorScreen.title"));
         this.message = message;
         this.parent = parent;
     }
@@ -40,22 +39,22 @@ public class EntropyErrorScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-        this.addDrawableChild(ButtonWidget.builder(ScreenTexts.BACK,
-                button -> close()).position(this.width / 2 - 100, this.height - 40).width(200).build());
+        this.addRenderableWidget(Button.builder(CommonComponents.GUI_BACK,
+                button -> onClose()).pos(this.width / 2 - 100, this.height - 40).width(200).build());
     }
 
     @Override
-    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
-        List<OrderedText> lines = textRenderer.wrapLines(message, this.width / 2);
+        List<FormattedCharSequence> lines = font.split(message, this.width / 2);
         for (int i = 0; i < lines.size(); i++) {
-            OrderedText line = lines.get(i);
-            drawContext.drawTextWithShadow(textRenderer, line, this.width / 4, this.height / 2 - (lines.size() * 9 / 2) + i * 9, 16777215);
+            FormattedCharSequence line = lines.get(i);
+            drawContext.drawString(font, line, this.width / 4, this.height / 2 - (lines.size() * 9 / 2) + i * 9, 16777215);
         }
     }
 
     @Override
-    public void close() {
-        this.client.setScreen(this.parent);
+    public void onClose() {
+        this.minecraft.setScreen(this.parent);
     }
 }

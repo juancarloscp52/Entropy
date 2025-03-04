@@ -27,10 +27,9 @@ import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegration;
 import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrations;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations;
 import me.juancarloscp52.entropy.events.Event;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.render.RenderTickCounter;
-
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class ClientEventHandler {
 
     public List<Event> currentEvents = new ArrayList<>();
     public VotingClient votingClient;
-    public MinecraftClient client;
+    public Minecraft client;
     public short eventCountDown;
 
     short timerDuration;
@@ -48,7 +47,7 @@ public class ClientEventHandler {
     boolean serverIntegrations;
 
     public ClientEventHandler(short timerDuration, short baseEventDuration, boolean integrations) {
-        this.client = MinecraftClient.getInstance();
+        this.client = Minecraft.getInstance();
         this.timerDuration = timerDuration;
         this.timerDurationFinal = timerDuration;
         this.eventCountDown = timerDuration;
@@ -90,20 +89,20 @@ public class ClientEventHandler {
         }
     }
 
-    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
+    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
         // Render active event effects
         currentEvents.forEach(event -> {
             if (!event.hasEnded() && !client.player.isSpectator())
                 event.render(drawContext, tickCounter);
         });
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
 
-        if (client.getDebugHud().shouldShowDebugHud())
+        if (client.getDebugOverlay().showDebugScreen())
             return;
 
         double time = timerDuration - eventCountDown;
-        int width = client.getWindow().getScaledWidth();
+        int width = client.getWindow().getGuiScaledWidth();
 
         // Render timer bar
         /// Only the timer is differentiated in two declination for now but
@@ -112,7 +111,7 @@ public class ClientEventHandler {
 
         // Render Event Queue...
         for (int i = 0; i < currentEvents.size(); i++) {
-            currentEvents.get(i).renderQueueItem(drawContext, tickCounter.getTickDelta(false), width - 200, 20 + (i * 13));
+            currentEvents.get(i).renderQueueItem(drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, 20 + (i * 13));
         }
 
         // Render Poll...

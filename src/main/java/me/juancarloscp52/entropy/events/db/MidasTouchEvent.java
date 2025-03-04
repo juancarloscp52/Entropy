@@ -9,27 +9,26 @@ import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.block.Blocks;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.AnimalArmorItem;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.item.SwordItem;
-import net.minecraft.util.Pair;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.world.World;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.AnimalArmorItem;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.HoeItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
 import java.util.ArrayList;
 
 public class MidasTouchEvent extends AbstractTimedEvent {
@@ -44,7 +43,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
             var maxY = minY + 3;
             var maxZ = minZ + 1;
 
-            var world = player.getServerWorld();
+            var world = player.serverLevel();
 
             // Replace blocks around with golden blocks
             for (int ix = minX; ix <= maxX; ix++) {
@@ -52,27 +51,27 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                     for (int iz = minZ; iz <= maxZ; iz++) {
 
                         var blockPos = new BlockPos(ix, iy, iz);
-                        if (world.getBlockState(blockPos).isIn(BlockTags.IGNORED_BY_MIDAS_TOUCH))
+                        if (world.getBlockState(blockPos).is(BlockTags.IGNORED_BY_MIDAS_TOUCH))
                             continue;
 
                         var odds = player.getRandom().nextInt(100);
 
                         if (odds < 96)
-                            world.setBlockState(blockPos,
-                                    world.getRegistryKey() == World.NETHER
-                                    ? Blocks.NETHER_GOLD_ORE.getDefaultState()
-                                            : Blocks.GOLD_ORE.getDefaultState());
+                            world.setBlockAndUpdate(blockPos,
+                                    world.dimension() == Level.NETHER
+                                    ? Blocks.NETHER_GOLD_ORE.defaultBlockState()
+                                            : Blocks.GOLD_ORE.defaultBlockState());
                         else if (odds < 98)
-                            world.setBlockState(blockPos, Blocks.RAW_GOLD_BLOCK.getDefaultState());
+                            world.setBlockAndUpdate(blockPos, Blocks.RAW_GOLD_BLOCK.defaultBlockState());
                         else
-                            world.setBlockState(blockPos, Blocks.GOLD_BLOCK.getDefaultState());
+                            world.setBlockAndUpdate(blockPos, Blocks.GOLD_BLOCK.defaultBlockState());
                     }
                 }
             }
 
             // Kill mobs around and spawn golden items
-            var box = new Box(minX, minY, minZ, maxX, maxY, maxZ);
-            var mobs = world.getOtherEntities(player, box, x -> x instanceof LivingEntity && x.isAlive() && !x.getType().isIn(EntityTypeTags.IGNORED_BY_MIDAS_TOUCH));
+            var box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+            var mobs = world.getEntities(player, box, x -> x instanceof LivingEntity && x.isAlive() && !x.getType().is(EntityTypeTags.IGNORED_BY_MIDAS_TOUCH));
             for (var mob : mobs) {
 
                 ItemStack itemStack;
@@ -99,31 +98,31 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                 }
 
                 var entityItem = new ItemEntity(world, mob.getX(), mob.getY(), mob.getZ(), itemStack);
-                world.spawnEntity(entityItem);
+                world.addFreshEntity(entityItem);
                 mob.kill();
             }
 
             // Replace items that player holding in his hand and everything that player
             // wearing with golden variants
             var inventory = player.getInventory();
-            var inventoryItems = new ArrayList<Pair<DefaultedList<ItemStack>, Integer>>() {
+            var inventoryItems = new ArrayList<Tuple<NonNullList<ItemStack>, Integer>>() {
                 {
-                    add(new Pair<DefaultedList<ItemStack>, Integer>(inventory.offHand, 0));
-                    add(new Pair<DefaultedList<ItemStack>, Integer>(inventory.armor, 0));
-                    add(new Pair<DefaultedList<ItemStack>, Integer>(inventory.armor, 1));
-                    add(new Pair<DefaultedList<ItemStack>, Integer>(inventory.armor, 2));
-                    add(new Pair<DefaultedList<ItemStack>, Integer>(inventory.armor, 3));
-                    add(new Pair<DefaultedList<ItemStack>, Integer>(inventory.main, inventory.selectedSlot));
+                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.offhand, 0));
+                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.armor, 0));
+                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.armor, 1));
+                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.armor, 2));
+                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.armor, 3));
+                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.items, inventory.selected));
                 }
             };
             for (var pair : inventoryItems) {
-                var itemStack = pair.getLeft().get(pair.getRight());
-                if (itemStack.isEmpty() || itemStack.isIn(ItemTags.IGNORED_BY_MIDAS_TOUCH) || itemStack.isIn(ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS))
+                var itemStack = pair.getA().get(pair.getB());
+                if (itemStack.isEmpty() || itemStack.is(ItemTags.IGNORED_BY_MIDAS_TOUCH) || itemStack.is(ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS))
                     continue;
                 var item = itemStack.getItem();
 
                 ItemStack newItemStack;
-                var food = item.getComponents().get(DataComponentTypes.FOOD);
+                var food = item.components().get(DataComponents.FOOD);
                 if (food != null) {
                     var odds = player.getRandom().nextInt(100);
 
@@ -151,13 +150,13 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                             break;
                     }
                 } else if (item instanceof ArmorItem) {
-                    if (((ArmorItem) item).getSlotType() == EquipmentSlot.HEAD)
+                    if (((ArmorItem) item).getEquipmentSlot() == EquipmentSlot.HEAD)
                         newItemStack = new ItemStack(Items.GOLDEN_HELMET, itemStack.getCount());
-                    else if (((ArmorItem) item).getSlotType() == EquipmentSlot.CHEST)
+                    else if (((ArmorItem) item).getEquipmentSlot() == EquipmentSlot.CHEST)
                         newItemStack = new ItemStack(Items.GOLDEN_CHESTPLATE, itemStack.getCount());
-                    else if (((ArmorItem) item).getSlotType() == EquipmentSlot.LEGS)
+                    else if (((ArmorItem) item).getEquipmentSlot() == EquipmentSlot.LEGS)
                         newItemStack = new ItemStack(Items.GOLDEN_LEGGINGS, itemStack.getCount());
-                    else if (((ArmorItem) item).getSlotType() == EquipmentSlot.FEET)
+                    else if (((ArmorItem) item).getEquipmentSlot() == EquipmentSlot.FEET)
                         newItemStack = new ItemStack(Items.GOLDEN_BOOTS, itemStack.getCount());
                     else
                         newItemStack = new ItemStack(Items.GOLD_INGOT);
@@ -186,7 +185,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                             break;
                     }
                 }
-                pair.getLeft().set(pair.getRight(), newItemStack);
+                pair.getA().set(pair.getB(), newItemStack);
             }
         }
 

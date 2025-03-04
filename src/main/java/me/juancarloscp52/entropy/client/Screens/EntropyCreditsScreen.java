@@ -19,10 +19,10 @@ package me.juancarloscp52.entropy.client.Screens;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.events.Event;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.CreditsScreen;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.WinScreen;
 
-public class EntropyCreditsScreen extends CreditsScreen {
+public class EntropyCreditsScreen extends WinScreen {
     Event currentEvent;
 
     public EntropyCreditsScreen(Event currentEvent) {
@@ -36,13 +36,13 @@ public class EntropyCreditsScreen extends CreditsScreen {
     }
 
     @Override
-    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
-        EntropyClient.getInstance().clientEventHandler.render(drawContext, client.getRenderTickCounter());
+        EntropyClient.getInstance().clientEventHandler.render(drawContext, minecraft.getTimer());
     }
 
     @Override
-    public boolean shouldPause() {
+    public boolean isPauseScreen() {
         return false;
     }
 }

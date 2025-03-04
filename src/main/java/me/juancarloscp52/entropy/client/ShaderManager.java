@@ -18,24 +18,23 @@
 package me.juancarloscp52.entropy.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.PostEffectProcessor;
-import net.minecraft.util.Identifier;
-
 import java.io.IOException;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.PostChain;
+import net.minecraft.resources.ResourceLocation;
 
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 public class ShaderManager {
 
-    public static PostEffectProcessor register(Identifier id){
-        MinecraftClient client = MinecraftClient.getInstance();
+    public static PostChain register(ResourceLocation id){
+        Minecraft client = Minecraft.getInstance();
         try {
-            PostEffectProcessor shader;
-            shader = new PostEffectProcessor(client.getTextureManager(), client.getResourceManager(),
-                    client.getFramebuffer(), id);
-            shader.setupDimensions(client.getWindow().getFramebufferWidth(), client.getWindow().getFramebufferHeight());
+            PostChain shader;
+            shader = new PostChain(client.getTextureManager(), client.getResourceManager(),
+                    client.getMainRenderTarget(), id);
+            shader.resize(client.getWindow().getWidth(), client.getWindow().getHeight());
             return shader;
         }catch (IOException e){
             System.out.println("Could not read shader: "+e.getMessage());
@@ -43,12 +42,12 @@ public class ShaderManager {
         return null;
     }
 
-    public static void render(PostEffectProcessor shader, float tickDelta){
+    public static void render(PostChain shader, float tickDelta){
         RenderSystem.disableBlend();
         RenderSystem.disableDepthTest();
         RenderSystem.resetTextureMatrix();
-        shader.render(tickDelta);
-        MinecraftClient.getInstance().getFramebuffer().beginWrite(true);
+        shader.process(tickDelta);
+        Minecraft.getInstance().getMainRenderTarget().bindWrite(true);
         RenderSystem.disableBlend();
         RenderSystem.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // restore blending
         RenderSystem.enableDepthTest();

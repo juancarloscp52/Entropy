@@ -34,11 +34,11 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.minecraft.client.gl.PostEffectProcessor;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.renderer.PostChain;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,16 +52,16 @@ import java.util.Optional;
 public class EntropyClient implements ClientModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final Identifier herobrineAmbienceID = Identifier.of("entropy", "ambient.herobrine");
+    public static final ResourceLocation herobrineAmbienceID = ResourceLocation.fromNamespaceAndPath("entropy", "ambient.herobrine");
     public static EntropyClient instance;
-    public static SoundEvent herobrineAmbience = SoundEvent.of(herobrineAmbienceID);
+    public static SoundEvent herobrineAmbience = SoundEvent.createVariableRangeEvent(herobrineAmbienceID);
     public ClientEventHandler clientEventHandler;
     public EntropyIntegrationsSettings integrationsSettings;
-    private PostEffectProcessor shader_blur;
-    private PostEffectProcessor shader_wobble;
-    private PostEffectProcessor shader_invertedColor;
-    private PostEffectProcessor shader_monitor;
-    private PostEffectProcessor shader_black_and_white;
+    private PostChain shader_blur;
+    private PostChain shader_wobble;
+    private PostChain shader_invertedColor;
+    private PostChain shader_monitor;
+    private PostChain shader_black_and_white;
     public static EntropyClient getInstance() {
         return instance;
     }
@@ -171,7 +171,7 @@ public class EntropyClient implements ClientModInitializer {
         });
 
         //Registry.registerReference()
-        Registry.register(Registries.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
+        Registry.register(BuiltInRegistries.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
         ParticleFactoryRegistry.getInstance().register(Entropy.CONSTANT_COLOR_DUST, ConstantColorDustParticle.Factory::new);
     }
 
@@ -179,25 +179,25 @@ public class EntropyClient implements ClientModInitializer {
     public void renderShaders(float tickDelta) {
         if (Variables.blur) {
             if(shader_blur==null){
-                shader_blur=ShaderManager.register(Identifier.of("entropy", "shaders/post/blur.json"));
+                shader_blur=ShaderManager.register(ResourceLocation.fromNamespaceAndPath("entropy", "shaders/post/blur.json"));
             }
             assert shader_blur != null : "Blur shader is null";
             ShaderManager.render(shader_blur,tickDelta);
         } else if (Variables.invertedShader) {
             if(shader_invertedColor==null){
-                shader_invertedColor=ShaderManager.register(Identifier.ofVanilla("shaders/post/invert.json"));
+                shader_invertedColor=ShaderManager.register(ResourceLocation.withDefaultNamespace("shaders/post/invert.json"));
             }
             assert shader_invertedColor != null : "Inverted Color shader is null";
             ShaderManager.render(shader_invertedColor,tickDelta);
         } else if (Variables.wobble) {
             if(shader_wobble==null){
-                shader_wobble=ShaderManager.register(Identifier.of("entropy","shaders/post/wobble.json"));
+                shader_wobble=ShaderManager.register(ResourceLocation.fromNamespaceAndPath("entropy","shaders/post/wobble.json"));
             }
             assert shader_wobble != null : "Wobble shader is null";
             ShaderManager.render(shader_wobble,tickDelta);
         } else if (Variables.monitor) {
             if(shader_monitor==null){
-                shader_monitor=ShaderManager.register(Identifier.of("entropy", "shaders/post/crt.json"));
+                shader_monitor=ShaderManager.register(ResourceLocation.fromNamespaceAndPath("entropy", "shaders/post/crt.json"));
             }
             assert shader_monitor != null : "Monitor shader is null";
             ShaderManager.render(shader_monitor,tickDelta);
@@ -207,7 +207,7 @@ public class EntropyClient implements ClientModInitializer {
     public void renderBlackAndWhite(float tickDelta) {
         if (Variables.blackAndWhite) {
             if(shader_black_and_white==null){
-                shader_black_and_white=ShaderManager.register(Identifier.of("entropy", "shaders/post/black_and_white.json"));
+                shader_black_and_white=ShaderManager.register(ResourceLocation.fromNamespaceAndPath("entropy", "shaders/post/black_and_white.json"));
             }
             assert shader_black_and_white != null : "Black & White shader is null";
             ShaderManager.render(shader_black_and_white,tickDelta);

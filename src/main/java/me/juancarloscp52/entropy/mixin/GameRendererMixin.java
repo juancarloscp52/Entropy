@@ -17,17 +17,17 @@
 
 package me.juancarloscp52.entropy.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.EntropyClient;
-import net.minecraft.block.enums.CameraSubmersionType;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.material.FogType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,17 +42,17 @@ public class GameRendererMixin {
 
     @Shadow
     @Final
-    private MinecraftClient client;
+    private Minecraft minecraft;
 
-    @Shadow private float lastFovMultiplier;
+    @Shadow private float oldFov;
 
-    @Shadow private float fovMultiplier;
+    @Shadow private float fov;
 
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
     public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
         if (Variables.forcedFov) {
             if (Variables.ignoreVariableFov) {
-                cir.setReturnValue((double) Variables.fov * MathHelper.lerp(client.options.getFovEffectScale().getValue(), Variables.fov, 1.0D));
+                cir.setReturnValue((double) Variables.fov * Mth.lerp(minecraft.options.fovEffectScale().get(), Variables.fov, 1.0D));
             } else {
                 cir.setReturnValue(updateFov(camera, tickDelta, changingFov, Variables.fov));
             }
@@ -63,16 +63,16 @@ public class GameRendererMixin {
             double fov = 70.0D;
             if (changingFov) {
                 fov = fovValue;
-                fov *= MathHelper.lerp(tickDelta, this.lastFovMultiplier, this.fovMultiplier);
+                fov *= Mth.lerp(tickDelta, this.oldFov, this.fov);
             }
 
-            if (camera.getFocusedEntity() instanceof LivingEntity && ((LivingEntity) camera.getFocusedEntity()).isDead()) {
-                float f = Math.min((float) ((LivingEntity) camera.getFocusedEntity()).deathTime + tickDelta, 20.0F);
+            if (camera.getEntity() instanceof LivingEntity && ((LivingEntity) camera.getEntity()).isDeadOrDying()) {
+                float f = Math.min((float) ((LivingEntity) camera.getEntity()).deathTime + tickDelta, 20.0F);
                 fov /= ((1.0F - 500.0F / (f + 500.0F)) * 2.0F + 1.0F);
             }
-            CameraSubmersionType cameraSubmersionType = camera.getSubmersionType();
-            if (cameraSubmersionType == CameraSubmersionType.LAVA || cameraSubmersionType == CameraSubmersionType.WATER) {
-                fov *= MathHelper.lerp(this.client.options.getFovEffectScale().getValue(), 1.0F, 0.85714287F);
+            FogType cameraSubmersionType = camera.getFluidInCamera();
+            if (cameraSubmersionType == FogType.LAVA || cameraSubmersionType == FogType.WATER) {
+                fov *= Mth.lerp(this.minecraft.options.fovEffectScale().get(), 1.0F, 0.85714287F);
             }
 //            FluidState fluidState = camera.getSubmergedFluidState();
 //            if (!fluidState.isEmpty()) {
@@ -83,20 +83,20 @@ public class GameRendererMixin {
         }
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;drawEntityOutlinesFramebuffer()V", shift = At.Shift.AFTER))
-    public void renderShaders(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci){
-        EntropyClient.getInstance().renderShaders(tickCounter.getTickDelta(false));
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V", shift = At.Shift.AFTER))
+    public void renderShaders(DeltaTracker tickCounter, boolean tick, CallbackInfo ci){
+        EntropyClient.getInstance().renderShaders(tickCounter.getGameTimeDeltaPartialTick(false));
     }
 
     @Inject(method = "render", at = @At(value = "TAIL"))
-    public void renderBlackWhiteShader(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
-        EntropyClient.getInstance().renderBlackAndWhite(tickCounter.getTickDelta(false));
+    public void renderBlackWhiteShader(DeltaTracker tickCounter, boolean tick, CallbackInfo ci) {
+        EntropyClient.getInstance().renderBlackAndWhite(tickCounter.getGameTimeDeltaPartialTick(false));
     }
 
-    @ModifyVariable(method = "renderWorld", at = @At("STORE"), ordinal = 0)
-    private MatrixStack matrixStack(MatrixStack matrixStack) {
+    @ModifyVariable(method = "renderLevel", at = @At("STORE"), ordinal = 0)
+    private PoseStack matrixStack(PoseStack matrixStack) {
         if (Variables.cameraRoll != 0f) {
-            matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(Variables.cameraRoll));
+            matrixStack.mulPose(Axis.ZP.rotationDegrees(Variables.cameraRoll));
         }
         return matrixStack;
     }

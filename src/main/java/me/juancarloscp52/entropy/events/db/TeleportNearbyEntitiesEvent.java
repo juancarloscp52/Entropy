@@ -19,17 +19,17 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.util.math.Box;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.phys.AABB;
 
 public class TeleportNearbyEntitiesEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getPos().add(50, 50, 50), serverPlayerEntity.getPos().add(-50, -50, -50))).forEach(entity -> {
-                if(!(entity instanceof EnderDragonEntity))
-                    entity.requestTeleport(serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ());
+            serverPlayerEntity.level().getEntities(serverPlayerEntity, new AABB(serverPlayerEntity.position().add(50, 50, 50), serverPlayerEntity.position().add(-50, -50, -50))).forEach(entity -> {
+                if(!(entity instanceof EnderDragon))
+                    entity.teleportTo(serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ());
             });
         });
     }

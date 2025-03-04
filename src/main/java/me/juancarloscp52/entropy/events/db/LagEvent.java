@@ -7,19 +7,19 @@ import java.util.Set;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.phys.Vec3;
 
 public class LagEvent extends AbstractTimedEvent {
-    Random random;
+    RandomSource random;
     boolean saved_pos;
     int countdown;
-    Map<ServerPlayerEntity, BlockPos> player_positions;
+    Map<ServerPlayer, BlockPos> player_positions;
 
     public void init() {
-        random = Random.create();
+        random = RandomSource.create();
         saved_pos = false;
         countdown = 0;
         player_positions = new HashMap<>();
@@ -36,19 +36,19 @@ public class LagEvent extends AbstractTimedEvent {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach((serverPlayerEntity) -> {
                 BlockPos pos = player_positions.get(serverPlayerEntity);
                 if (pos != null) {
-                    EntropyUtils.teleportPlayer(serverPlayerEntity, Vec3d.ofBottomCenter(pos));
+                    EntropyUtils.teleportPlayer(serverPlayerEntity, Vec3.atBottomCenterOf(pos));
                 }
 
             });
             saved_pos = false;
         } else {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach((serverPlayerEntity) -> {
-                player_positions.put(serverPlayerEntity, serverPlayerEntity.getBlockPos());
+                player_positions.put(serverPlayerEntity, serverPlayerEntity.blockPosition());
             });
             saved_pos = true;
         }
 
-        countdown = random.nextBetween(10, 40);
+        countdown = random.nextIntBetweenInclusive(10, 40);
         super.tick();
     }
 

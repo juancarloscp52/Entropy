@@ -18,10 +18,10 @@
 package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
-import net.minecraft.client.render.Camera;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.BlockView;
+import net.minecraft.client.Camera;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.BlockGetter;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,18 +33,18 @@ public abstract class CameraMixin {
     int cameraYDistance = 8;
     @Shadow protected abstract void setRotation(float yaw, float pitch);
 
-    @Shadow protected abstract void setPos(double x, double y, double z);
+    @Shadow protected abstract void setPosition(double x, double y, double z);
 
-    @Shadow private float lastCameraY;
+    @Shadow private float eyeHeightOld;
 
-    @Shadow private float cameraY;
+    @Shadow private float eyeHeight;
 
-    @Inject(method = "update",at=@At("TAIL"))
-    private void update(BlockView area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci){
+    @Inject(method = "setup",at=@At("TAIL"))
+    private void update(BlockGetter area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci){
         if(!Variables.topView)
             return;
         this.setRotation(0, +90);
-        this.setPos(MathHelper.lerp(tickDelta, focusedEntity.prevX, focusedEntity.getX()), MathHelper.lerp(tickDelta, focusedEntity.prevY+cameraYDistance, focusedEntity.getY()+cameraYDistance) + (double)MathHelper.lerp(tickDelta, this.lastCameraY+cameraYDistance, this.cameraY+cameraYDistance), MathHelper.lerp(tickDelta, focusedEntity.prevZ, focusedEntity.getZ()));
+        this.setPosition(Mth.lerp(tickDelta, focusedEntity.xo, focusedEntity.getX()), Mth.lerp(tickDelta, focusedEntity.yo+cameraYDistance, focusedEntity.getY()+cameraYDistance) + (double)Mth.lerp(tickDelta, this.eyeHeightOld+cameraYDistance, this.eyeHeight+cameraYDistance), Mth.lerp(tickDelta, focusedEntity.zo, focusedEntity.getZ()));
     }
 
 

@@ -25,14 +25,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.math.ColorHelper;
-import net.minecraft.util.math.MathHelper;
-
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import java.util.List;
 
 public abstract class AbstractTimedEvent implements Event {
@@ -41,22 +40,22 @@ public abstract class AbstractTimedEvent implements Event {
     private boolean hasEnded = false;
 
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(DrawContext drawContext, float tickdelta, int x, int y) {
+    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
         if(Variables.doNotShowEvents && !(this instanceof HideEventsEvent))
             return;
         if(Variables.doNotShowEvents)
             y=20;
-        MinecraftClient client = MinecraftClient.getInstance();
-        MutableText eventName = Text.translatable(EventRegistry.getTranslationKey(this));
+        Minecraft client = Minecraft.getInstance();
+        MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(this));
 
         if(isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
-            eventName.formatted(Formatting.STRIKETHROUGH);
+            eventName.withStyle(ChatFormatting.STRIKETHROUGH);
 
-        int size = client.textRenderer.getWidth(eventName);
-        drawContext.drawTextWithShadow(client.textRenderer, eventName, client.getWindow().getScaledWidth() - size - 40, y, ColorHelper.Argb.getArgb(255,255, 255, 255));
+        int size = client.font.width(eventName);
+        drawContext.drawString(client.font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, FastColor.ARGB32.color(255,255, 255, 255));
         if (!this.hasEnded()) {
-            drawContext.fill(client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 5, y + 8, ColorHelper.Argb.getArgb(150,70, 70, 70));
-            drawContext.fill(client.getWindow().getScaledWidth() - 35, y + 1, client.getWindow().getScaledWidth() - 35 + MathHelper.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ColorHelper.Argb.getArgb(200,255, 255, 255));
+            drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 5, y + 8, FastColor.ARGB32.color(150,70, 70, 70));
+            drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 35 + Mth.floor(30 * (getTickCount() / (double) getDuration())), y + 8, FastColor.ARGB32.color(200,255, 255, 255));
         }
     }
 

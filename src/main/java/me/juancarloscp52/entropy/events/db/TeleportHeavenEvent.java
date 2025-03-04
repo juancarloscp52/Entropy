@@ -20,9 +20,9 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 
 public class TeleportHeavenEvent extends AbstractInstantEvent {
 
@@ -30,12 +30,12 @@ public class TeleportHeavenEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
 
-            if(serverPlayerEntity.getWorld().getRegistryKey() == World.NETHER){
-                BlockPos pos = serverPlayerEntity.getBlockPos().withY(122);
+            if(serverPlayerEntity.level().dimension() == Level.NETHER){
+                BlockPos pos = serverPlayerEntity.blockPosition().atY(122);
                 for(int i= -3; i<=4;i++) {
                     for (int j = -3; j <= 4; j++) {
                         for (int z = -2; z <= 6; z++){
-                            serverPlayerEntity.getWorld().setBlockState(new BlockPos(pos.getX()+i,pos.getY()+z,pos.getZ()+j), Blocks.AIR.getDefaultState());
+                            serverPlayerEntity.level().setBlockAndUpdate(new BlockPos(pos.getX()+i,pos.getY()+z,pos.getZ()+j), Blocks.AIR.defaultBlockState());
                         }
                     }
                 }
