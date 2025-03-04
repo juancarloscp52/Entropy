@@ -20,10 +20,10 @@ import org.joml.Vector3f;
 public class ConstantColorDustParticleEffect extends AbstractDustParticleEffect {
     public static final MapCodec<ConstantColorDustParticleEffect> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
         Codec.INT.fieldOf("color").forGetter(effect -> effect.color),
-        Codec.FLOAT.fieldOf("scale").forGetter(AbstractDustParticleEffect::getScale)
+        SCALE_CODEC.fieldOf("scale").forGetter(AbstractDustParticleEffect::getScale)
     ).apply(instance, ConstantColorDustParticleEffect::new));
     public static final PacketCodec<ByteBuf, ConstantColorDustParticleEffect> PACKET_CODEC = PacketCodec.tuple(
-        PacketCodecs.INTEGER, effect -> effect.color,
+        PacketCodecs.VAR_INT, effect -> effect.color,
         PacketCodecs.FLOAT, AbstractDustParticleEffect::getScale,
         ConstantColorDustParticleEffect::new
     );
@@ -42,5 +42,17 @@ public class ConstantColorDustParticleEffect extends AbstractDustParticleEffect 
     @Override
     public ParticleType<ConstantColorDustParticleEffect> getType() {
         return Entropy.CONSTANT_COLOR_DUST;
+    }
+
+    public float red() {
+        return ColorHelper.Argb.getRed(color) / 255.0F;
+    }
+
+    public float green() {
+        return ColorHelper.Argb.getGreen(color) / 255.0F;
+    }
+
+    public float blue() {
+        return ColorHelper.Argb.getBlue(color) / 255.0F;
     }
 }
