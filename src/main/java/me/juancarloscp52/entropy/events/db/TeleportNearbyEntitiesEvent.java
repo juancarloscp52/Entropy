@@ -29,7 +29,7 @@ public class TeleportNearbyEntitiesEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.getWorld().getOtherEntities(serverPlayerEntity, new Box(serverPlayerEntity.getPos().add(50, 50, 50), serverPlayerEntity.getPos().add(-50, -50, -50))).forEach(entity -> {
                 if(!(entity instanceof EnderDragonEntity))
-                    entity.teleport(serverPlayerEntity.getX(),serverPlayerEntity.getY(),serverPlayerEntity.getZ());
+                    entity.requestTeleport(serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ());
             });
         });
     }

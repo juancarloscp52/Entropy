@@ -19,7 +19,7 @@ public class EntropyItemTagProvider extends ItemTagProvider{
 
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
-        TagKey<Item> spawnEggsTag = TagKey.of(Registries.ITEM.getKey(), new Identifier("c", "spawn_eggs"));
+        TagKey<Item> spawnEggsTag = TagKey.of(Registries.ITEM.getKey(), Identifier.of("c", "spawn_eggs"));
 
         getOrCreateTagBuilder(ItemTags.BANNED).addTag(spawnEggsTag).add(Items.DEBUG_STICK,
                 Items.COMMAND_BLOCK,

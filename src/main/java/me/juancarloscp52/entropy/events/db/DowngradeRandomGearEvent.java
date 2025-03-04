@@ -125,8 +125,8 @@ public class DowngradeRandomGearEvent extends AbstractInstantEvent {
 
         newItemStack.setDamage((int) newDamage);
         var enchantments = itemStack.getEnchantments();
-        for (var enchantment : enchantments.getEnchantmentsMap())
-            newItemStack.addEnchantment(enchantment.getKey().value(), enchantment.getIntValue());
+        for (var enchantment : enchantments.getEnchantmentEntries())
+            newItemStack.addEnchantment(enchantment.getKey(), enchantment.getIntValue());
 
         inventoryList.set(index, newItemStack);
 

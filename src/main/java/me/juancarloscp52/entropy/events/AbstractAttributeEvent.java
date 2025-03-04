@@ -36,7 +36,7 @@ public abstract class AbstractAttributeEvent extends AbstractTimedEvent {
 
     @Override
     public void endPlayer(ServerPlayerEntity player) {
-        modifiers.forEach(active -> player.getAttributeInstance(active.attribute()).removeModifier(active.modifier().uuid()));
+        modifiers.forEach(active -> player.getAttributeInstance(active.attribute()).removeModifier(active.modifier().id()));
     }
 
     @Override
@@ -45,7 +45,7 @@ public abstract class AbstractAttributeEvent extends AbstractTimedEvent {
             for (final ServerPlayerEntity player : Entropy.getInstance().eventHandler.getActivePlayers()) {
                 for (final ActiveModifier active : modifiers) {
                     final EntityAttributeInstance attributeInstance = player.getAttributeInstance(active.attribute());
-                    if (attributeInstance.getModifier(active.modifier().uuid()) == null) {
+                    if (attributeInstance.getModifier(active.modifier().id()) == null) {
                         attributeInstance.addTemporaryModifier(active.modifier());
                     }
                 }

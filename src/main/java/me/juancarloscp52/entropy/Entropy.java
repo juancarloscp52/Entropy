@@ -79,7 +79,7 @@ public class Entropy implements ModInitializer {
         loadSettings();
         LOGGER.info("Entropy Started");
         EventRegistry.register();
-        Registry.register(Registries.PARTICLE_TYPE, new Identifier("entropy", "constant_color_dust"), CONSTANT_COLOR_DUST);
+        Registry.register(Registries.PARTICLE_TYPE, Identifier.of("entropy", "constant_color_dust"), CONSTANT_COLOR_DUST);
 
         ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (handshake, context) -> {
             String version = FabricLoader.getInstance().getModContainer("entropy").get().getMetadata().getVersion().getFriendlyString();

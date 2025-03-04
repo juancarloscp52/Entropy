@@ -38,7 +38,7 @@ public class EntropyCreditsScreen extends CreditsScreen {
     @Override
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
-        EntropyClient.getInstance().clientEventHandler.render(drawContext, delta);
+        EntropyClient.getInstance().clientEventHandler.render(drawContext, client.getRenderTickCounter());
     }
 
     @Override

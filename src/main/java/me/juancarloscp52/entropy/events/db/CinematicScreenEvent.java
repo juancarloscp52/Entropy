@@ -22,6 +22,7 @@ import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.math.MathHelper;
 
 public class CinematicScreenEvent extends AbstractTimedEvent {
@@ -52,7 +53,7 @@ public class CinematicScreenEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(DrawContext drawContext, float tickdelta) {
+    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
         client = MinecraftClient.getInstance();
         int borderHeight = MathHelper.floor(client.getWindow().getScaledHeight() * 0.12f);
         drawContext.fill(0, 0, client.getWindow().getScaledWidth(), borderHeight, 255 << 24);

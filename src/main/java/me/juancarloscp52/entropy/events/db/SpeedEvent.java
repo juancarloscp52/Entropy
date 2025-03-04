@@ -20,13 +20,14 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.events.AbstractAttributeEvent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
 
 public class SpeedEvent extends AbstractAttributeEvent {
     @Override
     public List<ActiveModifier> getModifiers() {
-        return List.of(new ActiveModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier("SpeedEvent", 1.25d, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
+        return List.of(new ActiveModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(Identifier.of("entropy", "speed"), 1.25d, EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
     }
 
     @Override

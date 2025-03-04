@@ -29,6 +29,7 @@ import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations
 import me.juancarloscp52.entropy.events.Event;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,11 +90,11 @@ public class ClientEventHandler {
         }
     }
 
-    public void render(DrawContext drawContext, float tickdelta) {
+    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
         // Render active event effects
         currentEvents.forEach(event -> {
             if (!event.hasEnded() && !client.player.isSpectator())
-                event.render(drawContext, tickdelta);
+                event.render(drawContext, tickCounter);
         });
 
         MinecraftClient client = MinecraftClient.getInstance();
@@ -111,7 +112,7 @@ public class ClientEventHandler {
 
         // Render Event Queue...
         for (int i = 0; i < currentEvents.size(); i++) {
-            currentEvents.get(i).renderQueueItem(drawContext, tickdelta, width - 200, 20 + (i * 13));
+            currentEvents.get(i).renderQueueItem(drawContext, tickCounter.getTickDelta(false), width - 200, 20 + (i * 13));
         }
 
         // Render Poll...

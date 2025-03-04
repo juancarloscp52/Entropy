@@ -20,7 +20,7 @@ package me.juancarloscp52.entropy.events;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import java.util.Optional;
@@ -44,7 +44,7 @@ public interface Event {
     }
 
     @Environment(EnvType.CLIENT)
-    default void render(DrawContext drawContext, float tickdelta) {
+    default void render(DrawContext drawContext, RenderTickCounter tickCounter) {
     }
 
     @Environment(EnvType.CLIENT)

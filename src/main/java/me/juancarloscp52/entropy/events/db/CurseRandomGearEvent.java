@@ -6,13 +6,17 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class CurseRandomGearEvent extends AbstractInstantEvent {
 
-    private static ArrayList<Enchantment> _curses = new ArrayList<Enchantment>() {
+    private static ArrayList<RegistryKey<Enchantment>> _curses = new ArrayList<>() {
         {
             add(Enchantments.BINDING_CURSE);
             add(Enchantments.VANISHING_CURSE);
@@ -35,19 +39,21 @@ public class CurseRandomGearEvent extends AbstractInstantEvent {
                 if(itemStack.isIn(ItemTags.DO_NOT_CURSE))
                     continue;
 
-                for (var curse : _curses) {
-                    if (curse.isAcceptableItem(itemStack)) {
+                final Registry<Enchantment> enchantments = serverPlayerEntity.getRegistryManager().get(RegistryKeys.ENCHANTMENT);
+                for (var curseKey : _curses) {
+                    final RegistryEntry<Enchantment> curse = enchantments.getEntry(curseKey).get();
+                    if (curse.value().isAcceptableItem(itemStack)) {
                         var hasCurse = false;
                         var existingEnchantments = itemStack.getEnchantments();
 
                         for (var enchantment : existingEnchantments.getEnchantments())
-                            if (enchantment.value() == curse) {
+                            if (enchantment == curse) {
                                 hasCurse = true;
                                 break;
                             }
 
                         if (!hasCurse) {
-                            itemStack.addEnchantment(curse, curse.getMaxLevel());
+                            itemStack.addEnchantment(curse, curse.value().getMaxLevel());
                             return;
                         }
                     }

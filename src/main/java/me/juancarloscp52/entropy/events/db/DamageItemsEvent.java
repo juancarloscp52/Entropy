@@ -29,17 +29,17 @@ public class DamageItemsEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.getInventory().main.forEach(itemStack -> {
                 if(itemStack.isDamageable() && !itemStack.isIn(ItemTags.DO_NOT_DAMAGE)){
-                    itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.getRandom(), serverPlayerEntity, () -> {});
+                    itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.getServerWorld(), serverPlayerEntity, item -> {});
                 }
             });
             serverPlayerEntity.getInventory().armor.forEach(itemStack -> {
                 if(itemStack.isDamageable() && !itemStack.isIn(ItemTags.DO_NOT_DAMAGE)){
-                    itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.getRandom(), serverPlayerEntity, () -> {});
+                    itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.getServerWorld(), serverPlayerEntity, item -> {});
                 }
             });
             serverPlayerEntity.getInventory().offHand.forEach(itemStack -> {
                 if(itemStack.isDamageable() && !itemStack.isIn(ItemTags.DO_NOT_DAMAGE)){
-                    itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.getRandom(), serverPlayerEntity, () -> {});
+                    itemStack.damage(MathHelper.ceil((itemStack.getMaxDamage()-itemStack.getDamage())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.getServerWorld(), serverPlayerEntity, item -> {});
                 }
             });
         });

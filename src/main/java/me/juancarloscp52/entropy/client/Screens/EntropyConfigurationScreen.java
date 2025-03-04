@@ -39,7 +39,7 @@ import net.minecraft.util.math.MathHelper;
 
 
 public class EntropyConfigurationScreen extends Screen {
-    private static final Identifier LOGO = new Identifier("entropy", "textures/logo-with-text.png");
+    private static final Identifier LOGO = Identifier.of("entropy", "textures/logo-with-text.png");
     private static final double MAX_DURATION = 3300D; //165 seconds + 15 seconds minimum for a total range of 15s-180s
     EntropySettings settings = Entropy.getInstance().settings;
 
@@ -99,18 +99,18 @@ public class EntropyConfigurationScreen extends Screen {
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
 
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
         drawLogo(drawContext);
         Text title = Text.translatable("entropy.options.title");
         drawContext.drawTextWithShadow(this.textRenderer, title, this.width / 2 - textRenderer.getWidth(title)/2, 10, 16777215);
     }
 
     public static void drawLogo(final DrawContext drawContext) {
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
         MatrixStack matrices = drawContext.getMatrices();
         matrices.push();
         matrices.scale(0.2f, 0.2f, 0.2f);
-        drawContext.drawTexture(LOGO, 0, 0, -1, 0, 0, 188, 187, 256, 256);
+        drawContext.drawTexture(LOGO, 0, 0, 0, 0, 0, 188, 187, 256, 256);
         matrices.pop();
         RenderSystem.disableBlend();
     }

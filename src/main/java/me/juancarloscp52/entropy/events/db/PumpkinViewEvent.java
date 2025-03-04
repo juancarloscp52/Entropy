@@ -24,7 +24,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
@@ -32,7 +34,7 @@ import net.minecraft.util.Identifier;
 
 public class PumpkinViewEvent extends AbstractTimedEvent {
 
-    private static final Identifier PUMKIN_TEXTURE = new Identifier("textures/misc/pumpkinblur.png");
+    private static final Identifier PUMKIN_TEXTURE = Identifier.ofVanilla("textures/misc/pumpkinblur.png");
     MinecraftClient client;
 
     @Override
@@ -43,7 +45,7 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(DrawContext drawContext, float tickdelta) {
+    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
         renderVignetteOverlay();
     }
 
@@ -64,13 +66,12 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.setShaderTexture(0, PUMKIN_TEXTURE);
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(0.0, scaledHeight, -90.0).texture(0.0f, 1.0f).next();
-        bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0).texture(1.0f, 1.0f).next();
-        bufferBuilder.vertex(scaledWidth, 0.0, -90.0).texture(1.0f, 0.0f).next();
-        bufferBuilder.vertex(0.0, 0.0, -90.0).texture(0.0f, 0.0f).next();
-        tessellator.draw();
+        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.vertex(0.0F, scaledHeight, -90.0F).texture(0.0f, 1.0f);
+        bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0F).texture(1.0f, 1.0f);
+        bufferBuilder.vertex(scaledWidth, 0.0F, -90.0F).texture(1.0f, 0.0f);
+        bufferBuilder.vertex(0.0F, 0.0F, -90.0F).texture(0.0f, 0.0f);
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);

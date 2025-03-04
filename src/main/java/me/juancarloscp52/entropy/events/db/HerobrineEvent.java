@@ -32,7 +32,9 @@ import net.minecraft.block.FenceGateBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
@@ -48,7 +50,7 @@ import java.util.Random;
 
 public class HerobrineEvent extends AbstractTimedEvent {
 
-    private static final Identifier VIGNETTE_TEXTURE = new Identifier("entropy", "textures/vignette.png");
+    private static final Identifier VIGNETTE_TEXTURE = Identifier.of("entropy", "textures/vignette.png");
     Random random;
     MinecraftClient client;
 
@@ -78,7 +80,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(DrawContext drawContext, float tickdelta) {
+    public void render(DrawContext drawContext, RenderTickCounter tickCounter) {
         renderVignetteOverlay();
     }
 
@@ -155,13 +157,12 @@ public class HerobrineEvent extends AbstractTimedEvent {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderTexture(0, VIGNETTE_TEXTURE);
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuffer();
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(0.0D, scaledHeight, -90.0D).texture(0.0F, 1.0F).next();
-        bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0D).texture(1.0F, 1.0F).next();
-        bufferBuilder.vertex(scaledWidth, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
-        bufferBuilder.vertex(0.0D, 0.0D, -90.0D).texture(0.0F, 0.0F).next();
-        tessellator.draw();
+        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+        bufferBuilder.vertex(0.0F, scaledHeight, -90.0F).texture(0.0F, 1.0F);
+        bufferBuilder.vertex(scaledWidth, scaledHeight, -90.0F).texture(1.0F, 1.0F);
+        bufferBuilder.vertex(scaledWidth, 0.0F, -90.0F).texture(1.0F, 0.0F);
+        bufferBuilder.vertex(0.0F, 0.0F, -90.0F).texture(0.0F, 0.0F);
+        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
         RenderSystem.depthMask(true);
         RenderSystem.enableDepthTest();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

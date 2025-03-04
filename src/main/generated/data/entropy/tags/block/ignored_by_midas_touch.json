@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "#entropy:not_replaced_by_events",
     "minecraft:air",
