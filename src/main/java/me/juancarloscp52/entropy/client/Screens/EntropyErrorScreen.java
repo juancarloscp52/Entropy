@@ -46,13 +46,12 @@ public class EntropyErrorScreen extends Screen {
 
     @Override
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
-        renderBackground(drawContext, mouseX, mouseY, delta);
+        super.render(drawContext, mouseX, mouseY, delta);
         List<OrderedText> lines = textRenderer.wrapLines(message, this.width / 2);
         for (int i = 0; i < lines.size(); i++) {
             OrderedText line = lines.get(i);
             drawContext.drawTextWithShadow(textRenderer, line, this.width / 4, this.height / 2 - (lines.size() * 9 / 2) + i * 9, 16777215);
         }
-        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     @Override
