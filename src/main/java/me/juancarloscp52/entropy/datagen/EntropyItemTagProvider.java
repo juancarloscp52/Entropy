@@ -32,11 +32,15 @@ public class EntropyItemTagProvider extends ItemTagProvider{
         getOrCreateTagBuilder(ItemTags.DOES_NOT_RAIN).addTag(ItemTags.BANNED);
         getOrCreateTagBuilder(ItemTags.IGNORED_BY_MIDAS_TOUCH).add(Items.AIR);
         getOrCreateTagBuilder(ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS).addOptionalTag(net.minecraft.registry.tag.ItemTags.PIGLIN_LOVED).add(Items.GOLD_NUGGET);
-        getOrCreateTagBuilder(spawnEggsTag).add(Items.ALLAY_SPAWN_EGG,
+        getOrCreateTagBuilder(spawnEggsTag).add(
+                Items.ARMADILLO_SPAWN_EGG,
+                Items.ALLAY_SPAWN_EGG,
                 Items.AXOLOTL_SPAWN_EGG,
                 Items.BAT_SPAWN_EGG,
                 Items.BEE_SPAWN_EGG,
                 Items.BLAZE_SPAWN_EGG,
+                Items.BREEZE_SPAWN_EGG,
+                Items.BOGGED_SPAWN_EGG,
                 Items.CAT_SPAWN_EGG,
                 Items.CAMEL_SPAWN_EGG,
                 Items.CAVE_SPIDER_SPAWN_EGG,
