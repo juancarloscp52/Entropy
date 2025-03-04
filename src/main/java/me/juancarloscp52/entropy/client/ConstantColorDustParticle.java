@@ -11,6 +11,9 @@ import net.minecraft.client.world.ClientWorld;
 public class ConstantColorDustParticle extends AbstractDustParticle<ConstantColorDustParticleEffect>{
     protected ConstantColorDustParticle(ClientWorld world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, ConstantColorDustParticleEffect parameters, SpriteProvider spriteProvider) {
         super(world, x, y, z, velocityX, velocityY, velocityZ, parameters, spriteProvider);
+        red = parameters.red();
+        green = parameters.green();
+        blue = parameters.blue();
     }
 
     @Override
