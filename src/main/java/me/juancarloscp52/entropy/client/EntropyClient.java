@@ -22,9 +22,9 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.networking.C2SJoinHandshake;
+import me.juancarloscp52.entropy.networking.ServerboundJoinHandshake;
 import me.juancarloscp52.entropy.networking.NetworkingConstants;
-import me.juancarloscp52.entropy.networking.S2CJoinSync;
+import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -81,7 +81,7 @@ public class EntropyClient implements ClientModInitializer {
 
             if (sync.events().size() == clientEventHandler.currentEvents.size())
                 return;
-            for (final S2CJoinSync.EventData data : sync.events()) {
+            for (final ClientboundJoinSync.EventData data : sync.events()) {
                 Event event = EventRegistry.get(data.id());
                 if(event==null)
                     continue;
@@ -160,7 +160,7 @@ public class EntropyClient implements ClientModInitializer {
             final Optional<ModContainer> modContainer = FabricLoader.getInstance().getModContainer("entropy");
             if (modContainer.isPresent()) {
                 final String version = modContainer.get().getMetadata().getVersion().getFriendlyString();
-                ClientPlayNetworking.send(new C2SJoinHandshake(version));
+                ClientPlayNetworking.send(new ServerboundJoinHandshake(version));
             }
         });
 

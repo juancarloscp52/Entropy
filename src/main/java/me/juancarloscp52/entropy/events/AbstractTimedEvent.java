@@ -20,7 +20,7 @@ package me.juancarloscp52.entropy.events;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.db.HideEventsEvent;
-import me.juancarloscp52.entropy.networking.S2CEndEvent;
+import me.juancarloscp52.entropy.networking.ClientboundEndEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -65,7 +65,7 @@ public abstract class AbstractTimedEvent implements Event {
             List<Event> currentEvents = Entropy.getInstance().eventHandler.currentEvents;
             for (byte i = 0; i < currentEvents.size(); i++) {
                 if (currentEvents.get(i).equals(this)) {
-                    final S2CEndEvent endEvent = new S2CEndEvent(i);
+                    final ClientboundEndEvent endEvent = new ClientboundEndEvent(i);
                     PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
                         ServerPlayNetworking.send(serverPlayerEntity, endEvent)
                     );

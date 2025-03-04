@@ -5,14 +5,14 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record S2CEndEvent(byte index) implements CustomPacketPayload {
-    public static final StreamCodec<FriendlyByteBuf, S2CEndEvent> CODEC = StreamCodec.composite(
-        ByteBufCodecs.BYTE, S2CEndEvent::index,
-        S2CEndEvent::new
+public record ClientboundEndEvent(byte index) implements CustomPacketPayload {
+    public static final StreamCodec<FriendlyByteBuf, ClientboundEndEvent> CODEC = StreamCodec.composite(
+        ByteBufCodecs.BYTE, ClientboundEndEvent::index,
+        ClientboundEndEvent::new
     );
 
     @Override
-    public Type<S2CEndEvent> type() {
+    public Type<ClientboundEndEvent> type() {
         return NetworkingConstants.END_EVENT;
     }
 }

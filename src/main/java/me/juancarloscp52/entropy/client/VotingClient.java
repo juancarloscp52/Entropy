@@ -19,7 +19,7 @@ package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.client.integrations.Integrations;
 import me.juancarloscp52.entropy.client.websocket.OverlayServer;
-import me.juancarloscp52.entropy.networking.C2SVotes;
+import me.juancarloscp52.entropy.networking.ServerboundVotes;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -173,7 +173,7 @@ public class VotingClient {
     public void sendVotes() {
         if (voteID == -1)
             return;
-        ClientPlayNetworking.send(new C2SVotes(voteID, votes));
+        ClientPlayNetworking.send(new ServerboundVotes(voteID, votes));
         votes = new int[4];
         this.overlayServer.updateVote(voteID,events,totalVotes);
     }

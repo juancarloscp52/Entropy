@@ -24,17 +24,17 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
 public class NetworkingConstants {
-    public static final CustomPacketPayload.Type<C2SJoinHandshake> JOIN_HANDSHAKE = registerC2S("join-handshake", C2SJoinHandshake.CODEC);
-    public static final CustomPacketPayload.Type<S2CJoinConfirm> JOIN_CONFIRM = registerS2C("join-confirm", S2CJoinConfirm.CODEC);
-    public static final CustomPacketPayload.Type<S2CJoinSync> JOIN_SYNC = registerS2C("join-sync", S2CJoinSync.CODEC);
-    public static final CustomPacketPayload.Type<S2CRemoveFirst> REMOVE_FIRST = registerS2C("remove-first", S2CRemoveFirst.CODEC);
-    public static final CustomPacketPayload.Type<S2CRemoveEnded> REMOVE_ENDED = registerS2C("remove-ended", S2CRemoveEnded.CODEC);
-    public static final CustomPacketPayload.Type<S2CAddEvent> ADD_EVENT = registerS2C("add-event", S2CAddEvent.CODEC);
-    public static final CustomPacketPayload.Type<S2CEndEvent> END_EVENT = registerS2C("end-event", S2CEndEvent.CODEC);
-    public static final CustomPacketPayload.Type<S2CTick> TICK = registerS2C("tick", S2CTick.CODEC);
-    public static final CustomPacketPayload.Type<S2CNewPoll> NEW_POLL = registerS2C("new-poll", S2CNewPoll.CODEC);
-    public static final CustomPacketPayload.Type<S2CPollStatus> POLL_STATUS = registerS2C("poll-status", S2CPollStatus.CODEC);
-    public static final CustomPacketPayload.Type<C2SVotes> VOTES = registerC2S("votes", C2SVotes.CODEC);
+    public static final CustomPacketPayload.Type<ServerboundJoinHandshake> JOIN_HANDSHAKE = registerC2S("join-handshake", ServerboundJoinHandshake.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundJoinConfirm> JOIN_CONFIRM = registerS2C("join-confirm", ClientboundJoinConfirm.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundJoinSync> JOIN_SYNC = registerS2C("join-sync", ClientboundJoinSync.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundRemoveFirst> REMOVE_FIRST = registerS2C("remove-first", ClientboundRemoveFirst.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundRemoveEnded> REMOVE_ENDED = registerS2C("remove-ended", ClientboundRemoveEnded.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundAddEvent> ADD_EVENT = registerS2C("add-event", ClientboundAddEvent.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundEndEvent> END_EVENT = registerS2C("end-event", ClientboundEndEvent.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundTick> TICK = registerS2C("tick", ClientboundTick.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundNewPoll> NEW_POLL = registerS2C("new-poll", ClientboundNewPoll.CODEC);
+    public static final CustomPacketPayload.Type<ClientboundPollStatus> POLL_STATUS = registerS2C("poll-status", ClientboundPollStatus.CODEC);
+    public static final CustomPacketPayload.Type<ServerboundVotes> VOTES = registerC2S("votes", ServerboundVotes.CODEC);
 
     private static <T extends CustomPacketPayload> CustomPacketPayload.Type<T> registerC2S(String name, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
         final CustomPacketPayload.Type<T> type = register(name);

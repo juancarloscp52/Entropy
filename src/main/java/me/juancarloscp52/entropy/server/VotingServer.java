@@ -21,8 +21,8 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.networking.S2CNewPoll;
-import me.juancarloscp52.entropy.networking.S2CPollStatus;
+import me.juancarloscp52.entropy.networking.ClientboundNewPoll;
+import me.juancarloscp52.entropy.networking.ClientboundPollStatus;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
@@ -132,7 +132,7 @@ public class VotingServer {
     }
 
     public void sendNewPoll() {
-        final S2CNewPoll packet = getNewPollPacket();
+        final ClientboundNewPoll packet = getNewPollPacket();
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
                 ServerPlayNetworking.send(serverPlayerEntity, packet));
     }
@@ -141,15 +141,15 @@ public class VotingServer {
         ServerPlayNetworking.send(player, getNewPollPacket());
     }
 
-    public S2CNewPoll getNewPollPacket() {
-        return new S2CNewPoll(voteID, events.isEmpty()
+    public ClientboundNewPoll getNewPollPacket() {
+        return new ClientboundNewPoll(voteID, events.isEmpty()
             ? List.of("No Event")
             : events.stream().map(EventRegistry::getTranslationKey).toList()
         );
     }
 
     public void sendPollStatusToPlayers() {
-        final S2CPollStatus pollStatus = new S2CPollStatus(voteID, totalVotes, totalVoteCount);
+        final ClientboundPollStatus pollStatus = new ClientboundPollStatus(voteID, totalVotes, totalVoteCount);
         PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
                 ServerPlayNetworking.send(serverPlayerEntity, pollStatus));
     }

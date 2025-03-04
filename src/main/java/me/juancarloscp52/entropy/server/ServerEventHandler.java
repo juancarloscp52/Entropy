@@ -22,9 +22,9 @@ import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.networking.S2CAddEvent;
-import me.juancarloscp52.entropy.networking.S2CRemoveFirst;
-import me.juancarloscp52.entropy.networking.S2CTick;
+import me.juancarloscp52.entropy.networking.ClientboundAddEvent;
+import me.juancarloscp52.entropy.networking.ClientboundRemoveFirst;
+import me.juancarloscp52.entropy.networking.ClientboundTick;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
@@ -71,7 +71,7 @@ public class ServerEventHandler {
 
                 if (currentEvents.get(0).hasEnded()) {
                     PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                            ServerPlayNetworking.send(serverPlayerEntity, S2CRemoveFirst.INSTANCE));
+                            ServerPlayNetworking.send(serverPlayerEntity, ClientboundRemoveFirst.INSTANCE));
 
                     currentEvents.remove(0);
                 }
@@ -116,14 +116,14 @@ public class ServerEventHandler {
         }
 
         // Send tick to clients.
-        final S2CTick tick = new S2CTick(eventCountDown);
+        final ClientboundTick tick = new ClientboundTick(eventCountDown);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
                 ServerPlayNetworking.send(serverPlayerEntity, tick));
 
 
         eventCountDown--;
     }
-    
+
     public boolean runEvent(Event event) {
         if(event != null && EventRegistry.doesWorldHaveRequiredFeatures(EventRegistry.getEventId(event), server.overworld())) {
             // Start the event and add it to the list.
@@ -133,14 +133,14 @@ public class ServerEventHandler {
             sendEventToPlayers(event);
             return true;
         }
-        
+
         return false;
     }
 
     private void sendEventToPlayers(Event event) {
         String eventName = EventRegistry.getEventId(event);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, new S2CAddEvent(eventName, event.getExtraData())));
+                ServerPlayNetworking.send(serverPlayerEntity, new ClientboundAddEvent(eventName, event.getExtraData())));
     }
 
     private Event getRandomEvent(List<Event> eventArray) {

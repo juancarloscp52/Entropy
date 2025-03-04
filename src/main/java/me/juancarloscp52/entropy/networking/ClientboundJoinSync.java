@@ -6,10 +6,10 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record S2CJoinSync(List<EventData> events) implements CustomPacketPayload {
-    public static final StreamCodec<FriendlyByteBuf, S2CJoinSync> CODEC = StreamCodec.composite(
-        EventData.CODEC.apply(ByteBufCodecs.list()), S2CJoinSync::events,
-        S2CJoinSync::new
+public record ClientboundJoinSync(List<EventData> events) implements CustomPacketPayload {
+    public static final StreamCodec<FriendlyByteBuf, ClientboundJoinSync> CODEC = StreamCodec.composite(
+        EventData.CODEC.apply(ByteBufCodecs.list()), ClientboundJoinSync::events,
+        ClientboundJoinSync::new
     );
 
     public record EventData(
@@ -26,7 +26,7 @@ public record S2CJoinSync(List<EventData> events) implements CustomPacketPayload
     }
 
     @Override
-    public Type<S2CJoinSync> type() {
+    public Type<ClientboundJoinSync> type() {
         return NetworkingConstants.JOIN_SYNC;
     }
 }
