@@ -5,14 +5,14 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record S2CTick(short eventCountDown) implements CustomPacketPayload {
-    public static final StreamCodec<FriendlyByteBuf, S2CTick> CODEC = StreamCodec.composite(
-        ByteBufCodecs.SHORT, S2CTick::eventCountDown,
-        S2CTick::new
+public record ClientboundTick(short eventCountDown) implements CustomPacketPayload {
+    public static final StreamCodec<FriendlyByteBuf, ClientboundTick> CODEC = StreamCodec.composite(
+        ByteBufCodecs.SHORT, ClientboundTick::eventCountDown,
+        ClientboundTick::new
     );
 
     @Override
-    public Type<S2CTick> type() {
+    public Type<ClientboundTick> type() {
         return NetworkingConstants.TICK;
     }
 }

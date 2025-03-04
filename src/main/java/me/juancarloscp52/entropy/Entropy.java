@@ -24,9 +24,9 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.networking.NetworkingConstants;
-import me.juancarloscp52.entropy.networking.S2CJoinConfirm;
-import me.juancarloscp52.entropy.networking.S2CJoinSync;
-import me.juancarloscp52.entropy.networking.S2CRemoveEnded;
+import me.juancarloscp52.entropy.networking.ClientboundJoinConfirm;
+import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
+import me.juancarloscp52.entropy.networking.ClientboundRemoveEnded;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleEffect;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
@@ -84,7 +84,7 @@ public class Entropy implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (handshake, context) -> {
             String version = FabricLoader.getInstance().getModContainer("entropy").get().getMetadata().getVersion().getFriendlyString();
             if (version.equals(handshake.clientVersion())) {
-                final S2CJoinConfirm confirm = new S2CJoinConfirm(settings.timerDuration, settings.baseEventDuration, settings.integrations);
+                final ClientboundJoinConfirm confirm = new ClientboundJoinConfirm(settings.timerDuration, settings.baseEventDuration, settings.integrations);
                 final ServerPlayer player = context.player();
                 ServerPlayNetworking.send(player, confirm);
                 if (PlayerLookup.all(context.server()).size() == 1) {
@@ -94,7 +94,7 @@ public class Entropy implements ModInitializer {
 
                 List<Event> currentEvents = eventHandler.currentEvents;
                 if (!currentEvents.isEmpty()) {
-                    S2CJoinSync sync = new S2CJoinSync(currentEvents.stream().map(currentEvent -> new S2CJoinSync.EventData(
+                    ClientboundJoinSync sync = new ClientboundJoinSync(currentEvents.stream().map(currentEvent -> new ClientboundJoinSync.EventData(
                         EventRegistry.getEventId(currentEvent),
                         currentEvent.hasEnded(),
                         currentEvent.getTickCount()
@@ -142,7 +142,7 @@ public class Entropy implements ModInitializer {
                                 ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
                                 eventHandler.currentEvents.removeIf(Event::hasEnded);
-                                PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, S2CRemoveEnded.INSTANCE));
+                                PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, ClientboundRemoveEnded.INSTANCE));
                                 return 0;
                             }))
                     .then(Commands.literal("run")
