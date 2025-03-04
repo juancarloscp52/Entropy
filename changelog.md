@@ -13,7 +13,7 @@ Find your version by looking for the file for your mod-loader:
 Special thanks to the Entropy Contributors: bl4ckscor3, Kanawanagasaki and slicedlime! <3
 
 Available versions:
--   Minecraft 1.20.1, 1.20.2, 1.20.4
+-   Minecraft 1.20.1, 1.20.2, 1.20.4, 1.20.6
 
 ### New Events:
 -   Nothing, Silence, Rainbow trails, Spawn Rainbow sheep, jeb_, Armor trim Event
