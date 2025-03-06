@@ -22,8 +22,8 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.core.Direction;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Phantom;
 
 public class PhantomEvent extends AbstractInstantEvent {
@@ -32,7 +32,7 @@ public class PhantomEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             for(int i =0; i<3;i++){
-                Phantom phantom = EntityType.PHANTOM.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().relative(Direction.UP,5), MobSpawnType.SPAWN_EGG);
+                Phantom phantom = EntityType.PHANTOM.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().relative(Direction.UP,5), EntitySpawnReason.MOB_SUMMONED);
                 if(null!=phantom)
                     phantom.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,460));
             }

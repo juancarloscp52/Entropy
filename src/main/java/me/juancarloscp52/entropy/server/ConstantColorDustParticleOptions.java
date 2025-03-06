@@ -10,7 +10,7 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ScalableParticleOptionsBase;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import org.joml.Vector3f;
 
 public class ConstantColorDustParticleOptions extends ScalableParticleOptionsBase {
@@ -32,7 +32,7 @@ public class ConstantColorDustParticleOptions extends ScalableParticleOptionsBas
     }
 
     public ConstantColorDustParticleOptions(Vector3f color, float scale) {
-        this(FastColor.ARGB32.colorFromFloat(1.0f, color.x(), color.y(), color.z()), scale);
+        this(ARGB.colorFromFloat(1.0f, color.x(), color.y(), color.z()), scale);
     }
 
     @Override
@@ -41,14 +41,14 @@ public class ConstantColorDustParticleOptions extends ScalableParticleOptionsBas
     }
 
     public float red() {
-        return FastColor.ARGB32.red(color) / 255.0F;
+        return ARGB.red(color) / 255.0F;
     }
 
     public float green() {
-        return FastColor.ARGB32.green(color) / 255.0F;
+        return ARGB.green(color) / 255.0F;
     }
 
     public float blue() {
-        return FastColor.ARGB32.blue(color) / 255.0F;
+        return ARGB.blue(color) / 255.0F;
     }
 }

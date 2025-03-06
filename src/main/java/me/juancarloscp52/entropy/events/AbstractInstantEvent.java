@@ -26,7 +26,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 
 public abstract class AbstractInstantEvent implements Event {
 
@@ -49,7 +49,7 @@ public abstract class AbstractInstantEvent implements Event {
             eventName.withStyle(ChatFormatting.STRIKETHROUGH);
 
         int size = client.font.width(eventName);
-        drawContext.drawString(Minecraft.getInstance().font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, FastColor.ARGB32.color(255,255, 255, 255));
+        drawContext.drawString(Minecraft.getInstance().font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, ARGB.color(255,255, 255, 255));
     }
 
     public void tick() {

@@ -30,7 +30,7 @@
     "MultiPlayerGameModeAccessor",
     "OptionsScreenMixin",
     "ScreenEffectRendererMixin",
-    "SheepFurLayerMixin",
+    "SheepWoolLayerMixin",
     "SoundEngineMixin"
   ],
   "injectors": {

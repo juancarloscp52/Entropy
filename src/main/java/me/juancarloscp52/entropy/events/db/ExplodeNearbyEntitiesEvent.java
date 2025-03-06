@@ -30,7 +30,7 @@ public class ExplodeNearbyEntitiesEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getCommandSenderWorld().getEntities(serverPlayerEntity, new AABB(serverPlayerEntity.position().add(70, 70, 70), serverPlayerEntity.position().add(-70, -70, -70))).forEach(entity -> {
             entity.getCommandSenderWorld().explode(entity, entity.getX(), entity.getY() + 1f, entity.getZ(), 2.1f, Level.ExplosionInteraction.MOB);
             if(!entity.getType().is(EntityTypeTags.DO_NOT_EXPLODE))
-                entity.kill();
+                entity.kill(serverPlayerEntity.serverLevel());
         }));
     }
 

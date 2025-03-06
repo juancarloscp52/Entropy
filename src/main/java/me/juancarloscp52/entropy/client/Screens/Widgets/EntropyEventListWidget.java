@@ -34,6 +34,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.inventory.tooltip.MenuTooltipPositioner;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -202,7 +203,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
             checkbox.render(drawContext, mouseX, mouseY, tickDelta);
 
             if(Entropy.getInstance().settings.accessibilityMode && eventInfo.event.isDisabledByAccessibilityMode()) {
-                drawContext.blitSprite(ICON_OVERLAY_LOCATION, x, y - 6, 32, 32);
+                drawContext.blitSprite(RenderType::guiTextured, ICON_OVERLAY_LOCATION, x, y - 6, 32, 32);
 
                 if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight)
                     Minecraft.getInstance().screen.setTooltipForNextRenderPass(ACCESSIBILITY_TOOLTIP, new MenuTooltipPositioner(checkbox.getRectangle()), false);

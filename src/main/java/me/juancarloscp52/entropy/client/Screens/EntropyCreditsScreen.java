@@ -38,7 +38,7 @@ public class EntropyCreditsScreen extends WinScreen {
     @Override
     public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
-        EntropyClient.getInstance().clientEventHandler.render(drawContext, minecraft.getTimer());
+        EntropyClient.getInstance().clientEventHandler.render(drawContext, minecraft.getDeltaTracker());
     }
 
     @Override

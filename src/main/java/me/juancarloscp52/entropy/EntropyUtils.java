@@ -12,7 +12,7 @@ public class EntropyUtils {
 
     public static void teleportPlayer(final ServerPlayer serverPlayerEntity, final double x, final double y, final double z) {
         serverPlayerEntity.stopRiding();
-        serverPlayerEntity.teleportTo(serverPlayerEntity.serverLevel(), x, y, z, Set.of(), serverPlayerEntity.getYRot(), serverPlayerEntity.getXRot());
+        serverPlayerEntity.teleportTo(serverPlayerEntity.serverLevel(), x, y, z, Set.of(), serverPlayerEntity.getYRot(), serverPlayerEntity.getXRot(), true);
     }
 
     public static void teleportPlayer(final ServerPlayer serverPlayerEntity, final Vec3 pos) {

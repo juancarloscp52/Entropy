@@ -26,7 +26,7 @@ public class NoUseKeyEvent extends AbstractTimedEvent {
     public void endClient() {
         Options options = Minecraft.getInstance().options;
 
-        options.setKey(options.keyUse, boundUseKey);
+        options.keyUse.setKey(boundUseKey);
         KeyMapping.resetMapping();
         super.endClient();
     }

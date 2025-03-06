@@ -17,14 +17,18 @@
 
 package me.juancarloscp52.entropy.mixin;
 
+import com.mojang.blaze3d.resource.CrossFrameResourcePool;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.EntropyClient;
+import me.juancarloscp52.entropy.client.ShaderManager;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FogType;
@@ -44,9 +48,13 @@ public class GameRendererMixin {
     @Final
     private Minecraft minecraft;
 
-    @Shadow private float oldFov;
+    @Shadow private float oldFovModifier;
 
-    @Shadow private float fov;
+    @Shadow private float fovModifier;
+
+    @Shadow
+    @Final
+    private CrossFrameResourcePool resourcePool;
 
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
     public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
@@ -63,7 +71,7 @@ public class GameRendererMixin {
             double fov = 70.0D;
             if (changingFov) {
                 fov = fovValue;
-                fov *= Mth.lerp(tickDelta, this.oldFov, this.fov);
+                fov *= Mth.lerp(tickDelta, this.oldFovModifier, this.fovModifier);
             }
 
             if (camera.getEntity() instanceof LivingEntity && ((LivingEntity) camera.getEntity()).isDeadOrDying()) {
@@ -85,12 +93,22 @@ public class GameRendererMixin {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V", shift = At.Shift.AFTER))
     public void renderShaders(DeltaTracker tickCounter, boolean tick, CallbackInfo ci){
-        EntropyClient.getInstance().renderShaders(tickCounter.getGameTimeDeltaPartialTick(false));
+        if (Variables.blur) {
+            ShaderManager.render(ShaderManager.BLUR, minecraft, resourcePool);
+        } else if (Variables.invertedShader) {
+            ShaderManager.render(ShaderManager.INVERTED, minecraft, resourcePool);
+        } else if (Variables.wobble) {
+            ShaderManager.render(ShaderManager.WOBBLE, minecraft, resourcePool);
+        } else if (Variables.monitor) {
+            ShaderManager.render(ShaderManager.CRT, minecraft, resourcePool);
+        }
     }
 
     @Inject(method = "render", at = @At(value = "TAIL"))
     public void renderBlackWhiteShader(DeltaTracker tickCounter, boolean tick, CallbackInfo ci) {
-        EntropyClient.getInstance().renderBlackAndWhite(tickCounter.getGameTimeDeltaPartialTick(false));
+        if (Variables.blackAndWhite) {
+            ShaderManager.render(ShaderManager.BLACK_AND_WHITE, minecraft, resourcePool);
+        }
     }
 
     @ModifyVariable(method = "renderLevel", at = @At("STORE"), ordinal = 0)

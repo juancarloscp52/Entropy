@@ -4,8 +4,8 @@
         "srcrgb": "one",
         "dstrgb": "zero"
     },
-    "vertex": "sobel",
-    "fragment": "ntsc_decode",
+    "vertex": "post/sobel",
+    "fragment": "entropy:program/ntsc_decode",
     "attributes": [ "Position" ],
     "samplers": [
         { "name": "DiffuseSampler" },

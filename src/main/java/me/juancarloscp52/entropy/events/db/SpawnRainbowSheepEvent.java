@@ -7,8 +7,8 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 
 public class SpawnRainbowSheepEvent extends AbstractInstantEvent {
 
@@ -20,7 +20,7 @@ public class SpawnRainbowSheepEvent extends AbstractInstantEvent {
                         EntityType.SHEEP.spawn(serverPlayerEntity.serverLevel(), sheepEntity -> {
                             sheepEntity.setCustomName(Component.nullToEmpty("jeb_"));
                             sheepEntity.setCustomNameVisible(false);
-                        }, serverPlayerEntity.blockPosition(), MobSpawnType.SPAWN_EGG, true,false);
+                        }, serverPlayerEntity.blockPosition(), EntitySpawnReason.MOB_SUMMONED, true,false);
                     }
                 }
         );

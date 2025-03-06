@@ -19,6 +19,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -27,24 +28,25 @@ public class StarterPackEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
+            ServerLevel level = serverPlayerEntity.serverLevel();
             ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
             if(!serverPlayerEntity.getInventory().add(pickaxe))
-                serverPlayerEntity.spawnAtLocation(pickaxe);
+                serverPlayerEntity.spawnAtLocation(level, pickaxe);
             ItemStack axe = new ItemStack(Items.IRON_AXE);
             if(!serverPlayerEntity.getInventory().add(axe))
-                serverPlayerEntity.spawnAtLocation(axe);
+                serverPlayerEntity.spawnAtLocation(level, axe);
             ItemStack shovel = new ItemStack(Items.IRON_SHOVEL);
             if(!serverPlayerEntity.getInventory().add(shovel))
-                serverPlayerEntity.spawnAtLocation(shovel);
+                serverPlayerEntity.spawnAtLocation(level, shovel);
             ItemStack sword = new ItemStack(Items.IRON_SWORD);
             if(!serverPlayerEntity.getInventory().add(sword))
-                serverPlayerEntity.spawnAtLocation(sword);
+                serverPlayerEntity.spawnAtLocation(level, sword);
             ItemStack bread = new ItemStack(Items.BREAD,10);
             if(!serverPlayerEntity.getInventory().add(bread))
-                serverPlayerEntity.spawnAtLocation(bread);
+                serverPlayerEntity.spawnAtLocation(level, bread);
             ItemStack torch = new ItemStack(Items.TORCH,10);
             if(!serverPlayerEntity.getInventory().add(torch))
-                serverPlayerEntity.spawnAtLocation(torch);
+                serverPlayerEntity.spawnAtLocation(level, torch);
         });
     }
 }

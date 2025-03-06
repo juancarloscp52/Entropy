@@ -23,6 +23,7 @@ import me.juancarloscp52.entropy.Variables;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -51,7 +52,7 @@ public class BlockMixin {
             ci.cancel();
         }
         if (Variables.randomDrops || Variables.luckyDrops) {
-            if (!world.isClientSide && !stack.isEmpty() && world.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+            if (!world.isClientSide && !stack.isEmpty() && ((ServerLevel) world).getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
                 float radius = 0.5F;
                 double xOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
                 double yOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
@@ -97,8 +98,7 @@ public class BlockMixin {
     }
 
     @Inject(method = "shouldRenderFace", at = @At("HEAD"), cancellable = true)
-    private static void shouldDrawSide(BlockState state, BlockGetter world, BlockPos pos,
-            Direction side, BlockPos otherPos, CallbackInfoReturnable<Boolean> ci) {
+    private static void shouldDrawSide(BlockState state, BlockState neighbor, Direction face, CallbackInfoReturnable<Boolean> ci) {
         if (Variables.xrayActive) {
             ci.setReturnValue(state.is(BlockTags.SHOWN_DURING_XRAY));
         }

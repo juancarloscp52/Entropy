@@ -24,7 +24,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import java.util.HashMap;
 import java.util.List;
@@ -134,7 +134,7 @@ public class VotingClient {
 
     public void render(GuiGraphics drawContext) {
         if(EntropyClient.getInstance().integrationsSettings.showUpcomingEvents) {
-            drawContext.drawString(client.font, Component.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, FastColor.ARGB32.color(255,255, 255, 255));
+            drawContext.drawString(client.font, Component.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, ARGB.color(255,255, 255, 255));
 
             for (int i = 0; i < 4; i++) {
                 renderPollElement(drawContext, i);
@@ -149,14 +149,14 @@ public class VotingClient {
 
         double ratio = this.totalVotesCount > 0 ? (double) this.totalVotes[i] / this.totalVotesCount : 0;
         int altOffset = (this.voteID % 2) == 0 && (EntropyClient.getInstance().integrationsSettings.integrationType!=2) ? 4 : 0;
-        drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, FastColor.ARGB32.color(150,0, 0, 0));
+        drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, ARGB.color(150,0, 0, 0));
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
             drawContext.fill(10, 31 + (i * 18), 10 + Mth.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));
-        drawContext.drawString(client.font, Component.literal((1 + i + altOffset) + ": ").append(Component.translatable(this.events.get(i))), 15, 34 + (i * 18), FastColor.ARGB32.color(255,255, 255, 255));
+        drawContext.drawString(client.font, Component.literal((1 + i + altOffset) + ": ").append(Component.translatable(this.events.get(i))), 15, 34 + (i * 18), ARGB.color(255,255, 255, 255));
 
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
             Component percentage = Component.literal(Mth.floor(ratio * 100) + " %");
-            drawContext.drawString(client.font, percentage, pollWidth + 10 + 42 - client.font.width(percentage), 34 + (i * 18), FastColor.ARGB32.color(255,255, 255, 255));
+            drawContext.drawString(client.font, percentage, pollWidth + 10 + 42 - client.font.width(percentage), 34 + (i * 18), ARGB.color(255,255, 255, 255));
         }
 
     }

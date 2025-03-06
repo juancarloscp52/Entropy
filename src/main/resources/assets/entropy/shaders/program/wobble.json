@@ -4,8 +4,8 @@
         "srcrgb": "one",
         "dstrgb": "zero"
     },
-    "vertex": "sobel",
-    "fragment": "wobble",
+    "vertex": "post/sobel",
+    "fragment": "entropy:program/wobble",
     "attributes": [ "Position" ],
     "samplers": [
         { "name": "DiffuseSampler" }

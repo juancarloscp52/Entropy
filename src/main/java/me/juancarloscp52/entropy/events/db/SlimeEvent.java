@@ -19,8 +19,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import java.util.Random;
 
 public class SlimeEvent extends AbstractInstantEvent {
@@ -31,7 +31,7 @@ public class SlimeEvent extends AbstractInstantEvent {
             Random random = new Random();
             int slimes = random.nextInt(4,12);
             for(int i = 0; i<slimes; i++){
-                EntityType.SLIME.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().offset(random.nextInt(-4,5),random.nextInt(2),random.nextInt(-4,5)), MobSpawnType.SPAWN_EGG);
+                EntityType.SLIME.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().offset(random.nextInt(-4,5),random.nextInt(2),random.nextInt(-4,5)), EntitySpawnReason.MOB_SUMMONED);
             }
         });
     }
