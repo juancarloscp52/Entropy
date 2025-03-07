@@ -15,7 +15,7 @@ public class SpawnKillerBunnyEvent extends AbstractInstantEvent {
             int bunnyAmount = random.nextIntBetweenInclusive(1, 6);
 
             for(int i = 0; i < bunnyAmount; i++) {
-                EntityType.RABBIT.spawn(player.serverLevel(), rabbit -> rabbit.setVariant(Variant.EVIL), player.blockPosition().offset(random.nextIntBetweenInclusive(-4, 4), random.nextInt(2), random.nextIntBetweenInclusive(-4, 4)), EntitySpawnReason.MOB_SUMMONED, false, false);
+                EntityType.RABBIT.spawn(player.serverLevel(), rabbit -> rabbit.setVariant(Variant.EVIL), player.blockPosition().offset(random.nextIntBetweenInclusive(-4, 4), random.nextInt(2), random.nextIntBetweenInclusive(-4, 4)), EntitySpawnReason.EVENT, false, false);
             }
         });
     }

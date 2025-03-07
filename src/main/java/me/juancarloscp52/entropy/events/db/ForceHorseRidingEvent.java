@@ -28,7 +28,7 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
                 horse.equipSaddle(Items.SADDLE.getDefaultInstance(), SoundSource.NEUTRAL);
                 horse.setInvulnerable(true);
                 player.startRiding(horse);
-            }, player.blockPosition(), EntitySpawnReason.MOB_SUMMONED, false, false));
+            }, player.blockPosition(), EntitySpawnReason.EVENT, false, false));
         });
         Variables.forceRiding = true;
     }

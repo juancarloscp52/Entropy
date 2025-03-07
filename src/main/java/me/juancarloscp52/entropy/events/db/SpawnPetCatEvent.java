@@ -20,7 +20,7 @@ public class SpawnPetCatEvent extends AbstractInstantEvent {
                 cat.tame(player);
                 ((CatInvoker) cat).invokeSetCollarColor(Util.getRandom(DyeColor.values(), random));
                 cat.setVariant(BuiltInRegistries.CAT_VARIANT.getRandom(random).get());
-            }, player.blockPosition().offset(random.nextIntBetweenInclusive(-4, 4), random.nextInt(2), random.nextIntBetweenInclusive(-4, 4)), EntitySpawnReason.MOB_SUMMONED, false, false);
+            }, player.blockPosition().offset(random.nextIntBetweenInclusive(-4, 4), random.nextInt(2), random.nextIntBetweenInclusive(-4, 4)), EntitySpawnReason.EVENT, false, false);
         });
     }
 }

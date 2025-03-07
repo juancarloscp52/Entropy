@@ -21,7 +21,7 @@ public class VexAttackEvent extends AbstractInstantEvent {
             var vexAmount = random.nextInt(difficulty == Difficulty.HARD ? 4 : difficulty == Difficulty.NORMAL ? 3 : 2) + 1;
             for (int i = 0; i < vexAmount; i++) {
                 var spawnPos = serverPlayerEntity.blockPosition().offset(random.nextInt(25) - 12, random.nextInt(5) - 2, random.nextInt(25) - 12);
-                EntityType.VEX.spawn(world, spawnPos, EntitySpawnReason.MOB_SUMMONED);
+                EntityType.VEX.spawn(world, spawnPos, EntitySpawnReason.EVENT);
             }
         }
     }

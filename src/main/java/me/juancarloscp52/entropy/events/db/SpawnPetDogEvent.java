@@ -18,7 +18,7 @@ public class SpawnPetDogEvent extends AbstractInstantEvent {
             EntityType.WOLF.spawn(player.serverLevel(), wolf -> {
                 wolf.tame(player);
                 ((WolfInvoker) wolf).invokeSetCollarColor(Util.getRandom(DyeColor.values(), random));
-            }, player.blockPosition().offset(random.nextIntBetweenInclusive(-4, 4), random.nextInt(2), random.nextIntBetweenInclusive(-4, 4)), EntitySpawnReason.MOB_SUMMONED, false, false);
+            }, player.blockPosition().offset(random.nextIntBetweenInclusive(-4, 4), random.nextInt(2), random.nextIntBetweenInclusive(-4, 4)), EntitySpawnReason.EVENT, false, false);
         });
     }
 }

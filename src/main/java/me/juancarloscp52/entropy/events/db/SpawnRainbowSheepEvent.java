@@ -20,7 +20,7 @@ public class SpawnRainbowSheepEvent extends AbstractInstantEvent {
                         EntityType.SHEEP.spawn(serverPlayerEntity.serverLevel(), sheepEntity -> {
                             sheepEntity.setCustomName(Component.nullToEmpty("jeb_"));
                             sheepEntity.setCustomNameVisible(false);
-                        }, serverPlayerEntity.blockPosition(), EntitySpawnReason.MOB_SUMMONED, true,false);
+                        }, serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT, true,false);
                     }
                 }
         );

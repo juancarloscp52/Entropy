@@ -33,7 +33,7 @@ public class RandomCreeperEvent extends AbstractTimedEvent {
         if(tickCount%70==0){
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 if(new Random().nextInt(10)>=6)
-                    EntityType.CREEPER.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().north(), EntitySpawnReason.MOB_SUMMONED);
+                    EntityType.CREEPER.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().north(), EntitySpawnReason.EVENT);
                 serverPlayerEntity.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.CREEPER_PRIMED), SoundSource.HOSTILE, serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ(), 1f, 0.5f, net.minecraft.util.RandomSource.create().nextLong()));
             });
         }
