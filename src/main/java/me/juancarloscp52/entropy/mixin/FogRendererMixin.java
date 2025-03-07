@@ -36,7 +36,6 @@ public class FogRendererMixin {
     @Inject(method = "setupFog", at = @At(value = "RETURN", ordinal = 1))
     private static void changeFogDistance(Camera camera, FogRenderer.FogMode fogMode, Vector4f fogColor, float renderDistance, boolean isFoggy, float partialTick, CallbackInfoReturnable<FogParameters> cir, @Local FogRenderer.FogData fogData) {
         if (Variables.customFog) {
-            fogColor.x=fogColor.y=fogColor.z=fogColor.w=1.0F;
             fogData.start = -150.0F;
             fogData.end = -100.0F;
         }

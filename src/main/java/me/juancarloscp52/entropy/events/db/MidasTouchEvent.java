@@ -31,7 +31,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 public class MidasTouchEvent extends AbstractTimedEvent {
