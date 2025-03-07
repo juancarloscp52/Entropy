@@ -52,14 +52,14 @@ public class BlockMixin {
             ci.cancel();
         }
         if (Variables.randomDrops || Variables.luckyDrops) {
-            if (!world.isClientSide && !stack.isEmpty() && ((ServerLevel) world).getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+            if (world instanceof ServerLevel serverLevel && !stack.isEmpty() && serverLevel.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
                 float radius = 0.5F;
                 double xOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
                 double yOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
                 double zOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
-                ItemEntity itemEntity = new ItemEntity(world, (double) pos.getX() + xOffset, (double) pos.getY() + yOffset, (double) pos.getZ() + zOffset, computeItemStack(stack, world));
+                ItemEntity itemEntity = new ItemEntity(serverLevel, (double) pos.getX() + xOffset, (double) pos.getY() + yOffset, (double) pos.getZ() + zOffset, computeItemStack(stack, serverLevel));
                 itemEntity.setDefaultPickUpDelay();
-                world.addFreshEntity(itemEntity);
+                serverLevel.addFreshEntity(itemEntity);
             }
             ci.cancel();
         }
