@@ -48,6 +48,7 @@ public class EntropyItemTagProvider extends ItemTagProvider{
                 Items.CHICKEN_SPAWN_EGG,
                 Items.COD_SPAWN_EGG,
                 Items.COW_SPAWN_EGG,
+                Items.CREAKING_SPAWN_EGG,
                 Items.CREEPER_SPAWN_EGG,
                 Items.DOLPHIN_SPAWN_EGG,
                 Items.DONKEY_SPAWN_EGG,

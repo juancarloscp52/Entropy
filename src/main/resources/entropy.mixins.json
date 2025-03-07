@@ -13,7 +13,7 @@
     "WolfInvoker"
   ],
   "client": [
-    "AbstractSelectionListAccessor",
+    "AbstractScrollAreaAccessor",
     "BossHealthOverlayAccessor",
     "BossHealthOverlayMixin",
     "CameraMixin",
