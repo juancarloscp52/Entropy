@@ -30,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class KeyboardInputMixin extends ClientInput {
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void applyEvents(boolean slowDown, float f, CallbackInfo ci) {
+    private void applyEvents(CallbackInfo ci) {
         if (Variables.forceForward) {
             this.keyPresses = new Input(
                 true,
