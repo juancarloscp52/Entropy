@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -25,7 +25,7 @@ out vec4 fragColor;
 
 void main() {
     vec2 InverseP = vec2(P, 0.0) * oneTexel;
-    
+
     // UVs for four linearly-interpolated samples spread 0.25 texels apart
     vec2 C0 = texCoord;
     vec2 C1 = texCoord + InverseP * 0.25;
@@ -33,11 +33,11 @@ void main() {
     vec2 C3 = texCoord + InverseP * 0.75;
     vec4 Cx = vec4(C0.x, C1.x, C2.x, C3.x);
     vec4 Cy = vec4(C0.y, C1.y, C2.y, C3.y);
-    
-    vec4 Texel0 = texture(DiffuseSampler, C0);
-    vec4 Texel1 = texture(DiffuseSampler, C1);
-    vec4 Texel2 = texture(DiffuseSampler, C2);
-    vec4 Texel3 = texture(DiffuseSampler, C3);
+
+    vec4 Texel0 = texture(InSampler, C0);
+    vec4 Texel1 = texture(InSampler, C1);
+    vec4 Texel2 = texture(InSampler, C2);
+    vec4 Texel3 = texture(InSampler, C3);
 
     // Calculate the expected time of the sample.
     vec4 T = A2 * Cy * vec4(InSize.y) + B + Cx;
@@ -46,7 +46,7 @@ void main() {
     vec4 Y = vec4(dot(Texel0, YTransform), dot(Texel1, YTransform), dot(Texel2, YTransform), dot(Texel3, YTransform));
     vec4 I = vec4(dot(Texel0, ITransform), dot(Texel1, ITransform), dot(Texel2, ITransform), dot(Texel3, ITransform));
     vec4 Q = vec4(dot(Texel0, QTransform), dot(Texel1, QTransform), dot(Texel2, QTransform), dot(Texel3, QTransform));
-    
+
     vec4 Encoded = Y + I * cos(TW) + Q * sin(TW);
     fragColor = (Encoded - MinC) * InvCRange;
 }

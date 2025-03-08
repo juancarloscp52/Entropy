@@ -27,7 +27,7 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
@@ -98,6 +98,6 @@ public class DiscordIntegration implements Integrations {
 
     @Override
     public int getColor(int alpha) {
-        return FastColor.ARGB32.color(alpha,88, 101, 242);
+        return ARGB.color(alpha,88, 101, 242);
     }
 }

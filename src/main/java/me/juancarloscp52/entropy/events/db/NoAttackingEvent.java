@@ -26,7 +26,7 @@ public class NoAttackingEvent extends AbstractTimedEvent {
     public void endClient() {
         Options options = Minecraft.getInstance().options;
 
-        options.setKey(options.keyAttack, boundAttackKey);
+        options.keyAttack.setKey(boundAttackKey);
         KeyMapping.resetMapping();
         super.endClient();
     }

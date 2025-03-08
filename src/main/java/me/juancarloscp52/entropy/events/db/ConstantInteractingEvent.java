@@ -1,9 +1,9 @@
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 
 public class ConstantInteractingEvent extends AbstractTimedEvent {
     private boolean hasScreenOpen = false;
@@ -22,7 +22,7 @@ public class ConstantInteractingEvent extends AbstractTimedEvent {
 
         Minecraft mc = Minecraft.getInstance();
         this.hadScreenOpenLastTick = this.hasScreenOpen;
-        this.hasScreenOpen = mc.screen != null && !(mc.screen instanceof EffectRenderingInventoryScreen);
+        this.hasScreenOpen = mc.screen != null && !(mc.screen instanceof CreativeModeInventoryScreen || mc.screen instanceof InventoryScreen);
 
         //screen was closed
         if(this.hadScreenOpenLastTick && !this.hasScreenOpen) {

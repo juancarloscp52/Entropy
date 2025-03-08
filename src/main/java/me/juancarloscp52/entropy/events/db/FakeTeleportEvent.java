@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class FakeTeleportEvent extends AbstractInstantEvent {
@@ -84,7 +85,7 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
             TeleportInfo info = positions.get(player);
 
             player.fallDistance = 0;
-            player.teleportTo(player.serverLevel(), info.x + 0.5D, info.y, info.z + 0.5D, info.yaw, info.pitch);
+            player.teleportTo(player.serverLevel(), info.x + 0.5D, info.y, info.z + 0.5D, Set.of(), info.yaw, info.pitch, true);
         });
     }
 

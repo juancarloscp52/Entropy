@@ -16,7 +16,7 @@ public class ArmorCurseEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity ->
                     serverPlayerEntity.getInventory().armor.forEach(item ->
-                        item.enchant(serverPlayerEntity.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolder(Enchantments.BINDING_CURSE).get(), 1)
+                        item.enchant(serverPlayerEntity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(Enchantments.BINDING_CURSE).get(), 1)
                     )
         );
     }

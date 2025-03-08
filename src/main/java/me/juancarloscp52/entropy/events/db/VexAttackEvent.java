@@ -7,8 +7,8 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 
 public class VexAttackEvent extends AbstractInstantEvent {
 
@@ -21,7 +21,7 @@ public class VexAttackEvent extends AbstractInstantEvent {
             var vexAmount = random.nextInt(difficulty == Difficulty.HARD ? 4 : difficulty == Difficulty.NORMAL ? 3 : 2) + 1;
             for (int i = 0; i < vexAmount; i++) {
                 var spawnPos = serverPlayerEntity.blockPosition().offset(random.nextInt(25) - 12, random.nextInt(5) - 2, random.nextInt(25) - 12);
-                EntityType.VEX.spawn(world, spawnPos, MobSpawnType.SPAWN_EGG);
+                EntityType.VEX.spawn(world, spawnPos, EntitySpawnReason.EVENT);
             }
         }
     }

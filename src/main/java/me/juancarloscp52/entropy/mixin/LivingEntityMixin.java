@@ -2,6 +2,7 @@ package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -13,16 +14,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin {
 
-    @Inject(method = "hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", at = @At("RETURN"))
-    private void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z", at = @At("RETURN"))
+    private void damage(ServerLevel level, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         var _this = (LivingEntity) (Object) this;
         var attacker = source.getEntity();
 
         if (attacker instanceof Player) {
             if (Variables.isOnePunchActivated > 0) {
                 var pos = _this.position();
-                _this.level().addParticle(ParticleTypes.EXPLOSION, pos.x, pos.y + 1, pos.z, 0, 0, 0);
-                _this.kill();
+                level.addParticle(ParticleTypes.EXPLOSION, pos.x, pos.y + 1, pos.z, 0, 0, 0);
+                _this.kill(level);
             }
 
             if (Variables.shouldLaunchEntity > 0) {

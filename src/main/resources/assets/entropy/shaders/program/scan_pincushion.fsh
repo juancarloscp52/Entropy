@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -27,7 +27,7 @@ const vec3 Power = vec3(0.8, 0.8, 0.8);
 out vec4 fragColor;
 
 void main() {
-    vec4 InTexel = texture(DiffuseSampler, texCoord);
+    vec4 InTexel = texture(InSampler, texCoord);
 
     vec2 PinUnitCoord = texCoord * Two.xy - One.xy;
     float PincushionR2 = pow(length(PinUnitCoord), 2.0);

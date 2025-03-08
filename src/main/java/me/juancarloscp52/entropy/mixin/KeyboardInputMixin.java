@@ -18,29 +18,51 @@
 package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
-import net.minecraft.client.player.Input;
+import net.minecraft.client.player.ClientInput;
 import net.minecraft.client.player.KeyboardInput;
+import net.minecraft.world.entity.player.Input;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(KeyboardInput.class)
-public class KeyboardInputMixin extends Input {
+public class KeyboardInputMixin extends ClientInput {
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void applyEvents(boolean slowDown, float f, CallbackInfo ci) {
         if (Variables.forceForward) {
-            this.up = true;
+            this.keyPresses = new Input(
+                true,
+                keyPresses.backward(),
+                keyPresses.left(),
+                keyPresses.right(),
+                keyPresses.jump(),
+                keyPresses.shift(),
+                keyPresses.sprint()
+            );
             this.forwardImpulse = 1;
         } else if (Variables.onlySidewaysMovement) {
             this.forwardImpulse = 0;
-            this.up = false;
-            this.down = false;
+            this.keyPresses = new Input(
+                false,
+                false,
+                keyPresses.left(),
+                keyPresses.right(),
+                keyPresses.jump(),
+                keyPresses.shift(),
+                keyPresses.sprint()
+            );
         } else if (Variables.onlyBackwardsMovement) {
-            this.up = false;
-            this.left = false;
-            this.right = false;
+            this.keyPresses = new Input(
+                false,
+                keyPresses.backward(),
+                false,
+                false,
+                keyPresses.jump(),
+                keyPresses.shift(),
+                keyPresses.sprint()
+            );
             this.leftImpulse = 0;
             this.forwardImpulse = this.forwardImpulse <= 0 ? this.forwardImpulse : 0;
         } else if (Variables.invertedControls) {
@@ -48,14 +70,37 @@ public class KeyboardInputMixin extends Input {
             this.forwardImpulse = -forwardImpulse;
         }
         if (Variables.forceJump) {
-            this.jumping = true;
+            this.keyPresses = new Input(
+                keyPresses.forward(),
+                keyPresses.backward(),
+                keyPresses.left(),
+                keyPresses.right(),
+                true,
+                keyPresses.shift(),
+                keyPresses.sprint()
+            );
         } else if (Variables.noJump) {
-            this.jumping = false;
+            this.keyPresses = new Input(
+                keyPresses.forward(),
+                keyPresses.backward(),
+                keyPresses.left(),
+                keyPresses.right(),
+                false,
+                keyPresses.shift(),
+                keyPresses.sprint()
+            );
         }
         if (Variables.forceSneak) {
-            this.shiftKeyDown = true;
+            this.keyPresses = new Input(
+                keyPresses.forward(),
+                keyPresses.backward(),
+                keyPresses.left(),
+                keyPresses.right(),
+                keyPresses.jump(),
+                true,
+                keyPresses.sprint()
+            );
         }
 
     }
-
 }

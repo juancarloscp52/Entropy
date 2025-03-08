@@ -7,9 +7,9 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.armortrim.ArmorTrim;
-import net.minecraft.world.item.armortrim.TrimMaterial;
-import net.minecraft.world.item.armortrim.TrimPattern;
+import net.minecraft.world.item.equipment.trim.ArmorTrim;
+import net.minecraft.world.item.equipment.trim.TrimMaterial;
+import net.minecraft.world.item.equipment.trim.TrimPattern;
 import net.minecraft.world.level.Level;
 
 public class ArmorTrimEvent extends AbstractInstantEvent {
@@ -19,8 +19,8 @@ public class ArmorTrimEvent extends AbstractInstantEvent {
             Level world = player.level();
             RandomSource random = world.random;
             RegistryAccess registryManager = player.level().registryAccess();
-            Registry<TrimMaterial> trimMaterials = registryManager.registryOrThrow(Registries.TRIM_MATERIAL);
-            Registry<TrimPattern> trimPatterns = registryManager.registryOrThrow(Registries.TRIM_PATTERN);
+            Registry<TrimMaterial> trimMaterials = registryManager.lookupOrThrow(Registries.TRIM_MATERIAL);
+            Registry<TrimPattern> trimPatterns = registryManager.lookupOrThrow(Registries.TRIM_PATTERN);
 
             player.getArmorSlots().forEach(stack -> stack.set(DataComponents.TRIM, new ArmorTrim(trimMaterials.getRandom(random).get(), trimPatterns.getRandom(random).get())));
         });

@@ -19,8 +19,8 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import java.util.Random;
 
 public class ChickenRainEvent extends AbstractTimedEvent {
@@ -38,7 +38,7 @@ public class ChickenRainEvent extends AbstractTimedEvent {
         if (getTickCount() % 20 == 0) {
             for (int i = 0; i < 5; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity ->
-                        EntityType.CHICKEN.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().offset((random.nextInt(100) - 50), 50, (random.nextInt(100) - 50)), MobSpawnType.COMMAND));
+                        EntityType.CHICKEN.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().offset((random.nextInt(100) - 50), 50, (random.nextInt(100) - 50)), EntitySpawnReason.EVENT));
             }
         }
         super.tick();

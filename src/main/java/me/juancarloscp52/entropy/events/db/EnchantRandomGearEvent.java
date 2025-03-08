@@ -25,8 +25,8 @@ public class EnchantRandomGearEvent extends AbstractInstantEvent {
 
             Collections.shuffle(inventory);
 
-            final Registry<Enchantment> enchantmentsRegistry = serverPlayerEntity.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
-            final List<Holder.Reference<Enchantment>> enchantments = enchantmentsRegistry.holders().collect(Collectors.toCollection(ArrayList::new));
+            final Registry<Enchantment> enchantmentsRegistry = serverPlayerEntity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+            final List<Holder.Reference<Enchantment>> enchantments = enchantmentsRegistry.listElements().collect(Collectors.toCollection(ArrayList::new));
             Collections.shuffle(enchantments);
 
             for (var itemStack : inventory) {

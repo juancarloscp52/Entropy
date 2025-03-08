@@ -17,9 +17,11 @@
 
 package me.juancarloscp52.entropy.client;
 
+import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import com.mojang.blaze3d.systems.RenderSystem;
-import java.io.IOException;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.ResourceLocation;
 
@@ -27,30 +29,24 @@ import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 public class ShaderManager {
+    public static final ResourceLocation BLACK_AND_WHITE = ResourceLocation.fromNamespaceAndPath("entropy", "black_and_white");
+    public static final ResourceLocation BLUR = ResourceLocation.fromNamespaceAndPath("entropy", "blur");
+    public static final ResourceLocation CRT = ResourceLocation.fromNamespaceAndPath("entropy", "crt");
+    public static final ResourceLocation INVERTED = ResourceLocation.withDefaultNamespace("inverted");
+    public static final ResourceLocation WOBBLE = ResourceLocation.fromNamespaceAndPath("entropy", "wobble");
 
-    public static PostChain register(ResourceLocation id){
-        Minecraft client = Minecraft.getInstance();
-        try {
-            PostChain shader;
-            shader = new PostChain(client.getTextureManager(), client.getResourceManager(),
-                    client.getMainRenderTarget(), id);
-            shader.resize(client.getWindow().getWidth(), client.getWindow().getHeight());
-            return shader;
-        }catch (IOException e){
-            System.out.println("Could not read shader: "+e.getMessage());
+    public static void render(ResourceLocation postEffectId, Minecraft minecraft, GraphicsResourceAllocator graphicsResourceAllocator) {
+        PostChain postChain = minecraft.getShaderManager().getPostChain(postEffectId, LevelTargetBundle.MAIN_TARGETS);
+        if (postChain != null) {
+            RenderSystem.disableBlend();
+            RenderSystem.disableDepthTest();
+            RenderSystem.resetTextureMatrix();
+            postChain.process(minecraft.getMainRenderTarget(), graphicsResourceAllocator);
+            Minecraft.getInstance().getMainRenderTarget().bindWrite(true);
+            RenderSystem.disableBlend();
+            RenderSystem.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // restore blending
+            RenderSystem.enableDepthTest();
         }
-        return null;
-    }
-
-    public static void render(PostChain shader, float tickDelta){
-        RenderSystem.disableBlend();
-        RenderSystem.disableDepthTest();
-        RenderSystem.resetTextureMatrix();
-        shader.process(tickDelta);
-        Minecraft.getInstance().getMainRenderTarget().bindWrite(true);
-        RenderSystem.disableBlend();
-        RenderSystem.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // restore blending
-        RenderSystem.enableDepthTest();
     }
 
 }

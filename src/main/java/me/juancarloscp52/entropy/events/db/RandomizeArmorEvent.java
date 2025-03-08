@@ -22,6 +22,7 @@ import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
@@ -52,7 +53,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
     private ItemStack getRandomItem(ServerPlayer serverPlayerEntity, EquipmentSlot slot){
         RandomSource random = RandomSource.create();
         Item item = BuiltInRegistries.ITEM.getRandom(random).get().value();
-        if(item instanceof ArmorItem && ((ArmorItem)item).getEquipmentSlot()==slot){
+        if(item instanceof ArmorItem && item.components().get(DataComponents.EQUIPPABLE).slot()==slot){
             if(!item.requiredFeatures().isSubsetOf(serverPlayerEntity.level().enabledFeatures()))
                 return getRandomItem(serverPlayerEntity, slot);
             ItemStack stack = new ItemStack(item);
@@ -67,7 +68,7 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
     }
     private Holder<Enchantment> getRandomEnchantment(ServerPlayer player, ItemStack item) {
         final RegistryAccess registries = player.registryAccess();
-        Optional<Holder.Reference<Enchantment>> enchantment = registries.registryOrThrow(Registries.ENCHANTMENT).getRandom(player.getRandom());
+        Optional<Holder.Reference<Enchantment>> enchantment = registries.lookupOrThrow(Registries.ENCHANTMENT).getRandom(player.getRandom());
         if (enchantment.isPresent() && enchantment.get().value().canEnchant(item) && !enchantment.get().is(EnchantmentTags.DO_NOT_ENCHANT_WITH))
             return enchantment.get();
         else

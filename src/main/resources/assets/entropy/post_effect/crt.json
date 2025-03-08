@@ -1,0 +1,62 @@
+{
+  "targets": {
+    "swap": {},
+    "swap2": {}
+  },
+  "passes": [
+    {
+      "program": "entropy:program/ntsc_encode",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "minecraft:main"
+        }
+      ],
+      "output": "swap"
+    },
+    {
+      "program": "entropy:program/ntsc_decode",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap"
+        },
+        {
+          "sampler_name": "Base",
+          "target": "minecraft:main"
+        }
+      ],
+      "output": "swap2"
+    },
+    {
+      "program": "post/bits",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap2"
+        }
+      ],
+      "output": "swap"
+    },
+    {
+      "program": "entropy:program/scan_pincushion",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap"
+        }
+      ],
+      "output": "minecraft:main"
+    },
+    {
+      "program": "post/blit",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "minecraft:main"
+        }
+      ],
+      "output": "swap"
+    }
+  ]
+}

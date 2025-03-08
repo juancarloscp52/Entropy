@@ -33,6 +33,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -153,7 +154,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
         RenderSystem.setShaderColor(sin, sin, sin, 1.0f);
         int scaledHeight = client.getWindow().getGuiScaledHeight();
         int scaledWidth = client.getWindow().getGuiScaledWidth();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(CoreShaders.POSITION_TEX);
         RenderSystem.setShaderTexture(0, VIGNETTE_TEXTURE);
         Tesselator tessellator = Tesselator.getInstance();
         BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);

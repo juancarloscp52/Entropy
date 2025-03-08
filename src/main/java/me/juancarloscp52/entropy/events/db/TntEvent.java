@@ -19,13 +19,13 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 
 public class TntEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> EntityType.TNT.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().north(), MobSpawnType.COMMAND).setFuse(40));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> EntityType.TNT.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().north(), EntitySpawnReason.EVENT).setFuse(40));
     }
 }

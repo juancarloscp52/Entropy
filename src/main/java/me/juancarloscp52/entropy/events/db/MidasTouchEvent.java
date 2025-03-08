@@ -11,6 +11,7 @@ import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -29,6 +30,7 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
+
 import java.util.ArrayList;
 
 public class MidasTouchEvent extends AbstractTimedEvent {
@@ -99,7 +101,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
                 var entityItem = new ItemEntity(world, mob.getX(), mob.getY(), mob.getZ(), itemStack);
                 world.addFreshEntity(entityItem);
-                mob.kill();
+                mob.kill(world);
             }
 
             // Replace items that player holding in his hand and everything that player
@@ -122,7 +124,8 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                 var item = itemStack.getItem();
 
                 ItemStack newItemStack;
-                var food = item.components().get(DataComponents.FOOD);
+                DataComponentMap components = item.components();
+                var food = components.get(DataComponents.FOOD);
                 if (food != null) {
                     var odds = player.getRandom().nextInt(100);
 
@@ -150,13 +153,14 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                             break;
                     }
                 } else if (item instanceof ArmorItem) {
-                    if (((ArmorItem) item).getEquipmentSlot() == EquipmentSlot.HEAD)
+                    EquipmentSlot slot = components.get(DataComponents.EQUIPPABLE).slot();
+                    if (slot == EquipmentSlot.HEAD)
                         newItemStack = new ItemStack(Items.GOLDEN_HELMET, itemStack.getCount());
-                    else if (((ArmorItem) item).getEquipmentSlot() == EquipmentSlot.CHEST)
+                    else if (slot == EquipmentSlot.CHEST)
                         newItemStack = new ItemStack(Items.GOLDEN_CHESTPLATE, itemStack.getCount());
-                    else if (((ArmorItem) item).getEquipmentSlot() == EquipmentSlot.LEGS)
+                    else if (slot == EquipmentSlot.LEGS)
                         newItemStack = new ItemStack(Items.GOLDEN_LEGGINGS, itemStack.getCount());
-                    else if (((ArmorItem) item).getEquipmentSlot() == EquipmentSlot.FEET)
+                    else if (slot == EquipmentSlot.FEET)
                         newItemStack = new ItemStack(Items.GOLDEN_BOOTS, itemStack.getCount());
                     else
                         newItemStack = new ItemStack(Items.GOLD_INGOT);

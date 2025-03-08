@@ -32,6 +32,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -110,7 +111,7 @@ public class EntropyConfigurationScreen extends Screen {
         PoseStack matrices = drawContext.pose();
         matrices.pushPose();
         matrices.scale(0.2f, 0.2f, 0.2f);
-        drawContext.blit(LOGO, 0, 0, 0, 0, 0, 188, 187, 256, 256);
+        drawContext.blit(RenderType::guiTextured, LOGO, 0, 0, 0, 0, 188, 187, 256, 256);
         matrices.popPose();
         RenderSystem.disableBlend();
     }

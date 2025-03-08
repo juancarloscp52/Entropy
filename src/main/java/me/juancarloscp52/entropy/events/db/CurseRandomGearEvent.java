@@ -38,9 +38,9 @@ public class CurseRandomGearEvent extends AbstractInstantEvent {
                 if(itemStack.is(ItemTags.DO_NOT_CURSE))
                     continue;
 
-                final Registry<Enchantment> enchantments = serverPlayerEntity.registryAccess().registryOrThrow(Registries.ENCHANTMENT);
+                final Registry<Enchantment> enchantments = serverPlayerEntity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
                 for (var curseKey : _curses) {
-                    final Holder<Enchantment> curse = enchantments.getHolder(curseKey).get();
+                    final Holder<Enchantment> curse = enchantments.get(curseKey).get();
                     if (curse.value().canEnchant(itemStack)) {
                         var hasCurse = false;
                         var existingEnchantments = itemStack.getEnchantments();

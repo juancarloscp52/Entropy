@@ -4,11 +4,12 @@
         "srcrgb": "one",
         "dstrgb": "zero"
     },
-    "vertex": "sobel",
-    "fragment": "ntsc_encode",
+    "vertex": "post/sobel",
+    "fragment": "entropy:program/ntsc_decode",
     "attributes": [ "Position" ],
     "samplers": [
-        { "name": "DiffuseSampler" }
+        { "name": "InSampler" },
+        { "name": "BaseSampler" }
     ],
     "uniforms": [
         { "name": "ProjMat",    "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },

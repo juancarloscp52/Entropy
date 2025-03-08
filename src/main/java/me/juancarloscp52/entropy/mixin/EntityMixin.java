@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.mixin;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -63,8 +64,8 @@ public abstract class EntityMixin {
             ci.cancel();
     }
 
-    @Inject(method = "spawnAtLocation(Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At("HEAD"), cancellable = true)
-    private void randomDrops(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir) {
+    @Inject(method = "spawnAtLocation(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;F)Lnet/minecraft/world/entity/item/ItemEntity;", at = @At("HEAD"), cancellable = true)
+    private void randomDrops(ServerLevel level, ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> cir) {
         if (Variables.noDrops) {
             cir.setReturnValue(null);
             cir.cancel();
@@ -77,9 +78,9 @@ public abstract class EntityMixin {
                 cir.setReturnValue(null);
                 cir.cancel();
             } else {
-                ItemEntity itemEntity = new ItemEntity(this.level, this.getX(), this.getY() + (double) yOffset, this.getZ(), computeItemStack(stack));
+                ItemEntity itemEntity = new ItemEntity(level, this.getX(), this.getY() + (double) yOffset, this.getZ(), computeItemStack(stack));
                 itemEntity.setDefaultPickUpDelay();
-                this.level.addFreshEntity(itemEntity);
+                level.addFreshEntity(itemEntity);
                 cir.setReturnValue(itemEntity);
                 cir.cancel();
             }

@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -41,7 +42,7 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
 
         if (getTickCount() % 10 == 0) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverPlayerEntity.level());
+                LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverPlayerEntity.serverLevel(), EntitySpawnReason.EVENT);
                 lightningEntity.moveTo(Vec3.atCenterOf(serverPlayerEntity.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, new BlockPos(serverPlayerEntity.getBlockX() + (random.nextInt(50) - 25), serverPlayerEntity.getBlockY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getBlockZ() + (random.nextInt(60) - 25)))));
                 serverPlayerEntity.level().addFreshEntity(lightningEntity);
             });

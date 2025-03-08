@@ -57,11 +57,6 @@ public class EntropyClient implements ClientModInitializer {
     public static SoundEvent herobrineAmbience = SoundEvent.createVariableRangeEvent(herobrineAmbienceID);
     public ClientEventHandler clientEventHandler;
     public EntropyIntegrationsSettings integrationsSettings;
-    private PostChain shader_blur;
-    private PostChain shader_wobble;
-    private PostChain shader_invertedColor;
-    private PostChain shader_monitor;
-    private PostChain shader_black_and_white;
     public static EntropyClient getInstance() {
         return instance;
     }
@@ -173,45 +168,6 @@ public class EntropyClient implements ClientModInitializer {
         //Registry.registerReference()
         Registry.register(BuiltInRegistries.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
         ParticleFactoryRegistry.getInstance().register(Entropy.CONSTANT_COLOR_DUST, ConstantColorDustParticle.Factory::new);
-    }
-
-
-    public void renderShaders(float tickDelta) {
-        if (Variables.blur) {
-            if(shader_blur==null){
-                shader_blur=ShaderManager.register(ResourceLocation.fromNamespaceAndPath("entropy", "shaders/post/blur.json"));
-            }
-            assert shader_blur != null : "Blur shader is null";
-            ShaderManager.render(shader_blur,tickDelta);
-        } else if (Variables.invertedShader) {
-            if(shader_invertedColor==null){
-                shader_invertedColor=ShaderManager.register(ResourceLocation.withDefaultNamespace("shaders/post/invert.json"));
-            }
-            assert shader_invertedColor != null : "Inverted Color shader is null";
-            ShaderManager.render(shader_invertedColor,tickDelta);
-        } else if (Variables.wobble) {
-            if(shader_wobble==null){
-                shader_wobble=ShaderManager.register(ResourceLocation.fromNamespaceAndPath("entropy","shaders/post/wobble.json"));
-            }
-            assert shader_wobble != null : "Wobble shader is null";
-            ShaderManager.render(shader_wobble,tickDelta);
-        } else if (Variables.monitor) {
-            if(shader_monitor==null){
-                shader_monitor=ShaderManager.register(ResourceLocation.fromNamespaceAndPath("entropy", "shaders/post/crt.json"));
-            }
-            assert shader_monitor != null : "Monitor shader is null";
-            ShaderManager.render(shader_monitor,tickDelta);
-        }
-    }
-
-    public void renderBlackAndWhite(float tickDelta) {
-        if (Variables.blackAndWhite) {
-            if(shader_black_and_white==null){
-                shader_black_and_white=ShaderManager.register(ResourceLocation.fromNamespaceAndPath("entropy", "shaders/post/black_and_white.json"));
-            }
-            assert shader_black_and_white != null : "Black & White shader is null";
-            ShaderManager.render(shader_black_and_white,tickDelta);
-        }
     }
 
     public void loadSettings() {
