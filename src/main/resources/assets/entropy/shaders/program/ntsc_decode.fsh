@@ -1,6 +1,6 @@
 #version 150
 
-uniform sampler2D DiffuseSampler;
+uniform sampler2D InSampler;
 uniform sampler2D BaseSampler;
 
 in vec2 texCoord;
@@ -65,14 +65,14 @@ void main() {
     float Fc_q_2 = Fc_q * 2.0;
     vec4 CoordY = vec4(texCoord.y);
 
-    vec4 BaseTexel = texture(DiffuseSampler, texCoord);
+    vec4 BaseTexel = texture(InSampler, texCoord);
     // 83 composite samples wide, 4 composite pixels per texel
     for (float n = -41.0; n < 42.0; n += 4.0)
     {
         vec4 n4 = n + NotchOffset;
         vec4 CoordX = texCoord.x + oneTexel.x * n4 * 0.25;
         vec2 TexCoord = vec2(CoordX.x, CoordY.y);
-        vec4 C = texture(DiffuseSampler, TexCoord) * CRange + MinC;
+        vec4 C = texture(InSampler, TexCoord) * CRange + MinC;
         vec4 WT = W * (CoordX + A2 * CoordY * InSize.y + B);
         vec4 Cosine = 0.54 + 0.46 * cos(Pi2Length * n4);
 

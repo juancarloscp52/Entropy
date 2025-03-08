@@ -8,7 +8,7 @@
       "program": "entropy:program/ntsc_encode",
       "inputs": [
         {
-          "sampler_name": "Diffuse",
+          "sampler_name": "In",
           "target": "minecraft:main"
         }
       ],
@@ -18,7 +18,7 @@
       "program": "entropy:program/ntsc_decode",
       "inputs": [
         {
-          "sampler_name": "Diffuse",
+          "sampler_name": "In",
           "target": "swap"
         },
         {
@@ -42,7 +42,7 @@
       "program": "entropy:program/scan_pincushion",
       "inputs": [
         {
-          "sampler_name": "Diffuse",
+          "sampler_name": "In",
           "target": "swap"
         }
       ],
