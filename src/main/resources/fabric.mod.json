@@ -20,7 +20,6 @@
   "license": "GPL-3.0",
   "icon": "assets/entropy/icon.png",
   "environment": "*",
-  "accessWidener": "entropy.accesswidener",
   "entrypoints": {
     "client": [
       "me.juancarloscp52.entropy.client.EntropyClient"

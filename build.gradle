@@ -76,7 +76,6 @@ dependencies {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/entropy.accesswidener")
     runs {
         datagenClient {
             inherit client
