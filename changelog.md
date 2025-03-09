@@ -7,6 +7,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 Find your version by looking for the file for your mod-loader:
 
 -   Entropy-`<mod-version>`+mc`<mc-version>`.jar
+- 
+## [1.13.1] - 2025-03-09
+
+Special thanks to the Entropy Contributors: bl4ckscor3, Kanawanagasaki and slicedlime! <3
+
+Available versions:
+-   Minecraft 1.21.3
+
+### Changed/Fixed
+
+-   Reworked Herobrine Removed Event fog to be more eerie :)
 
 ## [1.13] - 2025-03-01 2025-03-08
 
