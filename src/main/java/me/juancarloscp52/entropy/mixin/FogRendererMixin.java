@@ -19,8 +19,10 @@ package me.juancarloscp52.entropy.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import me.juancarloscp52.entropy.Variables;
+import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.FogParameters;
 import net.minecraft.client.renderer.FogRenderer;
+import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -28,8 +30,11 @@ import org.spongepowered.asm.mixin.injection.At;
 public class FogRendererMixin {
 
     @ModifyReturnValue(method = "setupFog", at = @At(value = "RETURN", ordinal = 1))
-    private static FogParameters changeFogDistance(FogParameters original) {
+    private static FogParameters changeFogDistance(FogParameters original, Camera camera, FogRenderer.FogMode fogMode, Vector4f fogColor) {
         if (Variables.customFog) {
+            fogColor.x = 0.0F;
+            fogColor.y = 0.0F;
+            fogColor.z = 0.0F;
             return new FogParameters(-150.0F, 100.0F, original.shape(), 0.0F, 0.0F, 0.0F, 1.0F);
         }
         else {
