@@ -13,7 +13,7 @@ Find your version by looking for the file for your mod-loader:
 Special thanks to the Entropy Contributors: bl4ckscor3, Kanawanagasaki and slicedlime! <3
 
 Available versions:
--   Minecraft 1.21.3
+-   Minecraft 1.21.3, 1.21.4
 
 ### Changed/Fixed
 
