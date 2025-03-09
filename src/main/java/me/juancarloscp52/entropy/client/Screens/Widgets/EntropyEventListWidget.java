@@ -22,7 +22,7 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.mixin.AbstractSelectionListAccessor;
+import me.juancarloscp52.entropy.mixin.AbstractScrollAreaAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -83,8 +83,8 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
     }
 
     @Override
-    protected int getScrollbarPosition() {
-        return super.getScrollbarPosition() + 32;
+    protected int scrollBarX() {
+        return super.scrollBarX() + 32;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        this.updateScrollingState(mouseX, mouseY, button);
+        this.updateScrolling(mouseX, mouseY, button);
         if (!this.isMouseOver(mouseX, mouseY)) {
             return false;
         } else {
@@ -106,11 +106,11 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
                     return true;
                 }
             } else if (button == 0) {
-                this.clickedHeader((int)(mouseX - (double)(this.getX() + this.width / 2 - this.getRowWidth() / 2)), (int)(mouseY - (double)this.getY()) + (int)this.getScrollAmount() - 4);
+                super.mouseClicked(mouseX, mouseY, button);
                 return true;
             }
 
-            return ((AbstractSelectionListAccessor) this).getScrolling();
+            return ((AbstractScrollAreaAccessor) this).getScrolling();
         }
     }
 
@@ -119,9 +119,9 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         int j = this.getX() + this.width / 2;
         int k = j - i;
         int l = j + i;
-        int m = Mth.floor(y - (double)this.getY()) - this.headerHeight + (int)this.getScrollAmount() - 4;
+        int m = Mth.floor(y - (double)this.getY()) - this.headerHeight + (int)this.scrollAmount() - 4;
         int n = m / this.itemHeight;
-        return x < (double)this.getScrollbarPosition() && x >= (double)k && x <= (double)l && n >= 0 && m >= 0 && n < this.getItemCount() ? this.visibleEntries.get(n) : null;
+        return x < (double)this.scrollBarX() && x >= (double)k && x <= (double)l && n >= 0 && m >= 0 && n < this.getItemCount() ? this.visibleEntries.get(n) : null;
     }
 
     @Override
