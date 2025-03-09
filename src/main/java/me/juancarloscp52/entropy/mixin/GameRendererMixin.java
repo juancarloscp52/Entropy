@@ -21,14 +21,11 @@ import com.mojang.blaze3d.resource.CrossFrameResourcePool;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import me.juancarloscp52.entropy.Variables;
-import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.ShaderManager;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FogType;
@@ -57,18 +54,18 @@ public class GameRendererMixin {
     private CrossFrameResourcePool resourcePool;
 
     @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
-    public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Double> cir) {
+    public void changeFov(Camera camera, float tickDelta, boolean changingFov, CallbackInfoReturnable<Float> cir) {
         if (Variables.forcedFov) {
             if (Variables.ignoreVariableFov) {
-                cir.setReturnValue((double) Variables.fov * Mth.lerp(minecraft.options.fovEffectScale().get(), Variables.fov, 1.0D));
+                cir.setReturnValue(Variables.fov * Mth.lerp(minecraft.options.fovEffectScale().get().floatValue(), Variables.fov, 1.0f));
             } else {
                 cir.setReturnValue(updateFov(camera, tickDelta, changingFov, Variables.fov));
             }
         }
     }
-    private double updateFov(Camera camera, float tickDelta, boolean changingFov, double fovValue) {
+    private float updateFov(Camera camera, float tickDelta, boolean changingFov, float fovValue) {
         {
-            double fov = 70.0D;
+            float fov = 70.0f;
             if (changingFov) {
                 fov = fovValue;
                 fov *= Mth.lerp(tickDelta, this.oldFovModifier, this.fovModifier);
@@ -80,7 +77,7 @@ public class GameRendererMixin {
             }
             FogType cameraSubmersionType = camera.getFluidInCamera();
             if (cameraSubmersionType == FogType.LAVA || cameraSubmersionType == FogType.WATER) {
-                fov *= Mth.lerp(this.minecraft.options.fovEffectScale().get(), 1.0F, 0.85714287F);
+                fov *= Mth.lerp(this.minecraft.options.fovEffectScale().get().floatValue(), 1.0F, 0.85714287F);
             }
 //            FluidState fluidState = camera.getSubmergedFluidState();
 //            if (!fluidState.isEmpty()) {
