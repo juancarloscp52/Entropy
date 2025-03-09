@@ -32,7 +32,7 @@ public class ShaderManager {
     public static final ResourceLocation BLACK_AND_WHITE = ResourceLocation.fromNamespaceAndPath("entropy", "black_and_white");
     public static final ResourceLocation BLUR = ResourceLocation.fromNamespaceAndPath("entropy", "blur");
     public static final ResourceLocation CRT = ResourceLocation.fromNamespaceAndPath("entropy", "crt");
-    public static final ResourceLocation INVERTED = ResourceLocation.withDefaultNamespace("inverted");
+    public static final ResourceLocation INVERTED = ResourceLocation.withDefaultNamespace("invert");
     public static final ResourceLocation WOBBLE = ResourceLocation.fromNamespaceAndPath("entropy", "wobble");
 
     public static void render(ResourceLocation postEffectId, Minecraft minecraft, GraphicsResourceAllocator graphicsResourceAllocator) {
