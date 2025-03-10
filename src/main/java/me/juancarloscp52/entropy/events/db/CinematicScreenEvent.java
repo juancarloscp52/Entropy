@@ -59,9 +59,4 @@ public class CinematicScreenEvent extends AbstractTimedEvent {
         drawContext.fill(0, 0, client.getWindow().getGuiScaledWidth(), borderHeight, 255 << 24);
         drawContext.fill(0, client.getWindow().getGuiScaledHeight() - borderHeight, client.getWindow().getGuiScaledWidth(), client.getWindow().getGuiScaledHeight(), 255 << 24);
     }
-
-    @Override
-    public String type() {
-        return "screenAspect";
-    }
 }

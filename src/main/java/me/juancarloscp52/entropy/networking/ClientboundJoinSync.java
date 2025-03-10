@@ -1,10 +1,12 @@
 package me.juancarloscp52.entropy.networking;
 
-import java.util.List;
+import me.juancarloscp52.entropy.events.TypedEvent;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+
+import java.util.List;
 
 public record ClientboundJoinSync(List<EventData> events) implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, ClientboundJoinSync> CODEC = StreamCodec.composite(
@@ -13,12 +15,12 @@ public record ClientboundJoinSync(List<EventData> events) implements CustomPacke
     );
 
     public record EventData(
-        String id,
+        TypedEvent<?> typedEvent,
         boolean ended,
         short tickCount
     ) {
         public static final StreamCodec<FriendlyByteBuf, EventData> CODEC = StreamCodec.composite(
-            ByteBufCodecs.STRING_UTF8, EventData::id,
+            TypedEvent.STREAM_CODEC, EventData::typedEvent,
             ByteBufCodecs.BOOL, EventData::ended,
             ByteBufCodecs.SHORT, EventData::tickCount,
             EventData::new

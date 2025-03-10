@@ -16,8 +16,4 @@ public class StutteringEvent extends AbstractTimedEvent {
         Variables.stuttering = false;
     }
 
-    @Override
-    public boolean isDisabledByAccessibilityMode() {
-        return true;
-    }
 }

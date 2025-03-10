@@ -33,9 +33,4 @@ public class LuckyDropsEvent extends AbstractTimedEvent {
         Variables.luckyDrops = false;
         super.end();
     }
-
-    @Override
-    public String type() {
-        return "drops";
-    }
 }

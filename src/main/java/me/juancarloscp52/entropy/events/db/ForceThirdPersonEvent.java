@@ -35,9 +35,4 @@ public class ForceThirdPersonEvent extends AbstractTimedEvent {
         Variables.frontView = false;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "camera";
-    }
 }

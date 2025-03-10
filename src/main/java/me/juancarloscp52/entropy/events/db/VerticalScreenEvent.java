@@ -36,9 +36,4 @@ public class VerticalScreenEvent extends AbstractTimedEvent {
         drawContext.fill(client.getWindow().getGuiScaledWidth(), 0, client.getWindow().getGuiScaledWidth() - borderWidth, client.getWindow().getGuiScaledHeight(), 255 << 24);
     }
 
-    @Override
-    public String type() {
-        return "screenAspect";
-    }
-
 }

@@ -28,10 +28,6 @@ public class HyperSpeedEvent extends AbstractAttributeEvent {
     public List<ActiveModifier> getModifiers() {
         return List.of(new ActiveModifier(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("entropy", "hyperspeed"), 5d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
     }
-    @Override
-    public String type() {
-        return "speed";
-    }
 
     @Override
     public short getDuration() {

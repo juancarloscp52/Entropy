@@ -20,9 +20,4 @@ public class InvisiblePlayerEvent extends AbstractInstantEvent {
         }
     }
 
-    @Override
-    public String type() {
-        return "invisibility";
-    }
-
 }

@@ -34,9 +34,5 @@ public class OnlySidewaysEvent extends AbstractTimedEvent {
         super.endClient();
     }
 
-    @Override
-    public String type() {
-        return "movement";
-    }
 
 }

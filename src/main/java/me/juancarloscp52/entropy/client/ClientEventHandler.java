@@ -26,17 +26,18 @@ import me.juancarloscp52.entropy.client.UIStyles.UIRenderer;
 import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegration;
 import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrations;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegrations;
-import me.juancarloscp52.entropy.events.Event;
+import me.juancarloscp52.entropy.events.TypedEvent;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientEventHandler {
 
 
-    public List<Event> currentEvents = new ArrayList<>();
+    public List<TypedEvent<?>> currentEvents = new ArrayList<>();
     public VotingClient votingClient;
     public Minecraft client;
     public short eventCountDown;
@@ -82,16 +83,16 @@ public class ClientEventHandler {
             votingClient.sendVotes();
         }
         if(!client.player.isSpectator()) {
-            for (Event event : currentEvents) {
+            currentEvents.stream().map(TypedEvent::event).forEach(event -> {
                 if (!event.hasEnded())
                     event.tickClient();
-            }
+            });
         }
     }
 
     public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
         // Render active event effects
-        currentEvents.forEach(event -> {
+        currentEvents.stream().map(TypedEvent::event).forEach(event -> {
             if (!event.hasEnded() && !client.player.isSpectator())
                 event.render(drawContext, tickCounter);
         });
@@ -111,7 +112,9 @@ public class ClientEventHandler {
 
         // Render Event Queue...
         for (int i = 0; i < currentEvents.size(); i++) {
-            currentEvents.get(i).renderQueueItem(drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, 20 + (i * 13));
+            TypedEvent<?> typedEvent = currentEvents.get(i);
+
+            typedEvent.event().renderQueueItem(typedEvent.type(), drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, 20 + (i * 13));
         }
 
         // Render Poll...
@@ -125,16 +128,16 @@ public class ClientEventHandler {
         currentEvents.remove(index);
     }
 
-    public void addEvent(Event event) {
-        if(!client.player.isSpectator() && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
-            event.initClient();
+    public void addEvent(TypedEvent<?> event) {
+        if(!client.player.isSpectator() && !(event.type().disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
+            event.event().initClient();
         currentEvents.add(event);
     }
 
     public void endChaos() {
 
         EntropyClient.LOGGER.info("Ending events...");
-        currentEvents.forEach(eventIntegerPair -> {
+        currentEvents.stream().map(TypedEvent::event).forEach(eventIntegerPair -> {
             if (!eventIntegerPair.hasEnded())
                 eventIntegerPair.endClient();
         });

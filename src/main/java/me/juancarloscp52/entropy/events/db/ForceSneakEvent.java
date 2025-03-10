@@ -33,9 +33,4 @@ public class ForceSneakEvent extends AbstractTimedEvent {
         Variables.forceSneak = false;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "movement";
-    }
 }

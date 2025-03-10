@@ -48,11 +48,6 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "credits";
-    }
-
-    @Override
     @Environment(EnvType.CLIENT)
     public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
     }

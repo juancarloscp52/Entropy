@@ -47,11 +47,6 @@ public class TimerSpeedHalfEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "timer";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 3.5f);
     }

@@ -34,9 +34,4 @@ public class DeathSightEvent extends AbstractTimedEvent {
 
         super.tick();
     }
-
-    @Override
-    public String type() {
-        return "sight";
-    }
 }

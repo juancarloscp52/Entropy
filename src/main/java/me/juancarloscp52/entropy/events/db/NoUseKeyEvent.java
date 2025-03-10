@@ -30,9 +30,4 @@ public class NoUseKeyEvent extends AbstractTimedEvent {
         KeyMapping.resetMapping();
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "use";
-    }
 }

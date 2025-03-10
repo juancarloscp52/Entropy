@@ -50,9 +50,4 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
         super.end();
     }
 
-    @Override
-    public String type() {
-        return "spinning";
-    }
-
 }

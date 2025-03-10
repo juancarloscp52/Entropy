@@ -54,9 +54,4 @@ public class MeteorRainEvent extends AbstractTimedEvent {
         }
         super.tick();
     }
-
-    @Override
-    public String type() {
-        return "rain";
-    }
 }

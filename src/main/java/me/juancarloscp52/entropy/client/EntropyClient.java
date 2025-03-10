@@ -19,12 +19,12 @@ package me.juancarloscp52.entropy.client;
 
 import com.google.gson.Gson;
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
-import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.networking.ServerboundJoinHandshake;
-import me.juancarloscp52.entropy.networking.NetworkingConstants;
+import me.juancarloscp52.entropy.events.EventType;
+import me.juancarloscp52.entropy.events.TypedEvent;
 import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
+import me.juancarloscp52.entropy.networking.NetworkingConstants;
+import me.juancarloscp52.entropy.networking.ServerboundJoinHandshake;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -34,7 +34,6 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -77,14 +76,13 @@ public class EntropyClient implements ClientModInitializer {
             if (sync.events().size() == clientEventHandler.currentEvents.size())
                 return;
             for (final ClientboundJoinSync.EventData data : sync.events()) {
-                Event event = EventRegistry.get(data.id());
-                if(event==null)
-                    continue;
+                EventType<?> eventType = data.typedEvent().type();
+                Event event = data.typedEvent().event();
                 event.setEnded(data.ended());
                 event.setTickCount(data.tickCount());
-                if (data.tickCount() > 0 && !data.ended() && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
+                if (data.tickCount() > 0 && !data.ended() && !(eventType.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
                     event.initClient();
-                context.client().execute(() -> clientEventHandler.currentEvents.add(event));
+                context.client().execute(() -> clientEventHandler.currentEvents.add(data.typedEvent()));
             }
         });
 
@@ -108,17 +106,15 @@ public class EntropyClient implements ClientModInitializer {
                 return;
             context.client().execute(() -> {
                 if (!clientEventHandler.currentEvents.isEmpty())
-                    clientEventHandler.currentEvents.removeIf(Event::hasEnded);
+                    clientEventHandler.currentEvents.removeIf(typedEvent -> typedEvent.event().hasEnded());
             });
         });
 
         ClientPlayNetworking.registerGlobalReceiver(NetworkingConstants.ADD_EVENT, (addEvent, context) -> {
             if (clientEventHandler == null)
                 return;
-            Event event = EventRegistry.get(addEvent.id());
-            addEvent.subEventId().ifPresent(event::readExtraData);
             context.client().execute(() -> {
-                clientEventHandler.addEvent(event);
+                clientEventHandler.addEvent(addEvent.typedEvent());
             });
         });
 
@@ -126,9 +122,9 @@ public class EntropyClient implements ClientModInitializer {
             if (clientEventHandler == null)
                 return;
             context.client().execute(() -> {
-                Event event = clientEventHandler.currentEvents.get(endEvent.index());
+                TypedEvent<?> event = clientEventHandler.currentEvents.get(endEvent.index());
                 if(event != null)
-                    event.endClient();
+                    event.event().endClient();
             });
         });
 

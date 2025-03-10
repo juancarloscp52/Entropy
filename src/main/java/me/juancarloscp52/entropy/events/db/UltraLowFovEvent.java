@@ -41,9 +41,4 @@ public class UltraLowFovEvent extends AbstractTimedEvent {
     public short getDuration() {
         return (short)(super.getDuration()*0.8);
     }
-
-    @Override
-    public String type() {
-        return "fov";
-    }
 }

@@ -40,13 +40,4 @@ public class LowFPSEvent extends AbstractTimedEvent {
         this.client.options.framerateLimit().set(fps);
     }
 
-    @Override
-    public String type() {
-        return "fps";
-    }
-
-    @Override
-    public boolean isDisabledByAccessibilityMode() {
-        return true;
-    }
 }

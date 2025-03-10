@@ -39,9 +39,4 @@ public class LowRenderDistanceEvent extends AbstractTimedEvent {
         client = Minecraft.getInstance();
         this.client.options.renderDistance().set(viewDistance);
     }
-
-    @Override
-    public String type() {
-        return "renderDistance";
-    }
 }

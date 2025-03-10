@@ -37,8 +37,4 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
         return entity instanceof LivingEntity && !entity.getType().is(EntityTypeTags.NOT_INVISIBLE);
     }
 
-    @Override
-    public String type() {
-        return "invisibility";
-    }
 }

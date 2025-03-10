@@ -43,9 +43,4 @@ public class ChickenRainEvent extends AbstractTimedEvent {
         }
         super.tick();
     }
-
-    @Override
-    public String type() {
-        return "rain";
-    }
 }

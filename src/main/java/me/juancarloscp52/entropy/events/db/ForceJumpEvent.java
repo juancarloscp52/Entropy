@@ -33,9 +33,4 @@ public class ForceJumpEvent extends AbstractTimedEvent {
         Variables.forceJump = false;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "jump";
-    }
 }

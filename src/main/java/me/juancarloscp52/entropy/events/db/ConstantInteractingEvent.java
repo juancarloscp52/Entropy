@@ -39,9 +39,4 @@ public class ConstantInteractingEvent extends AbstractTimedEvent {
         super.endClient();
         Minecraft.getInstance().options.keyUse.setDown(false);
     }
-
-    @Override
-    public String type() {
-        return "use";
-    }
 }

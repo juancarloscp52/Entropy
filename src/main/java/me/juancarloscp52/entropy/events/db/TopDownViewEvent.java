@@ -34,9 +34,4 @@ public class TopDownViewEvent extends AbstractTimedEvent {
         Variables.topView = false;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "camera";
-    }
 }

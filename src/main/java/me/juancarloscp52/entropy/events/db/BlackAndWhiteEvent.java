@@ -16,11 +16,6 @@ public class BlackAndWhiteEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "shader";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration()*1.5);
     }

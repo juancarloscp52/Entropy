@@ -39,13 +39,13 @@ public abstract class AbstractInstantEvent implements Event {
     }
 
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
+    public void renderQueueItem(EventType<?> eventType, GuiGraphics drawContext, float tickdelta, int x, int y) {
         if(Variables.doNotShowEvents)
             return;
         Minecraft client = Minecraft.getInstance();
-        MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(this));
+        MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(eventType));
 
-        if(isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
+        if(eventType.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
             eventName.withStyle(ChatFormatting.STRIKETHROUGH);
 
         int size = client.font.width(eventName);

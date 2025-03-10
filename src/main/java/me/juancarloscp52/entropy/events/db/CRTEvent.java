@@ -33,9 +33,4 @@ public class CRTEvent extends AbstractTimedEvent {
         Variables.monitor = false;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "shader";
-    }
 }

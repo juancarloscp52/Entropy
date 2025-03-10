@@ -27,8 +27,4 @@ public class HealEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity ->
                 serverPlayerEntity.heal(serverPlayerEntity.getMaxHealth()));
     }
-    @Override
-    public String type() {
-        return "health";
-    }
 }

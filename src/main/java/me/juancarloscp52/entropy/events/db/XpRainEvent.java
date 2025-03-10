@@ -46,9 +46,4 @@ public class XpRainEvent extends AbstractTimedEvent {
         super.tick();
     }
 
-    @Override
-    public String type() {
-        return "rain";
-    }
-
 }

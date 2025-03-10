@@ -30,11 +30,6 @@ public class SpeedEvent extends AbstractAttributeEvent {
     }
 
     @Override
-    public String type() {
-        return "speed";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 1.75);
     }

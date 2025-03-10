@@ -34,13 +34,4 @@ public class LSDEvent extends AbstractTimedEvent {
         super.endClient();
     }
 
-    @Override
-    public String type() {
-        return "shader";
-    }
-
-    @Override
-    public boolean isDisabledByAccessibilityMode() {
-        return true;
-    }
 }

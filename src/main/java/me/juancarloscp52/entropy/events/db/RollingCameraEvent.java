@@ -28,13 +28,4 @@ public class RollingCameraEvent extends AbstractTimedEvent {
         Variables.cameraRoll = (Variables.cameraRoll + (sign * 1.25f * tickCounter.getGameTimeDeltaTicks())) % 360;
     }
 
-    @Override
-    public String type() {
-        return "camera";
-    }
-
-    @Override
-    public boolean isDisabledByAccessibilityMode() {
-        return true;
-    }
 }

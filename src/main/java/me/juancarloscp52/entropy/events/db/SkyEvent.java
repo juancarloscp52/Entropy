@@ -57,8 +57,4 @@ public class SkyEvent extends AbstractInstantEvent {
 
         });
     }
-    @Override
-    public String type() {
-        return "health";
-    }
 }

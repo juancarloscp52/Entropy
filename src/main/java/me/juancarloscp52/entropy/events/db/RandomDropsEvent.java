@@ -34,9 +34,4 @@ public class RandomDropsEvent extends AbstractTimedEvent {
         super.end();
     }
 
-    @Override
-    public String type() {
-        return "drops";
-    }
-
 }

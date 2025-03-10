@@ -4,72 +4,84 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.events.EventType;
+import me.juancarloscp52.entropy.events.TypedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Supplier;
 
 public class FakeTeleportEvent extends AbstractInstantEvent {
-    private static final List<Supplier<Event>> TELEPORT_EVENTS = Arrays.asList(CloseRandomTPEvent::new, FarRandomTPEvent::new, SkyBlockEvent::new, SkyEvent::new, Teleport0Event::new, TeleportHeavenEvent::new);
+    public static final StreamCodec<FriendlyByteBuf, FakeTeleportEvent> STREAM_CODEC = StreamCodec.composite(
+        TypedEvent.STREAM_CODEC, e -> e.teleportEvent,
+        FakeTeleportEvent::new
+    );
+    private static final List<ResourceLocation> TELEPORT_EVENTS = Arrays.stream(new String[]{
+        "close_random_tp",
+        "far_random_tp",
+        "sky_block",
+        "sky",
+        "teleport_spawn",
+        "teleport_heaven"
+    }).map(string -> ResourceLocation.fromNamespaceAndPath("entropy", string)).toList();
     public static final int TICKS_UNTIL_TELEPORT_BACK = 100;
     final Map<ServerPlayer,TeleportInfo> originalPositions = new HashMap<>();
-    Event teleportEvent = TELEPORT_EVENTS.get(new Random().nextInt(TELEPORT_EVENTS.size())).get();
+    final TypedEvent<?> teleportEvent;
     int ticksAfterFirstTeleport = 0;
+
+    public FakeTeleportEvent() {
+        this(TypedEvent.fromEventType(EventRegistry.EVENTS.get(TELEPORT_EVENTS.get(new Random().nextInt(TELEPORT_EVENTS.size()))).get().value()));
+    }
+
+    public FakeTeleportEvent(TypedEvent<?> teleportEvent) {
+        this.teleportEvent = teleportEvent;
+    }
 
     @Override
     public void init() {
         savePositions(originalPositions);
-        teleportEvent.init();
+        teleportEvent.event().init();
     }
 
     @Override
     public void tick() {
-        if(!teleportEvent.hasEnded())
-            teleportEvent.tick();
+        if(!teleportEvent.event().hasEnded())
+            teleportEvent.event().tick();
         else if(++ticksAfterFirstTeleport == TICKS_UNTIL_TELEPORT_BACK)
             loadPositions(originalPositions);
     }
 
     @Override
     public void tickClient() {
-        if(!teleportEvent.hasEnded())
-            teleportEvent.tickClient();
+        if(!teleportEvent.event().hasEnded())
+            teleportEvent.event().tickClient();
         else
             ticksAfterFirstTeleport++;
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
+    public void renderQueueItem(EventType<?> eventType, GuiGraphics drawContext, float tickdelta, int x, int y) {
         if(hasEnded())
-            super.renderQueueItem(drawContext, tickdelta, x, y);
+            super.renderQueueItem(eventType, drawContext, tickdelta, x, y);
         else
-            teleportEvent.renderQueueItem(drawContext, tickdelta, x, y);
+            teleportEvent.event().renderQueueItem(teleportEvent.type(), drawContext, tickdelta, x, y);
     }
 
     @Override
     public boolean hasEnded() {
-        return teleportEvent.hasEnded() && ticksAfterFirstTeleport > TICKS_UNTIL_TELEPORT_BACK;
-    }
-
-    @Override
-    public Optional<String> getExtraData() {
-        return Optional.of(EventRegistry.getEventId(teleportEvent));
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void readExtraData(String id) {
-        teleportEvent = EventRegistry.get(id);
+        return teleportEvent.event().hasEnded() && ticksAfterFirstTeleport > TICKS_UNTIL_TELEPORT_BACK;
     }
 
     public static void savePositions(Map<ServerPlayer,TeleportInfo> positions) {
@@ -87,6 +99,10 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
             player.fallDistance = 0;
             player.teleportTo(player.serverLevel(), info.x + 0.5D, info.y, info.z + 0.5D, Set.of(), info.yaw, info.pitch, true);
         });
+    }
+
+    public Event teleportEvent() {
+        return teleportEvent.event();
     }
 
     public static record TeleportInfo(int x, int y, int z, float yaw, float pitch) {}

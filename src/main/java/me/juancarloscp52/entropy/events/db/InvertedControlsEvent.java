@@ -33,9 +33,4 @@ public class InvertedControlsEvent extends AbstractTimedEvent {
         Variables.invertedControls = false;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "movement";
-    }
 }

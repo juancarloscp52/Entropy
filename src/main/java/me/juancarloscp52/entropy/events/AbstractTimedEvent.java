@@ -40,15 +40,14 @@ public abstract class AbstractTimedEvent implements Event {
     private boolean hasEnded = false;
 
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
+    public void renderQueueItem(EventType<?> eventType, GuiGraphics drawContext, float tickdelta, int x, int y) {
         if(Variables.doNotShowEvents && !(this instanceof HideEventsEvent))
             return;
         if(Variables.doNotShowEvents)
             y=20;
         Minecraft client = Minecraft.getInstance();
-        MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(this));
-
-        if(isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
+        MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(eventType));
+        if(eventType.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
             eventName.withStyle(ChatFormatting.STRIKETHROUGH);
 
         int size = client.font.width(eventName);
@@ -62,9 +61,9 @@ public abstract class AbstractTimedEvent implements Event {
     public void tick() {
         tickCount++;
         if (tickCount >= this.getDuration()) {
-            List<Event> currentEvents = Entropy.getInstance().eventHandler.currentEvents;
+            List<TypedEvent<?>> currentEvents = Entropy.getInstance().eventHandler.currentEvents;
             for (byte i = 0; i < currentEvents.size(); i++) {
-                if (currentEvents.get(i).equals(this)) {
+                if (currentEvents.get(i).event().equals(this)) {
                     final ClientboundEndEvent endEvent = new ClientboundEndEvent(i);
                     PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
                         ServerPlayNetworking.send(serverPlayerEntity, endEvent)

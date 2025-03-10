@@ -20,8 +20,8 @@ package me.juancarloscp52.entropy.client.Screens.Widgets;
 import com.google.common.collect.ImmutableList;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
-import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.mixin.AbstractScrollAreaAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -40,6 +40,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,10 +59,10 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
 
     public void addAllFromRegistry() {
         var list = new ArrayList<EventInfo>();
-        for(var event : EventRegistry.entropyEvents.entrySet()) {
-            String eventId = event.getKey();
+        for(var event : EventRegistry.EVENTS.entrySet()) {
+            EventType<?> type = event.getValue();
 
-            list.add(new EventInfo(Component.translatable(EventRegistry.getTranslationKey(eventId)).getString(), eventId, event.getValue().get()));
+            list.add(new EventInfo(Component.translatable(EventRegistry.getTranslationKey(type)).getString(), event.getKey().location(), type));
         }
 
         Collections.sort(list, (a, b) -> a.name.compareTo(b.name));
@@ -158,7 +159,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
             });
         else {
             children().stream().forEach(buttonEntry -> {
-                buttonEntry.checkbox.visible = filterMode.allowsVisibility(buttonEntry) && (buttonEntry.eventInfo.name.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventInfo.id.toLowerCase(Locale.ROOT).contains(lowerCasedNewText));
+                buttonEntry.checkbox.visible = filterMode.allowsVisibility(buttonEntry) && (buttonEntry.eventInfo.name.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventInfo.id.toString().contains(lowerCasedNewText));
 
                 if(buttonEntry.checkbox.visible)
                     visibleEntries.add(buttonEntry);
@@ -182,9 +183,9 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
 
         public static EntropyEventListWidget.ButtonEntry create(EventInfo eventInfo, Font textRenderer) {
             EntropySettings settings = Entropy.getInstance().settings;
-            String eventID = eventInfo.id;
-            boolean isDisabledByAccessibilityMode = eventInfo.event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode;
-            boolean enableCheckbox = !settings.disabledEvents.contains(eventID) && !isDisabledByAccessibilityMode;
+            ResourceLocation eventID = eventInfo.id;
+            boolean isDisabledByAccessibilityMode = eventInfo.type.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode;
+            boolean enableCheckbox = !settings.disabledEventTypes.contains(eventID) && !isDisabledByAccessibilityMode;
             final Checkbox checkbox = Checkbox.builder(Component.translatable(EventRegistry.getTranslationKey(eventID)), textRenderer).pos(0, 0).selected(enableCheckbox).onValueChange(isDisabledByAccessibilityMode ? ButtonEntry::onDisabledCheckboxPressed : Checkbox.OnValueChange.NOP).build();
             if (isDisabledByAccessibilityMode)
                 checkbox.setTooltip(ACCESSIBILITY_TOOLTIP);
@@ -202,7 +203,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
             checkbox.setPosition(x + 32, y);
             checkbox.render(drawContext, mouseX, mouseY, tickDelta);
 
-            if(Entropy.getInstance().settings.accessibilityMode && eventInfo.event.isDisabledByAccessibilityMode()) {
+            if(Entropy.getInstance().settings.accessibilityMode && eventInfo.type.disabledByAccessibilityMode()) {
                 drawContext.blitSprite(RenderType::guiTextured, ICON_OVERLAY_LOCATION, x, y - 6, 32, 32);
 
                 if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight)
@@ -246,5 +247,5 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         }
     }
 
-    public record EventInfo(String name, String id, Event event) {}
+    public record EventInfo(String name, ResourceLocation id, EventType<?> type) {}
 }

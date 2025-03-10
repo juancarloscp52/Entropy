@@ -70,11 +70,6 @@ public class HalfHeartedEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "health";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 1.25);
     }

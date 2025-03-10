@@ -33,9 +33,4 @@ public class OnlyBackwardsEvent extends AbstractTimedEvent {
         Variables.onlyBackwardsMovement = false;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "movement";
-    }
 }

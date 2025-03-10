@@ -17,9 +17,4 @@ public class RemoveHeartEvent extends AbstractInstantEvent {
         }
     }
 
-    @Override
-    public String type() {
-        return "health";
-    }
-
 }

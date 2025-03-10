@@ -22,6 +22,7 @@ import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.events.TypedEvent;
 import me.juancarloscp52.entropy.networking.ClientboundAddEvent;
 import me.juancarloscp52.entropy.networking.ClientboundRemoveFirst;
 import me.juancarloscp52.entropy.networking.ClientboundTick;
@@ -29,6 +30,7 @@ import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +38,7 @@ import java.util.stream.Collectors;
 public class ServerEventHandler {
 
     private final EntropySettings settings = Entropy.getInstance().settings;
-    public List<Event> currentEvents = new ArrayList<>();
+    public List<TypedEvent<?>> currentEvents = new ArrayList<>();
     public MinecraftServer server;
     public VotingServer voting;
     private boolean started = false;
@@ -69,7 +71,7 @@ public class ServerEventHandler {
 
             if (currentEvents.size() > 3) {
 
-                if (currentEvents.get(0).hasEnded()) {
+                if (currentEvents.get(0).event().hasEnded()) {
                     PlayerLookup.all(server).forEach(serverPlayerEntity ->
                             ServerPlayNetworking.send(serverPlayerEntity, ClientboundRemoveFirst.INSTANCE));
 
@@ -80,37 +82,38 @@ public class ServerEventHandler {
 
             if (!noNewEvents) {
                 // Get next Event from chat votes (if enabled) or randomly
-                Event event;
+                TypedEvent<?> typedEvent;
                 if (settings.integrations) {
                     if (voting.events.isEmpty()) {
                         Entropy.LOGGER.info("[Chat Integrations] No random event available");
-                        event=null;
+                        typedEvent=null;
                     }else{
                         int winner = voting.getWinner();
                         if (winner == -1 || winner == 3)    // -1 - no winner, 3 - Random Event : Get Random Event.
-                            event = getRandomEvent(currentEvents);
+                            typedEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
                         else    // Get winner
-                            event = voting.events.get(winner);
-                        Entropy.LOGGER.info("[Chat Integrations] Winner event: " + EventRegistry.getTranslationKey(event));
+                            typedEvent = voting.events.get(winner);
+                        Entropy.LOGGER.info("[Chat Integrations] Winner event: {}", EventRegistry.getTranslationKey(typedEvent.type()));
                     }
                 } else
-                    event = getRandomEvent(currentEvents);
+                    typedEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
 
-                runEvent(event);
+                runEvent(typedEvent);
                 if (settings.integrations)
                     voting.newPoll();
 
                 // Reset timer.
                 resetTimer();
-                if(event != null)
-                    Entropy.LOGGER.info("New Event: " + EventRegistry.getTranslationKey(event) + " total duration: " + event.getDuration());
+                if(typedEvent != null)
+                    Entropy.LOGGER.info("New Event: {} total duration: {}", EventRegistry.getTranslationKey(typedEvent.type()), typedEvent.event().getDuration());
                 else
                     Entropy.LOGGER.info("New Event not found");
             }
         }
 
         // Tick all events.
-        for (Event event : currentEvents) {
+        for (TypedEvent<?> typedEvent : currentEvents) {
+            Event event = typedEvent.event();
             if (!event.hasEnded())
                 event.tick();
         }
@@ -124,40 +127,33 @@ public class ServerEventHandler {
         eventCountDown--;
     }
 
-    public boolean runEvent(Event event) {
-        if(event != null && EventRegistry.doesWorldHaveRequiredFeatures(EventRegistry.getEventId(event), server.overworld())) {
+    public boolean runEvent(TypedEvent<?> typedEvent) {
+        if(typedEvent != null && EventRegistry.doesWorldHaveRequiredFeatures(typedEvent.type(), server.overworld())) {
             // Start the event and add it to the list.
-            event.init();
-            currentEvents.add(event);
+            typedEvent.event().init();
+            currentEvents.add(typedEvent);
 
-            sendEventToPlayers(event);
+            sendEventToPlayers(typedEvent);
             return true;
         }
 
         return false;
     }
 
-    private void sendEventToPlayers(Event event) {
-        String eventName = EventRegistry.getEventId(event);
+    private void sendEventToPlayers(TypedEvent<?> typedEvent) {
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, new ClientboundAddEvent(eventName, event.getExtraData())));
-    }
-
-    private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("ExplosivePickaxeEvent");
-        //return EventRegistry.getNextEventOrdered();
-        return EventRegistry.getRandomDifferentEvent(eventArray);
+                ServerPlayNetworking.send(serverPlayerEntity, new ClientboundAddEvent(typedEvent)));
     }
 
     public void endChaos() {
         if (voting != null)
             voting.disable();
 
-        currentEvents.forEach(Event::end);
+        currentEvents.stream().map(TypedEvent::event).forEach(Event::end);
     }
 
     public void endChaosPlayer(ServerPlayer player) {
-        currentEvents.forEach(event -> {
+        currentEvents.stream().map(TypedEvent::event).forEach(event -> {
             if (!event.hasEnded())
                 event.endPlayer(player);
         });

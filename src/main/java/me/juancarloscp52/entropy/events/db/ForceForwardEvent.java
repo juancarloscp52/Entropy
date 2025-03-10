@@ -33,9 +33,4 @@ public class ForceForwardEvent extends AbstractTimedEvent {
         Variables.forceForward = false;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "movement";
-    }
 }

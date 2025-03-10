@@ -36,11 +36,6 @@ public class HighPitchEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "pitch";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 2);
     }

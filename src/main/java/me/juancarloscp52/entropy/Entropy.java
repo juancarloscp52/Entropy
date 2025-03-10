@@ -18,15 +18,15 @@
 package me.juancarloscp52.entropy;
 
 import com.google.gson.Gson;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
-import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.networking.NetworkingConstants;
+import me.juancarloscp52.entropy.events.EventType;
+import me.juancarloscp52.entropy.events.TypedEvent;
 import me.juancarloscp52.entropy.networking.ClientboundJoinConfirm;
 import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
 import me.juancarloscp52.entropy.networking.ClientboundRemoveEnded;
+import me.juancarloscp52.entropy.networking.NetworkingConstants;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleOptions;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
@@ -42,10 +42,12 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
@@ -56,8 +58,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Entropy implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -78,7 +81,6 @@ public class Entropy implements ModInitializer {
         instance = this;
         loadSettings();
         LOGGER.info("Entropy Started");
-        EventRegistry.register();
         Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath("entropy", "constant_color_dust"), CONSTANT_COLOR_DUST);
 
         ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (handshake, context) -> {
@@ -92,12 +94,12 @@ public class Entropy implements ModInitializer {
                     eventHandler.init(context.server());
                 }
 
-                List<Event> currentEvents = eventHandler.currentEvents;
+                List<TypedEvent<?>> currentEvents = eventHandler.currentEvents;
                 if (!currentEvents.isEmpty()) {
                     ClientboundJoinSync sync = new ClientboundJoinSync(currentEvents.stream().map(currentEvent -> new ClientboundJoinSync.EventData(
-                        EventRegistry.getEventId(currentEvent),
-                        currentEvent.hasEnded(),
-                        currentEvent.getTickCount()
+                        currentEvent,
+                        currentEvent.event().hasEnded(),
+                        currentEvent.event().getTickCount()
                     )).toList());
                     ServerPlayNetworking.send(player, sync);
                 }
@@ -141,31 +143,38 @@ public class Entropy implements ModInitializer {
                             .executes(source -> {
                                 ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
-                                eventHandler.currentEvents.removeIf(Event::hasEnded);
+                                eventHandler.currentEvents.removeIf(typedEvent -> typedEvent.event().hasEnded());
                                 PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, ClientboundRemoveEnded.INSTANCE));
                                 return 0;
                             }))
                     .then(Commands.literal("run")
-                            .then(Commands.argument("event", StringArgumentType.word())
+                            .then(Commands.argument("event", ResourceLocationArgument.id())
                                     .suggests((context, builder) -> {
-                                        Set<String> events = new TreeSet<>(EventRegistry.entropyEvents.keySet());
+                                        Stream<Map.Entry<ResourceKey<EventType<?>>, EventType<?>>> events =
+                                            EventRegistry.EVENTS
+                                                .entrySet()
+                                                .stream()
+                                                .filter(e -> EventRegistry.doesWorldHaveRequiredFeatures(e.getValue(), context.getSource().getLevel()));
 
-                                        events.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, context.getSource().getLevel()));
-                                        return SharedSuggestionProvider.suggest(events, builder);
+                                        return SharedSuggestionProvider.suggestResource(
+                                            events.map(Map.Entry::getKey)
+                                                .map(ResourceKey::location)
+                                                .collect(Collectors.toSet()),
+                                            builder);
                                     })
                                     .executes(source -> {
                                         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
                                         if(eventHandler != null) {
-                                            String eventId = source.getArgument("event", String.class);
+                                            ResourceLocation eventId = ResourceLocationArgument.getId(source, "event");
 
                                             // If running on integrated server, prevent running Stuttering event.
-                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals("StutteringEvent")){
+                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals("entropy:stuttering")){
                                                 throw ERROR_INVALID_ON_CLIENT.create(eventId);
                                             }
 
-                                            if(eventHandler.runEvent(EventRegistry.get(eventId)))
-                                                Entropy.LOGGER.warn("New event run via command: " + EventRegistry.getTranslationKey(eventId));
+                                            if(eventHandler.runEvent(TypedEvent.fromEventType(EventRegistry.EVENTS.getValue(eventId))))
+                                                Entropy.LOGGER.warn("New event run via command: {}", eventId);
                                             else
                                                 throw ERROR_UNKNOWN_EVENT.create(eventId);
                                         }

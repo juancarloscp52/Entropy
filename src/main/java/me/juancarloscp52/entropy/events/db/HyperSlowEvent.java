@@ -30,11 +30,6 @@ public class HyperSlowEvent extends AbstractAttributeEvent {
     }
 
     @Override
-    public String type() {
-        return "speed";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 1.25);
     }

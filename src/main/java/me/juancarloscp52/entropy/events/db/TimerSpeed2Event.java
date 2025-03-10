@@ -45,11 +45,6 @@ public class TimerSpeed2Event extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "timer";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration()*1.5f);
     }

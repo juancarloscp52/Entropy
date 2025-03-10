@@ -37,11 +37,6 @@ public class ItemRainEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "rain";
-    }
-
-    @Override
     public void tick() {
         if (getTickCount() % 15 == 0) {
             for (int i = 0; i < 5; i++) {

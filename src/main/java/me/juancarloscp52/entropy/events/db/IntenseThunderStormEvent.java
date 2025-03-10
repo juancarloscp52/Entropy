@@ -51,11 +51,6 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "rain";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 1.25);
     }

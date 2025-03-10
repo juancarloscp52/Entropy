@@ -37,9 +37,4 @@ public class UltraFovEvent extends AbstractTimedEvent {
         Variables.fov = 0;
         super.endClient();
     }
-
-    @Override
-    public String type() {
-        return "fov";
-    }
 }

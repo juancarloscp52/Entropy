@@ -71,11 +71,6 @@ public class DVDEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "DVD";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 0.75d);
     }

@@ -40,9 +40,4 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
         ((MultiPlayerGameModeAccessor) mc.gameMode).setIsDestroying(true);
         ((MinecraftAccessor) mc).callContinueAttack(false);
     }
-
-    @Override
-    public String type() {
-        return "attack";
-    }
 }
