@@ -8,6 +8,17 @@ Find your version by looking for the file for your mod-loader:
 
 -   Entropy-`<mod-version>`+mc`<mc-version>`.jar
 
+## [1.13.2] - 2025-03-10
+
+Special thanks to the Entropy Contributors: bl4ckscor3, Kanawanagasaki and slicedlime! <3
+
+Available versions:
+-   Minecraft 1.21.4
+
+### Changed/Fixed
+
+-   Fixed issue that broke integration votes.
+
 ## [1.13] - 2025-03-01
 
 Special thanks to the Entropy Contributors: bl4ckscor3, Kanawanagasaki and slicedlime! <3
