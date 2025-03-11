@@ -256,11 +256,11 @@ public class EventRegistry {
 
         Level overworld = Entropy.getInstance().eventHandler.server.overworld();
         eventCandidates.forEach((eventId, type) -> {
-            if(ignoredEventCategories.contains(type.category().toLowerCase())){
+            if (!EventRegistry.doesWorldHaveRequiredFeatures(type, overworld)
+                || Entropy.getInstance().settings.accessibilityMode && type.disabledByAccessibilityMode()
+                || ignoredEventCategories.contains(type.category().toLowerCase())) {
                 eventsToRemove.add(eventId);
             }
-            else if (!EventRegistry.doesWorldHaveRequiredFeatures(type, overworld))
-                eventsToRemove.add(eventId);
         });
 
         //Only enable the stuttering event on a dedicated server, because otherwise worldgen will be all wrong.
@@ -279,12 +279,6 @@ public class EventRegistry {
 
         int index = random.nextInt(eventKeys.size());
         EventType<T> newEventType = eventKeys.get(index);
-
-        if(Entropy.getInstance().settings.accessibilityMode && newEventType.disabledByAccessibilityMode()) {
-            eventKeys.remove(index);
-            return getRandomEvent(eventKeys);
-        }
-
         return TypedEvent.fromEventType(newEventType);
     }
 
