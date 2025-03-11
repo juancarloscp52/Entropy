@@ -104,7 +104,7 @@ public class VotingClient {
         } else {
             this.overlayServer.onVoteEnd();
         }
-        if (this.size == events.size()) {
+        if (this.size - 1 == events.size()) {
             this.voteID = voteID;
             this.events = events;
             this.events.add("entropy.voting.randomEvent");
