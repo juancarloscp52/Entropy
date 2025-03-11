@@ -169,7 +169,7 @@ public class Entropy implements ModInitializer {
                                             ResourceLocation eventId = ResourceLocationArgument.getId(source, "event");
 
                                             // If running on integrated server, prevent running Stuttering event.
-                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals("entropy:stuttering")){
+                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals(ResourceLocation.fromNamespaceAndPath("entropy", "stuttering"))){
                                                 throw ERROR_INVALID_ON_CLIENT.create(eventId);
                                             }
 
