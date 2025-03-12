@@ -269,12 +269,12 @@ public class EventRegistry {
         return getRandomEvent(new ArrayList<>(eventCandidates.values()));
     }
 
-    private static Event getRandomEvent(List<EventType<?>> eventKeys) {
-        if(eventKeys.isEmpty())
+    private static Event getRandomEvent(List<EventType<?>> eventTypes) {
+        if(eventTypes.isEmpty())
             return null;
 
-        int index = random.nextInt(eventKeys.size());
-        EventType<?> newEventType = eventKeys.get(index);
+        int index = random.nextInt(eventTypes.size());
+        EventType<?> newEventType = eventTypes.get(index);
         return newEventType.create();
     }
 

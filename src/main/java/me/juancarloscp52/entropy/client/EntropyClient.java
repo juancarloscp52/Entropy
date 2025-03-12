@@ -75,8 +75,8 @@ public class EntropyClient implements ClientModInitializer {
             if (sync.events().size() == clientEventHandler.currentEvents.size())
                 return;
             for (final ClientboundJoinSync.EventData data : sync.events()) {
-                EventType<?> type = data.event().getType();
                 Event event = data.event();
+                EventType<?> type = event.getType();
                 event.setEnded(data.ended());
                 event.setTickCount(data.tickCount());
                 if (data.tickCount() > 0 && !data.ended() && !(type.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))

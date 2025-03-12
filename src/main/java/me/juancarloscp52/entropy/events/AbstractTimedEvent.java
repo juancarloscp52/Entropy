@@ -32,6 +32,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+
 import java.util.List;
 
 public abstract class AbstractTimedEvent implements Event {
@@ -47,6 +48,7 @@ public abstract class AbstractTimedEvent implements Event {
             y=20;
         Minecraft client = Minecraft.getInstance();
         MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(eventType));
+
         if(eventType.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
             eventName.withStyle(ChatFormatting.STRIKETHROUGH);
 
