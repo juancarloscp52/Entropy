@@ -21,21 +21,21 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 
 
 public interface Event {
-    static <T extends Event> StreamCodec<FriendlyByteBuf, T> streamCodec(EventType.EventSupplier<T> eventSupplier) {
+    static <T extends Event> StreamCodec<RegistryFriendlyByteBuf, T> streamCodec(EventType.EventSupplier<T> eventSupplier) {
         return new StreamCodec<>() {
             @Override
-            public T decode(FriendlyByteBuf buf) {
+            public T decode(RegistryFriendlyByteBuf buf) {
                 return eventSupplier.create();
             }
 
             @Override
-            public void encode(FriendlyByteBuf buf, T event) {}
+            public void encode(RegistryFriendlyByteBuf buf, T event) {}
         };
     }
 

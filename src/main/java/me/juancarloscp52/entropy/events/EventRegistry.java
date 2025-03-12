@@ -26,7 +26,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.WritableRegistry;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -44,26 +45,8 @@ import java.util.stream.Collectors;
 public class EventRegistry {
     private static final Random random = new Random();
     public static final ResourceKey<Registry<EventType<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("entropy", "events"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, Event> STREAM_CODEC = ByteBufCodecs.registry(REGISTRY_KEY).dispatch(Event::getType, EventType::streamCodec);
     public static final Registry<EventType<?>> EVENTS = bootstrap();
-    public static final StreamCodec<FriendlyByteBuf, Event> STREAM_CODEC = new StreamCodec<>() {
-        @Override
-        public Event decode(FriendlyByteBuf buf) {
-            int id = buf.readVarInt();
-            EventType<?> type = EVENTS.get(id).get().value();
-            return type.streamCodec().decode(buf);
-        }
-
-        @Override
-        public void encode(FriendlyByteBuf buf, Event event) {
-            buf.writeVarInt(EVENTS.getId(event.getType()));
-            encodeEvent(buf, event);
-        }
-
-        @SuppressWarnings("unchecked")
-        private static <T extends Event> void encodeEvent(FriendlyByteBuf buf, T event) {
-            ((EventType<T>) event.getType()).streamCodec().encode(buf, event);
-        }
-    };
 
     private static Registry<EventType<?>> bootstrap() {
         WritableRegistry<EventType<?>> registry = new MappedRegistry<>(REGISTRY_KEY, Lifecycle.stable());

@@ -6,7 +6,7 @@ import me.juancarloscp52.entropy.events.db.FakeTeleportEvent.TeleportInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FakeFakeTeleportEvent extends AbstractInstantEvent {
-    public static final StreamCodec<FriendlyByteBuf, FakeFakeTeleportEvent> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, FakeFakeTeleportEvent> STREAM_CODEC = StreamCodec.composite(
         FakeTeleportEvent.STREAM_CODEC, e -> e.fakeTeleportEvent,
         FakeFakeTeleportEvent::new
     );

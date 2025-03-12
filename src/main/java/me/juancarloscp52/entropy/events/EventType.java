@@ -1,11 +1,11 @@
 package me.juancarloscp52.entropy.events;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 
-public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamCodec<FriendlyByteBuf, T> streamCodec, FeatureFlagSet requiredFeatures, boolean disabledByAccessibilityMode, EventCategory category) {
+public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamCodec<RegistryFriendlyByteBuf, T> streamCodec, FeatureFlagSet requiredFeatures, boolean disabledByAccessibilityMode, EventCategory category) {
     public T create() {
         return eventSupplier().create();
     }
@@ -16,7 +16,7 @@ public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamC
 
     public static class Builder<T extends Event> {
         private final EventSupplier<T> eventSupplier;
-        private StreamCodec<FriendlyByteBuf, T> streamCodec;
+        private StreamCodec<RegistryFriendlyByteBuf, T> streamCodec;
         private FeatureFlagSet requiredFeatures = FeatureFlags.VANILLA_SET;
         private boolean disabledByAccessibilityMode = false;
         private EventCategory category = EventCategory.NONE;
@@ -25,7 +25,7 @@ public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamC
             this.eventSupplier = eventSupplier;
         }
 
-        public Builder<T> streamCodec(StreamCodec<FriendlyByteBuf, T> streamCodec) {
+        public Builder<T> streamCodec(StreamCodec<RegistryFriendlyByteBuf, T> streamCodec) {
             this.streamCodec = streamCodec;
             return this;
         }

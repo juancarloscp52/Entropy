@@ -9,7 +9,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -21,7 +21,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class FakeTeleportEvent extends AbstractInstantEvent {
-    public static final StreamCodec<FriendlyByteBuf, FakeTeleportEvent> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, FakeTeleportEvent> STREAM_CODEC = StreamCodec.composite(
         EventRegistry.STREAM_CODEC, e -> e.teleportEvent,
         FakeTeleportEvent::new
     );
