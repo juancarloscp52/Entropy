@@ -21,6 +21,7 @@ import com.mojang.serialization.Lifecycle;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.db.*;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
@@ -228,7 +229,7 @@ public class EventRegistry {
         register(registry, "rainbow_trails", RainbowTrailsEvent.TYPE);
         register(registry, "rainbow_sheep_everywhere", RainbowSheepEverywhereEvent.TYPE);
         register(registry, "armor_trim", ArmorTrimEvent.TYPE);
-        return registry.freeze();
+        return FabricRegistryBuilder.from(registry).buildAndRegister();
     }
 
     private static void register(Registry<EventType<?>> registry, String id, EventType<?> type) {
