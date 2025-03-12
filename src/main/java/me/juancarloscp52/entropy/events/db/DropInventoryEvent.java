@@ -19,12 +19,18 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class DropInventoryEvent extends AbstractInstantEvent {
+    public static final EventType<DropInventoryEvent> TYPE = EventType.builder(DropInventoryEvent::new).build();
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getInventory().dropAll());
     }
 
+    @Override
+    public EventType<DropInventoryEvent> getType() {
+        return TYPE;
+    }
 }

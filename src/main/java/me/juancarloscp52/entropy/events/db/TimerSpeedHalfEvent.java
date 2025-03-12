@@ -20,8 +20,11 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class TimerSpeedHalfEvent extends AbstractTimedEvent {
+    public static final EventType<TimerSpeedHalfEvent> TYPE = EventType.builder(TimerSpeedHalfEvent::new).category(EventCategory.TIMER).build();
 
     @Override
     public void initClient() {
@@ -49,5 +52,10 @@ public class TimerSpeedHalfEvent extends AbstractTimedEvent {
     @Override
     public short getDuration() {
         return (short) (super.getDuration() * 3.5f);
+    }
+
+    @Override
+    public EventType<TimerSpeedHalfEvent> getType() {
+        return TYPE;
     }
 }

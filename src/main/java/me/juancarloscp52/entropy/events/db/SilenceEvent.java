@@ -1,11 +1,12 @@
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundSource;
 
 public class SilenceEvent extends AbstractTimedEvent {
+    public static final EventType<SilenceEvent> TYPE = EventType.builder(SilenceEvent::new).build();
     private double previousVolume;
     private boolean wereSubtitlesActive;
 
@@ -29,4 +30,8 @@ public class SilenceEvent extends AbstractTimedEvent {
         super.endClient();
     }
 
+    @Override
+    public EventType<SilenceEvent> getType() {
+        return TYPE;
+    }
 }

@@ -20,10 +20,12 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
 
 public class PitEvent extends AbstractInstantEvent {
+    public static final EventType<PitEvent> TYPE = EventType.builder(PitEvent::new).build();
 
     @Override
     public void init() {
@@ -52,4 +54,8 @@ public class PitEvent extends AbstractInstantEvent {
         });
     }
 
+    @Override
+    public EventType<PitEvent> getType() {
+        return TYPE;
+    }
 }

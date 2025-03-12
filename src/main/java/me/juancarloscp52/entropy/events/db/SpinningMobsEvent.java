@@ -19,9 +19,11 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.MinecraftServer;
 
 public class SpinningMobsEvent extends AbstractTimedEvent {
+    public static final EventType<SpinningMobsEvent> TYPE = EventType.builder(SpinningMobsEvent::new).build();
     int rotation;
     MinecraftServer server;
     @Override
@@ -50,4 +52,8 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
         super.end();
     }
 
+    @Override
+    public EventType<SpinningMobsEvent> getType() {
+        return TYPE;
+    }
 }

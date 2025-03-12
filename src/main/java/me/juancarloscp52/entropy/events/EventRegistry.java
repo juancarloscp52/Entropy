@@ -25,6 +25,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.WritableRegistry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -42,223 +44,216 @@ public class EventRegistry {
     private static final Random random = new Random();
     public static final ResourceKey<Registry<EventType<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("entropy", "events"));
     public static final Registry<EventType<?>> EVENTS = bootstrap();
+    public static final StreamCodec<FriendlyByteBuf, Event> STREAM_CODEC = new StreamCodec<>() {
+        @Override
+        public Event decode(FriendlyByteBuf buf) {
+            int id = buf.readVarInt();
+            EventType<?> type = EVENTS.get(id).get().value();
+            return type.streamCodec().decode(buf);
+        }
+
+        @Override
+        public void encode(FriendlyByteBuf buf, Event event) {
+            buf.writeVarInt(EVENTS.getId(event.getType()));
+            encodeEvent(buf, event);
+        }
+
+        @SuppressWarnings("unchecked")
+        private static <T extends Event> void encodeEvent(FriendlyByteBuf buf, T event) {
+            ((EventType<T>) event.getType()).streamCodec().encode(buf, event);
+        }
+    };
 
     private static Registry<EventType<?>> bootstrap() {
-        String attack = "attack";
-        String camera = "camera";
-        String drops = "drops";
-        String fov = "fov";
-        String health = "health";
-        String invisibility = "invisibility";
-        String jump = "jump";
-        String movement = "movement";
-        String pitch = "pitch";
-        String rain = "rain";
-        String renderDistance = "render_distance";
-        String screenAspect = "screen_aspect";
-        String shader = "shader";
-        String sight = "sight";
-        String speed = "speed";
-        String timer = "timer";
-        String use = "use";
         WritableRegistry<EventType<?>> registry = new MappedRegistry<>(REGISTRY_KEY, Lifecycle.stable());
-        register(registry, "remove_enchantments", RemoveEnchantmentsEvent::new);
-        register(registry, "armor_curse", ArmorCurseEvent::new);
-        register(registry, "raid", RaidEvent::new);
-        register(registry, "arrow_rain", EventType.builder(ArrowRainEvent::new).category(rain));
-        register(registry, "warden", WardenEvent::new);
-        register(registry, "blur", EventType.builder(BlurEvent::new).category(shader));
-        register(registry, "chicken_rain", EventType.builder(ChickenRainEvent::new).category(rain));
-        register(registry, "cinematic_screen", EventType.builder(CinematicScreenEvent::new).category(screenAspect));
-        register(registry, "close_random_tp", CloseRandomTPEvent::new);
-        register(registry, "creeper", CreeperEvent::new);
-        register(registry, "crt", EventType.builder(CRTEvent::new).category(shader));
-        register(registry, "drop_hand_item", DropHandItemEvent::new);
-        register(registry, "drop_inventory", DropInventoryEvent::new);
-        register(registry, "dvd", EventType.builder(DVDEvent::new).category(screenAspect));
-        register(registry, "explode_nearby_entities", ExplodeNearbyEntitiesEvent::new);
-        register(registry, "extreme_explosion", ExtremeExplosionEvent::new);
-        register(registry, "far_random_tp", FarRandomTPEvent::new);
-        register(registry, "force_forward", EventType.builder(ForceForwardEvent::new).category(movement));
-        register(registry, "force_jump_extreme", EventType.builder(ForceJump2Event::new).category(jump));
-        register(registry, "force_jump", EventType.builder(ForceJumpEvent::new).category(jump));
-        register(registry, "herobrine", HerobrineEvent::new);
-        register(registry, "high_pitch", EventType.builder(HighPitchEvent::new).category(pitch));
-        register(registry, "hungry", HungryEvent::new);
-        register(registry, "hyper_slow", EventType.builder(HyperSlowEvent::new).category(speed));
-        register(registry, "hyper_speed", EventType.builder(HyperSpeedEvent::new).category(speed));
-        register(registry, "ignite_nearby_entities", IgniteNearbyEntitiesEvent::new);
-        register(registry, "intense_thunder_storm", EventType.builder(IntenseThunderStormEvent::new).category(rain));
-        register(registry, "inverted_colors", EventType.builder(InvertedColorsEvent::new).category(shader));
-        register(registry, "inverted_controls", EventType.builder(InvertedControlsEvent::new).category(movement));
-        register(registry, "item_rain", EventType.builder(ItemRainEvent::new).category(rain));
-        register(registry, "low_gravity", LowGravityEvent::new);
-        register(registry, "low_pitch", EventType.builder(LowPitchEvent::new).category(pitch));
-        register(registry, "low_render_distance", EventType.builder(LowRenderDistanceEvent::new).category(renderDistance));
-        register(registry, "lsd", EventType.builder(LSDEvent::new).category(shader).disabledByAccessibilityMode());
-        register(registry, "lucky_drops", EventType.builder(LuckyDropsEvent::new).category(drops));
-        register(registry, "meteor_rain", EventType.builder(MeteorRainEvent::new).category(rain));
-        register(registry, "mouse_drifting", MouseDriftingEvent::new);
-        register(registry, "no_drops", EventType.builder(NoDropsEvent::new).category(drops));
-        register(registry, "no_jump", EventType.builder(NoJumpEvent::new).category(jump));
-        register(registry, "half_hearted", EventType.builder(HalfHeartedEvent::new).category(health));
-        register(registry, "only_backwards", EventType.builder(OnlyBackwardsEvent::new).category(movement));
-        register(registry, "only_sideways", EventType.builder(OnlySidewaysEvent::new).category(movement));
-        register(registry, "place_lava_block", PlaceLavaBlockEvent::new);
-        register(registry, "random_drops", EventType.builder(RandomDropsEvent::new).category(drops));
-        register(registry, "reduced_reach", ReducedReachEvent::new);
-        register(registry, "roll_credits", RollCreditsEvent::new);
-        register(registry, "slippery", SlipperyEvent::new);
-        register(registry, "teleport_spawn", Teleport0Event::new);
-        register(registry, "teleport_heaven", TeleportHeavenEvent::new);
-        register(registry, "timelapse", TimelapseEvent::new);
-        register(registry, "tnt", TntEvent::new);
-        register(registry, "ultra_fov", EventType.builder(UltraFovEvent::new).category(fov));
-        register(registry, "ultra_low_fov", EventType.builder(UltraLowFovEvent::new).category(fov));
-        register(registry, "upside_down", EventType.builder(UpsideDownEvent::new).category(camera).disabledByAccessibilityMode());
-        register(registry, "vertical_screen", EventType.builder(VerticalScreenEvent::new).category(screenAspect));
-        //register(registry, "where_is_everything", EventType.builder(WhereIsEverythingEvent::new).category(renderDistance)); // No longer works on >1.19
-        register(registry, "xp_rain", EventType.builder(XpRainEvent::new).category(rain));
-        register(registry, "heal", EventType.builder(HealEvent::new).category(health));
-        register(registry, "randomize_armor", RandomizeArmorEvent::new);
-        register(registry, "force_third_person", EventType.builder(ForceThirdPersonEvent::new).category(camera));
-        register(registry, "force_front_view", EventType.builder(ForceFrontViewEvent::new).category(camera));
-        register(registry, "hide_events", HideEventsEvent::new);
-        register(registry, "top_down_view", EventType.builder(TopDownViewEvent::new).category(camera));
-        register(registry, "phantom", PhantomEvent::new);
-        register(registry, "timer_speed_2", EventType.builder(TimerSpeed2Event::new).category(timer));
-        register(registry, "timer_speed_5", EventType.builder(TimerSpeed5Event::new).category(timer));
-        register(registry, "timer_speed_half", EventType.builder(TimerSpeedHalfEvent::new).category(timer));
-        register(registry, "resistance", ResistanceEvent::new);
-        register(registry, "fatigue", FatigueEvent::new);
-        register(registry, "blindness", BlindnessEvent::new);
-        register(registry, "speed", EventType.builder(SpeedEvent::new).category(speed));
-        register(registry, "starter_pack", StarterPackEvent::new);
-        register(registry, "damage_items", DamageItemsEvent::new);
-        register(registry, "levitation", LevitationEvent::new);
-        register(registry, "spinning_mobs", SpinningMobsEvent::new);
-        register(registry, "sinkhole", SinkholeEvent::new);
-        register(registry, "pool", PoolEvent::new);
-        register(registry, "random_creeper", RandomCreeperEvent::new);
-        register(registry, "sinking", SinkingEvent::new);
-        register(registry, "slime", SlimeEvent::new);
-        register(registry, "horse", HorseEvent::new);
-        register(registry, "fire", FireEvent::new);
-        register(registry, "adventure", AdventureEvent::new);
-        register(registry, "pit", PitEvent::new);
-        register(registry, "sky", EventType.builder(SkyEvent::new).category(health));
-        register(registry, "pumpkin_view", PumpkinViewEvent::new);
-        register(registry, "night_vision", NightVisionEvent::new);
-        register(registry, "explosive_pickaxe", ExplosivePickaxeEvent::new);
-        register(registry, "highlight_all_mobs", HighlightAllMobsEvent::new);
-        register(registry, "upgrade_random_gear", UpgradeRandomGearEvent::new);
-        register(registry, "downgrade_random_gear", DowngradeRandomGearEvent::new);
-        register(registry, "curse_random_gear", CurseRandomGearEvent::new);
-        register(registry, "enchant_random_gear", EnchantRandomGearEvent::new);
-        register(registry, "invisible_player", EventType.builder(InvisiblePlayerEvent::new).category(invisibility));
-        register(registry, "invisible_hostile_mobs", EventType.builder(InvisibleHostileMobsEvent::new).category(invisibility));
-        register(registry, "invisible_everyone", EventType.builder(InvisibleEveryoneEvent::new).category(invisibility));
-        register(registry, "vex_attack", VexAttackEvent::new);
-        register(registry, "zeus_ult", ZeusUltEvent::new);
-        register(registry, "gravity_sight", EventType.builder(GravitySightEvent::new).category(sight));
-        register(registry, "death_sight", EventType.builder(DeathSightEvent::new).category(sight));
-        register(registry, "glass_sight", EventType.builder(GlassSightEvent::new).category(sight));
-        register(registry, "void_sight", EventType.builder(VoidSightEvent::new).category(sight));
-        register(registry, "mining_sight", EventType.builder(MiningSightEvent::new).category(sight));
-        register(registry, "sky_block", SkyBlockEvent::new);
-        register(registry, "ride_closest_mob", RideClosestMobEvent::new);
-        register(registry, "true_frost_walker", TrueFrostWalkerEvent::new);
-        register(registry, "so_sweet", SoSweetEvent::new);
-        register(registry, "place_cobweb_block", PlaceCobwebBlockEvent::new);
-        register(registry, "flip_mobs", FlipMobsEvent::new);
-        register(registry, "spawn_rainbow_sheep", SpawnRainbowSheepEvent::new);
-        register(registry, "fix_items", FixItemsEvent::new);
-        register(registry, "midas_touch", MidasTouchEvent::new);
-        register(registry, "give_random_ore", GiveRandomOreEvent::new);
-        register(registry, "bee", BeeEvent::new);
-        register(registry, "angry_bee", AngryBeeEvent::new);
-        register(registry, "silverfish", SilverfishEvent::new);
-        register(registry, "blaze", BlazeEvent::new);
-        register(registry, "endermite", EndermiteEvent::new);
-        register(registry, "satiation", SatiationEvent::new);
-        register(registry, "vitals", VitalsEvent::new);
-        register(registry, "teleport_nearby_entities", TeleportNearbyEntitiesEvent::new);
-        register(registry, "force_sneak", EventType.builder(ForceSneakEvent::new).category(movement));
-        register(registry, "shuffle_inventory", ShuffleInventoryEvent::new);
-        register(registry, "bulldoze", BulldozeEvent::new);
-        register(registry, "slime_pyramid", SlimePyramidEvent::new);
-        register(registry, "flying_machine", FlyingMachineEvent::new);
-        register(registry, "add_heart", EventType.builder(AddHeartEvent::new).category(health));
-        register(registry, "remove_heart", EventType.builder(RemoveHeartEvent::new).category(health));
-        register(registry, "noise_machine", NoiseMachineEvent::new);
-        register(registry, "xray", XRayEvent::new);
-        register(registry, "lag", EventType.builder(LagEvent::new).category(movement).disabledByAccessibilityMode());
-        register(registry, "low_fps", EventType.builder(LowFPSEvent::new).disabledByAccessibilityMode());
-        register(registry, "infinite_lava", InfiniteLavaEvent::new);
-        register(registry, "random_camera_tilt", EventType.builder(RandomCameraTiltEvent::new).category(camera).disabledByAccessibilityMode());
-        register(registry, "no_attacking", EventType.builder(NoAttackingEvent::new).category(attack));
-        register(registry, "constant_attacking", EventType.builder(ConstantAttackingEvent::new).category(attack));
-        register(registry, "spawn_killer_bunny", SpawnKillerBunnyEvent::new);
-        register(registry, "spawn_pet_dog", SpawnPetDogEvent::new);
-        register(registry, "spawn_pet_cat", SpawnPetCatEvent::new);
-        register(registry, "haunted_chests", HauntedChestsEvent::new);
-        register(registry, "no_use_key", EventType.builder(NoUseKeyEvent::new).category(use));
-        register(registry, "constant_interacting", EventType.builder(ConstantInteractingEvent::new).category(use));
-        register(registry, "mlg_bucket", MLGBucketEvent::new);
-        register(registry, "stuttering", EventType.builder(StutteringEvent::new).disabledByAccessibilityMode());
-        register(registry, "force_horse_riding", ForceHorseRidingEvent::new);
-        register(registry, "jumpscare", JumpscareEvent::new);
-        register(registry, "rolling_camera", EventType.builder(RollingCameraEvent::new).category(camera).disabledByAccessibilityMode());
-        register(registry, "fling_entities", FlingEntitiesEvent::new);
-        register(registry, "black_and_white", EventType.builder(BlackAndWhiteEvent::new).category(shader));
-        register(registry, "creative_flight", CreativeFlightEvent::new);
-        register(registry, "fake_teleport", EventType.builder(FakeTeleportEvent::new).streamCodec(FakeTeleportEvent.STREAM_CODEC));
-        register(registry, "fake_fake_teleport", EventType.builder(FakeFakeTeleportEvent::new).streamCodec(FakeFakeTeleportEvent.STREAM_CODEC));
-        register(registry, "forcefield", ForcefieldEvent::new);
-        register(registry, "entity_magnet", EntityMagnetEvent::new);
-        register(registry, "one_punch", OnePunchEvent::new);
-        register(registry, "infestation", InfestationEvent::new);
-        register(registry, "rainbow_path", RainbowPathEvent::new);
-        register(registry, "silence", SilenceEvent::new);
-        register(registry, "nothing", NothingEvent::new);
-        register(registry, "rainbow_trails", RainbowTrailsEvent::new);
-        register(registry, "rainbow_sheep_everywhere", RainbowSheepEverywhereEvent::new);
-        register(registry, "armor_trim", ArmorTrimEvent::new);
+        register(registry, "remove_enchantments", RemoveEnchantmentsEvent.TYPE);
+        register(registry, "armor_curse", ArmorCurseEvent.TYPE);
+        register(registry, "raid", RaidEvent.TYPE);
+        register(registry, "arrow_rain", ArrowRainEvent.TYPE);
+        register(registry, "warden", WardenEvent.TYPE);
+        register(registry, "blur", BlurEvent.TYPE);
+        register(registry, "chicken_rain", ChickenRainEvent.TYPE);
+        register(registry, "cinematic_screen", CinematicScreenEvent.TYPE);
+        register(registry, "close_random_tp", CloseRandomTPEvent.TYPE);
+        register(registry, "creeper", CreeperEvent.TYPE);
+        register(registry, "crt", CRTEvent.TYPE);
+        register(registry, "drop_hand_item", DropHandItemEvent.TYPE);
+        register(registry, "drop_inventory", DropInventoryEvent.TYPE);
+        register(registry, "dvd", DVDEvent.TYPE);
+        register(registry, "explode_nearby_entities", ExplodeNearbyEntitiesEvent.TYPE);
+        register(registry, "extreme_explosion", ExtremeExplosionEvent.TYPE);
+        register(registry, "far_random_tp", FarRandomTPEvent.TYPE);
+        register(registry, "force_forward", ForceForwardEvent.TYPE);
+        register(registry, "force_jump_extreme", ForceJump2Event.TYPE);
+        register(registry, "force_jump", ForceJumpEvent.TYPE);
+        register(registry, "herobrine", HerobrineEvent.TYPE);
+        register(registry, "high_pitch", HighPitchEvent.TYPE);
+        register(registry, "hungry", HungryEvent.TYPE);
+        register(registry, "hyper_slow", HyperSlowEvent.TYPE);
+        register(registry, "hyper_speed", HyperSpeedEvent.TYPE);
+        register(registry, "ignite_nearby_entities", IgniteNearbyEntitiesEvent.TYPE);
+        register(registry, "intense_thunder_storm", IntenseThunderStormEvent.TYPE);
+        register(registry, "inverted_colors", InvertedColorsEvent.TYPE);
+        register(registry, "inverted_controls", InvertedControlsEvent.TYPE);
+        register(registry, "item_rain", ItemRainEvent.TYPE);
+        register(registry, "low_gravity", LowGravityEvent.TYPE);
+        register(registry, "low_pitch", LowPitchEvent.TYPE);
+        register(registry, "low_render_distance", LowRenderDistanceEvent.TYPE);
+        register(registry, "lsd", LSDEvent.TYPE);
+        register(registry, "lucky_drops", LuckyDropsEvent.TYPE);
+        register(registry, "meteor_rain", MeteorRainEvent.TYPE);
+        register(registry, "mouse_drifting", MouseDriftingEvent.TYPE);
+        register(registry, "no_drops", NoDropsEvent.TYPE);
+        register(registry, "no_jump", NoJumpEvent.TYPE);
+        register(registry, "half_hearted", HalfHeartedEvent.TYPE);
+        register(registry, "only_backwards", OnlyBackwardsEvent.TYPE);
+        register(registry, "only_sideways", OnlySidewaysEvent.TYPE);
+        register(registry, "place_lava_block", PlaceLavaBlockEvent.TYPE);
+        register(registry, "random_drops", RandomDropsEvent.TYPE);
+        register(registry, "reduced_reach", ReducedReachEvent.TYPE);
+        register(registry, "roll_credits", RollCreditsEvent.TYPE);
+        register(registry, "slippery", SlipperyEvent.TYPE);
+        register(registry, "teleport_spawn", Teleport0Event.TYPE);
+        register(registry, "teleport_heaven", TeleportHeavenEvent.TYPE);
+        register(registry, "timelapse", TimelapseEvent.TYPE);
+        register(registry, "tnt", TntEvent.TYPE);
+        register(registry, "ultra_fov", UltraFovEvent.TYPE);
+        register(registry, "ultra_low_fov", UltraLowFovEvent.TYPE);
+        register(registry, "upside_down", UpsideDownEvent.TYPE);
+        register(registry, "vertical_screen", VerticalScreenEvent.TYPE);
+        //register(registry, "where_is_everything", WhereIsEverythingEvent.TYPE); // No longer works on >1.19
+        register(registry, "xp_rain", XpRainEvent.TYPE);
+        register(registry, "heal", HealEvent.TYPE);
+        register(registry, "randomize_armor", RandomizeArmorEvent.TYPE);
+        register(registry, "force_third_person", ForceThirdPersonEvent.TYPE);
+        register(registry, "force_front_view", ForceFrontViewEvent.TYPE);
+        register(registry, "hide_events", HideEventsEvent.TYPE);
+        register(registry, "top_down_view", TopDownViewEvent.TYPE);
+        register(registry, "phantom", PhantomEvent.TYPE);
+        register(registry, "timer_speed_2", TimerSpeed2Event.TYPE);
+        register(registry, "timer_speed_5", TimerSpeed5Event.TYPE);
+        register(registry, "timer_speed_half", TimerSpeedHalfEvent.TYPE);
+        register(registry, "resistance", ResistanceEvent.TYPE);
+        register(registry, "fatigue", FatigueEvent.TYPE);
+        register(registry, "blindness", BlindnessEvent.TYPE);
+        register(registry, "speed", SpeedEvent.TYPE);
+        register(registry, "starter_pack", StarterPackEvent.TYPE);
+        register(registry, "damage_items", DamageItemsEvent.TYPE);
+        register(registry, "levitation", LevitationEvent.TYPE);
+        register(registry, "spinning_mobs", SpinningMobsEvent.TYPE);
+        register(registry, "sinkhole", SinkholeEvent.TYPE);
+        register(registry, "pool", PoolEvent.TYPE);
+        register(registry, "random_creeper", RandomCreeperEvent.TYPE);
+        register(registry, "sinking", SinkingEvent.TYPE);
+        register(registry, "slime", SlimeEvent.TYPE);
+        register(registry, "horse", HorseEvent.TYPE);
+        register(registry, "fire", FireEvent.TYPE);
+        register(registry, "adventure", AdventureEvent.TYPE);
+        register(registry, "pit", PitEvent.TYPE);
+        register(registry, "sky", SkyEvent.TYPE);
+        register(registry, "pumpkin_view", PumpkinViewEvent.TYPE);
+        register(registry, "night_vision", NightVisionEvent.TYPE);
+        register(registry, "explosive_pickaxe", ExplosivePickaxeEvent.TYPE);
+        register(registry, "highlight_all_mobs", HighlightAllMobsEvent.TYPE);
+        register(registry, "upgrade_random_gear", UpgradeRandomGearEvent.TYPE);
+        register(registry, "downgrade_random_gear", DowngradeRandomGearEvent.TYPE);
+        register(registry, "curse_random_gear", CurseRandomGearEvent.TYPE);
+        register(registry, "enchant_random_gear", EnchantRandomGearEvent.TYPE);
+        register(registry, "invisible_player", InvisiblePlayerEvent.TYPE);
+        register(registry, "invisible_hostile_mobs", InvisibleHostileMobsEvent.TYPE);
+        register(registry, "invisible_everyone", InvisibleEveryoneEvent.TYPE);
+        register(registry, "vex_attack", VexAttackEvent.TYPE);
+        register(registry, "zeus_ult", ZeusUltEvent.TYPE);
+        register(registry, "gravity_sight", GravitySightEvent.TYPE);
+        register(registry, "death_sight", DeathSightEvent.TYPE);
+        register(registry, "glass_sight", GlassSightEvent.TYPE);
+        register(registry, "void_sight", VoidSightEvent.TYPE);
+        register(registry, "mining_sight", MiningSightEvent.TYPE);
+        register(registry, "sky_block", SkyBlockEvent.TYPE);
+        register(registry, "ride_closest_mob", RideClosestMobEvent.TYPE);
+        register(registry, "true_frost_walker", TrueFrostWalkerEvent.TYPE);
+        register(registry, "so_sweet", SoSweetEvent.TYPE);
+        register(registry, "place_cobweb_block", PlaceCobwebBlockEvent.TYPE);
+        register(registry, "flip_mobs", FlipMobsEvent.TYPE);
+        register(registry, "spawn_rainbow_sheep", SpawnRainbowSheepEvent.TYPE);
+        register(registry, "fix_items", FixItemsEvent.TYPE);
+        register(registry, "midas_touch", MidasTouchEvent.TYPE);
+        register(registry, "give_random_ore", GiveRandomOreEvent.TYPE);
+        register(registry, "bee", BeeEvent.TYPE);
+        register(registry, "angry_bee", AngryBeeEvent.TYPE);
+        register(registry, "silverfish", SilverfishEvent.TYPE);
+        register(registry, "blaze", BlazeEvent.TYPE);
+        register(registry, "endermite", EndermiteEvent.TYPE);
+        register(registry, "satiation", SatiationEvent.TYPE);
+        register(registry, "vitals", VitalsEvent.TYPE);
+        register(registry, "teleport_nearby_entities", TeleportNearbyEntitiesEvent.TYPE);
+        register(registry, "force_sneak", ForceSneakEvent.TYPE);
+        register(registry, "shuffle_inventory", ShuffleInventoryEvent.TYPE);
+        register(registry, "bulldoze", BulldozeEvent.TYPE);
+        register(registry, "slime_pyramid", SlimePyramidEvent.TYPE);
+        register(registry, "flying_machine", FlyingMachineEvent.TYPE);
+        register(registry, "add_heart", AddHeartEvent.TYPE);
+        register(registry, "remove_heart", RemoveHeartEvent.TYPE);
+        register(registry, "noise_machine", NoiseMachineEvent.TYPE);
+        register(registry, "xray", XRayEvent.TYPE);
+        register(registry, "lag", LagEvent.TYPE);
+        register(registry, "low_fps", LowFPSEvent.TYPE);
+        register(registry, "infinite_lava", InfiniteLavaEvent.TYPE);
+        register(registry, "random_camera_tilt", RandomCameraTiltEvent.TYPE);
+        register(registry, "no_attacking", NoAttackingEvent.TYPE);
+        register(registry, "constant_attacking", ConstantAttackingEvent.TYPE);
+        register(registry, "spawn_killer_bunny", SpawnKillerBunnyEvent.TYPE);
+        register(registry, "spawn_pet_dog", SpawnPetDogEvent.TYPE);
+        register(registry, "spawn_pet_cat", SpawnPetCatEvent.TYPE);
+        register(registry, "haunted_chests", HauntedChestsEvent.TYPE);
+        register(registry, "no_use_key", NoUseKeyEvent.TYPE);
+        register(registry, "constant_interacting", ConstantInteractingEvent.TYPE);
+        register(registry, "mlg_bucket", MLGBucketEvent.TYPE);
+        register(registry, "stuttering", StutteringEvent.TYPE);
+        register(registry, "force_horse_riding", ForceHorseRidingEvent.TYPE);
+        register(registry, "jumpscare", JumpscareEvent.TYPE);
+        register(registry, "rolling_camera", RollingCameraEvent.TYPE);
+        register(registry, "fling_entities", FlingEntitiesEvent.TYPE);
+        register(registry, "black_and_white", BlackAndWhiteEvent.TYPE);
+        register(registry, "creative_flight", CreativeFlightEvent.TYPE);
+        register(registry, "fake_teleport", FakeTeleportEvent.TYPE);
+        register(registry, "fake_fake_teleport", FakeFakeTeleportEvent.TYPE);
+        register(registry, "forcefield", ForcefieldEvent.TYPE);
+        register(registry, "entity_magnet", EntityMagnetEvent.TYPE);
+        register(registry, "one_punch", OnePunchEvent.TYPE);
+        register(registry, "infestation", InfestationEvent.TYPE);
+        register(registry, "rainbow_path", RainbowPathEvent.TYPE);
+        register(registry, "silence", SilenceEvent.TYPE);
+        register(registry, "nothing", NothingEvent.TYPE);
+        register(registry, "rainbow_trails", RainbowTrailsEvent.TYPE);
+        register(registry, "rainbow_sheep_everywhere", RainbowSheepEverywhereEvent.TYPE);
+        register(registry, "armor_trim", ArmorTrimEvent.TYPE);
         return registry.freeze();
-    }
-
-    private static void register(Registry<EventType<?>> registry, String id, EventType.EventSupplier<?> eventSupplier) {
-        register(registry, id, EventType.builder(eventSupplier).build());
-    }
-
-    private static void register(Registry<EventType<?>> registry, String id, EventType.Builder<?> builder) {
-        register(registry, id, builder.build());
     }
 
     private static void register(Registry<EventType<?>> registry, String id, EventType<?> type) {
         Registry.register(registry, ResourceLocation.fromNamespaceAndPath("entropy", id), type);
     }
 
-    public static <T extends Event> TypedEvent<T> getRandomDifferentEvent(List<TypedEvent<?>> currentEvents){
+    public static Event getRandomDifferentEvent(List<Event> currentEvents){
 
-        Map<ResourceLocation, EventType<T>> eventCandidates = EVENTS.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().location(), e -> (EventType<T>) e.getValue()));
+        Map<ResourceLocation, EventType<?>> eventCandidates = EVENTS.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().location(), Map.Entry::getValue));
         Set<ResourceLocation> eventsToRemove = new HashSet<>(Entropy.getInstance().settings.disabledEventTypes);
-        Set<String> ignoredEventCategories = new HashSet<>();
+        Set<EventCategory> ignoredEventCategories = new HashSet<>();
 
-        currentEvents.forEach(typedEvent -> {
-            EventType<?> type = typedEvent.type();
+        currentEvents.forEach(event -> {
+            EventType<?> type = event.getType();
             eventsToRemove.add(EVENTS.getKey(type));
 
-            Event event = typedEvent.event();
-            if(event.getTickCount()>0 && !event.hasEnded() && !type.category().equalsIgnoreCase("none"))
-                ignoredEventCategories.add(type.category().toLowerCase());
+            if(event.getTickCount()>0 && !event.hasEnded() && type.category() != EventCategory.NONE)
+                ignoredEventCategories.add(type.category());
         });
 
         Level overworld = Entropy.getInstance().eventHandler.server.overworld();
         eventCandidates.forEach((eventId, type) -> {
             if (!EventRegistry.doesWorldHaveRequiredFeatures(type, overworld)
                 || Entropy.getInstance().settings.accessibilityMode && type.disabledByAccessibilityMode()
-                || ignoredEventCategories.contains(type.category().toLowerCase())) {
+                || ignoredEventCategories.contains(type.category())) {
                 eventsToRemove.add(eventId);
             }
         });
@@ -267,19 +262,19 @@ public class EventRegistry {
         //The MathHelper mixin turning off linear interpolation is only applied on the client, but if this is a singleplayer environment,
         //the integrated server has the modified MathHelper, too, causing incorrect worldgen.
         if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
-            eventsToRemove.add(ResourceLocation.fromNamespaceAndPath("entropy", "stuttering"));
+            eventsToRemove.add(getEventId(StutteringEvent.TYPE));
 
         eventsToRemove.forEach(eventCandidates::remove);
         return getRandomEvent(new ArrayList<>(eventCandidates.values()));
     }
 
-    private static <T extends Event> TypedEvent<T> getRandomEvent(List<EventType<T>> eventKeys) {
+    private static Event getRandomEvent(List<EventType<?>> eventKeys) {
         if(eventKeys.isEmpty())
             return null;
 
         int index = random.nextInt(eventKeys.size());
-        EventType<T> newEventType = eventKeys.get(index);
-        return TypedEvent.fromEventType(newEventType);
+        EventType<?> newEventType = eventKeys.get(index);
+        return newEventType.create();
     }
 
     public static ResourceLocation getEventId(EventType<?> eventType) {

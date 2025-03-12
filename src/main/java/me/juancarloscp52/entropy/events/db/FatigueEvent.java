@@ -19,13 +19,20 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
 public class FatigueEvent extends AbstractInstantEvent {
+    public static final EventType<FatigueEvent> TYPE = EventType.builder(FatigueEvent::new).build();
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, (int) (Entropy.getInstance().settings.baseEventDuration*1.25),1)));
+    }
+
+    @Override
+    public EventType<FatigueEvent> getType() {
+        return TYPE;
     }
 }

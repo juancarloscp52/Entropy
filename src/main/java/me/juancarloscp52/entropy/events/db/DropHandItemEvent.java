@@ -18,15 +18,22 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 
 public class DropHandItemEvent extends AbstractInstantEvent {
+    public static final EventType<DropHandItemEvent> TYPE = EventType.builder(DropHandItemEvent::new).build();
 
     @Override
     public void initClient() {
         LocalPlayer player = Minecraft.getInstance().player;
         if(player != null)
             player.drop(true);
+    }
+
+    @Override
+    public EventType<DropHandItemEvent> getType() {
+        return TYPE;
     }
 }

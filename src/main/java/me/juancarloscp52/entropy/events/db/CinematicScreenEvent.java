@@ -17,9 +17,10 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -27,6 +28,7 @@ import net.minecraft.util.Mth;
 
 public class CinematicScreenEvent extends AbstractTimedEvent {
 
+    public static final EventType<CinematicScreenEvent> TYPE = EventType.builder(CinematicScreenEvent::new).category(EventCategory.SCREEN_ASPECT).build();
     Minecraft client;
 
     @Override
@@ -58,5 +60,10 @@ public class CinematicScreenEvent extends AbstractTimedEvent {
         int borderHeight = Mth.floor(client.getWindow().getGuiScaledHeight() * 0.12f);
         drawContext.fill(0, 0, client.getWindow().getGuiScaledWidth(), borderHeight, 255 << 24);
         drawContext.fill(0, client.getWindow().getGuiScaledHeight() - borderHeight, client.getWindow().getGuiScaledWidth(), client.getWindow().getGuiScaledHeight(), 255 << 24);
+    }
+
+    @Override
+    public EventType<CinematicScreenEvent> getType() {
+        return TYPE;
     }
 }

@@ -2,12 +2,15 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 
 public class CreativeFlightEvent extends AbstractTimedEvent {
+    public static final EventType<CreativeFlightEvent> TYPE = EventType.builder(CreativeFlightEvent::new).build();
+
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
@@ -57,5 +60,10 @@ public class CreativeFlightEvent extends AbstractTimedEvent {
     @Override
     public short getDuration() {
         return (short)(super.getDuration()*0.75);
+    }
+
+    @Override
+    public EventType<CreativeFlightEvent> getType() {
+        return TYPE;
     }
 }

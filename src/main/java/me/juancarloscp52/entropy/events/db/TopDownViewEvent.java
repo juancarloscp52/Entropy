@@ -19,8 +19,11 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class TopDownViewEvent extends AbstractTimedEvent {
+    public static final EventType<TopDownViewEvent> TYPE = EventType.builder(TopDownViewEvent::new).category(EventCategory.CAMERA).build();
 
     @Override
     public void initClient() {
@@ -33,5 +36,10 @@ public class TopDownViewEvent extends AbstractTimedEvent {
         Variables.thirdPersonView = false;
         Variables.topView = false;
         super.endClient();
+    }
+
+    @Override
+    public EventType<TopDownViewEvent> getType() {
+        return TYPE;
     }
 }

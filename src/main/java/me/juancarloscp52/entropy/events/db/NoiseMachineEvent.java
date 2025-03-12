@@ -3,6 +3,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.block.DirectionalBlock;
 
 public class NoiseMachineEvent extends AbstractInstantEvent {
 
+    public static final EventType<NoiseMachineEvent> TYPE = EventType.builder(NoiseMachineEvent::new).build();
     private final int numModules = 2;
 
     @Override
@@ -72,4 +74,8 @@ public class NoiseMachineEvent extends AbstractInstantEvent {
         });
     }
 
+    @Override
+    public EventType<NoiseMachineEvent> getType() {
+        return TYPE;
+    }
 }

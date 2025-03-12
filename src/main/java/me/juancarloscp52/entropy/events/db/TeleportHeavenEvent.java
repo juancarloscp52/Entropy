@@ -20,11 +20,13 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
 public class TeleportHeavenEvent extends AbstractInstantEvent {
+    public static final EventType<TeleportHeavenEvent> TYPE = EventType.builder(TeleportHeavenEvent::new).build();
 
     @Override
     public void init() {
@@ -43,5 +45,10 @@ public class TeleportHeavenEvent extends AbstractInstantEvent {
 
             EntropyUtils.teleportPlayer(serverPlayerEntity, serverPlayerEntity.getX(), 380.0, serverPlayerEntity.getZ());
         });
+    }
+
+    @Override
+    public EventType<TeleportHeavenEvent> getType() {
+        return TYPE;
     }
 }

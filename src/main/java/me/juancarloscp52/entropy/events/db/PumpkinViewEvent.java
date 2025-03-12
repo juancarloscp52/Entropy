@@ -24,19 +24,18 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.CoreShaders;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.ShaderProgram;
-import net.minecraft.client.renderer.ShaderProgramConfig;
 import net.minecraft.resources.ResourceLocation;
 
 public class PumpkinViewEvent extends AbstractTimedEvent {
 
+    public static final EventType<PumpkinViewEvent> TYPE = EventType.builder(PumpkinViewEvent::new).build();
     private static final ResourceLocation PUMKIN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/misc/pumpkinblur.png");
     Minecraft client;
 
@@ -80,4 +79,8 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
+    @Override
+    public EventType<PumpkinViewEvent> getType() {
+        return TYPE;
+    }
 }

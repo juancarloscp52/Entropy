@@ -3,16 +3,19 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.item.Items;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ForceHorseRidingEvent extends AbstractTimedEvent {
+    public static final EventType<ForceHorseRidingEvent> TYPE = EventType.builder(ForceHorseRidingEvent::new).build();
     private List<Horse> spawnedHorses = new ArrayList<>();
 
     @Override
@@ -44,5 +47,10 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
         super.end();
         Variables.forceRiding = false;
         spawnedHorses.forEach(Entity::discard);
+    }
+
+    @Override
+    public EventType<ForceHorseRidingEvent> getType() {
+        return TYPE;
     }
 }

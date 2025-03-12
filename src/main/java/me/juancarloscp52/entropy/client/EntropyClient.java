@@ -21,7 +21,6 @@ import com.google.gson.Gson;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventType;
-import me.juancarloscp52.entropy.events.TypedEvent;
 import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
 import me.juancarloscp52.entropy.networking.NetworkingConstants;
 import me.juancarloscp52.entropy.networking.ServerboundJoinHandshake;
@@ -76,13 +75,13 @@ public class EntropyClient implements ClientModInitializer {
             if (sync.events().size() == clientEventHandler.currentEvents.size())
                 return;
             for (final ClientboundJoinSync.EventData data : sync.events()) {
-                EventType<?> eventType = data.typedEvent().type();
-                Event event = data.typedEvent().event();
+                EventType<?> type = data.event().getType();
+                Event event = data.event();
                 event.setEnded(data.ended());
                 event.setTickCount(data.tickCount());
-                if (data.tickCount() > 0 && !data.ended() && !(eventType.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
+                if (data.tickCount() > 0 && !data.ended() && !(type.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
                     event.initClient();
-                context.client().execute(() -> clientEventHandler.currentEvents.add(data.typedEvent()));
+                context.client().execute(() -> clientEventHandler.currentEvents.add(event));
             }
         });
 
@@ -106,7 +105,7 @@ public class EntropyClient implements ClientModInitializer {
                 return;
             context.client().execute(() -> {
                 if (!clientEventHandler.currentEvents.isEmpty())
-                    clientEventHandler.currentEvents.removeIf(typedEvent -> typedEvent.event().hasEnded());
+                    clientEventHandler.currentEvents.removeIf(Event::hasEnded);
             });
         });
 
@@ -114,7 +113,7 @@ public class EntropyClient implements ClientModInitializer {
             if (clientEventHandler == null)
                 return;
             context.client().execute(() -> {
-                clientEventHandler.addEvent(addEvent.typedEvent());
+                clientEventHandler.addEvent(addEvent.event());
             });
         });
 
@@ -122,9 +121,9 @@ public class EntropyClient implements ClientModInitializer {
             if (clientEventHandler == null)
                 return;
             context.client().execute(() -> {
-                TypedEvent<?> event = clientEventHandler.currentEvents.get(endEvent.index());
+                Event event = clientEventHandler.currentEvents.get(endEvent.index());
                 if(event != null)
-                    event.event().endClient();
+                    event.endClient();
             });
         });
 

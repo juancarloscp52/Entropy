@@ -20,10 +20,12 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.MinecraftServer;
 
 public class Teleport0Event extends AbstractInstantEvent {
 
+    public static final EventType<Teleport0Event> TYPE = EventType.builder(Teleport0Event::new).build();
     MinecraftServer server;
     int count = 0;
 
@@ -59,4 +61,8 @@ public class Teleport0Event extends AbstractInstantEvent {
         return count > 2;
     }
 
+    @Override
+    public EventType<Teleport0Event> getType() {
+        return TYPE;
+    }
 }

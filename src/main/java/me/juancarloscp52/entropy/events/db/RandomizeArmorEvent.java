@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EnchantmentTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponents;
@@ -32,10 +33,12 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
+
 import java.util.Optional;
 
 
 public class RandomizeArmorEvent extends AbstractInstantEvent {
+    public static final EventType<RandomizeArmorEvent> TYPE = EventType.builder(RandomizeArmorEvent::new).build();
 
     @Override
     public void init() {
@@ -76,5 +79,10 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
     }
     private int getRandomLevel(Enchantment enchantment){
         return RandomSource.create().nextInt(enchantment.getMaxLevel()-enchantment.getMinLevel()+1)+ enchantment.getMinLevel();
+    }
+
+    @Override
+    public EventType<RandomizeArmorEvent> getType() {
+        return TYPE;
     }
 }

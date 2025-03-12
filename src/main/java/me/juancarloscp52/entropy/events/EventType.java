@@ -1,16 +1,14 @@
 package me.juancarloscp52.entropy.events;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 
-public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamCodec<FriendlyByteBuf, T> streamCodec, FeatureFlagSet requiredFeatures, boolean disabledByAccessibilityMode, String category) {
-    public static final StreamCodec<FriendlyByteBuf, EventType<? extends Event>> STREAM_CODEC = StreamCodec.composite(
-        ByteBufCodecs.VAR_INT, type -> EventRegistry.EVENTS.getId(type),
-        i -> EventRegistry.EVENTS.get(i).get().value()
-    );
+public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamCodec<FriendlyByteBuf, T> streamCodec, FeatureFlagSet requiredFeatures, boolean disabledByAccessibilityMode, EventCategory category) {
+    public T create() {
+        return eventSupplier().create();
+    }
 
     public static <T extends Event> Builder<T> builder(EventSupplier<T> eventSupplier) {
         return new Builder<>(eventSupplier);
@@ -21,7 +19,7 @@ public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamC
         private StreamCodec<FriendlyByteBuf, T> streamCodec;
         private FeatureFlagSet requiredFeatures = FeatureFlags.VANILLA_SET;
         private boolean disabledByAccessibilityMode = false;
-        private String category = "none";
+        private EventCategory category = EventCategory.NONE;
 
         public Builder(EventSupplier<T> eventSupplier) {
             this.eventSupplier = eventSupplier;
@@ -42,7 +40,7 @@ public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamC
             return this;
         }
 
-        public Builder<T> category(String category) {
+        public Builder<T> category(EventCategory category) {
             this.category = category;
             return this;
         }

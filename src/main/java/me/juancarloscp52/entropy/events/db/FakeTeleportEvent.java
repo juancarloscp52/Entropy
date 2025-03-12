@@ -5,14 +5,12 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.events.EventType;
-import me.juancarloscp52.entropy.events.TypedEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Arrays;
@@ -24,48 +22,49 @@ import java.util.Set;
 
 public class FakeTeleportEvent extends AbstractInstantEvent {
     public static final StreamCodec<FriendlyByteBuf, FakeTeleportEvent> STREAM_CODEC = StreamCodec.composite(
-        TypedEvent.STREAM_CODEC, e -> e.teleportEvent,
+        EventRegistry.STREAM_CODEC, e -> e.teleportEvent,
         FakeTeleportEvent::new
     );
-    private static final List<ResourceLocation> TELEPORT_EVENTS = Arrays.stream(new String[]{
-        "close_random_tp",
-        "far_random_tp",
-        "sky_block",
-        "sky",
-        "teleport_spawn",
-        "teleport_heaven"
-    }).map(string -> ResourceLocation.fromNamespaceAndPath("entropy", string)).toList();
+    public static final EventType<FakeTeleportEvent> TYPE = EventType.builder(FakeTeleportEvent::new).streamCodec(STREAM_CODEC).build();
+    private static final List<EventType<?>> TELEPORT_EVENTS = Arrays.asList(
+        CloseRandomTPEvent.TYPE,
+        FarRandomTPEvent.TYPE,
+        SkyBlockEvent.TYPE,
+        SkyEvent.TYPE,
+        Teleport0Event.TYPE,
+        TeleportHeavenEvent.TYPE
+    );
     public static final int TICKS_UNTIL_TELEPORT_BACK = 100;
     final Map<ServerPlayer,TeleportInfo> originalPositions = new HashMap<>();
-    final TypedEvent<?> teleportEvent;
+    final Event teleportEvent;
     int ticksAfterFirstTeleport = 0;
 
     public FakeTeleportEvent() {
-        this(TypedEvent.fromEventType(EventRegistry.EVENTS.get(TELEPORT_EVENTS.get(new Random().nextInt(TELEPORT_EVENTS.size()))).get().value()));
+        this(TELEPORT_EVENTS.get(new Random().nextInt(TELEPORT_EVENTS.size())).create());
     }
 
-    public FakeTeleportEvent(TypedEvent<?> teleportEvent) {
+    public FakeTeleportEvent(Event teleportEvent) {
         this.teleportEvent = teleportEvent;
     }
 
     @Override
     public void init() {
         savePositions(originalPositions);
-        teleportEvent.event().init();
+        teleportEvent.init();
     }
 
     @Override
     public void tick() {
-        if(!teleportEvent.event().hasEnded())
-            teleportEvent.event().tick();
+        if(!teleportEvent.hasEnded())
+            teleportEvent.tick();
         else if(++ticksAfterFirstTeleport == TICKS_UNTIL_TELEPORT_BACK)
             loadPositions(originalPositions);
     }
 
     @Override
     public void tickClient() {
-        if(!teleportEvent.event().hasEnded())
-            teleportEvent.event().tickClient();
+        if(!teleportEvent.hasEnded())
+            teleportEvent.tickClient();
         else
             ticksAfterFirstTeleport++;
     }
@@ -76,12 +75,12 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
         if(hasEnded())
             super.renderQueueItem(eventType, drawContext, tickdelta, x, y);
         else
-            teleportEvent.event().renderQueueItem(teleportEvent.type(), drawContext, tickdelta, x, y);
+            teleportEvent.renderQueueItem(teleportEvent.getType(), drawContext, tickdelta, x, y);
     }
 
     @Override
     public boolean hasEnded() {
-        return teleportEvent.event().hasEnded() && ticksAfterFirstTeleport > TICKS_UNTIL_TELEPORT_BACK;
+        return teleportEvent.hasEnded() && ticksAfterFirstTeleport > TICKS_UNTIL_TELEPORT_BACK;
     }
 
     public static void savePositions(Map<ServerPlayer,TeleportInfo> positions) {
@@ -101,9 +100,10 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
         });
     }
 
-    public Event teleportEvent() {
-        return teleportEvent.event();
-    }
-
     public static record TeleportInfo(int x, int y, int z, float yaw, float pitch) {}
+
+    @Override
+    public EventType<FakeTeleportEvent> getType() {
+        return TYPE;
+    }
 }

@@ -19,8 +19,10 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class VitalsEvent extends AbstractInstantEvent {
+    public static final EventType<VitalsEvent> TYPE = EventType.builder(VitalsEvent::new).build();
 
     @Override
     public void init() {
@@ -31,4 +33,8 @@ public class VitalsEvent extends AbstractInstantEvent {
         });
     }
 
+    @Override
+    public EventType<VitalsEvent> getType() {
+        return TYPE;
+    }
 }

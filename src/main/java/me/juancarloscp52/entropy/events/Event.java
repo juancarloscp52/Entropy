@@ -25,8 +25,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 
-import java.util.Optional;
-
 
 public interface Event {
     static <T extends Event> StreamCodec<FriendlyByteBuf, T> streamCodec(EventType.EventSupplier<T> eventSupplier) {
@@ -78,10 +76,5 @@ public interface Event {
 
     void setEnded(boolean ended);
 
-    default Optional<String> getExtraData() {
-        return Optional.empty();
-    }
-
-    @Environment(EnvType.CLIENT)
-    default void readExtraData(String subEventId) {}
+    EventType<? extends Event> getType();
 }

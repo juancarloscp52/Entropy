@@ -61,9 +61,9 @@ public abstract class AbstractTimedEvent implements Event {
     public void tick() {
         tickCount++;
         if (tickCount >= this.getDuration()) {
-            List<TypedEvent<?>> currentEvents = Entropy.getInstance().eventHandler.currentEvents;
+            List<Event> currentEvents = Entropy.getInstance().eventHandler.currentEvents;
             for (byte i = 0; i < currentEvents.size(); i++) {
-                if (currentEvents.get(i).event().equals(this)) {
+                if (currentEvents.get(i).equals(this)) {
                     final ClientboundEndEvent endEvent = new ClientboundEndEvent(i);
                     PlayerLookup.all(Entropy.getInstance().eventHandler.server).forEach(serverPlayerEntity ->
                         ServerPlayNetworking.send(serverPlayerEntity, endEvent)

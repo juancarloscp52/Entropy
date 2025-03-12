@@ -19,15 +19,19 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+
 import java.util.Random;
 
 public class RandomCreeperEvent extends AbstractTimedEvent {
+    public static final EventType<RandomCreeperEvent> TYPE = EventType.builder(RandomCreeperEvent::new).build();
+
     @Override
     public void tick() {
         if(tickCount%70==0){
@@ -43,5 +47,10 @@ public class RandomCreeperEvent extends AbstractTimedEvent {
     @Override
     public short getDuration() {
         return (short) (super.getDuration()*0.75);
+    }
+
+    @Override
+    public EventType<RandomCreeperEvent> getType() {
+        return TYPE;
     }
 }

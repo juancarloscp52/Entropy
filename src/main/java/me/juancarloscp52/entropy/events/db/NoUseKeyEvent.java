@@ -2,14 +2,16 @@ package me.juancarloscp52.entropy.events.db;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.InputConstants.Key;
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 
 public class NoUseKeyEvent extends AbstractTimedEvent {
+    public static final EventType<NoUseKeyEvent> TYPE = EventType.builder(NoUseKeyEvent::new).category(EventCategory.USE).build();
     private Key boundUseKey;
 
     @Override
@@ -29,5 +31,10 @@ public class NoUseKeyEvent extends AbstractTimedEvent {
         options.keyUse.setKey(boundUseKey);
         KeyMapping.resetMapping();
         super.endClient();
+    }
+
+    @Override
+    public EventType<NoUseKeyEvent> getType() {
+        return TYPE;
     }
 }

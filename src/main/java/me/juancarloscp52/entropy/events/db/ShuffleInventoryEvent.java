@@ -5,12 +5,15 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class ShuffleInventoryEvent extends AbstractInstantEvent {
+    public static final EventType<ShuffleInventoryEvent> TYPE = EventType.builder(ShuffleInventoryEvent::new).build();
 
     @Override
     public void init() {
@@ -54,5 +57,10 @@ public class ShuffleInventoryEvent extends AbstractInstantEvent {
                 inventories.get(i).set(index, itemStacks.get(i));
             }
         }
+    }
+
+    @Override
+    public EventType<ShuffleInventoryEvent> getType() {
+        return TYPE;
     }
 }

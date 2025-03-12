@@ -19,11 +19,14 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+
 import java.util.Random;
 
 public class SlimeEvent extends AbstractInstantEvent {
+    public static final EventType<SlimeEvent> TYPE = EventType.builder(SlimeEvent::new).build();
 
     @Override
     public void init() {
@@ -34,5 +37,10 @@ public class SlimeEvent extends AbstractInstantEvent {
                 EntityType.SLIME.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().offset(random.nextInt(-4,5),random.nextInt(2),random.nextInt(-4,5)), EntitySpawnReason.EVENT);
             }
         });
+    }
+
+    @Override
+    public EventType<SlimeEvent> getType() {
+        return TYPE;
     }
 }

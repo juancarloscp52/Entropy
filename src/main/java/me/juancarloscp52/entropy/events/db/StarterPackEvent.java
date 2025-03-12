@@ -19,11 +19,13 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 public class StarterPackEvent extends AbstractInstantEvent {
+    public static final EventType<StarterPackEvent> TYPE = EventType.builder(StarterPackEvent::new).build();
 
     @Override
     public void init() {
@@ -48,5 +50,10 @@ public class StarterPackEvent extends AbstractInstantEvent {
             if(!serverPlayerEntity.getInventory().add(torch))
                 serverPlayerEntity.spawnAtLocation(level, torch);
         });
+    }
+
+    @Override
+    public EventType<StarterPackEvent> getType() {
+        return TYPE;
     }
 }

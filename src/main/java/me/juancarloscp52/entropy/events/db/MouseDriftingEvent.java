@@ -19,11 +19,13 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 
 import java.util.Random;
 
 public class MouseDriftingEvent extends AbstractTimedEvent {
 
+    public static final EventType<MouseDriftingEvent> TYPE = EventType.builder(MouseDriftingEvent::new).build();
     Random random = new Random();
 
     @Override
@@ -44,5 +46,10 @@ public class MouseDriftingEvent extends AbstractTimedEvent {
     @Override
     public short getDuration() {
         return (short) (super.getDuration() * 1.5);
+    }
+
+    @Override
+    public EventType<MouseDriftingEvent> getType() {
+        return TYPE;
     }
 }

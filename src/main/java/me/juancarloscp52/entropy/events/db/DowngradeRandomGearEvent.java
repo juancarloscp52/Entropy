@@ -2,6 +2,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
@@ -16,6 +17,7 @@ import java.util.stream.IntStream;
 
 public class DowngradeRandomGearEvent extends AbstractInstantEvent {
 
+    public static final EventType<DowngradeRandomGearEvent> TYPE = EventType.builder(DowngradeRandomGearEvent::new).build();
     private static HashMap<Item, Item> _downgrades = new HashMap<Item, Item>() {
         {
             // HELMET
@@ -132,5 +134,10 @@ public class DowngradeRandomGearEvent extends AbstractInstantEvent {
 
         if (_downgrades.containsKey(newItem) && random.nextDouble() < 0.25d)
             downgrade(newItem, newItemStack, inventoryList, index, random);
+    }
+
+    @Override
+    public EventType<DowngradeRandomGearEvent> getType() {
+        return TYPE;
     }
 }

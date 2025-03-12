@@ -19,8 +19,10 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class HideEventsEvent extends AbstractTimedEvent {
+    public static final EventType<HideEventsEvent> TYPE = EventType.builder(HideEventsEvent::new).build();
 
     @Override
     public void initClient() {
@@ -36,5 +38,10 @@ public class HideEventsEvent extends AbstractTimedEvent {
     @Override
     public short getDuration() {
         return (short) (super.getDuration() * 3);
+    }
+
+    @Override
+    public EventType<HideEventsEvent> getType() {
+        return TYPE;
     }
 }

@@ -6,6 +6,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 
 public class SoSweetEvent extends AbstractInstantEvent {
+    public static final EventType<SoSweetEvent> TYPE = EventType.builder(SoSweetEvent::new).build();
     private final BlockState sweetBerryBush = Blocks.SWEET_BERRY_BUSH.defaultBlockState().setValue(SweetBerryBushBlock.AGE, 2);
 
     @Override
@@ -40,5 +42,10 @@ public class SoSweetEvent extends AbstractInstantEvent {
                 }
             }
         }
+    }
+
+    @Override
+    public EventType<SoSweetEvent> getType() {
+        return TYPE;
     }
 }

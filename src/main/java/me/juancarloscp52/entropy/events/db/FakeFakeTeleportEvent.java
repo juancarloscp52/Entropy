@@ -1,16 +1,13 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
-import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.events.EventType;
-import me.juancarloscp52.entropy.events.TypedEvent;
 import me.juancarloscp52.entropy.events.db.FakeTeleportEvent.TeleportInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.HashMap;
@@ -18,42 +15,43 @@ import java.util.Map;
 
 public class FakeFakeTeleportEvent extends AbstractInstantEvent {
     public static final StreamCodec<FriendlyByteBuf, FakeFakeTeleportEvent> STREAM_CODEC = StreamCodec.composite(
-        TypedEvent.STREAM_CODEC, e -> e.fakeTeleportEvent,
+        FakeTeleportEvent.STREAM_CODEC, e -> e.fakeTeleportEvent,
         FakeFakeTeleportEvent::new
     );
+    public static final EventType<FakeFakeTeleportEvent> TYPE = EventType.builder(FakeFakeTeleportEvent::new).streamCodec(STREAM_CODEC).build();
     private final Map<ServerPlayer,TeleportInfo> positionsBeforeFakeTeleport = new HashMap<>();
-    private final TypedEvent<FakeTeleportEvent> fakeTeleportEvent;
+    private final FakeTeleportEvent fakeTeleportEvent;
     private int ticksAfterSecondTeleport = 0;
 
     public FakeFakeTeleportEvent() {
-        this((TypedEvent<FakeTeleportEvent>) TypedEvent.fromEventType(EventRegistry.EVENTS.get(ResourceLocation.fromNamespaceAndPath("entropy", "fake_teleport")).get().value()));
+        this(FakeTeleportEvent.TYPE.create());
     }
 
-    public FakeFakeTeleportEvent(TypedEvent<?> fakeTeleportEvent) {
-        this.fakeTeleportEvent = (TypedEvent<FakeTeleportEvent>) fakeTeleportEvent;
+    public FakeFakeTeleportEvent(FakeTeleportEvent fakeTeleportEvent) {
+        this.fakeTeleportEvent = fakeTeleportEvent;
     }
 
     @Override
     public void init() {
-        fakeTeleportEvent.event().init();
+        fakeTeleportEvent.init();
     }
 
     @Override
     public void tick() {
-        if(!fakeTeleportEvent.event().teleportEvent().hasEnded())
-            fakeTeleportEvent.event().teleportEvent().tick();
-        else if(++fakeTeleportEvent.event().ticksAfterFirstTeleport == FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK) {
+        if(!fakeTeleportEvent.teleportEvent.hasEnded())
+            fakeTeleportEvent.teleportEvent.tick();
+        else if(++fakeTeleportEvent.ticksAfterFirstTeleport == FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK) {
             FakeTeleportEvent.savePositions(positionsBeforeFakeTeleport);
-            FakeTeleportEvent.loadPositions(fakeTeleportEvent.event().originalPositions);
+            FakeTeleportEvent.loadPositions(fakeTeleportEvent.originalPositions);
         }
-        else if(fakeTeleportEvent.event().ticksAfterFirstTeleport > FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK && ++ticksAfterSecondTeleport == FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK)
+        else if(fakeTeleportEvent.ticksAfterFirstTeleport > FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK && ++ticksAfterSecondTeleport == FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK)
             FakeTeleportEvent.loadPositions(positionsBeforeFakeTeleport);
     }
 
     @Override
     public void tickClient() {
-        if(!fakeTeleportEvent.event().hasEnded())
-            fakeTeleportEvent.event().tickClient();
+        if(!fakeTeleportEvent.hasEnded())
+            fakeTeleportEvent.tickClient();
         else
             ticksAfterSecondTeleport++;
     }
@@ -64,11 +62,16 @@ public class FakeFakeTeleportEvent extends AbstractInstantEvent {
         if(hasEnded())
             super.renderQueueItem(eventType, drawContext, tickdelta, x, y);
         else
-            fakeTeleportEvent.event().renderQueueItem(fakeTeleportEvent.type(), drawContext, tickdelta, x, y);
+            fakeTeleportEvent.renderQueueItem(fakeTeleportEvent.getType(), drawContext, tickdelta, x, y);
     }
 
     @Override
     public boolean hasEnded() {
-        return fakeTeleportEvent.event().hasEnded() && ticksAfterSecondTeleport > FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK;
+        return fakeTeleportEvent.hasEnded() && ticksAfterSecondTeleport > FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK;
+    }
+
+    @Override
+    public EventType<FakeFakeTeleportEvent> getType() {
+        return TYPE;
     }
 }

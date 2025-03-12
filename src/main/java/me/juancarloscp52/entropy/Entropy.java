@@ -20,9 +20,10 @@ package me.juancarloscp52.entropy;
 import com.google.gson.Gson;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
+import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.events.EventType;
-import me.juancarloscp52.entropy.events.TypedEvent;
+import me.juancarloscp52.entropy.events.db.StutteringEvent;
 import me.juancarloscp52.entropy.networking.ClientboundJoinConfirm;
 import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
 import me.juancarloscp52.entropy.networking.ClientboundRemoveEnded;
@@ -94,12 +95,12 @@ public class Entropy implements ModInitializer {
                     eventHandler.init(context.server());
                 }
 
-                List<TypedEvent<?>> currentEvents = eventHandler.currentEvents;
+                List<Event> currentEvents = eventHandler.currentEvents;
                 if (!currentEvents.isEmpty()) {
                     ClientboundJoinSync sync = new ClientboundJoinSync(currentEvents.stream().map(currentEvent -> new ClientboundJoinSync.EventData(
                         currentEvent,
-                        currentEvent.event().hasEnded(),
-                        currentEvent.event().getTickCount()
+                        currentEvent.hasEnded(),
+                        currentEvent.getTickCount()
                     )).toList());
                     ServerPlayNetworking.send(player, sync);
                 }
@@ -143,7 +144,7 @@ public class Entropy implements ModInitializer {
                             .executes(source -> {
                                 ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
-                                eventHandler.currentEvents.removeIf(typedEvent -> typedEvent.event().hasEnded());
+                                eventHandler.currentEvents.removeIf(Event::hasEnded);
                                 PlayerLookup.all(eventHandler.server).forEach(player -> ServerPlayNetworking.send(player, ClientboundRemoveEnded.INSTANCE));
                                 return 0;
                             }))
@@ -169,11 +170,11 @@ public class Entropy implements ModInitializer {
                                             ResourceLocation eventId = ResourceLocationArgument.getId(source, "event");
 
                                             // If running on integrated server, prevent running Stuttering event.
-                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals(ResourceLocation.fromNamespaceAndPath("entropy", "stuttering"))){
+                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals(EventRegistry.getEventId(StutteringEvent.TYPE))){
                                                 throw ERROR_INVALID_ON_CLIENT.create(eventId);
                                             }
 
-                                            if(eventHandler.runEvent(TypedEvent.fromEventType(EventRegistry.EVENTS.getValue(eventId))))
+                                            if(eventHandler.runEvent(EventRegistry.EVENTS.getValue(eventId).create()))
                                                 Entropy.LOGGER.warn("New event run via command: {}", eventId);
                                             else
                                                 throw ERROR_UNKNOWN_EVENT.create(eventId);

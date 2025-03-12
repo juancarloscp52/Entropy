@@ -6,11 +6,13 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.phys.AABB;
 
 public class RideClosestMobEvent extends AbstractInstantEvent {
+    public static final EventType<RideClosestMobEvent> TYPE = EventType.builder(RideClosestMobEvent::new).build();
 
     @Override
     public void init() {
@@ -25,4 +27,8 @@ public class RideClosestMobEvent extends AbstractInstantEvent {
         }
     }
 
+    @Override
+    public EventType<RideClosestMobEvent> getType() {
+        return TYPE;
+    }
 }

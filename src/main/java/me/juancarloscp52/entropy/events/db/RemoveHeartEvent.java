@@ -2,9 +2,12 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class RemoveHeartEvent extends AbstractInstantEvent {
+    public static final EventType<RemoveHeartEvent> TYPE = EventType.builder(RemoveHeartEvent::new).category(EventCategory.HEALTH).build();
 
     @Override
     public void init() {
@@ -17,4 +20,8 @@ public class RemoveHeartEvent extends AbstractInstantEvent {
         }
     }
 
+    @Override
+    public EventType<RemoveHeartEvent> getType() {
+        return TYPE;
+    }
 }

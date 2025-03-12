@@ -19,12 +19,18 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class HungryEvent extends AbstractInstantEvent {
+    public static final EventType<HungryEvent> TYPE = EventType.builder(HungryEvent::new).build();
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.getFoodData().setFoodLevel(0));
     }
 
+    @Override
+    public EventType<HungryEvent> getType() {
+        return TYPE;
+    }
 }

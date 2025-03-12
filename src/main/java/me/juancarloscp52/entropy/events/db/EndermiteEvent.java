@@ -6,10 +6,12 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 
 public class EndermiteEvent extends AbstractInstantEvent {
+    public static final EventType<EndermiteEvent> TYPE = EventType.builder(EndermiteEvent::new).build();
 
     @Override
     public void init() {
@@ -22,4 +24,8 @@ public class EndermiteEvent extends AbstractInstantEvent {
         );
     }
 
+    @Override
+    public EventType<EndermiteEvent> getType() {
+        return TYPE;
+    }
 }

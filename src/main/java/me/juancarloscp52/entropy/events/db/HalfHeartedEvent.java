@@ -19,12 +19,16 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class HalfHeartedEvent extends AbstractTimedEvent {
+    public static final EventType<HalfHeartedEvent> TYPE = EventType.builder(HalfHeartedEvent::new).category(EventCategory.HEALTH).build();
     private Map<ServerPlayer,Float> previousHealth = new HashMap<>();
 
     @Override
@@ -72,5 +76,10 @@ public class HalfHeartedEvent extends AbstractTimedEvent {
     @Override
     public short getDuration() {
         return (short) (super.getDuration() * 1.25);
+    }
+
+    @Override
+    public EventType<HalfHeartedEvent> getType() {
+        return TYPE;
     }
 }

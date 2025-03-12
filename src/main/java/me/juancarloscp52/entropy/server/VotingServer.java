@@ -21,7 +21,6 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.events.TypedEvent;
 import me.juancarloscp52.entropy.networking.ClientboundNewPoll;
 import me.juancarloscp52.entropy.networking.ClientboundPollStatus;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
@@ -34,7 +33,7 @@ import java.util.Random;
 
 public class VotingServer {
     private final int size = 4;
-    public List<TypedEvent<? extends Event>> events;
+    public List<Event> events;
     int[] totalVotes;
     int voteID = -1;
     int totalVoteCount = 0;
@@ -122,11 +121,11 @@ public class VotingServer {
         this.sendNewPoll();
     }
 
-    private List<TypedEvent<?>> getRandomEvents(int size) {
-        List<TypedEvent<?>> newEvents = new ArrayList<>();
-        List<TypedEvent<?>> currentEvents = new ArrayList<>(Entropy.getInstance().eventHandler.currentEvents);
+    private List<Event> getRandomEvents(int size) {
+        List<Event> newEvents = new ArrayList<>();
+        List<Event> currentEvents = new ArrayList<>(Entropy.getInstance().eventHandler.currentEvents);
         for (int i = 0; i < size; i++) {
-            TypedEvent<?> newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
+            Event newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
             if(newEvent != null)
                 newEvents.add(newEvent);
         }
@@ -146,7 +145,7 @@ public class VotingServer {
     public ClientboundNewPoll getNewPollPacket() {
         return new ClientboundNewPoll(voteID, events.isEmpty()
             ? List.of("No Event")
-            : events.stream().map(TypedEvent::type).map(EventRegistry::getTranslationKey).toList()
+            : events.stream().map(Event::getType).map(EventRegistry::getTranslationKey).toList()
         );
     }
 

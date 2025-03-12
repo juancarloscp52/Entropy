@@ -17,11 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class NoJumpEvent extends AbstractTimedEvent {
+    public static final EventType<NoJumpEvent> TYPE = EventType.builder(NoJumpEvent::new).category(EventCategory.JUMP).build();
 
     @Override
     public void initClient() {
@@ -32,5 +34,10 @@ public class NoJumpEvent extends AbstractTimedEvent {
     public void endClient() {
         Variables.noJump = false;
         super.endClient();
+    }
+
+    @Override
+    public EventType<NoJumpEvent> getType() {
+        return TYPE;
     }
 }

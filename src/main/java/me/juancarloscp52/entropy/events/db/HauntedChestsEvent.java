@@ -1,7 +1,7 @@
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -12,10 +12,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HauntedChestsEvent extends AbstractTimedEvent {
+    public static final EventType<HauntedChestsEvent> TYPE = EventType.builder(HauntedChestsEvent::new).build();
     private List<ChestBlockEntity> openedChests = new ArrayList<>();
 
     @Override
@@ -72,5 +74,10 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
             openedChests.clear();
             player.playSound(SoundEvents.CHEST_CLOSE, 1f, 1f);
         }
+    }
+
+    @Override
+    public EventType<HauntedChestsEvent> getType() {
+        return TYPE;
     }
 }

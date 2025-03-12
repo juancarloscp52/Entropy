@@ -18,12 +18,17 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractAttributeEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+
 import java.util.List;
 
 public class SpeedEvent extends AbstractAttributeEvent {
+    public static final EventType<SpeedEvent> TYPE = EventType.builder(SpeedEvent::new).category(EventCategory.SPEED).build();
+
     @Override
     public List<ActiveModifier> getModifiers() {
         return List.of(new ActiveModifier(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("entropy", "speed"), 1.25d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
@@ -32,5 +37,10 @@ public class SpeedEvent extends AbstractAttributeEvent {
     @Override
     public short getDuration() {
         return (short) (super.getDuration() * 1.75);
+    }
+
+    @Override
+    public EventType<SpeedEvent> getType() {
+        return TYPE;
     }
 }

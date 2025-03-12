@@ -17,11 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class CRTEvent extends AbstractTimedEvent {
+    public static final EventType<CRTEvent> TYPE = EventType.builder(CRTEvent::new).category(EventCategory.SHADER).build();
 
     @Override
     public void initClient() {
@@ -32,5 +34,10 @@ public class CRTEvent extends AbstractTimedEvent {
     public void endClient() {
         Variables.monitor = false;
         super.endClient();
+    }
+
+    @Override
+    public EventType<CRTEvent> getType() {
+        return TYPE;
     }
 }

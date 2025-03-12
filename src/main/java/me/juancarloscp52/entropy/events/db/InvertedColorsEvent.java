@@ -17,11 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class InvertedColorsEvent extends AbstractTimedEvent {
+    public static final EventType<InvertedColorsEvent> TYPE = EventType.builder(InvertedColorsEvent::new).category(EventCategory.SHADER).build();
 
     @Override
     public void initClient() {
@@ -32,5 +34,10 @@ public class InvertedColorsEvent extends AbstractTimedEvent {
     public void endClient() {
         Variables.invertedShader = false;
         super.endClient();
+    }
+
+    @Override
+    public EventType<InvertedColorsEvent> getType() {
+        return TYPE;
     }
 }

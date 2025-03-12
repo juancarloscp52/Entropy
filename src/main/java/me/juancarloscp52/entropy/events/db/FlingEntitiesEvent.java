@@ -3,6 +3,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,10 +13,13 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class FlingEntitiesEvent extends AbstractInstantEvent {
+    public static final EventType<FlingEntitiesEvent> TYPE = EventType.builder(FlingEntitiesEvent::new).build();
+
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
@@ -47,5 +51,10 @@ public class FlingEntitiesEvent extends AbstractInstantEvent {
         RandomSource random = entity.getRandom();
 
         entity.setDeltaMovement(random.nextIntBetweenInclusive(-10, 9) + random.nextDouble(), random.nextInt(3) + random.nextDouble(), random.nextIntBetweenInclusive(-10, 9) + random.nextDouble());
+    }
+
+    @Override
+    public EventType<FlingEntitiesEvent> getType() {
+        return TYPE;
     }
 }

@@ -6,11 +6,13 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Bee;
 
 public class AngryBeeEvent extends AbstractInstantEvent {
+    public static final EventType<AngryBeeEvent> TYPE = EventType.builder(AngryBeeEvent::new).build();
 
     @Override
     public void init() {
@@ -25,4 +27,8 @@ public class AngryBeeEvent extends AbstractInstantEvent {
         );
     }
 
+    @Override
+    public EventType<AngryBeeEvent> getType() {
+        return TYPE;
+    }
 }

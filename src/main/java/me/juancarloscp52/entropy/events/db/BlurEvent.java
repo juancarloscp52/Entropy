@@ -19,8 +19,11 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class BlurEvent extends AbstractTimedEvent {
+    public static final EventType<BlurEvent> TYPE = EventType.builder(BlurEvent::new).category(EventCategory.SHADER).build();
 
     @Override
     public void initClient() {
@@ -36,5 +39,10 @@ public class BlurEvent extends AbstractTimedEvent {
     @Override
     public short getDuration() {
         return (short) (super.getDuration()*1.5f);
+    }
+
+    @Override
+    public EventType<BlurEvent> getType() {
+        return TYPE;
     }
 }

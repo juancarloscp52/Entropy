@@ -19,13 +19,20 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
 public class NightVisionEvent extends AbstractInstantEvent {
+    public static final EventType<NightVisionEvent> TYPE = EventType.builder(NightVisionEvent::new).build();
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, (int) (Entropy.getInstance().settings.baseEventDuration*1.5))));
+    }
+
+    @Override
+    public EventType<NightVisionEvent> getType() {
+        return TYPE;
     }
 }

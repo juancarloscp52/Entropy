@@ -19,9 +19,11 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.level.GameType;
 
 public class AdventureEvent extends AbstractTimedEvent {
+    public static final EventType<AdventureEvent> TYPE = EventType.builder(AdventureEvent::new).build();
 
     @Override
     public void init() {
@@ -32,5 +34,10 @@ public class AdventureEvent extends AbstractTimedEvent {
     public void end() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.setGameMode(GameType.SURVIVAL));
         super.end();
+    }
+
+    @Override
+    public EventType<AdventureEvent> getType() {
+        return TYPE;
     }
 }

@@ -1,11 +1,14 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 
 public class ConstantInteractingEvent extends AbstractTimedEvent {
+    public static final EventType<ConstantInteractingEvent> TYPE = EventType.builder(ConstantInteractingEvent::new).category(EventCategory.USE).build();
     private boolean hasScreenOpen = false;
     private boolean hadScreenOpenLastTick = false;
     private int afterScreenClosedCooldown = 0;
@@ -38,5 +41,10 @@ public class ConstantInteractingEvent extends AbstractTimedEvent {
     public void endClient() {
         super.endClient();
         Minecraft.getInstance().options.keyUse.setDown(false);
+    }
+
+    @Override
+    public EventType<ConstantInteractingEvent> getType() {
+        return TYPE;
     }
 }

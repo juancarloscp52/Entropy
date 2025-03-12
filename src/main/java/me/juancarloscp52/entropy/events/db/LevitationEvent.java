@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
 public class LevitationEvent extends AbstractInstantEvent {
+    public static final EventType<LevitationEvent> TYPE = EventType.builder(LevitationEvent::new).build();
 
     @Override
     public void init() {
@@ -41,5 +43,10 @@ public class LevitationEvent extends AbstractInstantEvent {
             if(!serverPlayerEntity.getType().is(EntityTypeTags.DO_NOT_LEVITATE))
                 serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
         });
+    }
+
+    @Override
+    public EventType<LevitationEvent> getType() {
+        return TYPE;
     }
 }

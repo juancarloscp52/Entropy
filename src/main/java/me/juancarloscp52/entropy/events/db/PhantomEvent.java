@@ -19,6 +19,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.Direction;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Phantom;
 
 public class PhantomEvent extends AbstractInstantEvent {
+    public static final EventType<PhantomEvent> TYPE = EventType.builder(PhantomEvent::new).build();
 
     @Override
     public void init() {
@@ -37,5 +39,10 @@ public class PhantomEvent extends AbstractInstantEvent {
                     phantom.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,460));
             }
         });
+    }
+
+    @Override
+    public EventType<PhantomEvent> getType() {
+        return TYPE;
     }
 }

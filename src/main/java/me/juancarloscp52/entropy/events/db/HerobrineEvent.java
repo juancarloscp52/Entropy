@@ -28,13 +28,13 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.CoreShaders;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -46,10 +46,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+
 import java.util.Random;
 
 public class HerobrineEvent extends AbstractTimedEvent {
 
+    public static final EventType<HerobrineEvent> TYPE = EventType.builder(HerobrineEvent::new).build();
     private static final ResourceLocation VIGNETTE_TEXTURE = ResourceLocation.fromNamespaceAndPath("entropy", "textures/vignette.png");
     Random random;
     Minecraft client;
@@ -169,4 +171,8 @@ public class HerobrineEvent extends AbstractTimedEvent {
         RenderSystem.defaultBlendFunc();
     }
 
+    @Override
+    public EventType<HerobrineEvent> getType() {
+        return TYPE;
+    }
 }

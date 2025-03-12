@@ -9,6 +9,7 @@ import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
@@ -34,6 +35,7 @@ import net.minecraft.world.phys.AABB;
 import java.util.ArrayList;
 
 public class MidasTouchEvent extends AbstractTimedEvent {
+    public static final EventType<MidasTouchEvent> TYPE = EventType.builder(MidasTouchEvent::new).build();
 
     @Override
     public void tick() {
@@ -202,4 +204,8 @@ public class MidasTouchEvent extends AbstractTimedEvent {
         return (short) (super.getDuration() * .2);
     }
 
+    @Override
+    public EventType<MidasTouchEvent> getType() {
+        return TYPE;
+    }
 }

@@ -20,12 +20,15 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
 public class SkyEvent extends AbstractInstantEvent {
+    public static final EventType<SkyEvent> TYPE = EventType.builder(SkyEvent::new).category(EventCategory.HEALTH).build();
 
     @Override
     public void init() {
@@ -56,5 +59,10 @@ public class SkyEvent extends AbstractInstantEvent {
             EntropyUtils.teleportPlayer(serverPlayerEntity, Vec3.atBottomCenterOf(pos.above(2)));
 
         });
+    }
+
+    @Override
+    public EventType<SkyEvent> getType() {
+        return TYPE;
     }
 }
