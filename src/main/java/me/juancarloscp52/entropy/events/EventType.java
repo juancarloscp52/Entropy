@@ -17,7 +17,11 @@ public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamC
     }
 
     public boolean doesWorldHaveRequiredFeatures(Level world) {
-        return requiredFeatures().isSubsetOf(world.enabledFeatures());
+        return hasRequiredFeatures(world.enabledFeatures());
+    }
+
+    public boolean hasRequiredFeatures(FeatureFlagSet set) {
+        return requiredFeatures().isSubsetOf(set);
     }
 
     public T create() {

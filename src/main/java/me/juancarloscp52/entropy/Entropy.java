@@ -43,12 +43,12 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
-import net.minecraft.commands.arguments.ResourceLocationArgument;
+import net.minecraft.commands.arguments.ResourceArgument;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
@@ -59,9 +59,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Entropy implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -149,35 +146,30 @@ public class Entropy implements ModInitializer {
                                 return 0;
                             }))
                     .then(Commands.literal("run")
-                            .then(Commands.argument("event", ResourceLocationArgument.id())
-                                    .suggests((context, builder) -> {
-                                        Stream<Map.Entry<ResourceKey<EventType<?>>, EventType<?>>> events =
-                                            EventRegistry.EVENTS
-                                                .entrySet()
-                                                .stream()
-                                                .filter(e -> e.getValue().doesWorldHaveRequiredFeatures(context.getSource().getLevel()));
-
-                                        return SharedSuggestionProvider.suggestResource(
-                                            events.map(Map.Entry::getKey)
-                                                .map(ResourceKey::location)
-                                                .collect(Collectors.toSet()),
-                                            builder);
-                                    })
+                            .then(Commands.argument("event", ResourceArgument.resource(registryAccess, EventRegistry.REGISTRY_KEY))
+                                    .suggests((context, builder) ->
+                                            SharedSuggestionProvider.suggestResource(
+                                                EventRegistry.EVENTS.stream().filter(type -> type.hasRequiredFeatures(context.getSource().enabledFeatures())),
+                                                builder,
+                                                type -> EventRegistry.getEventId(type).location(),
+                                                type -> Component.translatable(type.getLanguageKey())
+                                            )
+                                    )
                                     .executes(source -> {
                                         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
                                         if(eventHandler != null) {
-                                            ResourceLocation eventId = ResourceLocationArgument.getId(source, "event");
+                                            Holder.Reference<EventType<?>> event = ResourceArgument.getResource(source, "event", EventRegistry.REGISTRY_KEY);
 
                                             // If running on integrated server, prevent running Stuttering event.
-                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals(EventRegistry.getEventId(StutteringEvent.TYPE))){
-                                                throw ERROR_INVALID_ON_CLIENT.create(eventId);
+                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && event.value().equals(StutteringEvent.TYPE)){
+                                                throw ERROR_INVALID_ON_CLIENT.create(event.getRegisteredName());
                                             }
 
-                                            if(eventHandler.runEvent(EventRegistry.EVENTS.get(eventId).orElse(null)))
-                                                Entropy.LOGGER.warn("New event run via command: {}", eventId);
+                                            if(eventHandler.runEvent(event))
+                                                Entropy.LOGGER.warn("New event run via command: {}", event.getRegisteredName());
                                             else
-                                                throw ERROR_UNKNOWN_EVENT.create(eventId);
+                                                throw ERROR_UNKNOWN_EVENT.create(event.getRegisteredName());
                                         }
 
                                         return 0;
