@@ -8,6 +8,10 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.Level;
 
 public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamCodec<RegistryFriendlyByteBuf, T> streamCodec, FeatureFlagSet requiredFeatures, boolean disabledByAccessibilityMode, EventCategory category) {
+    public String getLanguageKey() {
+        return "events." + EventRegistry.getEventId(this).location().toLanguageKey();
+    }
+
     public boolean isEnabled() {
         return !(Entropy.getInstance().settings.accessibilityMode && disabledByAccessibilityMode());
     }

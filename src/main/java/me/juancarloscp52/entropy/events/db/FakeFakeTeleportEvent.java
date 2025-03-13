@@ -1,6 +1,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.events.db.FakeTeleportEvent.TeleportInfo;
 import net.fabricmc.api.EnvType;
@@ -58,11 +59,16 @@ public class FakeFakeTeleportEvent extends AbstractInstantEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(EventType<?> eventType, GuiGraphics drawContext, float tickdelta, int x, int y) {
+    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
         if(hasEnded())
-            super.renderQueueItem(eventType, drawContext, tickdelta, x, y);
+            super.renderQueueItem(drawContext, tickdelta, x, y);
         else
-            fakeTeleportEvent.renderQueueItem(fakeTeleportEvent.getType(), drawContext, tickdelta, x, y);
+            fakeTeleportEvent.renderQueueItem(drawContext, tickdelta, x, y);
+    }
+
+    @Override
+    public EventType<? extends Event> getDisplayedType() {
+        return hasEnded() ? getType() : fakeTeleportEvent.getDisplayedType();
     }
 
     @Override

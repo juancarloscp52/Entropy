@@ -71,11 +71,16 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(EventType<?> eventType, GuiGraphics drawContext, float tickdelta, int x, int y) {
+    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
         if(hasEnded())
-            super.renderQueueItem(eventType, drawContext, tickdelta, x, y);
+            super.renderQueueItem(drawContext, tickdelta, x, y);
         else
-            teleportEvent.renderQueueItem(teleportEvent.getType(), drawContext, tickdelta, x, y);
+            teleportEvent.renderQueueItem(drawContext, tickdelta, x, y);
+    }
+
+    @Override
+    public EventType<? extends Event> getDisplayedType() {
+        return hasEnded() ? getType() : teleportEvent.getDisplayedType();
     }
 
     @Override

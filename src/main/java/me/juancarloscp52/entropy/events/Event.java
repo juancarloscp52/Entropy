@@ -59,7 +59,11 @@ public interface Event {
     }
 
     @Environment(EnvType.CLIENT)
-    void renderQueueItem(EventType<?> eventType, GuiGraphics drawContext, float tickdelta, int x, int y);
+    void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y);
+
+    default EventType<? extends Event> getDisplayedType() {
+        return getType();
+    }
 
     void tick();
 

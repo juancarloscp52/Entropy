@@ -147,7 +147,7 @@ public class VotingServer {
     public ClientboundNewPoll getNewPollPacket() {
         return new ClientboundNewPoll(voteID, events.isEmpty()
             ? List.of("No Event")
-            : events.stream().map(Holder::value).map(EventRegistry::getTranslationKey).toList()
+            : events.stream().map(Holder::value).map(EventType::getLanguageKey).toList()
         );
     }
 

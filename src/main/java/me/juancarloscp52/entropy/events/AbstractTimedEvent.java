@@ -41,15 +41,16 @@ public abstract class AbstractTimedEvent implements Event {
     private boolean hasEnded = false;
 
     @Environment(EnvType.CLIENT)
-    public void renderQueueItem(EventType<?> eventType, GuiGraphics drawContext, float tickdelta, int x, int y) {
+    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
         if(Variables.doNotShowEvents && !(this instanceof HideEventsEvent))
             return;
         if(Variables.doNotShowEvents)
             y=20;
         Minecraft client = Minecraft.getInstance();
-        MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(eventType));
+        EventType<? extends Event> displayedType = getDisplayedType();
+        MutableComponent eventName = Component.translatable(displayedType.getLanguageKey());
 
-        if(!eventType.isEnabled())
+        if(!displayedType.isEnabled())
             eventName.withStyle(ChatFormatting.STRIKETHROUGH);
 
         int size = client.font.width(eventName);

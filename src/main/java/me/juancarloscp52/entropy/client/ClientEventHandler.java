@@ -114,7 +114,7 @@ public class ClientEventHandler {
         for (int i = 0; i < currentEvents.size(); i++) {
             Event event = currentEvents.get(i);
 
-            event.renderQueueItem(event.getType(), drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, 20 + (i * 13));
+            event.renderQueueItem(drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, 20 + (i * 13));
         }
 
         // Render Poll...

@@ -61,7 +61,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
     public void addAllFromRegistry() {
         EventRegistry.EVENTS
             .listElements()
-            .map(typeReference -> new EventInfo(Component.translatable(EventRegistry.getTranslationKey(typeReference.value())).getString(), typeReference))
+            .map(typeReference -> new EventInfo(Component.translatable(typeReference.value().getLanguageKey()).getString(), typeReference))
             .sorted(Comparator.comparing(EventInfo::name))
             .forEach(this::addEvent);
     }
@@ -183,7 +183,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
             EventType<?> type = typeReference.value();
             boolean isEnabled = type.isEnabled();
             boolean enableCheckbox = !isEventDisabledInSettings(typeReference) && isEnabled;
-            final Checkbox checkbox = Checkbox.builder(Component.translatable(EventRegistry.getTranslationKey(type)), textRenderer).pos(0, 0).selected(enableCheckbox).onValueChange(isEnabled ? ButtonEntry::onDisabledCheckboxPressed : Checkbox.OnValueChange.NOP).build();
+            final Checkbox checkbox = Checkbox.builder(Component.translatable(type.getLanguageKey()), textRenderer).pos(0, 0).selected(enableCheckbox).onValueChange(isEnabled ? ButtonEntry::onDisabledCheckboxPressed : Checkbox.OnValueChange.NOP).build();
             if (!isEnabled)
                 checkbox.setTooltip(ACCESSIBILITY_TOOLTIP);
 

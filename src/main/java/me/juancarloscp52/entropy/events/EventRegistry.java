@@ -263,12 +263,4 @@ public class EventRegistry {
     public static ResourceKey<EventType<?>> getEventId(EventType<?> eventType) {
         return EVENTS.getResourceKey(eventType).get();
     }
-
-    public static String getTranslationKey(EventType<?> eventType) {
-        return getTranslationKey(getEventId(eventType).location());
-    }
-
-    public static String getTranslationKey(ResourceLocation eventId) {
-        return "events." + eventId.toLanguageKey();
-    }
 }
