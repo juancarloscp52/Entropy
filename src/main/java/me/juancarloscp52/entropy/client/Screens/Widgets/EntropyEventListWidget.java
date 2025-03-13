@@ -184,10 +184,10 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         public static EntropyEventListWidget.ButtonEntry create(EventInfo eventInfo, Font textRenderer) {
             EntropySettings settings = Entropy.getInstance().settings;
             ResourceLocation eventID = eventInfo.id;
-            boolean isDisabledByAccessibilityMode = eventInfo.type.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode;
-            boolean enableCheckbox = !settings.disabledEventTypes.contains(eventID) && !isDisabledByAccessibilityMode;
-            final Checkbox checkbox = Checkbox.builder(Component.translatable(EventRegistry.getTranslationKey(eventID)), textRenderer).pos(0, 0).selected(enableCheckbox).onValueChange(isDisabledByAccessibilityMode ? ButtonEntry::onDisabledCheckboxPressed : Checkbox.OnValueChange.NOP).build();
-            if (isDisabledByAccessibilityMode)
+            boolean isEnabled = eventInfo.type.isEnabled();
+            boolean enableCheckbox = !settings.disabledEventTypes.contains(eventID) && isEnabled;
+            final Checkbox checkbox = Checkbox.builder(Component.translatable(EventRegistry.getTranslationKey(eventID)), textRenderer).pos(0, 0).selected(enableCheckbox).onValueChange(isEnabled ? ButtonEntry::onDisabledCheckboxPressed : Checkbox.OnValueChange.NOP).build();
+            if (!isEnabled)
                 checkbox.setTooltip(ACCESSIBILITY_TOOLTIP);
 
             return new EntropyEventListWidget.ButtonEntry(eventInfo, checkbox);
@@ -203,7 +203,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
             checkbox.setPosition(x + 32, y);
             checkbox.render(drawContext, mouseX, mouseY, tickDelta);
 
-            if(Entropy.getInstance().settings.accessibilityMode && eventInfo.type.disabledByAccessibilityMode()) {
+            if(!eventInfo.type.isEnabled()) {
                 drawContext.blitSprite(RenderType::guiTextured, ICON_OVERLAY_LOCATION, x, y - 6, 32, 32);
 
                 if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight)

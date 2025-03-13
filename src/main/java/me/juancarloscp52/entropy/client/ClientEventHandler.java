@@ -129,7 +129,7 @@ public class ClientEventHandler {
     }
 
     public void addEvent(Event event) {
-        if(!client.player.isSpectator() && !(event.getType().disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
+        if(!client.player.isSpectator() && event.getType().isEnabled())
             event.initClient();
         currentEvents.add(event);
     }

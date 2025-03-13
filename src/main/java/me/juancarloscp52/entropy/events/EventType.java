@@ -1,11 +1,21 @@
 package me.juancarloscp52.entropy.events;
 
+import me.juancarloscp52.entropy.Entropy;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.level.Level;
 
 public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamCodec<RegistryFriendlyByteBuf, T> streamCodec, FeatureFlagSet requiredFeatures, boolean disabledByAccessibilityMode, EventCategory category) {
+    public boolean isEnabled() {
+        return !(Entropy.getInstance().settings.accessibilityMode && disabledByAccessibilityMode());
+    }
+
+    public boolean doesWorldHaveRequiredFeatures(Level world) {
+        return requiredFeatures().isSubsetOf(world.enabledFeatures());
+    }
+
     public T create() {
         return eventSupplier().create();
     }

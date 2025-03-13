@@ -235,8 +235,8 @@ public class EventRegistry {
 
         Level overworld = Entropy.getInstance().eventHandler.server.overworld();
         eventCandidates.forEach((eventId, type) -> {
-            if (!EventRegistry.doesWorldHaveRequiredFeatures(type, overworld)
-                || Entropy.getInstance().settings.accessibilityMode && type.disabledByAccessibilityMode()
+            if (!type.doesWorldHaveRequiredFeatures(overworld)
+                || !type.isEnabled()
                 || ignoredEventCategories.contains(type.category())) {
                 eventsToRemove.add(eventId);
             }
@@ -271,9 +271,5 @@ public class EventRegistry {
 
     public static String getTranslationKey(ResourceLocation eventId) {
         return "events." + eventId.toLanguageKey();
-    }
-
-    public static boolean doesWorldHaveRequiredFeatures(EventType<?> eventType, Level world) {
-        return eventType.requiredFeatures().isSubsetOf(world.enabledFeatures());
     }
 }

@@ -155,7 +155,7 @@ public class Entropy implements ModInitializer {
                                             EventRegistry.EVENTS
                                                 .entrySet()
                                                 .stream()
-                                                .filter(e -> EventRegistry.doesWorldHaveRequiredFeatures(e.getValue(), context.getSource().getLevel()));
+                                                .filter(e -> e.getValue().doesWorldHaveRequiredFeatures(context.getSource().getLevel()));
 
                                         return SharedSuggestionProvider.suggestResource(
                                             events.map(Map.Entry::getKey)

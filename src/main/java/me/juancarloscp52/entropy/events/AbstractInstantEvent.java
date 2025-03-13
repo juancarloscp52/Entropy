@@ -17,7 +17,6 @@
 
 package me.juancarloscp52.entropy.events;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -45,7 +44,7 @@ public abstract class AbstractInstantEvent implements Event {
         Minecraft client = Minecraft.getInstance();
         MutableComponent eventName = Component.translatable(EventRegistry.getTranslationKey(eventType));
 
-        if(eventType.disabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode)
+        if(!eventType.isEnabled())
             eventName.withStyle(ChatFormatting.STRIKETHROUGH);
 
         int size = client.font.width(eventName);
