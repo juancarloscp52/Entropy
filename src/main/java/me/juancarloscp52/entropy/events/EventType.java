@@ -3,6 +3,7 @@ package me.juancarloscp52.entropy.events;
 import me.juancarloscp52.entropy.Entropy;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.flag.FeatureFlag;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.Level;
@@ -48,8 +49,8 @@ public record EventType<T extends Event>(EventSupplier<T> eventSupplier, StreamC
             return this;
         }
 
-        public Builder<T> requiredFeatures(FeatureFlagSet requiredFeatures) {
-            this.requiredFeatures = requiredFeatures;
+        public Builder<T> requiredFeatures(FeatureFlag... requiredFeatures) {
+            this.requiredFeatures = FeatureFlags.REGISTRY.subset(requiredFeatures);
             return this;
         }
 
