@@ -21,10 +21,12 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.networking.ClientboundNewPoll;
 import me.juancarloscp52.entropy.networking.ClientboundPollStatus;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ import java.util.Random;
 
 public class VotingServer {
     private final int size = 4;
-    public List<Event> events;
+    public List<Holder.Reference<EventType<?>>> events;
     int[] totalVotes;
     int voteID = -1;
     int totalVoteCount = 0;
@@ -121,11 +123,11 @@ public class VotingServer {
         this.sendNewPoll();
     }
 
-    private List<Event> getRandomEvents(int size) {
-        List<Event> newEvents = new ArrayList<>();
+    private List<Holder.Reference<EventType<?>>> getRandomEvents(int size) {
+        List<Holder.Reference<EventType<?>>> newEvents = new ArrayList<>();
         List<Event> currentEvents = new ArrayList<>(Entropy.getInstance().eventHandler.currentEvents);
         for (int i = 0; i < size; i++) {
-            Event newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
+            Holder.Reference<EventType<?>> newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
             if(newEvent != null)
                 newEvents.add(newEvent);
         }
@@ -145,7 +147,7 @@ public class VotingServer {
     public ClientboundNewPoll getNewPollPacket() {
         return new ClientboundNewPoll(voteID, events.isEmpty()
             ? List.of("No Event")
-            : events.stream().map(Event::getType).map(EventRegistry::getTranslationKey).toList()
+            : events.stream().map(Holder::value).map(EventRegistry::getTranslationKey).toList()
         );
     }
 

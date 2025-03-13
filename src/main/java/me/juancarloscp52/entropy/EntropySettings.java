@@ -17,8 +17,9 @@
 
 package me.juancarloscp52.entropy;
 
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,6 @@ public class EntropySettings {
     public boolean integrations = false;
     public VotingMode votingMode = VotingMode.PROPORTIONAL;
     public UIStyle UIstyle = UIStyle.GTAV;
-    public List<ResourceLocation> disabledEventTypes = new ArrayList<>();
+    public List<ResourceKey<EventType<?>>> disabledEventTypes = new ArrayList<>();
     public boolean accessibilityMode = false;
 }

@@ -98,7 +98,7 @@ public class EntropyEventConfigurationScreen extends Screen {
         settings.disabledEventTypes = new ArrayList<>();
         this.list.children().forEach(buttonEntry -> {
             if (!buttonEntry.checkbox.selected())
-                settings.disabledEventTypes.add(buttonEntry.eventInfo.id());
+                settings.disabledEventTypes.add(buttonEntry.eventInfo.typeReference().key());
         });
         Entropy.getInstance().saveSettings();
         onClose();

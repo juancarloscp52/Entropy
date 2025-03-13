@@ -23,6 +23,7 @@ import me.juancarloscp52.entropy.events.db.*;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.core.Holder;
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.WritableRegistry;
@@ -33,10 +34,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -219,54 +218,54 @@ public class EventRegistry {
         Registry.register(registry, ResourceLocation.fromNamespaceAndPath("entropy", id), type);
     }
 
-    public static Event getRandomDifferentEvent(List<Event> currentEvents){
+    public static Holder.Reference<EventType<?>> getRandomDifferentEvent(List<Event> currentEvents) {
 
-        Map<ResourceLocation, EventType<?>> eventCandidates = EVENTS.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().location(), Map.Entry::getValue));
-        Set<ResourceLocation> eventsToRemove = new HashSet<>(Entropy.getInstance().settings.disabledEventTypes);
+        List<Holder.Reference<EventType<?>>> eventCandidates = EVENTS.listElements().collect(Collectors.toList());
+        Set<ResourceKey<EventType<?>>> eventsToRemove = new HashSet<>(Entropy.getInstance().settings.disabledEventTypes);
         Set<EventCategory> ignoredEventCategories = new HashSet<>();
 
         currentEvents.forEach(event -> {
             EventType<?> type = event.getType();
-            eventsToRemove.add(EVENTS.getKey(type));
+            eventsToRemove.add(getEventId(type));
 
-            if(event.getTickCount()>0 && !event.hasEnded() && type.category() != EventCategory.NONE)
+            if (event.getTickCount() > 0 && !event.hasEnded() && type.category() != EventCategory.NONE)
                 ignoredEventCategories.add(type.category());
         });
 
         Level overworld = Entropy.getInstance().eventHandler.server.overworld();
-        eventCandidates.forEach((eventId, type) -> {
+        eventCandidates.forEach(typeReference -> {
+            EventType<?> type = typeReference.value();
             if (!type.doesWorldHaveRequiredFeatures(overworld)
                 || !type.isEnabled()
                 || ignoredEventCategories.contains(type.category())) {
-                eventsToRemove.add(eventId);
+                eventsToRemove.add(typeReference.key());
             }
         });
 
         //Only enable the stuttering event on a dedicated server, because otherwise worldgen will be all wrong.
         //The MathHelper mixin turning off linear interpolation is only applied on the client, but if this is a singleplayer environment,
         //the integrated server has the modified MathHelper, too, causing incorrect worldgen.
-        if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
+        if (FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
             eventsToRemove.add(getEventId(StutteringEvent.TYPE));
 
-        eventsToRemove.forEach(eventCandidates::remove);
-        return getRandomEvent(new ArrayList<>(eventCandidates.values()));
+        Set<ResourceLocation> ids = eventsToRemove.stream().map(ResourceKey::location).collect(Collectors.toSet());
+        eventCandidates.removeIf(candidate -> ids.contains(candidate.key().location()));
+        return getRandomEvent(eventCandidates);
     }
 
-    private static Event getRandomEvent(List<EventType<?>> eventTypes) {
+    private static Holder.Reference<EventType<?>> getRandomEvent(List<Holder.Reference<EventType<?>>> eventTypes) {
         if(eventTypes.isEmpty())
             return null;
 
-        int index = random.nextInt(eventTypes.size());
-        EventType<?> newEventType = eventTypes.get(index);
-        return newEventType.create();
+        return eventTypes.get(random.nextInt(eventTypes.size()));
     }
 
-    public static ResourceLocation getEventId(EventType<?> eventType) {
-        return EVENTS.getKey(eventType);
+    public static ResourceKey<EventType<?>> getEventId(EventType<?> eventType) {
+        return EVENTS.getResourceKey(eventType).get();
     }
 
     public static String getTranslationKey(EventType<?> eventType) {
-        return getTranslationKey(getEventId(eventType));
+        return getTranslationKey(getEventId(eventType).location());
     }
 
     public static String getTranslationKey(ResourceLocation eventId) {
