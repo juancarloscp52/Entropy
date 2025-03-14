@@ -6,10 +6,12 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Slime;
 
 public class SlimePyramidEvent extends AbstractInstantEvent {
+    public static final EventType<SlimePyramidEvent> TYPE = EventType.builder(SlimePyramidEvent::new).build();
 
     @Override
     public void init() {
@@ -40,5 +42,10 @@ public class SlimePyramidEvent extends AbstractInstantEvent {
                 slime = slime2;
             }
         }
+    }
+
+    @Override
+    public EventType<SlimePyramidEvent> getType() {
+        return TYPE;
     }
 }

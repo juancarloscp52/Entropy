@@ -22,13 +22,16 @@ import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.networking.ClientboundAddEvent;
 import me.juancarloscp52.entropy.networking.ClientboundRemoveFirst;
 import me.juancarloscp52.entropy.networking.ClientboundTick;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.core.Holder;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,7 +83,7 @@ public class ServerEventHandler {
 
             if (!noNewEvents) {
                 // Get next Event from chat votes (if enabled) or randomly
-                Event event;
+                Holder.Reference<EventType<?>> event;
                 if (settings.integrations) {
                     if (voting.events.isEmpty()) {
                         Entropy.LOGGER.info("[Chat Integrations] No random event available");
@@ -88,13 +91,13 @@ public class ServerEventHandler {
                     }else{
                         int winner = voting.getWinner();
                         if (winner == -1 || winner == 3)    // -1 - no winner, 3 - Random Event : Get Random Event.
-                            event = getRandomEvent(currentEvents);
+                            event = EventRegistry.getRandomDifferentEvent(currentEvents);
                         else    // Get winner
                             event = voting.events.get(winner);
-                        Entropy.LOGGER.info("[Chat Integrations] Winner event: " + EventRegistry.getTranslationKey(event));
+                        Entropy.LOGGER.info("[Chat Integrations] Winner event: {}", event.key().location());
                     }
                 } else
-                    event = getRandomEvent(currentEvents);
+                    event = EventRegistry.getRandomDifferentEvent(currentEvents);
 
                 runEvent(event);
                 if (settings.integrations)
@@ -102,10 +105,6 @@ public class ServerEventHandler {
 
                 // Reset timer.
                 resetTimer();
-                if(event != null)
-                    Entropy.LOGGER.info("New Event: " + EventRegistry.getTranslationKey(event) + " total duration: " + event.getDuration());
-                else
-                    Entropy.LOGGER.info("New Event not found");
             }
         }
 
@@ -124,29 +123,28 @@ public class ServerEventHandler {
         eventCountDown--;
     }
 
-    public boolean runEvent(Event event) {
-        if(event != null && EventRegistry.doesWorldHaveRequiredFeatures(EventRegistry.getEventId(event), server.overworld())) {
-            // Start the event and add it to the list.
-            event.init();
-            currentEvents.add(event);
+    public boolean runEvent(Holder.Reference<EventType<?>> typeReference) {
+        if (typeReference != null) {
+            EventType<?> type = typeReference.value();
+            if (type.doesWorldHaveRequiredFeatures(server.overworld())) {
+                Event event = type.create();
+                Entropy.LOGGER.info("New Event: {} total duration: {}", typeReference.key().location(), event.getDuration());
+                // Start the event and add it to the list.
+                event.init();
+                currentEvents.add(event);
 
-            sendEventToPlayers(event);
-            return true;
+                sendEventToPlayers(event);
+                return true;
+            }
         }
 
+        Entropy.LOGGER.info("New Event not found");
         return false;
     }
 
     private void sendEventToPlayers(Event event) {
-        String eventName = EventRegistry.getEventId(event);
         PlayerLookup.all(server).forEach(serverPlayerEntity ->
-                ServerPlayNetworking.send(serverPlayerEntity, new ClientboundAddEvent(eventName, event.getExtraData())));
-    }
-
-    private Event getRandomEvent(List<Event> eventArray) {
-        //return EventRegistry.get("ExplosivePickaxeEvent");
-        //return EventRegistry.getNextEventOrdered();
-        return EventRegistry.getRandomDifferentEvent(eventArray);
+                ServerPlayNetworking.send(serverPlayerEntity, new ClientboundAddEvent(event)));
     }
 
     public void endChaos() {

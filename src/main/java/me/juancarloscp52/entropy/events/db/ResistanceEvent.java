@@ -19,13 +19,20 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
 public class ResistanceEvent extends AbstractInstantEvent {
+    public static final EventType<ResistanceEvent> TYPE = EventType.builder(ResistanceEvent::new).build();
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, (int) (Entropy.getInstance().settings.baseEventDuration*1.75),3)));
+    }
+
+    @Override
+    public EventType<ResistanceEvent> getType() {
+        return TYPE;
     }
 }

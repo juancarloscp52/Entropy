@@ -18,15 +18,19 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+
 import java.util.Random;
 
 public class DVDEvent extends AbstractTimedEvent {
 
+    public static final EventType<DVDEvent> TYPE = EventType.builder(DVDEvent::new).category(EventCategory.SCREEN_ASPECT).build();
     double x = 0;
     double y = 0;
     double velX = 0;
@@ -71,11 +75,6 @@ public class DVDEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "DVD";
-    }
-
-    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 0.75d);
     }
@@ -100,4 +99,8 @@ public class DVDEvent extends AbstractTimedEvent {
         return random.nextDouble() * 8 + 2d;
     }
 
+    @Override
+    public EventType<DVDEvent> getType() {
+        return TYPE;
+    }
 }

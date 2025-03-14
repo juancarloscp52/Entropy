@@ -17,11 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class UltraFovEvent extends AbstractTimedEvent {
+    public static final EventType<UltraFovEvent> TYPE = EventType.builder(UltraFovEvent::new).category(EventCategory.FOV).build();
 
     @Override
     public void initClient() {
@@ -39,7 +41,7 @@ public class UltraFovEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "fov";
+    public EventType<UltraFovEvent> getType() {
+        return TYPE;
     }
 }

@@ -2,14 +2,16 @@ package me.juancarloscp52.entropy.events.db;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.InputConstants.Key;
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 
 public class NoAttackingEvent extends AbstractTimedEvent {
+    public static final EventType<NoAttackingEvent> TYPE = EventType.builder(NoAttackingEvent::new).category(EventCategory.ATTACK).build();
     private Key boundAttackKey;
 
     @Override
@@ -32,7 +34,7 @@ public class NoAttackingEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "attack";
+    public EventType<NoAttackingEvent> getType() {
+        return TYPE;
     }
 }

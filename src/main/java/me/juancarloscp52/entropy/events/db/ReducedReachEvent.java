@@ -17,14 +17,17 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractAttributeEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+
 import java.util.List;
 
 public class ReducedReachEvent extends AbstractAttributeEvent {
+    public static final EventType<ReducedReachEvent> TYPE = EventType.builder(ReducedReachEvent::new).build();
+
     @Override
     protected List<ActiveModifier> getModifiers() {
         return List.of(
@@ -33,4 +36,8 @@ public class ReducedReachEvent extends AbstractAttributeEvent {
         );
     }
 
+    @Override
+    public EventType<ReducedReachEvent> getType() {
+        return TYPE;
+    }
 }

@@ -2,13 +2,16 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+
 import java.util.HashMap;
 
 public class InfestationEvent extends AbstractInstantEvent {
 
+    public static final EventType<InfestationEvent> TYPE = EventType.builder(InfestationEvent::new).build();
     private static HashMap<Block, Block> _blockConvertion = new HashMap<Block, Block>() {
         {
             put(Blocks.CHISELED_STONE_BRICKS, Blocks.INFESTED_CHISELED_STONE_BRICKS);
@@ -43,4 +46,8 @@ public class InfestationEvent extends AbstractInstantEvent {
         }
     }
 
+    @Override
+    public EventType<InfestationEvent> getType() {
+        return TYPE;
+    }
 }

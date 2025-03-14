@@ -2,12 +2,15 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Rabbit.Variant;
 
 public class SpawnKillerBunnyEvent extends AbstractInstantEvent {
+    public static final EventType<SpawnKillerBunnyEvent> TYPE = EventType.builder(SpawnKillerBunnyEvent::new).build();
+
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
@@ -18,5 +21,10 @@ public class SpawnKillerBunnyEvent extends AbstractInstantEvent {
                 EntityType.RABBIT.spawn(player.serverLevel(), rabbit -> rabbit.setVariant(Variant.EVIL), player.blockPosition().offset(random.nextIntBetweenInclusive(-4, 4), random.nextInt(2), random.nextIntBetweenInclusive(-4, 4)), EntitySpawnReason.EVENT, false, false);
             }
         });
+    }
+
+    @Override
+    public EventType<SpawnKillerBunnyEvent> getType() {
+        return TYPE;
     }
 }

@@ -1,10 +1,11 @@
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class OnePunchEvent extends AbstractTimedEvent {
+    public static final EventType<OnePunchEvent> TYPE = EventType.builder(OnePunchEvent::new).build();
 
     @Override
     public void init() {
@@ -17,5 +18,10 @@ public class OnePunchEvent extends AbstractTimedEvent {
         Variables.shouldLaunchEntity--;
         Variables.isOnePunchActivated--;
         super.end();
+    }
+
+    @Override
+    public EventType<OnePunchEvent> getType() {
+        return TYPE;
     }
 }

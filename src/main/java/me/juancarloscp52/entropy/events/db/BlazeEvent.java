@@ -6,6 +6,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Blaze;
 
 public class BlazeEvent extends AbstractInstantEvent {
+    public static final EventType<BlazeEvent> TYPE = EventType.builder(BlazeEvent::new).build();
 
     @Override
     public void init() {
@@ -25,4 +27,8 @@ public class BlazeEvent extends AbstractInstantEvent {
         );
     }
 
+    @Override
+    public EventType<BlazeEvent> getType() {
+        return TYPE;
+    }
 }

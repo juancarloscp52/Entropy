@@ -19,6 +19,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -27,6 +28,7 @@ import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.item.Items;
 
 public class HorseEvent extends AbstractInstantEvent {
+    public static final EventType<HorseEvent> TYPE = EventType.builder(HorseEvent::new).build();
 
     @Override
     public void init() {
@@ -38,5 +40,10 @@ public class HorseEvent extends AbstractInstantEvent {
             horse.getAttribute(Attributes.MAX_HEALTH).setBaseValue(2);
             horse.setHealth(2);
         });
+    }
+
+    @Override
+    public EventType<HorseEvent> getType() {
+        return TYPE;
     }
 }

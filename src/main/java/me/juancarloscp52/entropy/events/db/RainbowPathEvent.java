@@ -3,14 +3,17 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RainbowPathEvent extends AbstractTimedEvent {
 
+    public static final EventType<RainbowPathEvent> TYPE = EventType.builder(RainbowPathEvent::new).build();
     private static ArrayList<Block> _rainbowBlocks = new ArrayList<Block>() {
         {
             add(Blocks.RED_CONCRETE);
@@ -55,4 +58,8 @@ public class RainbowPathEvent extends AbstractTimedEvent {
         super.tick();
     }
 
+    @Override
+    public EventType<RainbowPathEvent> getType() {
+        return TYPE;
+    }
 }

@@ -20,10 +20,12 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 public class ExplodeNearbyEntitiesEvent extends AbstractInstantEvent {
+    public static final EventType<ExplodeNearbyEntitiesEvent> TYPE = EventType.builder(ExplodeNearbyEntitiesEvent::new).build();
 
     @Override
     public void init() {
@@ -35,4 +37,8 @@ public class ExplodeNearbyEntitiesEvent extends AbstractInstantEvent {
     }
 
 
+    @Override
+    public EventType<ExplodeNearbyEntitiesEvent> getType() {
+        return TYPE;
+    }
 }

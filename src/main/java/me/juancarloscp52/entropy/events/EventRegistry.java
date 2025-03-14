@@ -17,273 +17,250 @@
 
 package me.juancarloscp52.entropy.events;
 
+import com.mojang.serialization.Lifecycle;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.db.*;
 import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.world.flag.FeatureFlagSet;
-import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.core.Holder;
+import net.minecraft.core.MappedRegistry;
+import net.minecraft.core.Registry;
+import net.minecraft.core.WritableRegistry;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import java.util.*;
-import java.util.function.Supplier;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class EventRegistry {
-    private static int last_index = 0;
     private static final Random random = new Random();
-    //Store constructors for all Entropy Events.
-    public static HashMap<String, Supplier<Event>> entropyEvents;
-    public static HashMap<String, FeatureFlagSet> requiredFeatures;
+    public static final ResourceKey<Registry<EventType<?>>> REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath("entropy", "events"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, Event> STREAM_CODEC = ByteBufCodecs.registry(REGISTRY_KEY).dispatch(Event::getType, EventType::streamCodec);
+    public static final Registry<EventType<?>> EVENTS = bootstrap();
 
-    public static void register() {
-        entropyEvents = new HashMap<>();
-        requiredFeatures = new HashMap<>();
-        entropyEvents.put("RemoveEnchantmentsEvent", RemoveEnchantmentsEvent::new);
-        entropyEvents.put("ArmorCurseEvent", ArmorCurseEvent::new);
-        entropyEvents.put("RaidEvent", RaidEvent::new);
-        entropyEvents.put("ArrowRainEvent", ArrowRainEvent::new);
-        entropyEvents.put("WardenEvent", WardenEvent::new);
-        entropyEvents.put("BlurEvent", BlurEvent::new);
-        entropyEvents.put("ChickenRainEvent", ChickenRainEvent::new);
-        entropyEvents.put("CinematicScreenEvent", CinematicScreenEvent::new);
-        entropyEvents.put("CloseRandomTPEvent", CloseRandomTPEvent::new);
-        entropyEvents.put("CreeperEvent", CreeperEvent::new);
-        entropyEvents.put("CRTEvent", CRTEvent::new);
-        entropyEvents.put("DropHandItemEvent", DropHandItemEvent::new);
-        entropyEvents.put("DropInventoryEvent", DropInventoryEvent::new);
-        entropyEvents.put("DVDEvent", DVDEvent::new);
-        entropyEvents.put("ExplodeNearbyEntitiesEvent", ExplodeNearbyEntitiesEvent::new);
-        entropyEvents.put("ExtremeExplosionEvent", ExtremeExplosionEvent::new);
-        entropyEvents.put("FarRandomTPEvent", FarRandomTPEvent::new);
-        entropyEvents.put("ForceForwardEvent", ForceForwardEvent::new);
-        entropyEvents.put("ForceJump2Event", ForceJump2Event::new);
-        entropyEvents.put("ForceJumpEvent", ForceJumpEvent::new);
-        entropyEvents.put("HerobrineEvent", HerobrineEvent::new);
-        entropyEvents.put("HighPitchEvent", HighPitchEvent::new);
-        entropyEvents.put("HungryEvent", HungryEvent::new);
-        entropyEvents.put("HyperSlowEvent", HyperSlowEvent::new);
-        entropyEvents.put("HyperSpeedEvent", HyperSpeedEvent::new);
-        entropyEvents.put("IgniteNearbyEntitiesEvent", IgniteNearbyEntitiesEvent::new);
-        entropyEvents.put("IntenseThunderStormEvent", IntenseThunderStormEvent::new);
-        entropyEvents.put("InvertedColorsEvent", InvertedColorsEvent::new);
-        entropyEvents.put("InvertedControlsEvent", InvertedControlsEvent::new);
-        entropyEvents.put("ItemRainEvent", ItemRainEvent::new);
-        entropyEvents.put("LowGravityEvent", LowGravityEvent::new);
-        entropyEvents.put("LowPitchEvent", LowPitchEvent::new);
-        entropyEvents.put("LowRenderDistanceEvent", LowRenderDistanceEvent::new);
-        entropyEvents.put("LSDEvent", LSDEvent::new);
-        entropyEvents.put("LuckyDropsEvent", LuckyDropsEvent::new);
-        entropyEvents.put("MeteorRainEvent", MeteorRainEvent::new);
-        entropyEvents.put("MouseDriftingEvent", MouseDriftingEvent::new);
-        entropyEvents.put("NoDropsEvent", NoDropsEvent::new);
-        entropyEvents.put("NoJumpEvent", NoJumpEvent::new);
-        entropyEvents.put("HalfHeartedEvent", HalfHeartedEvent::new);
-        entropyEvents.put("OnlyBackwardsEvent", OnlyBackwardsEvent::new);
-        entropyEvents.put("OnlySidewaysEvent", OnlySidewaysEvent::new);
-        entropyEvents.put("PlaceLavaBlockEvent", PlaceLavaBlockEvent::new);
-        entropyEvents.put("RandomDropsEvent", RandomDropsEvent::new);
-        entropyEvents.put("ReducedReachEvent", ReducedReachEvent::new);
-        entropyEvents.put("RollCreditsEvent", RollCreditsEvent::new);
-        entropyEvents.put("SlipperyEvent", SlipperyEvent::new);
-        entropyEvents.put("Teleport0Event", Teleport0Event::new);
-        entropyEvents.put("TeleportHeavenEvent", TeleportHeavenEvent::new);
-        entropyEvents.put("TimelapseEvent", TimelapseEvent::new);
-        entropyEvents.put("TntEvent", TntEvent::new);
-        entropyEvents.put("UltraFovEvent", UltraFovEvent::new);
-        entropyEvents.put("UltraLowFovEvent", UltraLowFovEvent::new);
-        entropyEvents.put("UpsideDownEvent", UpsideDownEvent::new);
-        entropyEvents.put("VerticalScreenEvent", VerticalScreenEvent::new);
-        //entropyEvents.put("WhereIsEverythingEvent", WhereIsEverythingEvent::new); // No longer works on >1.19
-        entropyEvents.put("XpRainEvent", XpRainEvent::new);
-        entropyEvents.put("HealEvent", HealEvent::new);
-        entropyEvents.put("RandomizeArmorEvent", RandomizeArmorEvent::new);
-        entropyEvents.put("ForceThirdPersonEvent", ForceThirdPersonEvent::new);
-        entropyEvents.put("ForceFrontViewEvent", ForceFrontViewEvent::new);
-        entropyEvents.put("HideEventsEvent", HideEventsEvent::new);
-        entropyEvents.put("TopDownViewEvent", TopDownViewEvent::new);
-        entropyEvents.put("PhantomEvent", PhantomEvent::new);
-        entropyEvents.put("TimerSpeed2Event", TimerSpeed2Event::new);
-        entropyEvents.put("TimerSpeed5Event", TimerSpeed5Event::new);
-        entropyEvents.put("TimerSpeedHalfEvent", TimerSpeedHalfEvent::new);
-        entropyEvents.put("ResistanceEvent", ResistanceEvent::new);
-        entropyEvents.put("FatigueEvent", FatigueEvent::new);
-        entropyEvents.put("BlindnessEvent", BlindnessEvent::new);
-        entropyEvents.put("SpeedEvent", SpeedEvent::new);
-        entropyEvents.put("StarterPackEvent", StarterPackEvent::new);
-        entropyEvents.put("DamageItemsEvent", DamageItemsEvent::new);
-        entropyEvents.put("LevitationEvent", LevitationEvent::new);
-        entropyEvents.put("SpinningMobsEvent", SpinningMobsEvent::new);
-        entropyEvents.put("SinkholeEvent", SinkholeEvent::new);
-        entropyEvents.put("PoolEvent", PoolEvent::new);
-        entropyEvents.put("RandomCreeperEvent", RandomCreeperEvent::new);
-        entropyEvents.put("SinkingEvent", SinkingEvent::new);
-        entropyEvents.put("SlimeEvent", SlimeEvent::new);
-        entropyEvents.put("HorseEvent", HorseEvent::new);
-        entropyEvents.put("FireEvent", FireEvent::new);
-        entropyEvents.put("AdventureEvent", AdventureEvent::new);
-        entropyEvents.put("PitEvent", PitEvent::new);
-        entropyEvents.put("SkyEvent", SkyEvent::new);
-        entropyEvents.put("PumpkinViewEvent", PumpkinViewEvent::new);
-        entropyEvents.put("NightVisionEvent", NightVisionEvent::new);
-        entropyEvents.put("ExplosivePickaxeEvent", ExplosivePickaxeEvent::new);
-        entropyEvents.put("HighlightAllMobsEvent", HighlightAllMobsEvent::new);
-        entropyEvents.put("UpgradeRandomGearEvent", UpgradeRandomGearEvent::new);
-        entropyEvents.put("DowngradeRandomGearEvent", DowngradeRandomGearEvent::new);
-        entropyEvents.put("CurseRandomGearEvent", CurseRandomGearEvent::new);
-        entropyEvents.put("EnchantRandomGearEvent", EnchantRandomGearEvent::new);
-        entropyEvents.put("InvisiblePlayerEvent", InvisiblePlayerEvent::new);
-        entropyEvents.put("InvisibleHostileMobsEvent", InvisibleHostileMobsEvent::new);
-        entropyEvents.put("InvisibleEveryoneEvent", InvisibleEveryoneEvent::new);
-        entropyEvents.put("VexAttackEvent", VexAttackEvent::new);
-        entropyEvents.put("ZeusUltEvent", ZeusUltEvent::new);
-        entropyEvents.put("GravitySightEvent", GravitySightEvent::new);
-        entropyEvents.put("DeathSightEvent", DeathSightEvent::new);
-        entropyEvents.put("GlassSightEvent", GlassSightEvent::new);
-        entropyEvents.put("VoidSightEvent", VoidSightEvent::new);
-        entropyEvents.put("MiningSightEvent", MiningSightEvent::new);
-        entropyEvents.put("SkyBlockEvent", SkyBlockEvent::new);
-        entropyEvents.put("RideClosestMobEvent", RideClosestMobEvent::new);
-        entropyEvents.put("TrueFrostWalkerEvent", TrueFrostWalkerEvent::new);
-        entropyEvents.put("SoSweetEvent", SoSweetEvent::new);
-        entropyEvents.put("PlaceCobwebBlockEvent", PlaceCobwebBlockEvent::new);
-        entropyEvents.put("FlipMobsEvent", FlipMobsEvent::new);
-        entropyEvents.put("SpawnRainbowSheepEvent", SpawnRainbowSheepEvent::new);
-        entropyEvents.put("FixItemsEvent", FixItemsEvent::new);
-        entropyEvents.put("MidasTouchEvent", MidasTouchEvent::new);
-        entropyEvents.put("GiveRandomOreEvent", GiveRandomOreEvent::new);
-        entropyEvents.put("BeeEvent", BeeEvent::new);
-        entropyEvents.put("AngryBeeEvent", AngryBeeEvent::new);
-        entropyEvents.put("SilverfishEvent", SilverfishEvent::new);
-        entropyEvents.put("BlazeEvent", BlazeEvent::new);
-        entropyEvents.put("EndermiteEvent", EndermiteEvent::new);
-        entropyEvents.put("SatiationEvent", SatiationEvent::new);
-        entropyEvents.put("VitalsEvent", VitalsEvent::new);
-        entropyEvents.put("TeleportNearbyEntitiesEvent", TeleportNearbyEntitiesEvent::new);
-        entropyEvents.put("ForceSneakEvent", ForceSneakEvent::new);
-        entropyEvents.put("ShuffleInventoryEvent", ShuffleInventoryEvent::new);
-        entropyEvents.put("BulldozeEvent", BulldozeEvent::new);
-        entropyEvents.put("SlimePyramidEvent", SlimePyramidEvent::new);
-        entropyEvents.put("FlyingMachineEvent", FlyingMachineEvent::new);
-        entropyEvents.put("AddHeartEvent", AddHeartEvent::new);
-        entropyEvents.put("RemoveHeartEvent", RemoveHeartEvent::new);
-        entropyEvents.put("NoiseMachineEvent", NoiseMachineEvent::new);
-        entropyEvents.put("XRayEvent", XRayEvent::new);
-        entropyEvents.put("LagEvent", LagEvent::new);
-        entropyEvents.put("LowFPSEvent", LowFPSEvent::new);
-        entropyEvents.put("InfiniteLavaEvent", InfiniteLavaEvent::new);
-        entropyEvents.put("RandomCameraTiltEvent", RandomCameraTiltEvent::new);
-        entropyEvents.put("NoAttackingEvent", NoAttackingEvent::new);
-        entropyEvents.put("ConstantAttackingEvent", ConstantAttackingEvent::new);
-        entropyEvents.put("SpawnKillerBunnyEvent", SpawnKillerBunnyEvent::new);
-        entropyEvents.put("SpawnPetDogEvent", SpawnPetDogEvent::new);
-        entropyEvents.put("SpawnPetCatEvent", SpawnPetCatEvent::new);
-        entropyEvents.put("HauntedChestsEvent", HauntedChestsEvent::new);
-        entropyEvents.put("NoUseKeyEvent", NoUseKeyEvent::new);
-        entropyEvents.put("ConstantInteractingEvent", ConstantInteractingEvent::new);
-        entropyEvents.put("MLGBucketEvent", MLGBucketEvent::new);
-        entropyEvents.put("StutteringEvent", StutteringEvent::new);
-        entropyEvents.put("ForceHorseRidingEvent", ForceHorseRidingEvent::new);
-        entropyEvents.put("JumpscareEvent", JumpscareEvent::new);
-        entropyEvents.put("RollingCameraEvent", RollingCameraEvent::new);
-        entropyEvents.put("FlingEntitiesEvent", FlingEntitiesEvent::new);
-        entropyEvents.put("BlackAndWhiteEvent", BlackAndWhiteEvent::new);
-        entropyEvents.put("CreativeFlightEvent", CreativeFlightEvent::new);
-        entropyEvents.put("FakeTeleportEvent", FakeTeleportEvent::new);
-        entropyEvents.put("FakeFakeTeleportEvent", FakeFakeTeleportEvent::new);
-        entropyEvents.put("ForcefieldEvent", ForcefieldEvent::new);
-        entropyEvents.put("EntityMagnetEvent", EntityMagnetEvent::new);
-        entropyEvents.put("OnePunchEvent", OnePunchEvent::new);
-        entropyEvents.put("InfestationEvent", InfestationEvent::new);
-        entropyEvents.put("RainbowPathEvent", RainbowPathEvent::new);
-        entropyEvents.put("SilenceEvent", SilenceEvent::new);
-        entropyEvents.put("NothingEvent", NothingEvent::new);
-        entropyEvents.put("RainbowTrailsEvent", RainbowTrailsEvent::new);
-        entropyEvents.put("RainbowSheepEverywhereEvent", RainbowSheepEverywhereEvent::new);
-        entropyEvents.put("ArmorTrimEvent", ArmorTrimEvent::new);
-
+    private static Registry<EventType<?>> bootstrap() {
+        WritableRegistry<EventType<?>> registry = new MappedRegistry<>(REGISTRY_KEY, Lifecycle.stable());
+        register(registry, "remove_enchantments", RemoveEnchantmentsEvent.TYPE);
+        register(registry, "armor_curse", ArmorCurseEvent.TYPE);
+        register(registry, "raid", RaidEvent.TYPE);
+        register(registry, "arrow_rain", ArrowRainEvent.TYPE);
+        register(registry, "warden", WardenEvent.TYPE);
+        register(registry, "blur", BlurEvent.TYPE);
+        register(registry, "chicken_rain", ChickenRainEvent.TYPE);
+        register(registry, "cinematic_screen", CinematicScreenEvent.TYPE);
+        register(registry, "close_random_tp", CloseRandomTPEvent.TYPE);
+        register(registry, "creeper", CreeperEvent.TYPE);
+        register(registry, "crt", CRTEvent.TYPE);
+        register(registry, "drop_hand_item", DropHandItemEvent.TYPE);
+        register(registry, "drop_inventory", DropInventoryEvent.TYPE);
+        register(registry, "dvd", DVDEvent.TYPE);
+        register(registry, "explode_nearby_entities", ExplodeNearbyEntitiesEvent.TYPE);
+        register(registry, "extreme_explosion", ExtremeExplosionEvent.TYPE);
+        register(registry, "far_random_tp", FarRandomTPEvent.TYPE);
+        register(registry, "force_forward", ForceForwardEvent.TYPE);
+        register(registry, "force_jump_extreme", ForceJump2Event.TYPE);
+        register(registry, "force_jump", ForceJumpEvent.TYPE);
+        register(registry, "herobrine", HerobrineEvent.TYPE);
+        register(registry, "high_pitch", HighPitchEvent.TYPE);
+        register(registry, "hungry", HungryEvent.TYPE);
+        register(registry, "hyper_slow", HyperSlowEvent.TYPE);
+        register(registry, "hyper_speed", HyperSpeedEvent.TYPE);
+        register(registry, "ignite_nearby_entities", IgniteNearbyEntitiesEvent.TYPE);
+        register(registry, "intense_thunder_storm", IntenseThunderStormEvent.TYPE);
+        register(registry, "inverted_colors", InvertedColorsEvent.TYPE);
+        register(registry, "inverted_controls", InvertedControlsEvent.TYPE);
+        register(registry, "item_rain", ItemRainEvent.TYPE);
+        register(registry, "low_gravity", LowGravityEvent.TYPE);
+        register(registry, "low_pitch", LowPitchEvent.TYPE);
+        register(registry, "low_render_distance", LowRenderDistanceEvent.TYPE);
+        register(registry, "lsd", LSDEvent.TYPE);
+        register(registry, "lucky_drops", LuckyDropsEvent.TYPE);
+        register(registry, "meteor_rain", MeteorRainEvent.TYPE);
+        register(registry, "mouse_drifting", MouseDriftingEvent.TYPE);
+        register(registry, "no_drops", NoDropsEvent.TYPE);
+        register(registry, "no_jump", NoJumpEvent.TYPE);
+        register(registry, "half_hearted", HalfHeartedEvent.TYPE);
+        register(registry, "only_backwards", OnlyBackwardsEvent.TYPE);
+        register(registry, "only_sideways", OnlySidewaysEvent.TYPE);
+        register(registry, "place_lava_block", PlaceLavaBlockEvent.TYPE);
+        register(registry, "random_drops", RandomDropsEvent.TYPE);
+        register(registry, "reduced_reach", ReducedReachEvent.TYPE);
+        register(registry, "roll_credits", RollCreditsEvent.TYPE);
+        register(registry, "slippery", SlipperyEvent.TYPE);
+        register(registry, "teleport_spawn", Teleport0Event.TYPE);
+        register(registry, "teleport_heaven", TeleportHeavenEvent.TYPE);
+        register(registry, "timelapse", TimelapseEvent.TYPE);
+        register(registry, "tnt", TntEvent.TYPE);
+        register(registry, "ultra_fov", UltraFovEvent.TYPE);
+        register(registry, "ultra_low_fov", UltraLowFovEvent.TYPE);
+        register(registry, "upside_down", UpsideDownEvent.TYPE);
+        register(registry, "vertical_screen", VerticalScreenEvent.TYPE);
+        //register(registry, "where_is_everything", WhereIsEverythingEvent.TYPE); // No longer works on >1.19
+        register(registry, "xp_rain", XpRainEvent.TYPE);
+        register(registry, "heal", HealEvent.TYPE);
+        register(registry, "randomize_armor", RandomizeArmorEvent.TYPE);
+        register(registry, "force_third_person", ForceThirdPersonEvent.TYPE);
+        register(registry, "force_front_view", ForceFrontViewEvent.TYPE);
+        register(registry, "hide_events", HideEventsEvent.TYPE);
+        register(registry, "top_down_view", TopDownViewEvent.TYPE);
+        register(registry, "phantom", PhantomEvent.TYPE);
+        register(registry, "timer_speed_2", TimerSpeed2Event.TYPE);
+        register(registry, "timer_speed_5", TimerSpeed5Event.TYPE);
+        register(registry, "timer_speed_half", TimerSpeedHalfEvent.TYPE);
+        register(registry, "resistance", ResistanceEvent.TYPE);
+        register(registry, "fatigue", FatigueEvent.TYPE);
+        register(registry, "blindness", BlindnessEvent.TYPE);
+        register(registry, "speed", SpeedEvent.TYPE);
+        register(registry, "starter_pack", StarterPackEvent.TYPE);
+        register(registry, "damage_items", DamageItemsEvent.TYPE);
+        register(registry, "levitation", LevitationEvent.TYPE);
+        register(registry, "spinning_mobs", SpinningMobsEvent.TYPE);
+        register(registry, "sinkhole", SinkholeEvent.TYPE);
+        register(registry, "pool", PoolEvent.TYPE);
+        register(registry, "random_creeper", RandomCreeperEvent.TYPE);
+        register(registry, "sinking", SinkingEvent.TYPE);
+        register(registry, "slime", SlimeEvent.TYPE);
+        register(registry, "horse", HorseEvent.TYPE);
+        register(registry, "fire", FireEvent.TYPE);
+        register(registry, "adventure", AdventureEvent.TYPE);
+        register(registry, "pit", PitEvent.TYPE);
+        register(registry, "sky", SkyEvent.TYPE);
+        register(registry, "pumpkin_view", PumpkinViewEvent.TYPE);
+        register(registry, "night_vision", NightVisionEvent.TYPE);
+        register(registry, "explosive_pickaxe", ExplosivePickaxeEvent.TYPE);
+        register(registry, "highlight_all_mobs", HighlightAllMobsEvent.TYPE);
+        register(registry, "upgrade_random_gear", UpgradeRandomGearEvent.TYPE);
+        register(registry, "downgrade_random_gear", DowngradeRandomGearEvent.TYPE);
+        register(registry, "curse_random_gear", CurseRandomGearEvent.TYPE);
+        register(registry, "enchant_random_gear", EnchantRandomGearEvent.TYPE);
+        register(registry, "invisible_player", InvisiblePlayerEvent.TYPE);
+        register(registry, "invisible_hostile_mobs", InvisibleHostileMobsEvent.TYPE);
+        register(registry, "invisible_everyone", InvisibleEveryoneEvent.TYPE);
+        register(registry, "vex_attack", VexAttackEvent.TYPE);
+        register(registry, "zeus_ult", ZeusUltEvent.TYPE);
+        register(registry, "gravity_sight", GravitySightEvent.TYPE);
+        register(registry, "death_sight", DeathSightEvent.TYPE);
+        register(registry, "glass_sight", GlassSightEvent.TYPE);
+        register(registry, "void_sight", VoidSightEvent.TYPE);
+        register(registry, "mining_sight", MiningSightEvent.TYPE);
+        register(registry, "sky_block", SkyBlockEvent.TYPE);
+        register(registry, "ride_closest_mob", RideClosestMobEvent.TYPE);
+        register(registry, "true_frost_walker", TrueFrostWalkerEvent.TYPE);
+        register(registry, "so_sweet", SoSweetEvent.TYPE);
+        register(registry, "place_cobweb_block", PlaceCobwebBlockEvent.TYPE);
+        register(registry, "flip_mobs", FlipMobsEvent.TYPE);
+        register(registry, "spawn_rainbow_sheep", SpawnRainbowSheepEvent.TYPE);
+        register(registry, "fix_items", FixItemsEvent.TYPE);
+        register(registry, "midas_touch", MidasTouchEvent.TYPE);
+        register(registry, "give_random_ore", GiveRandomOreEvent.TYPE);
+        register(registry, "bee", BeeEvent.TYPE);
+        register(registry, "angry_bee", AngryBeeEvent.TYPE);
+        register(registry, "silverfish", SilverfishEvent.TYPE);
+        register(registry, "blaze", BlazeEvent.TYPE);
+        register(registry, "endermite", EndermiteEvent.TYPE);
+        register(registry, "satiation", SatiationEvent.TYPE);
+        register(registry, "vitals", VitalsEvent.TYPE);
+        register(registry, "teleport_nearby_entities", TeleportNearbyEntitiesEvent.TYPE);
+        register(registry, "force_sneak", ForceSneakEvent.TYPE);
+        register(registry, "shuffle_inventory", ShuffleInventoryEvent.TYPE);
+        register(registry, "bulldoze", BulldozeEvent.TYPE);
+        register(registry, "slime_pyramid", SlimePyramidEvent.TYPE);
+        register(registry, "flying_machine", FlyingMachineEvent.TYPE);
+        register(registry, "add_heart", AddHeartEvent.TYPE);
+        register(registry, "remove_heart", RemoveHeartEvent.TYPE);
+        register(registry, "noise_machine", NoiseMachineEvent.TYPE);
+        register(registry, "xray", XRayEvent.TYPE);
+        register(registry, "lag", LagEvent.TYPE);
+        register(registry, "low_fps", LowFPSEvent.TYPE);
+        register(registry, "infinite_lava", InfiniteLavaEvent.TYPE);
+        register(registry, "random_camera_tilt", RandomCameraTiltEvent.TYPE);
+        register(registry, "no_attacking", NoAttackingEvent.TYPE);
+        register(registry, "constant_attacking", ConstantAttackingEvent.TYPE);
+        register(registry, "spawn_killer_bunny", SpawnKillerBunnyEvent.TYPE);
+        register(registry, "spawn_pet_dog", SpawnPetDogEvent.TYPE);
+        register(registry, "spawn_pet_cat", SpawnPetCatEvent.TYPE);
+        register(registry, "haunted_chests", HauntedChestsEvent.TYPE);
+        register(registry, "no_use_key", NoUseKeyEvent.TYPE);
+        register(registry, "constant_interacting", ConstantInteractingEvent.TYPE);
+        register(registry, "mlg_bucket", MLGBucketEvent.TYPE);
+        register(registry, "stuttering", StutteringEvent.TYPE);
+        register(registry, "force_horse_riding", ForceHorseRidingEvent.TYPE);
+        register(registry, "jumpscare", JumpscareEvent.TYPE);
+        register(registry, "rolling_camera", RollingCameraEvent.TYPE);
+        register(registry, "fling_entities", FlingEntitiesEvent.TYPE);
+        register(registry, "black_and_white", BlackAndWhiteEvent.TYPE);
+        register(registry, "creative_flight", CreativeFlightEvent.TYPE);
+        register(registry, "fake_teleport", FakeTeleportEvent.TYPE);
+        register(registry, "fake_fake_teleport", FakeFakeTeleportEvent.TYPE);
+        register(registry, "forcefield", ForcefieldEvent.TYPE);
+        register(registry, "entity_magnet", EntityMagnetEvent.TYPE);
+        register(registry, "one_punch", OnePunchEvent.TYPE);
+        register(registry, "infestation", InfestationEvent.TYPE);
+        register(registry, "rainbow_path", RainbowPathEvent.TYPE);
+        register(registry, "silence", SilenceEvent.TYPE);
+        register(registry, "nothing", NothingEvent.TYPE);
+        register(registry, "rainbow_trails", RainbowTrailsEvent.TYPE);
+        register(registry, "rainbow_sheep_everywhere", RainbowSheepEverywhereEvent.TYPE);
+        register(registry, "armor_trim", ArmorTrimEvent.TYPE);
+        return FabricRegistryBuilder.from(registry).buildAndRegister();
     }
 
-    public static Event getRandomDifferentEvent(List<Event> events){
+    private static void register(Registry<EventType<?>> registry, String id, EventType<?> type) {
+        Registry.register(registry, ResourceLocation.fromNamespaceAndPath("entropy", id), type);
+    }
 
-        ArrayList<String> eventKeys = new ArrayList<>(entropyEvents.keySet());
-        eventKeys.removeAll(Entropy.getInstance().settings.disabledEvents);
+    public static Holder.Reference<EventType<?>> getRandomDifferentEvent(List<Event> currentEvents) {
 
-        Set<String> ignoreCurrentEvents = new HashSet<>();
-        events.forEach(event -> ignoreCurrentEvents.add(event.getClass().getSimpleName()));
-        if(eventKeys.size()>ignoreCurrentEvents.size())
-            eventKeys.removeAll(ignoreCurrentEvents);
+        List<Holder.Reference<EventType<?>>> eventCandidates = EVENTS.listElements().collect(Collectors.toList());
+        Set<ResourceKey<EventType<?>>> eventsToRemove = new HashSet<>(Entropy.getInstance().settings.disabledEventTypes);
+        Set<EventCategory> ignoredEventCategories = new HashSet<>();
 
-        Set<String> ignoreTypes = new HashSet<>();
-        events.forEach(event -> {
-            if(event.getTickCount()>0 && !event.hasEnded() && !event.type().equalsIgnoreCase("none"))
-                ignoreTypes.add(event.type().toLowerCase());
+        currentEvents.forEach(event -> {
+            EventType<?> type = event.getType();
+            eventsToRemove.add(getEventId(type));
+
+            if (event.getTickCount() > 0 && !event.hasEnded() && type.category() != EventCategory.NONE)
+                ignoredEventCategories.add(type.category());
         });
-        Set<String> ignoreEventsByType = new HashSet<>();
-        eventKeys.forEach(eventName -> {
-            if(ignoreTypes.contains(entropyEvents.get(eventName).get().type().toLowerCase())){
-                ignoreEventsByType.add(eventName);
+
+        Level overworld = Entropy.getInstance().eventHandler.server.overworld();
+        eventCandidates.forEach(typeReference -> {
+            EventType<?> type = typeReference.value();
+            if (!type.doesWorldHaveRequiredFeatures(overworld)
+                || !type.isEnabled()
+                || ignoredEventCategories.contains(type.category())) {
+                eventsToRemove.add(typeReference.key());
             }
         });
-        if(eventKeys.size()>ignoreEventsByType.size())
-            eventKeys.removeAll(ignoreEventsByType);
 
         //Only enable the stuttering event on a dedicated server, because otherwise worldgen will be all wrong.
         //The MathHelper mixin turning off linear interpolation is only applied on the client, but if this is a singleplayer environment,
         //the integrated server has the modified MathHelper, too, causing incorrect worldgen.
-        if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
-            eventKeys.remove("StutteringEvent");
+        if (FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER)
+            eventsToRemove.add(getEventId(StutteringEvent.TYPE));
 
-        eventKeys.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, Entropy.getInstance().eventHandler.server.overworld()));
-        return getRandomEvent(eventKeys);
+        Set<ResourceLocation> ids = eventsToRemove.stream().map(ResourceKey::location).collect(Collectors.toSet());
+        eventCandidates.removeIf(candidate -> ids.contains(candidate.key().location()));
+        return getRandomEvent(eventCandidates);
     }
 
-    private static Event getRandomEvent(List<String> eventKeys) {
-        if(eventKeys.isEmpty())
+    private static Holder.Reference<EventType<?>> getRandomEvent(List<Holder.Reference<EventType<?>>> eventTypes) {
+        if(eventTypes.isEmpty())
             return null;
 
-        int index = random.nextInt(eventKeys.size());
-        String newEventName = eventKeys.get(index);
-        Event event = entropyEvents.get(newEventName).get();
-
-        if(Entropy.getInstance().settings.accessibilityMode && event.isDisabledByAccessibilityMode()) {
-            eventKeys.remove(index);
-            return getRandomEvent(eventKeys);
-        }
-
-        return event;
+        return eventTypes.get(random.nextInt(eventTypes.size()));
     }
 
-    public static Event get(String eventName) {
-        Supplier<Event> newEvent = entropyEvents.get(eventName);
-        if (newEvent != null)
-            return newEvent.get();
-        else
-            return null;
-    }
-
-    public static Event getNextEventOrdered(){
-        Supplier<Event> newEvent = entropyEvents.get(entropyEvents.keySet().stream().sorted().toList().get(last_index));
-        last_index = (last_index + 1) % entropyEvents.size();
-        if (newEvent != null)
-            return newEvent.get();
-        else
-            return null;
-    }
-
-    public static String getEventId(Event event) {
-        String[] name = event.getClass().getName().split("\\.");
-        return name[name.length - 1];
-    }
-
-    public static String getTranslationKey(Event event) {
-        return "entropy.events." + getEventId(event);
-    }
-
-    public static String getTranslationKey(String eventID) {
-        return "entropy.events." + eventID;
-    }
-
-    public static boolean doesWorldHaveRequiredFeatures(String event, Level world) {
-        return requiredFeatures.getOrDefault(event, FeatureFlags.VANILLA_SET).isSubsetOf(world.enabledFeatures());
+    public static ResourceKey<EventType<?>> getEventId(EventType<?> eventType) {
+        return EVENTS.getResourceKey(eventType).get();
     }
 }

@@ -21,11 +21,23 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
-import java.util.Optional;
 
 
 public interface Event {
+    static <T extends Event> StreamCodec<RegistryFriendlyByteBuf, T> streamCodec(EventType.EventSupplier<T> eventSupplier) {
+        return new StreamCodec<>() {
+            @Override
+            public T decode(RegistryFriendlyByteBuf buf) {
+                return eventSupplier.create();
+            }
+
+            @Override
+            public void encode(RegistryFriendlyByteBuf buf, T event) {}
+        };
+    }
 
     default void init() {
     }
@@ -49,6 +61,10 @@ public interface Event {
     @Environment(EnvType.CLIENT)
     void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y);
 
+    default EventType<? extends Event> getDisplayedType() {
+        return getType();
+    }
+
     void tick();
 
     @Environment(EnvType.CLIENT)
@@ -64,18 +80,5 @@ public interface Event {
 
     void setEnded(boolean ended);
 
-    default String type() {
-        return "none";
-    }
-
-    default boolean isDisabledByAccessibilityMode() {
-        return false;
-    }
-
-    default Optional<String> getExtraData() {
-        return Optional.empty();
-    }
-
-    @Environment(EnvType.CLIENT)
-    default void readExtraData(String subEventId) {}
+    EventType<? extends Event> getType();
 }

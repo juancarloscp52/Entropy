@@ -19,10 +19,12 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.phys.AABB;
 
 public class TeleportNearbyEntitiesEvent extends AbstractInstantEvent {
+    public static final EventType<TeleportNearbyEntitiesEvent> TYPE = EventType.builder(TeleportNearbyEntitiesEvent::new).build();
 
     @Override
     public void init() {
@@ -32,5 +34,10 @@ public class TeleportNearbyEntitiesEvent extends AbstractInstantEvent {
                     entity.teleportTo(serverPlayerEntity.getX(), serverPlayerEntity.getY(), serverPlayerEntity.getZ());
             });
         });
+    }
+
+    @Override
+    public EventType<TeleportNearbyEntitiesEvent> getType() {
+        return TYPE;
     }
 }

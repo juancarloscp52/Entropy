@@ -19,8 +19,11 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class HighPitchEvent extends AbstractTimedEvent {
+    public static final EventType<HighPitchEvent> TYPE = EventType.builder(HighPitchEvent::new).category(EventCategory.PITCH).build();
 
     @Override
     public void initClient() {
@@ -36,12 +39,12 @@ public class HighPitchEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "pitch";
+    public short getDuration() {
+        return (short) (super.getDuration() * 2);
     }
 
     @Override
-    public short getDuration() {
-        return (short) (super.getDuration() * 2);
+    public EventType<HighPitchEvent> getType() {
+        return TYPE;
     }
 }

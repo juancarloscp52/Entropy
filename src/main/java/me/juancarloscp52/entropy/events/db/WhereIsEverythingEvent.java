@@ -17,12 +17,14 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.Minecraft;
 
 public class WhereIsEverythingEvent extends AbstractTimedEvent {
 
+    public static final EventType<WhereIsEverythingEvent> TYPE = EventType.builder(WhereIsEverythingEvent::new).category(EventCategory.RENDER_DISTANCE).build();
     Minecraft client;
     private int viewDistance = 0;
 
@@ -41,7 +43,7 @@ public class WhereIsEverythingEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "renderDistance";
+    public EventType<WhereIsEverythingEvent> getType() {
+        return TYPE;
     }
 }

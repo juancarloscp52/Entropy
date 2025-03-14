@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,6 +28,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.block.Blocks;
 
 public class FireEvent extends AbstractTimedEvent {
+    public static final EventType<FireEvent> TYPE = EventType.builder(FireEvent::new).build();
 
     @Override
     public void initClient() {
@@ -60,5 +62,10 @@ public class FireEvent extends AbstractTimedEvent {
             });
         }
         super.tick();
+    }
+
+    @Override
+    public EventType<FireEvent> getType() {
+        return TYPE;
     }
 }

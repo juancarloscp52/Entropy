@@ -20,11 +20,13 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 
 public class SinkholeEvent extends AbstractInstantEvent {
+    public static final EventType<SinkholeEvent> TYPE = EventType.builder(SinkholeEvent::new).build();
 
     @Override
     public void init() {
@@ -51,4 +53,8 @@ public class SinkholeEvent extends AbstractInstantEvent {
         });
     }
 
+    @Override
+    public EventType<SinkholeEvent> getType() {
+        return TYPE;
+    }
 }

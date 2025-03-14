@@ -7,6 +7,8 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.mixin.FallingBlockEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
@@ -20,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class GravitySightEvent extends AbstractTimedEvent {
 
+    public static final EventType<GravitySightEvent> TYPE = EventType.builder(GravitySightEvent::new).category(EventCategory.SIGHT).build();
     private BlockPos _lastBlockInSight = null;
     private int _stareTimer = 0;
 
@@ -86,7 +89,7 @@ public class GravitySightEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "sight";
+    public EventType<GravitySightEvent> getType() {
+        return TYPE;
     }
 }

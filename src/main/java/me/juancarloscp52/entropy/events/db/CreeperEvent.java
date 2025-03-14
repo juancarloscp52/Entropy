@@ -19,13 +19,20 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 
 public class CreeperEvent extends AbstractInstantEvent {
+    public static final EventType<CreeperEvent> TYPE = EventType.builder(CreeperEvent::new).build();
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> EntityType.CREEPER.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().north(), EntitySpawnReason.EVENT));
+    }
+
+    @Override
+    public EventType<CreeperEvent> getType() {
+        return TYPE;
     }
 }

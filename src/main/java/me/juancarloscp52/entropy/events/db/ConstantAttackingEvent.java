@@ -1,12 +1,16 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import me.juancarloscp52.entropy.mixin.MultiPlayerGameModeAccessor;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.mixin.MinecraftAccessor;
+import me.juancarloscp52.entropy.mixin.MultiPlayerGameModeAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.InteractionHand;
 
 public class ConstantAttackingEvent extends AbstractTimedEvent {
+    public static final EventType<ConstantAttackingEvent> TYPE = EventType.builder(ConstantAttackingEvent::new).category(EventCategory.ATTACK).build();
+
     @Override
     public void tickClient() {
         super.tickClient();
@@ -42,7 +46,7 @@ public class ConstantAttackingEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "attack";
+    public EventType<ConstantAttackingEvent> getType() {
+        return TYPE;
     }
 }

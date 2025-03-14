@@ -19,8 +19,10 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class ExplosivePickaxeEvent extends AbstractTimedEvent {
+    public static final EventType<ExplosivePickaxeEvent> TYPE = EventType.builder(ExplosivePickaxeEvent::new).build();
 
     @Override
     public void init() {
@@ -31,5 +33,10 @@ public class ExplosivePickaxeEvent extends AbstractTimedEvent {
     public void end() {
         Variables.explodingPickaxe = false;
         super.end();
+    }
+
+    @Override
+    public EventType<ExplosivePickaxeEvent> getType() {
+        return TYPE;
     }
 }

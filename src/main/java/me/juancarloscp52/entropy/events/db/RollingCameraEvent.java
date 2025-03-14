@@ -2,13 +2,17 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+
 import java.util.Random;
 
 public class RollingCameraEvent extends AbstractTimedEvent {
+    public static final EventType<RollingCameraEvent> TYPE = EventType.builder(RollingCameraEvent::new).category(EventCategory.CAMERA).disabledByAccessibilityMode().build();
     int sign = 0;
     @Override
     public void initClient() {
@@ -29,12 +33,7 @@ public class RollingCameraEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "camera";
-    }
-
-    @Override
-    public boolean isDisabledByAccessibilityMode() {
-        return true;
+    public EventType<RollingCameraEvent> getType() {
+        return TYPE;
     }
 }

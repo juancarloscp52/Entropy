@@ -20,11 +20,14 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
+
 import java.util.Random;
 
 public class FarRandomTPEvent extends AbstractInstantEvent {
+    public static final EventType<FarRandomTPEvent> TYPE = EventType.builder(FarRandomTPEvent::new).build();
     int count = 0;
     MinecraftServer server;
 
@@ -61,5 +64,10 @@ public class FarRandomTPEvent extends AbstractInstantEvent {
     @Override
     public boolean hasEnded() {
         return count > 2;
+    }
+
+    @Override
+    public EventType<FarRandomTPEvent> getType() {
+        return TYPE;
     }
 }

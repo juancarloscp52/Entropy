@@ -19,6 +19,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.client.Screens.EntropyCreditsScreen;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
@@ -27,6 +28,7 @@ import net.minecraft.client.gui.GuiGraphics;
 
 public class RollCreditsEvent extends AbstractTimedEvent {
 
+    public static final EventType<RollCreditsEvent> TYPE = EventType.builder(RollCreditsEvent::new).build();
     Minecraft client;
 
     @Override
@@ -48,11 +50,6 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "credits";
-    }
-
-    @Override
     @Environment(EnvType.CLIENT)
     public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
     }
@@ -69,5 +66,10 @@ public class RollCreditsEvent extends AbstractTimedEvent {
     @Override
     public short getDuration() {
         return (short)(super.getDuration()*0.75);
+    }
+
+    @Override
+    public EventType<RollCreditsEvent> getType() {
+        return TYPE;
     }
 }

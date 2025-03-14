@@ -20,9 +20,11 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.ItemTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.util.Mth;
 
 public class DamageItemsEvent extends AbstractInstantEvent {
+    public static final EventType<DamageItemsEvent> TYPE = EventType.builder(DamageItemsEvent::new).build();
 
     @Override
     public void init() {
@@ -43,5 +45,10 @@ public class DamageItemsEvent extends AbstractInstantEvent {
                 }
             });
         });
+    }
+
+    @Override
+    public EventType<DamageItemsEvent> getType() {
+        return TYPE;
     }
 }

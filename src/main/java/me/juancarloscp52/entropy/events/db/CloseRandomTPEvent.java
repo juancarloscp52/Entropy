@@ -19,10 +19,12 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.MinecraftServer;
 
 public class CloseRandomTPEvent extends AbstractInstantEvent {
 
+    public static final EventType<CloseRandomTPEvent> TYPE = EventType.builder(CloseRandomTPEvent::new).build();
     int count = 0;
     MinecraftServer server;
 
@@ -59,5 +61,10 @@ public class CloseRandomTPEvent extends AbstractInstantEvent {
     @Override
     public boolean hasEnded() {
         return count > 2;
+    }
+
+    @Override
+    public EventType<CloseRandomTPEvent> getType() {
+        return TYPE;
     }
 }

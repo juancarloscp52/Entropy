@@ -2,6 +2,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.RandomSource;
@@ -17,6 +18,7 @@ import java.util.stream.IntStream;
 
 public class UpgradeRandomGearEvent extends AbstractInstantEvent {
 
+    public static final EventType<UpgradeRandomGearEvent> TYPE = EventType.builder(UpgradeRandomGearEvent::new).build();
     private static HashMap<Item, Item> _upgrades = new HashMap<Item, Item>() {
         {
             // HELMET
@@ -132,5 +134,10 @@ public class UpgradeRandomGearEvent extends AbstractInstantEvent {
 
         if (_upgrades.containsKey(newItem) && random.nextDouble() < 0.25d)
             upgrade(newItem, newItemStack, inventoryList, index, random);
+    }
+
+    @Override
+    public EventType<UpgradeRandomGearEvent> getType() {
+        return TYPE;
     }
 }

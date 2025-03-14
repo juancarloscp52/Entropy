@@ -7,12 +7,15 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.AABB;
 
 public class DeathSightEvent extends AbstractTimedEvent {
+    public static final EventType<DeathSightEvent> TYPE = EventType.builder(DeathSightEvent::new).category(EventCategory.SIGHT).build();
 
     @Override
     public void tick() {
@@ -36,7 +39,7 @@ public class DeathSightEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "sight";
+    public EventType<DeathSightEvent> getType() {
+        return TYPE;
     }
 }

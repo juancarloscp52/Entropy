@@ -1,18 +1,20 @@
 package me.juancarloscp52.entropy.events.db;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LagEvent extends AbstractTimedEvent {
+    public static final EventType<LagEvent> TYPE = EventType.builder(LagEvent::new).category(EventCategory.MOVEMENT).disabledByAccessibilityMode().build();
     RandomSource random;
     boolean saved_pos;
     int countdown;
@@ -52,12 +54,8 @@ public class LagEvent extends AbstractTimedEvent {
         super.tick();
     }
 
-    public String type() {
-        return "movement";
-    }
-
     @Override
-    public boolean isDisabledByAccessibilityMode() {
-        return true;
+    public EventType<LagEvent> getType() {
+        return TYPE;
     }
 }

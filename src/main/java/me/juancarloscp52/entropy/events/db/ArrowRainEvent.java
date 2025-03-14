@@ -19,13 +19,17 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
 import java.util.Random;
 
 public class ArrowRainEvent extends AbstractTimedEvent {
 
+    public static final EventType<ArrowRainEvent> TYPE = EventType.builder(ArrowRainEvent::new).category(EventCategory.RAIN).build();
     Random random;
 
     @Override
@@ -47,7 +51,7 @@ public class ArrowRainEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "rain";
+    public EventType<ArrowRainEvent> getType() {
+        return TYPE;
     }
 }

@@ -7,6 +7,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -19,10 +20,10 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.LevelChunkTicks;
-import java.util.Set;
 
 public class SkyBlockEvent extends AbstractInstantEvent {
 
+    public static final EventType<SkyBlockEvent> TYPE = EventType.builder(SkyBlockEvent::new).build();
     private static byte[][][] _leavesPlacement = new byte[][][] {
             new byte[][] {
                     new byte[] { 0, 1, 1, 1, 1 },
@@ -150,4 +151,8 @@ public class SkyBlockEvent extends AbstractInstantEvent {
         }
     }
 
+    @Override
+    public EventType<SkyBlockEvent> getType() {
+        return TYPE;
+    }
 }

@@ -18,24 +18,29 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractAttributeEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+
 import java.util.List;
 
 public class HyperSlowEvent extends AbstractAttributeEvent {
+    public static final EventType<HyperSlowEvent> TYPE = EventType.builder(HyperSlowEvent::new).category(EventCategory.SPEED).build();
+
     @Override
     public List<ActiveModifier> getModifiers() {
         return List.of(new ActiveModifier(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("entropy", "hyperslow"), -0.8d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
     }
 
     @Override
-    public String type() {
-        return "speed";
+    public short getDuration() {
+        return (short) (super.getDuration() * 1.25);
     }
 
     @Override
-    public short getDuration() {
-        return (short) (super.getDuration() * 1.25);
+    public EventType<HyperSlowEvent> getType() {
+        return TYPE;
     }
 }

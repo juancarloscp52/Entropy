@@ -19,16 +19,20 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
+
 import java.util.Random;
 
 public class IntenseThunderStormEvent extends AbstractTimedEvent {
 
+    public static final EventType<IntenseThunderStormEvent> TYPE = EventType.builder(IntenseThunderStormEvent::new).category(EventCategory.RAIN).build();
     Random random;
 
     @Override
@@ -51,12 +55,12 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "rain";
+    public short getDuration() {
+        return (short) (super.getDuration() * 1.25);
     }
 
     @Override
-    public short getDuration() {
-        return (short) (super.getDuration() * 1.25);
+    public EventType<IntenseThunderStormEvent> getType() {
+        return TYPE;
     }
 }

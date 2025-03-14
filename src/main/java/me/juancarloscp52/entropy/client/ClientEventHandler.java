@@ -30,6 +30,7 @@ import me.juancarloscp52.entropy.events.Event;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,7 +112,9 @@ public class ClientEventHandler {
 
         // Render Event Queue...
         for (int i = 0; i < currentEvents.size(); i++) {
-            currentEvents.get(i).renderQueueItem(drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, 20 + (i * 13));
+            Event event = currentEvents.get(i);
+
+            event.renderQueueItem(drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, 20 + (i * 13));
         }
 
         // Render Poll...
@@ -126,7 +129,7 @@ public class ClientEventHandler {
     }
 
     public void addEvent(Event event) {
-        if(!client.player.isSpectator() && !(event.isDisabledByAccessibilityMode() && Entropy.getInstance().settings.accessibilityMode))
+        if(!client.player.isSpectator() && event.getType().isEnabled())
             event.initClient();
         currentEvents.add(event);
     }
@@ -134,9 +137,9 @@ public class ClientEventHandler {
     public void endChaos() {
 
         EntropyClient.LOGGER.info("Ending events...");
-        currentEvents.forEach(eventIntegerPair -> {
-            if (!eventIntegerPair.hasEnded())
-                eventIntegerPair.endClient();
+        currentEvents.forEach(event -> {
+            if (!event.hasEnded())
+                event.endClient();
         });
 
         if (votingClient != null && votingClient.enabled)

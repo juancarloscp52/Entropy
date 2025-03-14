@@ -31,6 +31,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+
 import java.util.ArrayList;
 
 public class EntropyEventConfigurationScreen extends Screen {
@@ -94,10 +95,10 @@ public class EntropyEventConfigurationScreen extends Screen {
     }
 
     private void onDone() {
-        settings.disabledEvents = new ArrayList<>();
+        settings.disabledEventTypes = new ArrayList<>();
         this.list.children().forEach(buttonEntry -> {
             if (!buttonEntry.checkbox.selected())
-                settings.disabledEvents.add(buttonEntry.eventInfo.id());
+                settings.disabledEventTypes.add(buttonEntry.eventInfo.typeReference().key());
         });
         Entropy.getInstance().saveSettings();
         onClose();

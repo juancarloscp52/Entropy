@@ -19,11 +19,14 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
 import java.util.Random;
 
 public class GiveRandomOreEvent extends AbstractInstantEvent {
+    public static final EventType<GiveRandomOreEvent> TYPE = EventType.builder(GiveRandomOreEvent::new).build();
 
     @Override
     public void init() {
@@ -44,5 +47,10 @@ public class GiveRandomOreEvent extends AbstractInstantEvent {
                 serverPlayerEntity.spawnAtLocation(serverPlayerEntity.serverLevel(), stack);
 
         });
+    }
+
+    @Override
+    public EventType<GiveRandomOreEvent> getType() {
+        return TYPE;
     }
 }

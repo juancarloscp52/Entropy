@@ -20,10 +20,13 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
 public class ForceJump2Event extends AbstractTimedEvent {
+    public static final EventType<ForceJump2Event> TYPE = EventType.builder(ForceJump2Event::new).category(EventCategory.JUMP).build();
 
     @Override
     public void init() {
@@ -41,7 +44,7 @@ public class ForceJump2Event extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "jump";
+    public EventType<ForceJump2Event> getType() {
+        return TYPE;
     }
 }

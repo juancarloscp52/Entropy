@@ -19,12 +19,16 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+
 import java.util.Random;
 
 public class ChickenRainEvent extends AbstractTimedEvent {
 
+    public static final EventType<ChickenRainEvent> TYPE = EventType.builder(ChickenRainEvent::new).category(EventCategory.RAIN).build();
     Random random;
 
     @Override
@@ -45,7 +49,7 @@ public class ChickenRainEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "rain";
+    public EventType<ChickenRainEvent> getType() {
+        return TYPE;
     }
 }

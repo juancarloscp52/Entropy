@@ -3,14 +3,17 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
 import java.util.function.Predicate;
 
 public class ForcefieldEvent extends AbstractTimedEvent {
+    public static final EventType<ForcefieldEvent> TYPE = EventType.builder(ForcefieldEvent::new).build();
     private static final Predicate<Entity> ALLOWED_ENTITY = EntitySelector.ENTITY_STILL_ALIVE.and(entity -> !entity.getType().is(EntityTypeTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET));
 
     @Override
@@ -26,5 +29,10 @@ public class ForcefieldEvent extends AbstractTimedEvent {
 
     public Vec3 getVelocity(BlockPos relativePos) {
         return new Vec3(-relativePos.getX(), -relativePos.getY(), -relativePos.getZ()).scale(0.25D);
+    }
+
+    @Override
+    public EventType<? extends ForcefieldEvent> getType() {
+        return TYPE;
     }
 }

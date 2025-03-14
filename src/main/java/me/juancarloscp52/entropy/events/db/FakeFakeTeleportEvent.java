@@ -1,19 +1,36 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.Event;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.events.db.FakeTeleportEvent.TeleportInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class FakeFakeTeleportEvent extends AbstractInstantEvent {
+    public static final StreamCodec<RegistryFriendlyByteBuf, FakeFakeTeleportEvent> STREAM_CODEC = StreamCodec.composite(
+        FakeTeleportEvent.STREAM_CODEC, e -> e.fakeTeleportEvent,
+        FakeFakeTeleportEvent::new
+    );
+    public static final EventType<FakeFakeTeleportEvent> TYPE = EventType.builder(FakeFakeTeleportEvent::new).streamCodec(STREAM_CODEC).build();
     private final Map<ServerPlayer,TeleportInfo> positionsBeforeFakeTeleport = new HashMap<>();
-    private FakeTeleportEvent fakeTeleportEvent = new FakeTeleportEvent();
+    private final FakeTeleportEvent fakeTeleportEvent;
     private int ticksAfterSecondTeleport = 0;
+
+    public FakeFakeTeleportEvent() {
+        this(FakeTeleportEvent.TYPE.create());
+    }
+
+    public FakeFakeTeleportEvent(FakeTeleportEvent fakeTeleportEvent) {
+        this.fakeTeleportEvent = fakeTeleportEvent;
+    }
 
     @Override
     public void init() {
@@ -50,18 +67,17 @@ public class FakeFakeTeleportEvent extends AbstractInstantEvent {
     }
 
     @Override
+    public EventType<? extends Event> getDisplayedType() {
+        return hasEnded() ? getType() : fakeTeleportEvent.getDisplayedType();
+    }
+
+    @Override
     public boolean hasEnded() {
         return fakeTeleportEvent.hasEnded() && ticksAfterSecondTeleport > FakeTeleportEvent.TICKS_UNTIL_TELEPORT_BACK;
     }
 
     @Override
-    public Optional<String> getExtraData() {
-        return fakeTeleportEvent.getExtraData();
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void readExtraData(String id) {
-        fakeTeleportEvent.readExtraData(id);
+    public EventType<FakeFakeTeleportEvent> getType() {
+        return TYPE;
     }
 }

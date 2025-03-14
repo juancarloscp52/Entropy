@@ -1,15 +1,17 @@
 package me.juancarloscp52.entropy.events.db;
 
-import org.joml.Quaterniond;
-import org.joml.Vector3f;
-
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleOptions;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
+import org.joml.Quaterniond;
+import org.joml.Vector3f;
 
 public class RainbowTrailsEvent extends AbstractTimedEvent {
+    public static final EventType<RainbowTrailsEvent> TYPE = EventType.builder(RainbowTrailsEvent::new).build();
+
     @Override
     public void tickClient() {
         super.tickClient();
@@ -86,5 +88,10 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
         }
 
         return new Vector3f(r / 255.0F, g / 255.0F, b / 255.0F);
+    }
+
+    @Override
+    public EventType<RainbowTrailsEvent> getType() {
+        return TYPE;
     }
 }

@@ -19,13 +19,20 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 
 public class BlindnessEvent extends AbstractInstantEvent {
+    public static final EventType<BlindnessEvent> TYPE = EventType.builder(BlindnessEvent::new).build();
 
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS,(Entropy.getInstance().settings.baseEventDuration))));
+    }
+
+    @Override
+    public EventType<BlindnessEvent> getType() {
+        return TYPE;
     }
 }

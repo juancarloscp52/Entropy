@@ -17,11 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class ForceSneakEvent extends AbstractTimedEvent {
+    public static final EventType<ForceSneakEvent> TYPE = EventType.builder(ForceSneakEvent::new).category(EventCategory.MOVEMENT).build();
 
     @Override
     public void initClient() {
@@ -35,7 +37,7 @@ public class ForceSneakEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "movement";
+    public EventType<ForceSneakEvent> getType() {
+        return TYPE;
     }
 }

@@ -20,9 +20,11 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.level.block.Blocks;
 
 public class PlaceLavaBlockEvent extends AbstractInstantEvent {
+    public static final EventType<PlaceLavaBlockEvent> TYPE = EventType.builder(PlaceLavaBlockEvent::new).build();
 
     @Override
     public void init() {
@@ -34,4 +36,8 @@ public class PlaceLavaBlockEvent extends AbstractInstantEvent {
     }
 
 
+    @Override
+    public EventType<PlaceLavaBlockEvent> getType() {
+        return TYPE;
+    }
 }

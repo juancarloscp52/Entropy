@@ -7,11 +7,13 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 
 public class ZeusUltEvent extends AbstractInstantEvent {
+    public static final EventType<ZeusUltEvent> TYPE = EventType.builder(ZeusUltEvent::new).build();
 
     @Override
     public void init() {
@@ -28,4 +30,8 @@ public class ZeusUltEvent extends AbstractInstantEvent {
         }
     }
 
+    @Override
+    public EventType<ZeusUltEvent> getType() {
+        return TYPE;
+    }
 }

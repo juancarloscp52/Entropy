@@ -18,15 +18,16 @@
 package me.juancarloscp52.entropy;
 
 import com.google.gson.Gson;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
-import me.juancarloscp52.entropy.networking.NetworkingConstants;
+import me.juancarloscp52.entropy.events.EventType;
+import me.juancarloscp52.entropy.events.db.StutteringEvent;
 import me.juancarloscp52.entropy.networking.ClientboundJoinConfirm;
 import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
 import me.juancarloscp52.entropy.networking.ClientboundRemoveEnded;
+import me.juancarloscp52.entropy.networking.NetworkingConstants;
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleOptions;
 import me.juancarloscp52.entropy.server.ServerEventHandler;
 import net.fabricmc.api.EnvType;
@@ -42,6 +43,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.commands.arguments.ResourceArgument;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -56,8 +59,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class Entropy implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
@@ -78,7 +79,6 @@ public class Entropy implements ModInitializer {
         instance = this;
         loadSettings();
         LOGGER.info("Entropy Started");
-        EventRegistry.register();
         Registry.register(BuiltInRegistries.PARTICLE_TYPE, ResourceLocation.fromNamespaceAndPath("entropy", "constant_color_dust"), CONSTANT_COLOR_DUST);
 
         ServerPlayNetworking.registerGlobalReceiver(NetworkingConstants.JOIN_HANDSHAKE, (handshake, context) -> {
@@ -95,7 +95,7 @@ public class Entropy implements ModInitializer {
                 List<Event> currentEvents = eventHandler.currentEvents;
                 if (!currentEvents.isEmpty()) {
                     ClientboundJoinSync sync = new ClientboundJoinSync(currentEvents.stream().map(currentEvent -> new ClientboundJoinSync.EventData(
-                        EventRegistry.getEventId(currentEvent),
+                        currentEvent,
                         currentEvent.hasEnded(),
                         currentEvent.getTickCount()
                     )).toList());
@@ -146,28 +146,30 @@ public class Entropy implements ModInitializer {
                                 return 0;
                             }))
                     .then(Commands.literal("run")
-                            .then(Commands.argument("event", StringArgumentType.word())
-                                    .suggests((context, builder) -> {
-                                        Set<String> events = new TreeSet<>(EventRegistry.entropyEvents.keySet());
-
-                                        events.removeIf(event -> !EventRegistry.doesWorldHaveRequiredFeatures(event, context.getSource().getLevel()));
-                                        return SharedSuggestionProvider.suggest(events, builder);
-                                    })
+                            .then(Commands.argument("event", ResourceArgument.resource(registryAccess, EventRegistry.REGISTRY_KEY))
+                                    .suggests((context, builder) ->
+                                            SharedSuggestionProvider.suggestResource(
+                                                EventRegistry.EVENTS.stream().filter(type -> type.hasRequiredFeatures(context.getSource().enabledFeatures())),
+                                                builder,
+                                                type -> EventRegistry.getEventId(type).location(),
+                                                type -> Component.translatable(type.getLanguageKey())
+                                            )
+                                    )
                                     .executes(source -> {
                                         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
 
                                         if(eventHandler != null) {
-                                            String eventId = source.getArgument("event", String.class);
+                                            Holder.Reference<EventType<?>> event = ResourceArgument.getResource(source, "event", EventRegistry.REGISTRY_KEY);
 
                                             // If running on integrated server, prevent running Stuttering event.
-                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && eventId.equals("StutteringEvent")){
-                                                throw ERROR_INVALID_ON_CLIENT.create(eventId);
+                                            if(FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER && event.value().equals(StutteringEvent.TYPE)){
+                                                throw ERROR_INVALID_ON_CLIENT.create(event.getRegisteredName());
                                             }
 
-                                            if(eventHandler.runEvent(EventRegistry.get(eventId)))
-                                                Entropy.LOGGER.warn("New event run via command: " + EventRegistry.getTranslationKey(eventId));
+                                            if(eventHandler.runEvent(event))
+                                                Entropy.LOGGER.warn("New event run via command: {}", event.getRegisteredName());
                                             else
-                                                throw ERROR_UNKNOWN_EVENT.create(eventId);
+                                                throw ERROR_UNKNOWN_EVENT.create(event.getRegisteredName());
                                         }
 
                                         return 0;

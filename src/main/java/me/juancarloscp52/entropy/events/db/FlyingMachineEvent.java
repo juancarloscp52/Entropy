@@ -2,6 +2,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -9,6 +10,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
 
 public class FlyingMachineEvent extends AbstractInstantEvent {
+    public static final EventType<FlyingMachineEvent> TYPE = EventType.builder(FlyingMachineEvent::new).build();
 
     @Override
     public void init() {
@@ -80,4 +82,8 @@ public class FlyingMachineEvent extends AbstractInstantEvent {
     }
 
 
+    @Override
+    public EventType<FlyingMachineEvent> getType() {
+        return TYPE;
+    }
 }

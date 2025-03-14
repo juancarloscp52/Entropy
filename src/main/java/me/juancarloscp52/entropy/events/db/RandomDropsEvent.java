@@ -17,11 +17,13 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 
 public class RandomDropsEvent extends AbstractTimedEvent {
+    public static final EventType<RandomDropsEvent> TYPE = EventType.builder(RandomDropsEvent::new).category(EventCategory.DROPS).build();
 
     @Override
     public void init() {
@@ -35,8 +37,7 @@ public class RandomDropsEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "drops";
+    public EventType<RandomDropsEvent> getType() {
+        return TYPE;
     }
-
 }

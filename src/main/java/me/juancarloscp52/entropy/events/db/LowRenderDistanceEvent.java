@@ -17,12 +17,14 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
+import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.Minecraft;
 
 public class LowRenderDistanceEvent extends AbstractTimedEvent {
 
+    public static final EventType<LowRenderDistanceEvent> TYPE = EventType.builder(LowRenderDistanceEvent::new).category(EventCategory.RENDER_DISTANCE).build();
     Minecraft client;
     private int viewDistance = 0;
 
@@ -41,7 +43,7 @@ public class LowRenderDistanceEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public String type() {
-        return "renderDistance";
+    public EventType<LowRenderDistanceEvent> getType() {
+        return TYPE;
     }
 }
