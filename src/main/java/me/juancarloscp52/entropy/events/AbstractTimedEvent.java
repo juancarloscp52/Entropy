@@ -18,20 +18,11 @@
 package me.juancarloscp52.entropy.events;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.Variables;
-import me.juancarloscp52.entropy.events.db.HideEventsEvent;
 import me.juancarloscp52.entropy.networking.ClientboundEndEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.util.ARGB;
-import net.minecraft.util.Mth;
 
 import java.util.List;
 
@@ -39,27 +30,6 @@ public abstract class AbstractTimedEvent implements Event {
 
     protected short tickCount = 0;
     private boolean hasEnded = false;
-
-    @Environment(EnvType.CLIENT)
-    public void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
-        if(Variables.doNotShowEvents && !(this instanceof HideEventsEvent))
-            return;
-        if(Variables.doNotShowEvents)
-            y=20;
-        Minecraft client = Minecraft.getInstance();
-        EventType<? extends Event> displayedType = getDisplayedType();
-        MutableComponent eventName = Component.translatable(displayedType.getLanguageKey());
-
-        if(!displayedType.isEnabled())
-            eventName.withStyle(ChatFormatting.STRIKETHROUGH);
-
-        int size = client.font.width(eventName);
-        drawContext.drawString(client.font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, ARGB.color(255,255, 255, 255));
-        if (!this.hasEnded()) {
-            drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 5, y + 8, ARGB.color(150,70, 70, 70));
-            drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 35 + Mth.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ARGB.color(200,255, 255, 255));
-        }
-    }
 
     public void tick() {
         tickCount++;
