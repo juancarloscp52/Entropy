@@ -26,8 +26,9 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
+
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
@@ -61,7 +62,7 @@ public class DiscordIntegration implements Integrations {
     }
 
     @Override
-    public void sendPoll(int voteID, List<String> events) {
+    public void sendPoll(int voteID, List<Component> events) {
         if(lastId!=-1)
             channel.deleteMessageById(lastId).queue();
         EmbedBuilder poll = new EmbedBuilder();
@@ -69,10 +70,10 @@ public class DiscordIntegration implements Integrations {
         poll.setColor(new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
         poll.setDescription("Entropy: Chaos Mod");
         poll.setTitle("\uD83D\uDDF3️ Vote For The Next Event");
-        poll.addField("1️⃣  "+ I18n.get(events.get(0)), "",false);
-        poll.addField("2️⃣  " + I18n.get(events.get(1)),"",false);
-        poll.addField("3️⃣  " + I18n.get(events.get(2)),"",false);
-        poll.addField("4️⃣  " + I18n.get(events.get(3)),"",false);
+        poll.addField("1️⃣  " + events.get(0).getString(), "", false);
+        poll.addField("2️⃣  " + events.get(1).getString(), "", false);
+        poll.addField("3️⃣  " + events.get(2).getString(), "", false);
+        poll.addField("4️⃣  " + events.get(3).getString(), "", false);
         poll.setFooter("React to this message with one of these emojis","https://media.forgecdn.net/avatars/356/538/637516966184620115.png");
         try{
             this.channel.sendMessageEmbeds(poll.build()).queue(message -> {

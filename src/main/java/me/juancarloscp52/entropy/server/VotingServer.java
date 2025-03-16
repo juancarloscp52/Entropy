@@ -27,6 +27,7 @@ import me.juancarloscp52.entropy.networking.ClientboundPollStatus;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import java.util.Random;
 
 public class VotingServer {
     private final int size = 4;
-    public List<Holder.Reference<EventType<?>>> events;
+    public List<Event> events;
     int[] totalVotes;
     int voteID = -1;
     int totalVoteCount = 0;
@@ -123,13 +124,13 @@ public class VotingServer {
         this.sendNewPoll();
     }
 
-    private List<Holder.Reference<EventType<?>>> getRandomEvents(int size) {
-        List<Holder.Reference<EventType<?>>> newEvents = new ArrayList<>();
+    private List<Event> getRandomEvents(int size) {
+        List<Event> newEvents = new ArrayList<>();
         List<Event> currentEvents = new ArrayList<>(Entropy.getInstance().eventHandler.currentEvents);
         for (int i = 0; i < size; i++) {
             Holder.Reference<EventType<?>> newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
             if(newEvent != null)
-                newEvents.add(newEvent);
+                newEvents.add(newEvent.value().create());
         }
         return newEvents;
     }
@@ -146,8 +147,8 @@ public class VotingServer {
 
     public ClientboundNewPoll getNewPollPacket() {
         return new ClientboundNewPoll(voteID, events.isEmpty()
-            ? List.of("No Event")
-            : events.stream().map(Holder::value).map(EventType::getLanguageKey).toList()
+            ? List.of(Component.translatable("entropy.queue.no_event"))
+            : events.stream().map(Event::getDescription).toList()
         );
     }
 

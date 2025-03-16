@@ -9,7 +9,7 @@ import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.Integrations;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -121,11 +121,11 @@ public class YoutubeIntegrations implements Integrations {
     }
 
     @Override
-    public void sendPoll(int voteID, List<String> events) {
+    public void sendPoll(int voteID, List<Component> events) {
         int altOffset = voteID % 2 == 0 ? 4 : 0;
         StringBuilder stringBuilder = new StringBuilder("Current poll:");
         for (int i = 0; i < events.size(); i++)
-            stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, I18n.get(events.get(i))));
+            stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, events.get(i).getString()));
 
         sendMessage(stringBuilder.toString());
     }
