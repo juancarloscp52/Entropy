@@ -36,6 +36,11 @@ public class HideEventsEvent extends AbstractTimedEvent {
     }
 
     @Override
+    public boolean alwaysShowDescription() {
+        return true;
+    }
+
+    @Override
     public short getDuration() {
         return (short) (super.getDuration() * 3);
     }

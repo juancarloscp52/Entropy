@@ -17,8 +17,6 @@
 
 package me.juancarloscp52.entropy.events;
 
-import me.juancarloscp52.entropy.Variables;
-import me.juancarloscp52.entropy.events.db.HideEventsEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
@@ -68,10 +66,6 @@ public interface Event {
 
     @Environment(EnvType.CLIENT)
     default void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
-        if(Variables.doNotShowEvents && !(this instanceof HideEventsEvent))
-            return;
-        if(Variables.doNotShowEvents)
-            y=20;
         Minecraft client = Minecraft.getInstance();
         Component eventName = getDescription();
 
@@ -81,6 +75,10 @@ public interface Event {
             drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 5, y + 8, ARGB.color(150,70, 70, 70));
             drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 35 + Mth.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ARGB.color(200,255, 255, 255));
         }
+    }
+
+    default boolean alwaysShowDescription() {
+        return false;
     }
 
     default Component getDescription() {

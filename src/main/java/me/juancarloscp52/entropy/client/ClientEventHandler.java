@@ -111,10 +111,12 @@ public class ClientEventHandler {
         renderer.renderTimer(drawContext, width, time, timerDuration);
 
         // Render Event Queue...
-        for (int i = 0; i < currentEvents.size(); i++) {
-            Event event = currentEvents.get(i);
-
-            event.renderQueueItem(drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, 20 + (i * 13));
+        int y = 20;
+        for (Event event : currentEvents) {
+            if (event.alwaysShowDescription() || !Variables.doNotShowEvents) {
+                event.renderQueueItem(drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, y);
+                y += 13;
+            }
         }
 
         // Render Poll...
