@@ -222,5 +222,7 @@
   "entropy.options.ui.gtav.tooltip": "The timer will be shown as a custom rendered bar at the top of the screen.",
   "entropy.options.ui.minecraft": "Minecraft",
   "entropy.options.ui.minecraft.tooltip": "The timer will be shown as a boss bar.",
-  "entropy.votes.no_event": "No Event"
+  "entropy.votes.display": "%s: %s",
+  "entropy.votes.no_event": "No Event",
+  "entropy.votes.percentage": "%s %"
 }

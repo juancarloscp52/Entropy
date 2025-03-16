@@ -114,7 +114,7 @@ public class VotingClient {
             sendPoll(voteID, events);
             int max = 200;
             for (Component key : events){
-                int width = client.font.width(Component.literal((5) + ": ").append(key));
+                int width = client.font.width(Component.translatableEscape("entropy.votes.display", 5, key));
                 if(width > max)
                     max = width;
             }
@@ -153,10 +153,10 @@ public class VotingClient {
         drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, ARGB.color(150,0, 0, 0));
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
             drawContext.fill(10, 31 + (i * 18), 10 + Mth.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));
-        drawContext.drawString(client.font, Component.literal((1 + i + altOffset) + ": ").append(this.events.get(i)), 15, 34 + (i * 18), ARGB.color(255,255, 255, 255));
+        drawContext.drawString(client.font, Component.translatableEscape("entropy.votes.display",1 + i + altOffset, events.get(i)), 15, 34 + (i * 18), ARGB.color(255,255, 255, 255));
 
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
-            Component percentage = Component.literal(Mth.floor(ratio * 100) + " %");
+            Component percentage = Component.translatableEscape("entropy.votes.percentage", Mth.floor(ratio * 100));
             drawContext.drawString(client.font, percentage, pollWidth + 10 + 42 - client.font.width(percentage), 34 + (i * 18), ARGB.color(255,255, 255, 255));
         }
 
