@@ -136,8 +136,8 @@
   "events.entropy.no_attacking": "Attackieren nicht erlaubt",
   "events.entropy.constant_attacking": "Andauerndes Attackieren",
   "events.entropy.spawn_killer_bunny": "Spawne Killer-Kaninchen",
-  "events.entropy.spawn_pet_dog": "Spawne gezähmten Hund",
-  "events.entropy.spawn_pet_cat": "Spawne gezähmte Katze",
+  "events.entropy.spawn_pet": "Gezähmtes Tier Spawnen",
+  "events.entropy.spawn_pet.type": "Gezähmtes Tier Spawnen (%s)",
   "events.entropy.haunted_chests": "Spukende Truhen",
   "events.entropy.no_use_key": "Keine Interaktionen erlaubt",
   "events.entropy.constant_interacting": "Ich kann nicht aufhören zu interagieren!",
@@ -217,5 +217,6 @@
   "entropy.options.disabled": "Deaktiviert",
   "entropy.options.ui": "Timer-Stil",
   "entropy.options.ui.gtav.tooltip": "Der Timer wird als ein selbsterstellter Balken am oberen Rand des Bildschirms angezeigt.",
-  "entropy.options.ui.minecraft.tooltip": "Der Timer wird als Bossleiste angezeigt."
+  "entropy.options.ui.minecraft.tooltip": "Der Timer wird als Bossleiste angezeigt.",
+  "entropy.votes.no_event": "Kein Ereignis"
 }
