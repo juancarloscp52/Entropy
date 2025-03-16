@@ -27,11 +27,15 @@ import me.juancarloscp52.entropy.networking.ClientboundRemoveFirst;
 import me.juancarloscp52.entropy.networking.ClientboundTick;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.flag.FeatureFlags;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ServerEventHandler {
@@ -128,8 +132,10 @@ public class ServerEventHandler {
             return false;
         }
 
-        if (!event.getType().doesWorldHaveRequiredFeatures(server.overworld())) {
-            Entropy.LOGGER.info("Tried to run event that requires disabled features");
+        final FeatureFlagSet featureFlagSet = event.getType().requiredFeatures();
+        if (!featureFlagSet.isSubsetOf(server.overworld().enabledFeatures())) {
+            final Optional<String> missing = FeatureFlags.REGISTRY.toNames(featureFlagSet.subtract(server.overworld().enabledFeatures())).stream().map(ResourceLocation::toString).reduce((s, t) -> s + ", " + t);
+            Entropy.LOGGER.info("Tried to run event that requires disabled features, missing: {}", missing.orElse("unknown"));
             return false;
         }
 
