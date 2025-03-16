@@ -136,8 +136,8 @@
   "events.entropy.no_attacking": "No Attacking Allowed",
   "events.entropy.constant_attacking": "Constant Attacking",
   "events.entropy.spawn_killer_bunny": "Spawn Killer Bunny",
-  "events.entropy.spawn_pet_dog": "Spawn Tamed Dog",
-  "events.entropy.spawn_pet_cat": "Spawn Tamed Cat",
+  "events.entropy.spawn_pet": "Spawn Tamed Animal",
+  "events.entropy.spawn_pet.type": "Spawn Tamed %s",
   "events.entropy.haunted_chests": "Haunted Chests",
   "events.entropy.no_use_key": "No Interacting Allowed",
   "events.entropy.constant_interacting": "I can't stop interacting!",
@@ -222,5 +222,5 @@
   "entropy.options.ui.gtav.tooltip": "The timer will be shown as a custom rendered bar at the top of the screen.",
   "entropy.options.ui.minecraft": "Minecraft",
   "entropy.options.ui.minecraft.tooltip": "The timer will be shown as a boss bar.",
-  "entropy.queue.no_event": "No Event"
+  "entropy.votes.no_event": "No Event"
 }

@@ -186,8 +186,7 @@ public class EventRegistry {
         register(registry, "no_attacking", NoAttackingEvent.TYPE);
         register(registry, "constant_attacking", ConstantAttackingEvent.TYPE);
         register(registry, "spawn_killer_bunny", SpawnKillerBunnyEvent.TYPE);
-        register(registry, "spawn_pet_dog", SpawnPetDogEvent.TYPE);
-        register(registry, "spawn_pet_cat", SpawnPetCatEvent.TYPE);
+        register(registry, "spawn_pet", SpawnPetEvent.TYPE);
         register(registry, "haunted_chests", HauntedChestsEvent.TYPE);
         register(registry, "no_use_key", NoUseKeyEvent.TYPE);
         register(registry, "constant_interacting", ConstantInteractingEvent.TYPE);
