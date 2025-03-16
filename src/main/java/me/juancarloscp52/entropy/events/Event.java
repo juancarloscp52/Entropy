@@ -65,7 +65,7 @@ public interface Event {
     }
 
     @Environment(EnvType.CLIENT)
-    default void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y) {
+    default void renderQueueItem(GuiGraphics drawContext, int y) {
         Minecraft client = Minecraft.getInstance();
         Component eventName = getDescription();
 

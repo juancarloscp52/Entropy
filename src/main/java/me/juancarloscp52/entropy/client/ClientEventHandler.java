@@ -114,7 +114,7 @@ public class ClientEventHandler {
         int y = 20;
         for (Event event : currentEvents) {
             if (event.alwaysShowDescription() || !Variables.doNotShowEvents) {
-                event.renderQueueItem(drawContext, tickCounter.getGameTimeDeltaPartialTick(false), width - 200, y);
+                event.renderQueueItem(drawContext, y);
                 y += 13;
             }
         }
