@@ -56,7 +56,7 @@
   "events.entropy.randomize_armor": "Zufällige Rüstung",
   "events.entropy.force_front_view": "Vorderansicht erzwingen",
   "events.entropy.force_third_person": "Third-Person-Ansicht erzwingen",
-  "events.entropy.hides": "Was geschieht gerade!???",
+  "events.entropy.hide_events": "Was geschieht gerade!???",
   "events.entropy.top_down_view": "Vogelperspektive",
   "events.entropy.phantom": "Phantom-Truppe!",
   "events.entropy.timer_speed_2": "2x Timer-Geschwindigkeit",

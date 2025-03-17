@@ -56,7 +56,7 @@
   "events.entropy.randomize_armor": "Randomise armour",
   "events.entropy.force_front_view": "Force front view",
   "events.entropy.force_third_person": "Force third person view",
-  "events.entropy.hides": "What is happening?!",
+  "events.entropy.hide_events": "What is happening?!",
   "events.entropy.top_down_view": "Top down view",
   "events.entropy.phantom": "Phantom squad",
   "events.entropy.timer_speed_2": "2x timer speed",
