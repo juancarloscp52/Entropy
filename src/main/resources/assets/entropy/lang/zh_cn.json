@@ -55,7 +55,7 @@
   "events.entropy.randomize_armor": "随便穿点什么吧",
   "events.entropy.force_front_view": "强制第二人称视角",
   "events.entropy.force_third_person": "强制第三人称视角",
-  "events.entropy.hides": "何者将至?",
+  "events.entropy.hide_events": "何者将至?",
   "events.entropy.top_down_view": "俯视图",
   "events.entropy.phantom": "幻翼小队!",
   "events.entropy.timer_speed_2": "2x 计时器速度",

@@ -56,7 +56,7 @@
   "events.entropy.randomize_armor": "Aleatorizar armadura",
   "events.entropy.force_front_view": "Olhe para si mesmo",
   "events.entropy.force_third_person": "Forçar visão em terceira pessoa",
-  "events.entropy.hides": "O que está acontecendo!???",
+  "events.entropy.hide_events": "O que está acontecendo!???",
   "events.entropy.top_down_view": "Visão de cima",
   "events.entropy.phantom": "Esquadrão fantasma!",
   "events.entropy.timer_speed_2": "Velocidade do temporizador 2x",

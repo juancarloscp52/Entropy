@@ -56,7 +56,7 @@
   "events.entropy.randomize_armor": "Armadura aleatoria",
   "events.entropy.force_front_view": "Forzar vista desde el frente",
   "events.entropy.force_third_person": "Forzar vista en tercera persona",
-  "events.entropy.hides": "Que está pasando!???",
+  "events.entropy.hide_events": "Que está pasando!???",
   "events.entropy.top_down_view": "Vista desde arriba",
   "events.entropy.phantom": "Escuadrón Fantasma!",
   "events.entropy.timer_speed_2": "2x Velocidad de contador",
