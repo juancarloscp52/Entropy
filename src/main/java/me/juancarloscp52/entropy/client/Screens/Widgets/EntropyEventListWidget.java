@@ -183,9 +183,11 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
             EventType<?> type = typeReference.value();
             boolean isEnabled = type.isEnabled();
             boolean enableCheckbox = !isEventDisabledInSettings(typeReference) && isEnabled;
-            final Checkbox checkbox = Checkbox.builder(Component.translatable(type.getLanguageKey()), textRenderer).pos(0, 0).selected(enableCheckbox).onValueChange(isEnabled ? ButtonEntry::onDisabledCheckboxPressed : Checkbox.OnValueChange.NOP).build();
-            if (!isEnabled)
+            final Checkbox checkbox = Checkbox.builder(Component.translatable(type.getLanguageKey()), textRenderer).pos(0, 0).selected(enableCheckbox).build();
+            if (!isEnabled) {
                 checkbox.setTooltip(ACCESSIBILITY_TOOLTIP);
+                checkbox.active = false;
+            }
 
             return new EntropyEventListWidget.ButtonEntry(eventInfo, checkbox);
         }
@@ -195,12 +197,6 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
                 .stream()
                 .map(ResourceKey::location)
                 .anyMatch(key -> typeReference.key().location().equals(key));
-        }
-
-        private static void onDisabledCheckboxPressed(Checkbox widget, boolean checked) {
-            if (checked) {
-                widget.onPress();
-            }
         }
 
         public void render(GuiGraphics drawContext, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {

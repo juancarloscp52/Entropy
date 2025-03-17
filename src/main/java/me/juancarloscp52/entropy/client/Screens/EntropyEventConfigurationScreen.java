@@ -106,13 +106,17 @@ public class EntropyEventConfigurationScreen extends Screen {
 
     private void onCheckAll() {
         this.list.children().forEach(buttonEntry -> {
-            if (buttonEntry.checkbox.visible && !buttonEntry.checkbox.selected()) {buttonEntry.checkbox.onPress();}
+            if (buttonEntry.checkbox.visible && !buttonEntry.checkbox.selected() && buttonEntry.eventInfo.typeReference().value().isEnabled()) {
+                buttonEntry.checkbox.onPress();
+            }
         });
     }
 
     private void onUncheckAll() {
         this.list.children().forEach(buttonEntry -> {
-            if (buttonEntry.checkbox.visible && buttonEntry.checkbox.selected()) {buttonEntry.checkbox.onPress();}
+            if (buttonEntry.checkbox.visible && buttonEntry.checkbox.selected() && buttonEntry.eventInfo.typeReference().value().isEnabled()) {
+                buttonEntry.checkbox.onPress();
+            }
         });
     }
 
