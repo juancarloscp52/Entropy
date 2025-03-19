@@ -215,5 +215,7 @@
   "entropy.options.all": "Todos",
   "entropy.options.enabled": "Activo",
   "entropy.options.disabled": "Inactivo",
-  "entropy.options.ui": "Estilo"
+  "entropy.options.ui": "Estilo",
+  "entropy.votes.display": "%s: %s",
+  "entropy.votes.percentage": "%s %%"
 }

@@ -29,11 +29,15 @@ import me.juancarloscp52.entropy.networking.ClientboundTick;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.flag.FeatureFlagSet;
+import net.minecraft.world.flag.FeatureFlags;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ServerEventHandler {
@@ -83,23 +87,28 @@ public class ServerEventHandler {
 
             if (!noNewEvents) {
                 // Get next Event from chat votes (if enabled) or randomly
-                Holder.Reference<EventType<?>> event;
+                Optional<Event> event;
                 if (settings.integrations) {
                     if (voting.events.isEmpty()) {
                         Entropy.LOGGER.info("[Chat Integrations] No random event available");
-                        event=null;
-                    }else{
+                        event = Optional.empty();
+                    } else {
                         int winner = voting.getWinner();
                         if (winner == -1 || winner == 3)    // -1 - no winner, 3 - Random Event : Get Random Event.
-                            event = EventRegistry.getRandomDifferentEvent(currentEvents);
+                            event = EventRegistry.getRandomDifferentEvent(currentEvents).map(Holder::value).map(EventType::create);
                         else    // Get winner
-                            event = voting.events.get(winner);
-                        Entropy.LOGGER.info("[Chat Integrations] Winner event: {}", event.key().location());
+                            event = Optional.of(voting.events.get(winner));
+                        if (event.isPresent()) {
+                            Entropy.LOGGER.info("[Chat Integrations] Winner event: {}", event.get().getDescription().getString());
+                        } else {
+                            Entropy.LOGGER.info("[Chat Integrations] No selectable event");
+                        }
                     }
-                } else
-                    event = EventRegistry.getRandomDifferentEvent(currentEvents);
+                } else {
+                    event = EventRegistry.getRandomDifferentEvent(currentEvents).map(Holder::value).map(EventType::create);
+                }
 
-                runEvent(event);
+                event.ifPresent(this::runEvent);
                 if (settings.integrations)
                     voting.newPoll();
 
@@ -123,23 +132,26 @@ public class ServerEventHandler {
         eventCountDown--;
     }
 
-    public boolean runEvent(Holder.Reference<EventType<?>> typeReference) {
-        if (typeReference != null) {
-            EventType<?> type = typeReference.value();
-            if (type.doesWorldHaveRequiredFeatures(server.overworld())) {
-                Event event = type.create();
-                Entropy.LOGGER.info("New Event: {} total duration: {}", typeReference.key().location(), event.getDuration());
-                // Start the event and add it to the list.
-                event.init();
-                currentEvents.add(event);
-
-                sendEventToPlayers(event);
-                return true;
-            }
+    public boolean runEvent(Event event) {
+        if (event == null) {
+            Entropy.LOGGER.info("New Event not found");
+            return false;
         }
 
-        Entropy.LOGGER.info("New Event not found");
-        return false;
+        final FeatureFlagSet featureFlagSet = event.getType().requiredFeatures();
+        if (!featureFlagSet.isSubsetOf(server.overworld().enabledFeatures())) {
+            final Optional<String> missing = FeatureFlags.REGISTRY.toNames(featureFlagSet.subtract(server.overworld().enabledFeatures())).stream().map(ResourceLocation::toString).reduce((s, t) -> s + ", " + t);
+            Entropy.LOGGER.info("Tried to run event that requires disabled features, missing: {}", missing.orElse("unknown"));
+            return false;
+        }
+
+        Entropy.LOGGER.info("New Event: {} total duration: {}", event.getDescription().getString(), event.getDuration());
+        // Start the event and add it to the list.
+        event.init();
+        currentEvents.add(event);
+
+        sendEventToPlayers(event);
+        return true;
     }
 
     private void sendEventToPlayers(Event event) {

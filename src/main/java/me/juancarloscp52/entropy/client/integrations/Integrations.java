@@ -17,6 +17,8 @@
 
 package me.juancarloscp52.entropy.client.integrations;
 
+import net.minecraft.network.chat.Component;
+
 import java.util.List;
 
 public interface Integrations {
@@ -25,7 +27,7 @@ public interface Integrations {
 
     void stop();
 
-    void sendPoll(int voteID, List<String> events);
+    void sendPoll(int voteID, List<Component> events);
 
     void sendMessage(String message);
 

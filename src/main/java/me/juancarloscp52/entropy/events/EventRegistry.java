@@ -36,9 +36,11 @@ import net.minecraft.world.level.Level;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class EventRegistry {
@@ -186,8 +188,7 @@ public class EventRegistry {
         register(registry, "no_attacking", NoAttackingEvent.TYPE);
         register(registry, "constant_attacking", ConstantAttackingEvent.TYPE);
         register(registry, "spawn_killer_bunny", SpawnKillerBunnyEvent.TYPE);
-        register(registry, "spawn_pet_dog", SpawnPetDogEvent.TYPE);
-        register(registry, "spawn_pet_cat", SpawnPetCatEvent.TYPE);
+        register(registry, "spawn_pet", SpawnPetEvent.TYPE);
         register(registry, "haunted_chests", HauntedChestsEvent.TYPE);
         register(registry, "no_use_key", NoUseKeyEvent.TYPE);
         register(registry, "constant_interacting", ConstantInteractingEvent.TYPE);
@@ -218,7 +219,11 @@ public class EventRegistry {
         Registry.register(registry, ResourceLocation.fromNamespaceAndPath("entropy", id), type);
     }
 
-    public static Holder.Reference<EventType<?>> getRandomDifferentEvent(List<Event> currentEvents) {
+    public static Optional<Holder.Reference<EventType<?>>> getRandomDifferentEvent(List<Event> notThese, List<Event> andAlsoNotThese) {
+        return getRandomDifferentEvent(Stream.concat(notThese.stream(), andAlsoNotThese.stream()).toList());
+    }
+
+    public static Optional<Holder.Reference<EventType<?>>> getRandomDifferentEvent(List<Event> currentEvents) {
 
         List<Holder.Reference<EventType<?>>> eventCandidates = EVENTS.listElements().collect(Collectors.toList());
         Set<ResourceKey<EventType<?>>> eventsToRemove = new HashSet<>(Entropy.getInstance().settings.disabledEventTypes);
@@ -253,11 +258,11 @@ public class EventRegistry {
         return getRandomEvent(eventCandidates);
     }
 
-    private static Holder.Reference<EventType<?>> getRandomEvent(List<Holder.Reference<EventType<?>>> eventTypes) {
+    private static Optional<Holder.Reference<EventType<?>>> getRandomEvent(List<Holder.Reference<EventType<?>>> eventTypes) {
         if(eventTypes.isEmpty())
-            return null;
+            return Optional.empty();
 
-        return eventTypes.get(random.nextInt(eventTypes.size()));
+        return Optional.of(eventTypes.get(random.nextInt(eventTypes.size())));
     }
 
     public static ResourceKey<EventType<?>> getEventId(EventType<?> eventType) {

@@ -186,5 +186,7 @@
   "entropy.options.uncheckAllEvents": "禁用全部",
   "entropy.options.ui": "冷却条风格",
   "entropy.options.ui.gtav": "Chaos 模组",
-  "entropy.options.ui.minecraft": "Minecraft"
+  "entropy.options.ui.minecraft": "Minecraft",
+  "entropy.votes.display": "%s: %s",
+  "entropy.votes.percentage": "%s %%"
 }

@@ -26,13 +26,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class VotingClient {
 
     private final int size = 4;
-    List<String> events;
+    List<Component> events;
     int[] votes;
     int[] totalVotes;
     int voteID = -1;
@@ -96,7 +97,7 @@ public class VotingClient {
         }
     }
 
-    public void newPoll(int voteID, List<String> events) {
+    public void newPoll(int voteID, List<Component> events) {
         voteMap.clear();
         if(firstVote){
             firstVote=false;
@@ -106,14 +107,14 @@ public class VotingClient {
         if (this.size - 1 == events.size()) {
             this.voteID = voteID;
             this.events = events;
-            this.events.add("entropy.voting.randomEvent");
+            this.events.add(Component.translatable("entropy.voting.randomEvent"));
             totalVotesCount = 0;
             votes = new int[4];
             totalVotes = new int[4];
-            sendPoll(voteID,events);
+            sendPoll(voteID, events);
             int max = 200;
-            for (String key : events){
-                int width = client.font.width(Component.literal((5) + ": ").append(Component.translatable(key)));
+            for (Component key : events){
+                int width = client.font.width(Component.translatableEscape("entropy.votes.display", 5, key));
                 if(width > max)
                     max = width;
             }
@@ -152,19 +153,19 @@ public class VotingClient {
         drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, ARGB.color(150,0, 0, 0));
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
             drawContext.fill(10, 31 + (i * 18), 10 + Mth.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));
-        drawContext.drawString(client.font, Component.literal((1 + i + altOffset) + ": ").append(Component.translatable(this.events.get(i))), 15, 34 + (i * 18), ARGB.color(255,255, 255, 255));
+        drawContext.drawString(client.font, Component.translatableEscape("entropy.votes.display",1 + i + altOffset, events.get(i)), 15, 34 + (i * 18), ARGB.color(255,255, 255, 255));
 
         if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
-            Component percentage = Component.literal(Mth.floor(ratio * 100) + " %");
+            Component percentage = Component.translatableEscape("entropy.votes.percentage", Mth.floor(ratio * 100));
             drawContext.drawString(client.font, percentage, pollWidth + 10 + 42 - client.font.width(percentage), 34 + (i * 18), ARGB.color(255,255, 255, 255));
         }
 
     }
 
-    public void sendPoll(int voteID, List<String> events) {
+    public void sendPoll(int voteID, List<Component> events) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
-            integrations.sendPoll(voteID,events);
-        this.overlayServer.onNewVote(voteID,events);
+            integrations.sendPoll(voteID, events);
+        this.overlayServer.onNewVote(voteID, events);
     }
     public void sendMessage(String message) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)

@@ -166,7 +166,7 @@ public class Entropy implements ModInitializer {
                                                 throw ERROR_INVALID_ON_CLIENT.create(event.getRegisteredName());
                                             }
 
-                                            if(eventHandler.runEvent(event))
+                                            if(eventHandler.runEvent(event.value().create()))
                                                 Entropy.LOGGER.warn("New event run via command: {}", event.getRegisteredName());
                                             else
                                                 throw ERROR_UNKNOWN_EVENT.create(event.getRegisteredName());

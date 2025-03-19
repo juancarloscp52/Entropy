@@ -19,11 +19,17 @@ package me.juancarloscp52.entropy.events;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ARGB;
+import net.minecraft.util.Mth;
 
 
 public interface Event {
@@ -59,10 +65,29 @@ public interface Event {
     }
 
     @Environment(EnvType.CLIENT)
-    void renderQueueItem(GuiGraphics drawContext, float tickdelta, int x, int y);
+    default void renderQueueItem(GuiGraphics drawContext, int y) {
+        Minecraft client = Minecraft.getInstance();
+        Component eventName = getDescription();
 
-    default EventType<? extends Event> getDisplayedType() {
-        return getType();
+        int size = client.font.width(eventName);
+        drawContext.drawString(client.font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, ARGB.color(255,255, 255, 255));
+        if (!this.hasEnded()) {
+            drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 5, y + 8, ARGB.color(150,70, 70, 70));
+            drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 35 + Mth.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ARGB.color(200,255, 255, 255));
+        }
+    }
+
+    default boolean alwaysShowDescription() {
+        return false;
+    }
+
+    default Component getDescription() {
+        final MutableComponent description = Component.translatable(getType().getLanguageKey());
+        if (!getType().isEnabled()) {
+            return description.withStyle(ChatFormatting.STRIKETHROUGH);
+        }
+
+        return description;
     }
 
     void tick();
