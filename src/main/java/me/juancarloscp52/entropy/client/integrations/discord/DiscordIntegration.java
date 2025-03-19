@@ -19,7 +19,7 @@ package me.juancarloscp52.entropy.client.integrations.discord;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.VotingClient;
-import me.juancarloscp52.entropy.client.integrations.Integrations;
+import me.juancarloscp52.entropy.client.integrations.Integration;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -33,7 +33,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
-public class DiscordIntegration implements Integrations {
+public class DiscordIntegration implements Integration {
 
     public JDA jda;
     public MessageChannel channel;

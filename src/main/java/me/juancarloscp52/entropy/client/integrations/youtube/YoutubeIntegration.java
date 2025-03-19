@@ -8,7 +8,7 @@ import me.juancarloscp52.entropy.client.ClientEventHandler;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
-import me.juancarloscp52.entropy.client.integrations.Integrations;
+import me.juancarloscp52.entropy.client.integrations.Integration;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class YoutubeIntegrations implements Integrations {
+public class YoutubeIntegration implements Integration {
     public static final Logger LOGGER = LogManager.getLogger();
 
     private static final int BASE_POLLING_INTERVAL = 4800;
@@ -36,7 +36,7 @@ public class YoutubeIntegrations implements Integrations {
     private boolean _isRunning = false;
     private List<String> _messagesToSend = new ArrayList<String>();
 
-    public YoutubeIntegrations(ClientEventHandler clientEventHandler, VotingClient votingClient) {
+    public YoutubeIntegration(ClientEventHandler clientEventHandler, VotingClient votingClient) {
         _clientEventHandler = clientEventHandler;
         _votingClient = votingClient;
         _executor = Executors.newCachedThreadPool();
