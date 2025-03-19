@@ -21,7 +21,7 @@ import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
-public interface Integrations {
+public interface Integration {
 
     void start();
 

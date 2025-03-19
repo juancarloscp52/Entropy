@@ -17,7 +17,7 @@
 
 package me.juancarloscp52.entropy.client;
 
-import me.juancarloscp52.entropy.client.integrations.Integrations;
+import me.juancarloscp52.entropy.client.integrations.Integration;
 import me.juancarloscp52.entropy.client.websocket.OverlayServer;
 import me.juancarloscp52.entropy.networking.ServerboundVotes;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -40,7 +40,7 @@ public class VotingClient {
     int pollWidth = 195;
     int totalVotesCount = 0;
     boolean enabled = false;
-    Integrations integrations;
+    Integration integration;
     Minecraft client = Minecraft.getInstance();
 
     OverlayServer overlayServer;
@@ -56,7 +56,7 @@ public class VotingClient {
 
     public void disable() {
         enabled = false;
-        integrations.stop();
+        integration.stop();
         overlayServer.stop();
     }
     public void removeVote(int index, String userId) {
@@ -129,8 +129,8 @@ public class VotingClient {
         }
     }
 
-    public void setIntegrations(Integrations integration) {
-        this.integrations = integration;
+    public void setIntegrations(Integration integration) {
+        this.integration = integration;
     }
 
     public void render(GuiGraphics drawContext) {
@@ -164,12 +164,12 @@ public class VotingClient {
 
     public void sendPoll(int voteID, List<Component> events) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
-            integrations.sendPoll(voteID, events);
+            integration.sendPoll(voteID, events);
         this.overlayServer.onNewVote(voteID, events);
     }
     public void sendMessage(String message) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
-            integrations.sendMessage(message);
+            integration.sendMessage(message);
     }
     public void sendVotes() {
         if (voteID == -1)
@@ -180,6 +180,6 @@ public class VotingClient {
     }
 
     public int getColor(int alpha) {
-        return integrations.getColor(alpha);
+        return integration.getColor(alpha);
     }
 }

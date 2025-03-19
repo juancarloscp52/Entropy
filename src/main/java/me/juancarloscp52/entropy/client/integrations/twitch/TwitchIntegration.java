@@ -20,7 +20,7 @@ package me.juancarloscp52.entropy.client.integrations.twitch;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
-import me.juancarloscp52.entropy.client.integrations.Integrations;
+import me.juancarloscp52.entropy.client.integrations.Integration;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
 import org.pircbotx.Configuration;
@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class TwitchIntegrations extends ListenerAdapter implements Integrations {
+public class TwitchIntegration extends ListenerAdapter implements Integration {
 
     private final Configuration config;
     EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
@@ -48,7 +48,7 @@ public class TwitchIntegrations extends ListenerAdapter implements Integrations 
     private final VotingClient votingClient;
     private long lastJoinMessage = 0;
 
-    public TwitchIntegrations(VotingClient votingClient) {
+    public TwitchIntegration(VotingClient votingClient) {
         this.votingClient = votingClient;
         config = new Configuration.Builder()
                 .setAutoNickChange(false)
