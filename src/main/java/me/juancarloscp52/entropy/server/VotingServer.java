@@ -32,6 +32,7 @@ import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class VotingServer {
@@ -128,9 +129,9 @@ public class VotingServer {
         List<Event> newEvents = new ArrayList<>();
         List<Event> currentEvents = new ArrayList<>(Entropy.getInstance().eventHandler.currentEvents);
         for (int i = 0; i < size; i++) {
-            Holder.Reference<EventType<?>> newEvent = EventRegistry.getRandomDifferentEvent(currentEvents);
-            if(newEvent != null)
-                newEvents.add(newEvent.value().create());
+            Optional<Holder.Reference<EventType<?>>> newEvent = EventRegistry.getRandomDifferentEvent(currentEvents, newEvents);
+            if(newEvent.isPresent())
+                newEvents.add(newEvent.get().value().create());
         }
         return newEvents;
     }

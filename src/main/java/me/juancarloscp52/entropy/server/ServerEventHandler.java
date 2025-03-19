@@ -22,11 +22,13 @@ import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
+import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.networking.ClientboundAddEvent;
 import me.juancarloscp52.entropy.networking.ClientboundRemoveFirst;
 import me.juancarloscp52.entropy.networking.ClientboundTick;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -85,24 +87,28 @@ public class ServerEventHandler {
 
             if (!noNewEvents) {
                 // Get next Event from chat votes (if enabled) or randomly
-                Event event;
+                Optional<Event> event;
                 if (settings.integrations) {
                     if (voting.events.isEmpty()) {
                         Entropy.LOGGER.info("[Chat Integrations] No random event available");
-                        event = null;
+                        event = Optional.empty();
                     } else {
                         int winner = voting.getWinner();
                         if (winner == -1 || winner == 3)    // -1 - no winner, 3 - Random Event : Get Random Event.
-                            event = EventRegistry.getRandomDifferentEvent(currentEvents).value().create();
+                            event = EventRegistry.getRandomDifferentEvent(currentEvents).map(Holder::value).map(EventType::create);
                         else    // Get winner
-                            event = voting.events.get(winner);
-                        Entropy.LOGGER.info("[Chat Integrations] Winner event: {}", event.getDescription());
+                            event = Optional.of(voting.events.get(winner));
+                        if (event.isPresent()) {
+                            Entropy.LOGGER.info("[Chat Integrations] Winner event: {}", event.get().getDescription());
+                        } else {
+                            Entropy.LOGGER.info("[Chat Integrations] No selectable event");
+                        }
                     }
                 } else {
-                    event = EventRegistry.getRandomDifferentEvent(currentEvents).value().create();
+                    event = EventRegistry.getRandomDifferentEvent(currentEvents).map(Holder::value).map(EventType::create);
                 }
 
-                runEvent(event);
+                event.ifPresent(this::runEvent);
                 if (settings.integrations)
                     voting.newPoll();
 
