@@ -99,7 +99,7 @@ public class ServerEventHandler {
                         else    // Get winner
                             event = Optional.of(voting.events.get(winner));
                         if (event.isPresent()) {
-                            Entropy.LOGGER.info("[Chat Integrations] Winner event: {}", event.get().getDescription());
+                            Entropy.LOGGER.info("[Chat Integrations] Winner event: {}", event.get().getDescription().getString());
                         } else {
                             Entropy.LOGGER.info("[Chat Integrations] No selectable event");
                         }
