@@ -218,5 +218,7 @@
   "entropy.options.ui.gtav": "Mod de Caos",
   "entropy.options.ui.gtav.tooltip": "O temporizador será mostrado como uma barra personalizada renderizada no topo da tela.",
   "entropy.options.ui.minecraft": "Minecraft",
-  "entropy.options.ui.minecraft.tooltip": "O temporizador será mostrado como uma barra de chefe."
+  "entropy.options.ui.minecraft.tooltip": "O temporizador será mostrado como uma barra de chefe.",
+  "entropy.votes.display": "%s: %s",
+  "entropy.votes.percentage": "%s %%"
 }

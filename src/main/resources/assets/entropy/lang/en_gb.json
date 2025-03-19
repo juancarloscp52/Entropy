@@ -170,5 +170,7 @@
   "entropy.options.integrations.youtube.help": "YouTube Integrations enables the chat to vote what will be the next event during streams. Chat will be able to vote writing numbers in chat that correspond to an event. The different available events for the poll will be shown on screen with their corresponding number. In order to use this feature, the streamer needs to create an API project in Google Cloud Console, create OAuth 2.0 Client ID credential, insert a client id and secret, and authorize the mod to interact with youtube.",
   "entropy.options.integrations.showPollStatus": "Show poll status on screen",
   "entropy.options.checkAllEvents": "Enable All",
-  "entropy.options.uncheckAllEvents": "Disable All"
+  "entropy.options.uncheckAllEvents": "Disable All",
+  "entropy.votes.display": "%s: %s",
+  "entropy.votes.percentage": "%s %%"
 }

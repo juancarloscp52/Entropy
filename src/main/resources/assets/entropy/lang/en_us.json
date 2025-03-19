@@ -224,5 +224,5 @@
   "entropy.options.ui.minecraft.tooltip": "The timer will be shown as a boss bar.",
   "entropy.votes.display": "%s: %s",
   "entropy.votes.no_event": "No Event",
-  "entropy.votes.percentage": "%s %"
+  "entropy.votes.percentage": "%s %%"
 }

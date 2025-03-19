@@ -218,5 +218,7 @@
   "entropy.options.ui": "Timer-Stil",
   "entropy.options.ui.gtav.tooltip": "Der Timer wird als ein selbsterstellter Balken am oberen Rand des Bildschirms angezeigt.",
   "entropy.options.ui.minecraft.tooltip": "Der Timer wird als Bossleiste angezeigt.",
-  "entropy.votes.no_event": "Kein Ereignis"
+  "entropy.votes.no_event": "Kein Ereignis",
+  "entropy.votes.display": "%s: %s",
+  "entropy.votes.percentage": "%s %%"
 }
