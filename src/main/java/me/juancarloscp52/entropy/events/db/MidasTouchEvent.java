@@ -5,34 +5,31 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropyTags.BlockTags;
-import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
-import me.juancarloscp52.entropy.EntropyTags.ItemTags;
+import me.juancarloscp52.entropy.EntropyTags;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.util.Tuple;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.AnimalArmorItem;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.ShovelItem;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class MidasTouchEvent extends AbstractTimedEvent {
     public static final EventType<MidasTouchEvent> TYPE = EventType.builder(MidasTouchEvent::new).build();
@@ -55,7 +52,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                     for (int iz = minZ; iz <= maxZ; iz++) {
 
                         var blockPos = new BlockPos(ix, iy, iz);
-                        if (world.getBlockState(blockPos).is(BlockTags.IGNORED_BY_MIDAS_TOUCH))
+                        if (world.getBlockState(blockPos).is(EntropyTags.BlockTags.IGNORED_BY_MIDAS_TOUCH))
                             continue;
 
                         var odds = player.getRandom().nextInt(100);
@@ -75,7 +72,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
             // Kill mobs around and spawn golden items
             var box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
-            var mobs = world.getEntities(player, box, x -> x instanceof LivingEntity && x.isAlive() && !x.getType().is(EntityTypeTags.IGNORED_BY_MIDAS_TOUCH));
+            var mobs = world.getEntities(player, box, x -> x instanceof LivingEntity && x.isAlive() && !x.getType().is(EntropyTags.EntityTypeTags.IGNORED_BY_MIDAS_TOUCH));
             for (var mob : mobs) {
 
                 ItemStack itemStack;
@@ -108,27 +105,15 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
             // Replace items that player holding in his hand and everything that player
             // wearing with golden variants
-            var inventory = player.getInventory();
-            var inventoryItems = new ArrayList<Tuple<NonNullList<ItemStack>, Integer>>() {
-                {
-                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.offhand, 0));
-                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.armor, 0));
-                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.armor, 1));
-                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.armor, 2));
-                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.armor, 3));
-                    add(new Tuple<NonNullList<ItemStack>, Integer>(inventory.items, inventory.selected));
-                }
-            };
-            for (var pair : inventoryItems) {
-                var itemStack = pair.getA().get(pair.getB());
-                if (itemStack.isEmpty() || itemStack.is(ItemTags.IGNORED_BY_MIDAS_TOUCH) || itemStack.is(ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS))
+            Inventory inv = player.getInventory();
+            for (int i = 0; i < inv.getContainerSize(); i++) {
+                var itemStack = inv.getItem(i);
+                if (itemStack.isEmpty() || itemStack.is(EntropyTags.ItemTags.IGNORED_BY_MIDAS_TOUCH) || itemStack.is(EntropyTags.ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS))
                     continue;
                 var item = itemStack.getItem();
 
-                ItemStack newItemStack;
-                DataComponentMap components = item.components();
-                var food = components.get(DataComponents.FOOD);
-                if (food != null) {
+                ItemStack newItemStack = itemStack.copy();
+                if (itemStack.has(DataComponents.FOOD)) {
                     var odds = player.getRandom().nextInt(100);
 
                     if(item == Items.MELON_SLICE && odds < 50)
@@ -154,30 +139,45 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                             newItemStack = new ItemStack(Items.GOLD_ORE, Math.min(itemStack.getCount(),10));
                             break;
                     }
-                } else if (item instanceof ArmorItem) {
-                    EquipmentSlot slot = components.get(DataComponents.EQUIPPABLE).slot();
-                    if (slot == EquipmentSlot.HEAD)
+                } else if (itemStack.has(DataComponents.EQUIPPABLE)) {
+                    EquipmentSlot itemSlot = itemStack.get(DataComponents.EQUIPPABLE).slot();
+                    if (itemSlot == EquipmentSlot.HEAD)
                         newItemStack = new ItemStack(Items.GOLDEN_HELMET, itemStack.getCount());
-                    else if (slot == EquipmentSlot.CHEST)
+                    else if (itemSlot == EquipmentSlot.CHEST)
                         newItemStack = new ItemStack(Items.GOLDEN_CHESTPLATE, itemStack.getCount());
-                    else if (slot == EquipmentSlot.LEGS)
+                    else if (itemSlot == EquipmentSlot.LEGS)
                         newItemStack = new ItemStack(Items.GOLDEN_LEGGINGS, itemStack.getCount());
-                    else if (slot == EquipmentSlot.FEET)
+                    else if (itemSlot == EquipmentSlot.FEET)
                         newItemStack = new ItemStack(Items.GOLDEN_BOOTS, itemStack.getCount());
+                    else if (itemSlot == EquipmentSlot.BODY && item != Items.WOLF_ARMOR)
+                        newItemStack = new ItemStack(Items.GOLDEN_HORSE_ARMOR, itemStack.getCount());
                     else
                         newItemStack = new ItemStack(Items.GOLD_INGOT);
-                } else if (item instanceof PickaxeItem) {
-                    newItemStack = new ItemStack(Items.GOLDEN_PICKAXE, itemStack.getCount());
                 } else if (item instanceof AxeItem) {
                     newItemStack = new ItemStack(Items.GOLDEN_AXE, itemStack.getCount());
                 } else if (item instanceof ShovelItem) {
                     newItemStack = new ItemStack(Items.GOLDEN_SHOVEL, itemStack.getCount());
                 } else if (item instanceof HoeItem) {
                     newItemStack = new ItemStack(Items.GOLDEN_HOE, itemStack.getCount());
-                } else if (item instanceof SwordItem) {
-                    newItemStack = new ItemStack(Items.GOLDEN_SWORD, itemStack.getCount());
-                } else if (item instanceof AnimalArmorItem && item != Items.WOLF_ARMOR) {
-                    newItemStack = new ItemStack(Items.GOLDEN_HORSE_ARMOR, itemStack.getCount());
+                } else if (itemStack.has(DataComponents.TOOL)) {
+                    Tool tool = itemStack.get(DataComponents.TOOL);
+                    List<Tool.Rule> rules = tool.rules();
+                    for (Tool.Rule rule : rules) {
+                        if (rule.correctForDrops().orElse(false)) {
+                            Optional<TagKey<Block>> key = rule.blocks().unwrapKey();
+                            if (key.isPresent() && key.get().equals(BlockTags.MINEABLE_WITH_PICKAXE)) {
+                                newItemStack = new ItemStack(Items.GOLDEN_PICKAXE, itemStack.getCount());
+                                break;
+                            }
+                        }
+                        else if (rule.correctForDrops().isEmpty()) {
+                            Optional<TagKey<Block>> key = rule.blocks().unwrapKey();
+                            if (key.isPresent() && key.get().equals(BlockTags.SWORD_EFFICIENT)) {
+                                newItemStack = new ItemStack(Items.GOLDEN_SWORD, itemStack.getCount());
+                                break;
+                            }
+                        }
+                    }
                 } else {
                     switch (player.getRandom().nextInt(3)) {
                         case 0:
@@ -191,7 +191,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                             break;
                     }
                 }
-                pair.getA().set(pair.getB(), newItemStack);
+                inv.setItem(i, newItemStack);
             }
         }
 

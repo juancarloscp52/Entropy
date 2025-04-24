@@ -17,8 +17,6 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
@@ -106,14 +104,11 @@ public class EntropyConfigurationScreen extends Screen {
     }
 
     public static void drawLogo(final GuiGraphics drawContext) {
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         PoseStack matrices = drawContext.pose();
         matrices.pushPose();
         matrices.scale(0.2f, 0.2f, 0.2f);
         drawContext.blit(RenderType::guiTextured, LOGO, 0, 0, 0, 0, 188, 187, 256, 256);
         matrices.popPose();
-        RenderSystem.disableBlend();
     }
 
     private void onDone() {

@@ -23,13 +23,13 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -44,38 +44,52 @@ public class RandomizeArmorEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity ->
         {
-            serverPlayerEntity.getInventory().armor.set(3, getRandomItem(serverPlayerEntity, EquipmentSlot.HEAD));
-            serverPlayerEntity.getInventory().armor.set(2, getRandomItem(serverPlayerEntity, EquipmentSlot.CHEST));
-            serverPlayerEntity.getInventory().armor.set(1, getRandomItem(serverPlayerEntity, EquipmentSlot.LEGS));
-            serverPlayerEntity.getInventory().armor.set(0, getRandomItem(serverPlayerEntity, EquipmentSlot.FEET));
-
+            replaceArmorInSlot(serverPlayerEntity, EquipmentSlot.HEAD);
+            replaceArmorInSlot(serverPlayerEntity, EquipmentSlot.CHEST);
+            replaceArmorInSlot(serverPlayerEntity, EquipmentSlot.LEGS);
+            replaceArmorInSlot(serverPlayerEntity, EquipmentSlot.FEET);
         });
 
+    }
+
+    private void replaceArmorInSlot(ServerPlayer player, EquipmentSlot slot) {
+        player.setItemSlot(slot, getRandomItem(player, slot));
     }
 
     private ItemStack getRandomItem(ServerPlayer serverPlayerEntity, EquipmentSlot slot){
         RandomSource random = RandomSource.create();
         Item item = BuiltInRegistries.ITEM.getRandom(random).get().value();
-        if(item instanceof ArmorItem && item.components().get(DataComponents.EQUIPPABLE).slot()==slot){
+        DataComponentMap components = item.components();
+        if(components.has(DataComponents.EQUIPPABLE) && components.get(DataComponents.EQUIPPABLE).slot()==slot){
             if(!item.requiredFeatures().isSubsetOf(serverPlayerEntity.level().enabledFeatures()))
                 return getRandomItem(serverPlayerEntity, slot);
             ItemStack stack = new ItemStack(item);
             for(int i=0;i< random.nextInt(4);i++){
                 Holder<Enchantment> enchantment = getRandomEnchantment(serverPlayerEntity, stack);
-                stack.enchant(enchantment, getRandomLevel(enchantment.value()));
+                if (enchantment != null) {
+                    stack.enchant(enchantment, getRandomLevel(enchantment.value()));
+                }
             }
             return stack;
         }
         else
             return getRandomItem(serverPlayerEntity, slot);
     }
+
     private Holder<Enchantment> getRandomEnchantment(ServerPlayer player, ItemStack item) {
+        return getRandomEnchantment(player, item, 10);
+    }
+
+    private Holder<Enchantment> getRandomEnchantment(ServerPlayer player, ItemStack item, int tries) {
+        if (tries <= 0) {
+            return null;
+        }
         final RegistryAccess registries = player.registryAccess();
         Optional<Holder.Reference<Enchantment>> enchantment = registries.lookupOrThrow(Registries.ENCHANTMENT).getRandom(player.getRandom());
         if (enchantment.isPresent() && enchantment.get().value().canEnchant(item) && !enchantment.get().is(EnchantmentTags.DO_NOT_ENCHANT_WITH))
             return enchantment.get();
         else
-            return getRandomEnchantment(player, item);
+            return getRandomEnchantment(player, item, --tries);
     }
     private int getRandomLevel(Enchantment enchantment){
         return RandomSource.create().nextInt(enchantment.getMaxLevel()-enchantment.getMinLevel()+1)+ enchantment.getMinLevel();

@@ -40,17 +40,7 @@ public class FixItemsEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getInventory().items.forEach(itemStack -> {
-                if(itemStack.isDamageableItem()){
-                    fixItem(itemStack,serverPlayerEntity);
-                }
-            });
-            serverPlayerEntity.getInventory().armor.forEach(itemStack -> {
-                if(itemStack.isDamageableItem()){
-                    fixItem(itemStack,serverPlayerEntity);
-                }
-            });
-            serverPlayerEntity.getInventory().offhand.forEach(itemStack -> {
+            serverPlayerEntity.getInventory().forEach(itemStack -> {
                 if(itemStack.isDamageableItem()){
                     fixItem(itemStack,serverPlayerEntity);
                 }

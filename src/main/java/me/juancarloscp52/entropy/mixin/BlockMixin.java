@@ -31,7 +31,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -68,7 +67,7 @@ public class BlockMixin {
     @Inject(method = "playerDestroy", at = @At("HEAD"))
     private void explodeOnBreak(Level world, Player player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack, CallbackInfo ci){
         if(Variables.explodingPickaxe){
-            player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 20,4,false, false));
+            player.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 20,4,false, false));
             world.explode(null,pos.getX(),pos.getY(),pos.getZ(), RandomSource.create().nextIntBetweenInclusive(1,3), Level.ExplosionInteraction.TNT);
         }
     }

@@ -6,7 +6,8 @@
     },
     "passes": [
         {
-            "program": "post/box_blur",
+            "vertex_shader": "minecraft:post/blur",
+            "fragment_shader": "minecraft:post/box_blur",
             "inputs": [
                 {
                     "sampler_name": "In",
@@ -18,16 +19,19 @@
             "uniforms": [
                 {
                     "name": "BlurDir",
+                    "type": "vec2",
                     "values": [ 1.0, 0.0 ]
                 },
                 {
                     "name": "Radius",
+                    "type": "float",
                     "values": [ 15.0 ]
                 }
             ]
         },
         {
-            "program": "post/box_blur",
+            "vertex_shader": "minecraft:post/blur",
+            "fragment_shader": "minecraft:post/box_blur",
             "inputs": [
                 {
                     "sampler_name": "In",
@@ -39,15 +43,18 @@
             "uniforms": [
                 {
                     "name": "BlurDir",
+                    "type": "vec2",
                     "values": [ 0.0, 1.0 ]
                 },
                 {
                     "name": "Radius",
+                    "type": "float",
                     "values": [ 15.0 ]
                 }
             ]
         }, {
-            "program": "post/box_blur",
+            "vertex_shader": "minecraft:post/blur",
+            "fragment_shader": "minecraft:post/box_blur",
             "inputs": [
                 {
                     "sampler_name": "In",
@@ -59,17 +66,20 @@
             "uniforms": [
                 {
                     "name": "BlurDir",
+                    "type": "vec2",
                     "values": [ 1.0, 0.0 ],
                     "RadiusMultiplier" : 0.5
                 },
                 {
                     "name": "Radius",
+                    "type": "float",
                     "values": [ 15.0 ]
                 }
             ]
         },
         {
-            "program": "post/box_blur",
+            "vertex_shader": "minecraft:post/blur",
+            "fragment_shader": "minecraft:post/box_blur",
             "inputs": [
                 {
                     "sampler_name": "In",
@@ -81,21 +91,31 @@
             "uniforms": [
                 {
                     "name": "BlurDir",
+                    "type": "vec2",
                     "values": [ 0.0, 1.0 ],
                     "RadiusMultiplier" : 0.5
                 },
                 {
                     "name": "Radius",
+                    "type": "float",
                     "values": [ 15.0 ]
                 }
             ]
         },
         {
-            "program": "post/blit",
+            "vertex_shader": "minecraft:post/blit",
+            "fragment_shader": "minecraft:post/blit",
             "inputs": [
                 {
                     "sampler_name": "In",
                     "target": "minecraft:main"
+                }
+            ],
+            "uniforms": [
+                {
+                    "name": "ColorModulate",
+                    "type": "vec4",
+                    "values": [ 1.0, 1.0, 1.0, 1.0 ]
                 }
             ],
             "output": "previous"

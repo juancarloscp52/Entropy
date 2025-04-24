@@ -15,15 +15,7 @@ public class RemoveEnchantmentsEvent extends AbstractInstantEvent {
 
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
 
-            player.getInventory().items.forEach(itemStack -> {
-                removeEnchant(itemStack);
-            });
-
-            player.getInventory().offhand.forEach(itemStack -> {
-                removeEnchant(itemStack);
-            });
-
-            player.getInventory().armor.forEach(itemStack -> {
+            player.getInventory().forEach(itemStack -> {
                 removeEnchant(itemStack);
             });
         });

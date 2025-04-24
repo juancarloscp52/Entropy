@@ -17,8 +17,6 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget;
@@ -82,10 +80,7 @@ public class EntropyEventConfigurationScreen extends Screen {
     public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
         drawContext.drawString(font, this.title, this.width / 2 - font.width(this.title) / 2, 12, 14737632);
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         EntropyConfigurationScreen.drawLogo(drawContext);
-        RenderSystem.disableBlend();
     }
 
     public boolean mouseReleased(double mouseX, double mouseY, int button) {

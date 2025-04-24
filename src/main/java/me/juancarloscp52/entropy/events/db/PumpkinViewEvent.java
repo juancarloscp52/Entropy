@@ -17,12 +17,7 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import me.juancarloscp52.entropy.client.EntropyClientUtils;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
@@ -30,13 +25,13 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 
 public class PumpkinViewEvent extends AbstractTimedEvent {
 
     public static final EventType<PumpkinViewEvent> TYPE = EventType.builder(PumpkinViewEvent::new).build();
-    private static final ResourceLocation PUMKIN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/misc/pumpkinblur.png");
+    private static final ResourceLocation PUMPKIN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/misc/pumpkinblur.png");
     Minecraft client;
 
     @Override
@@ -48,35 +43,12 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
-        renderVignetteOverlay();
+        EntropyClientUtils.renderOverlay(drawContext, PUMPKIN_TEXTURE, ARGB.white(1.0f));
     }
 
     @Override
     public short getDuration() {
         return (short) (super.getDuration() * 1.25);
-    }
-
-    @Environment(EnvType.CLIENT)
-    private void renderVignetteOverlay() {
-
-        int scaledHeight = client.getWindow().getGuiScaledHeight();
-        int scaledWidth = client.getWindow().getGuiScaledWidth();RenderSystem.enableBlend();
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(CoreShaders.POSITION_TEX);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShaderTexture(0, PUMKIN_TEXTURE);
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferBuilder.addVertex(0.0F, scaledHeight, -90.0F).setUv(0.0f, 1.0f);
-        bufferBuilder.addVertex(scaledWidth, scaledHeight, -90.0F).setUv(1.0f, 1.0f);
-        bufferBuilder.addVertex(scaledWidth, 0.0F, -90.0F).setUv(1.0f, 0.0f);
-        bufferBuilder.addVertex(0.0F, 0.0F, -90.0F).setUv(0.0f, 0.0f);
-        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     @Override

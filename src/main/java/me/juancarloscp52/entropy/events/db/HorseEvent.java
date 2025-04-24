@@ -20,9 +20,9 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.EventType;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.item.Items;
@@ -36,7 +36,7 @@ public class HorseEvent extends AbstractInstantEvent {
             Horse horse = EntityType.HORSE.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
             if(horse==null)
                 return;
-            horse.equipSaddle(Items.SADDLE.getDefaultInstance(), SoundSource.NEUTRAL);
+            horse.setItemSlot(EquipmentSlot.SADDLE, Items.SADDLE.getDefaultInstance());
             horse.getAttribute(Attributes.MAX_HEALTH).setBaseValue(2);
             horse.setHealth(2);
         });

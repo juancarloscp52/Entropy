@@ -28,7 +28,7 @@ public class ResistanceEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, (int) (Entropy.getInstance().settings.baseEventDuration*1.75),3)));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, (int) (Entropy.getInstance().settings.baseEventDuration*1.75),3)));
     }
 
     @Override

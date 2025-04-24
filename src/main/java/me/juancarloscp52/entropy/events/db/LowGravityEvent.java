@@ -30,7 +30,7 @@ public class LowGravityEvent extends AbstractTimedEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 31, 2, true, false, false));
-            serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.JUMP, 31, 1, true, false, false));
+            serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 31, 1, true, false, false));
         });
     }
 
@@ -39,7 +39,7 @@ public class LowGravityEvent extends AbstractTimedEvent {
         if (getTickCount() % 30 == 0) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 31, 2, true, false, false));
-                serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.JUMP, 31, 1, true, false, false));
+                serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 31, 1, true, false, false));
             });
         }
         super.tick();

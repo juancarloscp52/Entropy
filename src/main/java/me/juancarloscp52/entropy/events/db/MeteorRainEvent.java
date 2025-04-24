@@ -43,7 +43,7 @@ public class MeteorRainEvent extends AbstractTimedEvent {
             for (int i = 0; i < 7; i++) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                     LargeFireball meteor = new LargeFireball(serverPlayerEntity.level(), serverPlayerEntity, new Vec3(0, -1 * (random.nextInt(4) + 1), 0), 2);
-                    meteor.moveTo(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYRot(), meteor.getXRot());
+                    meteor.snapTo(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYRot(), meteor.getXRot());
                     serverPlayerEntity.level().addFreshEntity(meteor);
                 });
 
@@ -52,7 +52,7 @@ public class MeteorRainEvent extends AbstractTimedEvent {
         if (getTickCount() == getTickCount() / 2) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
                 LargeFireball meteor = new LargeFireball(serverPlayerEntity.level(), serverPlayerEntity, new Vec3(0, -1 * (random.nextInt(4) + 1), 0), 4);
-                meteor.moveTo(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYRot(), meteor.getXRot());
+                meteor.snapTo(serverPlayerEntity.getX() + (random.nextInt(100) - 50), serverPlayerEntity.getY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getZ() + (random.nextInt(100) - 50), meteor.getYRot(), meteor.getXRot());
                 serverPlayerEntity.level().addFreshEntity(meteor);
             });
         }
