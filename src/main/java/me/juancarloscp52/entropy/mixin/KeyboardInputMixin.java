@@ -21,6 +21,7 @@ import me.juancarloscp52.entropy.Variables;
 import net.minecraft.client.player.ClientInput;
 import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.world.entity.player.Input;
+import net.minecraft.world.phys.Vec2;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -41,9 +42,9 @@ public class KeyboardInputMixin extends ClientInput {
                 keyPresses.shift(),
                 keyPresses.sprint()
             );
-            this.forwardImpulse = 1;
+            moveVector = new Vec2(moveVector.x, 1);
         } else if (Variables.onlySidewaysMovement) {
-            this.forwardImpulse = 0;
+            moveVector = new Vec2(moveVector.x, 0);
             this.keyPresses = new Input(
                 false,
                 false,
@@ -63,11 +64,9 @@ public class KeyboardInputMixin extends ClientInput {
                 keyPresses.shift(),
                 keyPresses.sprint()
             );
-            this.leftImpulse = 0;
-            this.forwardImpulse = this.forwardImpulse <= 0 ? this.forwardImpulse : 0;
+            moveVector = new Vec2(0, hasForwardImpulse() ? 0 : moveVector.y);
         } else if (Variables.invertedControls) {
-            this.leftImpulse = -leftImpulse;
-            this.forwardImpulse = -forwardImpulse;
+            moveVector = new Vec2(-moveVector.x, -moveVector.y);
         }
         if (Variables.forceJump) {
             this.keyPresses = new Input(

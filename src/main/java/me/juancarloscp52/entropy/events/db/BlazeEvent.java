@@ -21,8 +21,8 @@ public class BlazeEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
                         Blaze blaze = EntityType.BLAZE.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
-                        blaze.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE,9999,2));
-                        blaze.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,120, 1));
+                        blaze.addEffect(new MobEffectInstance(MobEffects.RESISTANCE,9999,2));
+                        blaze.addEffect(new MobEffectInstance(MobEffects.STRENGTH,120, 1));
                 }
         );
     }

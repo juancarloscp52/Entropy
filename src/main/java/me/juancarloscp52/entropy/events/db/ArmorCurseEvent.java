@@ -5,6 +5,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.registries.Registries;
@@ -17,7 +18,7 @@ public class ArmorCurseEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity ->
-                    serverPlayerEntity.getInventory().armor.forEach(item ->
+                    EntropyUtils.modifyArmor(serverPlayerEntity, item ->
                         item.enchant(serverPlayerEntity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).get(Enchantments.BINDING_CURSE).get(), 1)
                     )
         );

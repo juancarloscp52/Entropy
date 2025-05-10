@@ -50,7 +50,7 @@ public class PitEvent extends AbstractInstantEvent {
                 }
             }
             serverPlayerEntity.stopRiding();
-            serverPlayerEntity.moveTo(pos.getX(),pos.getY(),pos.getZ());
+            serverPlayerEntity.snapTo(pos.getX(),pos.getY(),pos.getZ());
         });
     }
 

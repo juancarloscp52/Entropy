@@ -5,17 +5,53 @@
   },
   "passes": [
     {
-      "program": "entropy:program/ntsc_encode",
+      "vertex_shader": "minecraft:post/sobel",
+      "fragment_shader": "minecraft:post/bits",
       "inputs": [
         {
           "sampler_name": "In",
           "target": "minecraft:main"
         }
       ],
+      "uniforms": [
+        {
+          "name": "Resolution",
+          "type": "float",
+          "values": [ 4.0 ]
+        },
+        {
+          "name": "MosaicSize",
+          "type": "float",
+          "values": [ 8.0 ]
+        }
+      ],
       "output": "swap"
     },
     {
-      "program": "entropy:program/ntsc_decode",
+      "vertex_shader": "minecraft:post/sobel",
+      "fragment_shader": "entropy:program/scan_pincushion",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap"
+        }
+      ],
+      "output": "swap2"
+    },
+    {
+      "vertex_shader": "minecraft:post/sobel",
+      "fragment_shader": "entropy:program/ntsc_encode",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap2"
+        }
+      ],
+      "output": "swap"
+    },
+    {
+      "vertex_shader": "minecraft:post/sobel",
+      "fragment_shader": "entropy:program/ntsc_decode",
       "inputs": [
         {
           "sampler_name": "In",
@@ -26,37 +62,7 @@
           "target": "minecraft:main"
         }
       ],
-      "output": "swap2"
-    },
-    {
-      "program": "post/bits",
-      "inputs": [
-        {
-          "sampler_name": "In",
-          "target": "swap2"
-        }
-      ],
-      "output": "swap"
-    },
-    {
-      "program": "entropy:program/scan_pincushion",
-      "inputs": [
-        {
-          "sampler_name": "In",
-          "target": "swap"
-        }
-      ],
       "output": "minecraft:main"
-    },
-    {
-      "program": "post/blit",
-      "inputs": [
-        {
-          "sampler_name": "In",
-          "target": "minecraft:main"
-        }
-      ],
-      "output": "swap"
     }
   ]
 }

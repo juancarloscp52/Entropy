@@ -30,7 +30,7 @@ public class ForceJump2Event extends AbstractTimedEvent {
 
     @Override
     public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.JUMP, getDuration(), 3, true, false, false)));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, getDuration(), 3, true, false, false)));
     }
 
     public void initClient() {

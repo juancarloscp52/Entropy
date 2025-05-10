@@ -18,15 +18,10 @@
 package me.juancarloscp52.entropy.client;
 
 import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.resources.ResourceLocation;
-
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 public class ShaderManager {
     public static final ResourceLocation BLACK_AND_WHITE = ResourceLocation.fromNamespaceAndPath("entropy", "black_and_white");
@@ -38,15 +33,7 @@ public class ShaderManager {
     public static void render(ResourceLocation postEffectId, Minecraft minecraft, GraphicsResourceAllocator graphicsResourceAllocator) {
         PostChain postChain = minecraft.getShaderManager().getPostChain(postEffectId, LevelTargetBundle.MAIN_TARGETS);
         if (postChain != null) {
-            RenderSystem.disableBlend();
-            RenderSystem.disableDepthTest();
-            RenderSystem.resetTextureMatrix();
-            postChain.process(minecraft.getMainRenderTarget(), graphicsResourceAllocator);
-            Minecraft.getInstance().getMainRenderTarget().bindWrite(true);
-            RenderSystem.disableBlend();
-            RenderSystem.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // restore blending
-            RenderSystem.enableDepthTest();
+            postChain.process(minecraft.getMainRenderTarget(), graphicsResourceAllocator, null);
         }
     }
-
 }

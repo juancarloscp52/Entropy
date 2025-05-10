@@ -10,6 +10,7 @@
     "EntityMixin",
     "FallingBlockEntityAccessor",
     "LivingEntityMixin",
+    "RabbitInvoker",
     "WolfInvoker"
   ],
   "client": [

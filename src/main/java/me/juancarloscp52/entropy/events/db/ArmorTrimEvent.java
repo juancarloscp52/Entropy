@@ -1,6 +1,7 @@
 package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Entropy;
+import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.core.Registry;
@@ -25,7 +26,7 @@ public class ArmorTrimEvent extends AbstractInstantEvent {
             Registry<TrimMaterial> trimMaterials = registryManager.lookupOrThrow(Registries.TRIM_MATERIAL);
             Registry<TrimPattern> trimPatterns = registryManager.lookupOrThrow(Registries.TRIM_PATTERN);
 
-            player.getArmorSlots().forEach(stack -> stack.set(DataComponents.TRIM, new ArmorTrim(trimMaterials.getRandom(random).get(), trimPatterns.getRandom(random).get())));
+            EntropyUtils.modifyArmor(player, stack -> stack.set(DataComponents.TRIM, new ArmorTrim(trimMaterials.getRandom(random).get(), trimPatterns.getRandom(random).get())));
         });
     }
 

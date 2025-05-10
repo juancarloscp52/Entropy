@@ -29,6 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -38,7 +39,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class EntityMixin {
 
     @Shadow
-    public Level level;
+    private Level level;
 
     @Shadow
     private Entity vehicle;
@@ -88,6 +89,7 @@ public abstract class EntityMixin {
         }
     }
 
+    @Unique
     private ItemStack computeItemStack(ItemStack itemStack) {
         if (Variables.luckyDrops) {
             itemStack.setCount(itemStack.getCount() * 5);
@@ -98,6 +100,7 @@ public abstract class EntityMixin {
         return null;
     }
 
+    @Unique
     private Item getRandomItem() {
         Item item = BuiltInRegistries.ITEM.getRandom(RandomSource.create()).get().value();
         if (item.builtInRegistryHolder().is(ItemTags.DOES_NOT_DROP_RANDOMLY)) {

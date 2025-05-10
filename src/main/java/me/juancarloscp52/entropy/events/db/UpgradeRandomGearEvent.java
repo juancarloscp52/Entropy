@@ -3,18 +3,17 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.EventType;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Tuple;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import oshi.util.tuples.Triplet;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.stream.IntStream;
 
 public class UpgradeRandomGearEvent extends AbstractInstantEvent {
 
@@ -92,37 +91,25 @@ public class UpgradeRandomGearEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
 
             var inventory = serverPlayerEntity.getInventory();
-            var items = new ArrayList<Triplet<NonNullList<ItemStack>, Integer, ItemStack>>();
+            var items = new ArrayList<Tuple<Integer, ItemStack>>();
 
-            items.addAll(IntStream.range(0, inventory.items.size())
-                    .mapToObj(i -> new Triplet<NonNullList<ItemStack>, Integer, ItemStack>(inventory.items, i,
-                            inventory.items.get(i)))
-                    .toList());
-            items.addAll(IntStream.range(0, inventory.armor.size())
-                    .mapToObj(i -> new Triplet<NonNullList<ItemStack>, Integer, ItemStack>(inventory.armor, i,
-                            inventory.armor.get(i)))
-                    .toList());
-            items.addAll(IntStream.range(0, inventory.offhand.size())
-                    .mapToObj(i -> new Triplet<NonNullList<ItemStack>, Integer, ItemStack>(inventory.offhand, i,
-                            inventory.offhand.get(i)))
-                    .toList());
-
-            Collections.shuffle(items);
-
-            for (var element : items) {
-                var itemStack = element.getC();
-                var item = itemStack.getItem();
-                if (_upgrades.containsKey(item)) {
-                    upgrade(item, itemStack, element.getA(), element.getB(), serverPlayerEntity.getRandom());
-                    break;
+            for (int i = 0; i < inventory.getContainerSize(); i++) {
+                ItemStack stack = inventory.getItem(i);
+                if (!stack.isEmpty() && _upgrades.containsKey(stack.getItem())) {
+                    items.add(new Tuple<>(i, stack));
                 }
+            }
+
+            if (!items.isEmpty()) {
+                Collections.shuffle(items);
+                Tuple<Integer, ItemStack> tuple = items.getFirst();
+                upgrade(inventory, tuple.getA(), tuple.getB(), serverPlayerEntity.getRandom());
             }
         });
     }
 
-    private void upgrade(Item item, ItemStack itemStack, NonNullList<ItemStack> inventoryList, int index,
-            RandomSource random) {
-        var newItem = _upgrades.get(item);
+    private void upgrade(Inventory inventory, int index, ItemStack itemStack, RandomSource random) {
+        var newItem = _upgrades.get(itemStack.getItem());
         var newDamage = (float) itemStack.getDamageValue() / (float) itemStack.getMaxDamage()
                 * (float) newItem.getDefaultInstance().getMaxDamage();
         var newItemStack = new ItemStack(newItem);
@@ -130,10 +117,10 @@ public class UpgradeRandomGearEvent extends AbstractInstantEvent {
         newItemStack.setDamageValue((int) newDamage);
         newItemStack.set(DataComponents.ENCHANTMENTS, itemStack.getEnchantments());
 
-        inventoryList.set(index, newItemStack);
+        inventory.setItem(index, newItemStack);
 
         if (_upgrades.containsKey(newItem) && random.nextDouble() < 0.25d)
-            upgrade(newItem, newItemStack, inventoryList, index, random);
+            upgrade(inventory, index, newItemStack, random);
     }
 
     @Override

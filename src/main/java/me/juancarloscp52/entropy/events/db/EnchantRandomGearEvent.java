@@ -23,9 +23,7 @@ public class EnchantRandomGearEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
 
             var inventory = new ArrayList<ItemStack>();
-            inventory.addAll(serverPlayerEntity.getInventory().items);
-            inventory.addAll(serverPlayerEntity.getInventory().armor);
-            inventory.addAll(serverPlayerEntity.getInventory().offhand);
+            serverPlayerEntity.getInventory().forEach(inventory::add);
 
             Collections.shuffle(inventory);
 

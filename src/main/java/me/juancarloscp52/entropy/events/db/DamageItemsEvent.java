@@ -29,17 +29,7 @@ public class DamageItemsEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getInventory().items.forEach(itemStack -> {
-                if(itemStack.isDamageableItem() && !itemStack.is(ItemTags.DO_NOT_DAMAGE)){
-                    itemStack.hurtAndBreak(Mth.ceil((itemStack.getMaxDamage()-itemStack.getDamageValue())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.serverLevel(), serverPlayerEntity, item -> {});
-                }
-            });
-            serverPlayerEntity.getInventory().armor.forEach(itemStack -> {
-                if(itemStack.isDamageableItem() && !itemStack.is(ItemTags.DO_NOT_DAMAGE)){
-                    itemStack.hurtAndBreak(Mth.ceil((itemStack.getMaxDamage()-itemStack.getDamageValue())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.serverLevel(), serverPlayerEntity, item -> {});
-                }
-            });
-            serverPlayerEntity.getInventory().offhand.forEach(itemStack -> {
+            serverPlayerEntity.getInventory().forEach(itemStack -> {
                 if(itemStack.isDamageableItem() && !itemStack.is(ItemTags.DO_NOT_DAMAGE)){
                     itemStack.hurtAndBreak(Mth.ceil((itemStack.getMaxDamage()-itemStack.getDamageValue())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.serverLevel(), serverPlayerEntity, item -> {});
                 }

@@ -28,7 +28,7 @@ public class FatigueEvent extends AbstractInstantEvent {
 
     @Override
     public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, (int) (Entropy.getInstance().settings.baseEventDuration*1.25),1)));
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, (int) (Entropy.getInstance().settings.baseEventDuration*1.25),1)));
     }
 
     @Override

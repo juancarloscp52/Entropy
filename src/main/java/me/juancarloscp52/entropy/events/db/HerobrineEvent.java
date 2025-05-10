@@ -17,16 +17,10 @@
 
 package me.juancarloscp52.entropy.events.db;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.EntropyClient;
+import me.juancarloscp52.entropy.client.EntropyClientUtils;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
@@ -34,11 +28,11 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
@@ -83,7 +77,8 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
-        renderVignetteOverlay();
+        float sin = 0.75f + Mth.abs(0.25f * Mth.sin(getTickCount() * 0.0625f));
+        EntropyClientUtils.renderOverlay(drawContext, VIGNETTE_TEXTURE, ARGB.colorFromFloat(1.0F, sin, sin, sin));
     }
 
     @Override
@@ -144,31 +139,6 @@ public class HerobrineEvent extends AbstractTimedEvent {
             SoundType blockSoundGroup = blockState.is(Blocks.SNOW) ? blockState.getSoundType() : state.getSoundType();
             player.playSound(blockSoundGroup.getStepSound(), blockSoundGroup.getVolume() * 0.25F, blockSoundGroup.getPitch());
         }
-    }
-
-    @Environment(EnvType.CLIENT)
-    private void renderVignetteOverlay() {
-        RenderSystem.enableBlend();
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        float sin = 0.75f + Mth.abs(0.25f * Mth.sin(getTickCount() * 0.0625f));
-        RenderSystem.setShaderColor(sin, sin, sin, 1.0f);
-        int scaledHeight = client.getWindow().getGuiScaledHeight();
-        int scaledWidth = client.getWindow().getGuiScaledWidth();
-        RenderSystem.setShader(CoreShaders.POSITION_TEX);
-        RenderSystem.setShaderTexture(0, VIGNETTE_TEXTURE);
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        bufferBuilder.addVertex(0.0F, scaledHeight, -90.0F).setUv(0.0F, 1.0F);
-        bufferBuilder.addVertex(scaledWidth, scaledHeight, -90.0F).setUv(1.0F, 1.0F);
-        bufferBuilder.addVertex(scaledWidth, 0.0F, -90.0F).setUv(1.0F, 0.0F);
-        bufferBuilder.addVertex(0.0F, 0.0F, -90.0F).setUv(0.0F, 0.0F);
-        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
-        RenderSystem.depthMask(true);
-        RenderSystem.enableDepthTest();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.defaultBlendFunc();
     }
 
     @Override

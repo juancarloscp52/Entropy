@@ -4,7 +4,8 @@
   },
   "passes": [
     {
-      "program": "entropy:program/wobble",
+      "vertex_shader": "minecraft:post/sobel",
+      "fragment_shader": "entropy:program/wobble",
       "inputs": [
         {
           "sampler_name": "In",
@@ -15,16 +16,34 @@
       "uniforms": [
         {
           "name": "Frequency",
+          "type": "vec2",
           "values": [ 254, 128 ]
+        },
+        {
+          "name": "GameTime",
+          "type": "float"
+        },
+        {
+          "name": "WobbleAmount",
+          "type": "vec2",
+          "values": [ 0.002, 0.002 ]
         }
       ]
     },
     {
-      "program": "post/blit",
+      "vertex_shader": "minecraft:post/blit",
+      "fragment_shader": "minecraft:post/blit",
       "inputs": [
         {
           "sampler_name": "In",
           "target": "swap"
+        }
+      ],
+      "uniforms": [
+        {
+          "name": "ColorModulate",
+          "type": "vec4",
+          "values": [ 1.0, 1.0, 1.0, 1.0 ]
         }
       ],
       "output": "minecraft:main"

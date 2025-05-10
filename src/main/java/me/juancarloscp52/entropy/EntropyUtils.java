@@ -1,12 +1,17 @@
 package me.juancarloscp52.entropy;
 
-import java.util.Set;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 public class EntropyUtils {
 
@@ -26,5 +31,14 @@ public class EntropyUtils {
         if (blockHitResult.getType() == HitResult.Type.MISS || serverPlayerEntity.level().getBlockState(blockHitResult.getBlockPos()).liquid()) {
             serverPlayerEntity.level().setBlockAndUpdate(serverPlayerEntity.blockPosition().below(), Blocks.STONE.defaultBlockState());
         }
+    }
+
+    public static void modifyArmor(ServerPlayer player, Consumer<ItemStack> stackModifier) {
+        Stream.of(
+            EquipmentSlot.HEAD,
+            EquipmentSlot.CHEST,
+            EquipmentSlot.LEGS,
+            EquipmentSlot.FEET
+        ).map(player::getItemBySlot).forEach(stackModifier);
     }
 }
