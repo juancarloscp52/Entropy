@@ -59,4 +59,5 @@ public class Variables {
     public static int shouldLaunchEntity = 0;
     public static int isOnePunchActivated = 0;
     public static boolean rainbowSheepEverywhere = false;
+    public static boolean bouncyBlocks = false;
 }
