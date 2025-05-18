@@ -52,19 +52,12 @@ public class BlockMixin {
     @Inject(method = "updateEntityMovementAfterFallOn", at = @At("HEAD"), cancellable = true)
     private void bounce(BlockGetter level, Entity entity, CallbackInfo ci) {
         if(Variables.bouncyBlocks && !entity.isSuppressingBounce()) {
-            ci.cancel();
             Vec3 vec3 = entity.getDeltaMovement();
-            if (vec3.y < (double)0.0F) {
+            if (vec3.y < (double)-0.1F) {
+                ci.cancel();
                 double d = entity instanceof LivingEntity ? (double) 1.0F : 0.8;
                 entity.setDeltaMovement(vec3.x, -vec3.y * d, vec3.z);
             }
-        }
-    }
-
-    @Inject(method = "fallOn", at = @At("HEAD"), cancellable = true)
-    private void cancelFallDamage(Level level, BlockState state, BlockPos pos, Entity entity, double fallDistance, CallbackInfo ci) {
-        if(Variables.bouncyBlocks && !entity.isSuppressingBounce()) {
-            ci.cancel();
         }
     }
 

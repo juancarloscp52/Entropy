@@ -2,11 +2,10 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
-import me.juancarloscp52.entropy.events.EventCategory;
 import me.juancarloscp52.entropy.events.EventType;
 
 public class BouncyBlocksEvent extends AbstractTimedEvent {
-    public static final EventType<BouncyBlocksEvent> TYPE = EventType.builder(BouncyBlocksEvent::new).category(EventCategory.MOVEMENT).build();
+    public static final EventType<BouncyBlocksEvent> TYPE = EventType.builder(BouncyBlocksEvent::new).build();
 
     @Override
     public void initClient() {
