@@ -20,7 +20,6 @@ public class LivingEntityMixin {
         Entity entity = (Entity) (Object) this;
         if (Variables.bouncyBlocks && !entity.isSuppressingBounce()) {
             cir.setReturnValue(false);
-            cir.cancel();
         }
     }
 
