@@ -161,6 +161,7 @@
   "events.entropy.rainbow_trails": "Rainbow Trails",
   "events.entropy.rainbow_sheep_everywhere": "jeb_",
   "events.entropy.armor_trim": "Trimmed",
+  "events.entropy.bouncy_blocks": "Bouncy Blocks",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",

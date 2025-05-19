@@ -212,6 +212,7 @@ public class EventRegistry {
         register(registry, "rainbow_trails", RainbowTrailsEvent.TYPE);
         register(registry, "rainbow_sheep_everywhere", RainbowSheepEverywhereEvent.TYPE);
         register(registry, "armor_trim", ArmorTrimEvent.TYPE);
+        register(registry, "bouncy_blocks", BouncyBlocksEvent.TYPE);
         return FabricRegistryBuilder.from(registry).buildAndRegister();
     }
 
