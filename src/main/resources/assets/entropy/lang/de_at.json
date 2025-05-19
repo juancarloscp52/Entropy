@@ -160,6 +160,7 @@
   "events.entropy.nothing": "Nichts",
   "events.entropy.rainbow_trails": "Regenbogenspuren",
   "events.entropy.armor_trim": "Verziert",
+  "events.entropy.bouncy_blocks": "Elastische Blöcke",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",
