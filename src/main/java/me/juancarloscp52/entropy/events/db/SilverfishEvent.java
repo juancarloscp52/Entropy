@@ -18,7 +18,7 @@ public class SilverfishEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
                     for (int i = 0; i < 6; i++) {
-                        EntityType.SILVERFISH.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
+                        EntityType.SILVERFISH.spawn(serverPlayerEntity.level(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
                     }
                 }
         );

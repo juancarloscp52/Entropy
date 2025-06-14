@@ -31,7 +31,7 @@ public class DamageItemsEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.getInventory().forEach(itemStack -> {
                 if(itemStack.isDamageableItem() && !itemStack.is(ItemTags.DO_NOT_DAMAGE)){
-                    itemStack.hurtAndBreak(Mth.ceil((itemStack.getMaxDamage()-itemStack.getDamageValue())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.serverLevel(), serverPlayerEntity, item -> {});
+                    itemStack.hurtAndBreak(Mth.ceil((itemStack.getMaxDamage()-itemStack.getDamageValue())*serverPlayerEntity.getRandom().nextFloat()), serverPlayerEntity.level(), serverPlayerEntity, item -> {});
                 }
             });
         });

@@ -30,7 +30,7 @@ public class StarterPackEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            ServerLevel level = serverPlayerEntity.serverLevel();
+            ServerLevel level = serverPlayerEntity.level();
             ItemStack pickaxe = new ItemStack(Items.IRON_PICKAXE);
             if(!serverPlayerEntity.getInventory().add(pickaxe))
                 serverPlayerEntity.spawnAtLocation(level, pickaxe);

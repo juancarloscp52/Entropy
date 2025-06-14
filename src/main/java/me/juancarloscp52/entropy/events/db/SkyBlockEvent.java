@@ -59,7 +59,7 @@ public class SkyBlockEvent extends AbstractInstantEvent {
     public void init() {
 
         for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
-            var world = serverPlayerEntity.serverLevel();
+            var world = serverPlayerEntity.level();
             int height = 280;
             // Check if the player is in the nether or end.
             if(world.dimension() != Level.OVERWORLD){

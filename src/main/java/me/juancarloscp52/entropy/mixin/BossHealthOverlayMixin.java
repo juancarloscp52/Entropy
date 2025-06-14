@@ -19,7 +19,7 @@ public abstract class BossHealthOverlayMixin {
         return y + (Entropy.getInstance().settings.UIstyle == EntropySettings.UIStyle.GTAV ? 10:0);
     }
 
-    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)I"),index = 3)
+    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"),index = 3)
     public int applyScreenBorderToBossName(int y){
         return y + (Entropy.getInstance().settings.UIstyle == EntropySettings.UIStyle.GTAV ? 10:0);
     }

@@ -18,7 +18,7 @@ public class EndermiteEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
                     for (int i = 0; i < 4; i++) {
-                        EntityType.ENDERMITE.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
+                        EntityType.ENDERMITE.spawn(serverPlayerEntity.level(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
                     }
                 }
         );

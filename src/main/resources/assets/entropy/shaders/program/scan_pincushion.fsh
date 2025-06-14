@@ -5,7 +5,10 @@ uniform sampler2D InSampler;
 in vec2 texCoord;
 in vec2 oneTexel;
 
-uniform vec2 InSize;
+layout(std140) uniform SamplerInfo {
+    vec2 OutSize;
+    vec2 InSize;
+};
 
 const vec4 Zero = vec4(0.0);
 const vec4 Half = vec4(0.5);

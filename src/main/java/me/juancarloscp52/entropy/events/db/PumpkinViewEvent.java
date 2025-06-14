@@ -26,7 +26,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ARGB;
+import net.minecraft.util.CommonColors;
 
 public class PumpkinViewEvent extends AbstractTimedEvent {
 
@@ -43,7 +43,7 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
-        EntropyClientUtils.renderOverlay(drawContext, PUMPKIN_TEXTURE, ARGB.white(1.0f));
+        EntropyClientUtils.renderOverlay(drawContext, PUMPKIN_TEXTURE, CommonColors.WHITE);
     }
 
     @Override

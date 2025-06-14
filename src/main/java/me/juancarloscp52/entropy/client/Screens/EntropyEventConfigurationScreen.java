@@ -79,7 +79,7 @@ public class EntropyEventConfigurationScreen extends Screen {
 
     public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
-        drawContext.drawString(font, this.title, this.width / 2 - font.width(this.title) / 2, 12, 14737632);
+        drawContext.drawString(font, this.title, this.width / 2 - font.width(this.title) / 2, 12, 0xFFE0E0E0);
         EntropyConfigurationScreen.drawLogo(drawContext);
     }
 

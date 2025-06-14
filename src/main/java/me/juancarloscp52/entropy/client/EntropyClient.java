@@ -21,12 +21,15 @@ import com.google.gson.Gson;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventType;
+import me.juancarloscp52.entropy.mixin.FogRendererAccessor;
+import me.juancarloscp52.entropy.mixin.GameRendererAccessor;
 import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
 import me.juancarloscp52.entropy.networking.NetworkingConstants;
 import me.juancarloscp52.entropy.networking.ServerboundJoinHandshake;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -158,6 +161,11 @@ public class EntropyClient implements ClientModInitializer {
             if (clientEventHandler != null)
                 clientEventHandler.render(drawContext, tickCounter);
 
+        });
+
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+            GameRendererAccessor gameRenderer = (GameRendererAccessor) client.gameRenderer;
+            ((FogRendererAccessor) gameRenderer.getFogRenderer()).getFogEnvironments().addFirst(new HerobrineFogEnvironment());
         });
 
         //Registry.registerReference()

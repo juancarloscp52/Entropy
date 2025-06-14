@@ -90,7 +90,7 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
             TeleportInfo info = positions.get(player);
 
             player.fallDistance = 0;
-            player.teleportTo(player.serverLevel(), info.x + 0.5D, info.y, info.z + 0.5D, Set.of(), info.yaw, info.pitch, true);
+            player.teleportTo(player.level(), info.x + 0.5D, info.y, info.z + 0.5D, Set.of(), info.yaw, info.pitch, true);
         });
     }
 

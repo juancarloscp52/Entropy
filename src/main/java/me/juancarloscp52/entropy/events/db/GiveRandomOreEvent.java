@@ -44,7 +44,7 @@ public class GiveRandomOreEvent extends AbstractInstantEvent {
             };
 
             if(!serverPlayerEntity.getInventory().add(stack))
-                serverPlayerEntity.spawnAtLocation(serverPlayerEntity.serverLevel(), stack);
+                serverPlayerEntity.spawnAtLocation(serverPlayerEntity.level(), stack);
 
         });
     }

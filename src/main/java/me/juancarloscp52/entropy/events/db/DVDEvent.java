@@ -23,7 +23,7 @@ import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.util.ARGB;
+import net.minecraft.util.CommonColors;
 import net.minecraft.util.Mth;
 
 import java.util.Random;
@@ -88,10 +88,10 @@ public class DVDEvent extends AbstractTimedEvent {
         int leftSize = Mth.floor(x);
         int bottomSize = Mth.floor(y + size);
         int rightSize = Mth.floor(x + size);
-        drawContext.fill(0, 0, width, topSize, ARGB.color(255,0, 0, 0));
-        drawContext.fill(0, 0, leftSize, height, ARGB.color(255,0, 0, 0));
-        drawContext.fill(0, height, width, bottomSize, ARGB.color(255,0, 0, 0));
-        drawContext.fill(width, 0, rightSize, height, ARGB.color(255,0, 0, 0));
+        drawContext.fill(0, 0, width, topSize, CommonColors.BLACK);
+        drawContext.fill(0, 0, leftSize, height, CommonColors.BLACK);
+        drawContext.fill(0, height, width, bottomSize, CommonColors.BLACK);
+        drawContext.fill(width, 0, rightSize, height, CommonColors.BLACK);
 
     }
 

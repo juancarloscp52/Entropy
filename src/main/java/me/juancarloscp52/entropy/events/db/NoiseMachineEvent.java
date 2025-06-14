@@ -18,7 +18,7 @@ public class NoiseMachineEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            ServerLevel world = serverPlayerEntity.serverLevel();
+            ServerLevel world = serverPlayerEntity.level();
             BlockPos pos = serverPlayerEntity.blockPosition().above(15);
             // Check for end portal blocks & bedrock
             // Retry to place the noise machine higher up to 3 times, afterwards abort

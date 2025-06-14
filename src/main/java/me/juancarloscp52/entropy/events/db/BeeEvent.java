@@ -18,7 +18,7 @@ public class BeeEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
                     for (int i = 0; i < 10; i++) {
-                        EntityType.BEE.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
+                        EntityType.BEE.spawn(serverPlayerEntity.level(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
                     }
                 }
         );

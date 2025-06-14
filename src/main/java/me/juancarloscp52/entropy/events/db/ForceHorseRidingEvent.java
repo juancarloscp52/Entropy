@@ -26,7 +26,7 @@ public class ForceHorseRidingEvent extends AbstractTimedEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
-            spawnedHorses.add(EntityType.HORSE.spawn(player.serverLevel(), horse -> {
+            spawnedHorses.add(EntityType.HORSE.spawn(player.level(), horse -> {
                 horse.tameWithName(player);
                 horse.setItemSlot(EquipmentSlot.SADDLE, Items.SADDLE.getDefaultInstance());
                 horse.setInvulnerable(true);

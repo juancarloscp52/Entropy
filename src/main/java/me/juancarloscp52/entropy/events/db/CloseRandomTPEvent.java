@@ -43,8 +43,8 @@ public class CloseRandomTPEvent extends AbstractInstantEvent {
         if (count <= 2) {
             if (count == 2) {
                 Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                    serverPlayerEntity.getCommandSenderWorld().destroyBlock(serverPlayerEntity.blockPosition(), false);
-                    serverPlayerEntity.getCommandSenderWorld().destroyBlock(serverPlayerEntity.blockPosition().above(), false);
+                    serverPlayerEntity.level().destroyBlock(serverPlayerEntity.blockPosition(), false);
+                    serverPlayerEntity.level().destroyBlock(serverPlayerEntity.blockPosition().above(), false);
                 });
             }
             count++;

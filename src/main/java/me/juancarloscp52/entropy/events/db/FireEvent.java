@@ -45,7 +45,7 @@ public class FireEvent extends AbstractTimedEvent {
     public void tick() {
         if(tickCount%5==0){
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                ServerLevel world = serverPlayerEntity.serverLevel();
+                ServerLevel world = serverPlayerEntity.level();
                 BlockPos pos = serverPlayerEntity.blockPosition();
                 if(world.getBlockState(pos).canBeReplaced()){
                     world.setBlockAndUpdate(pos,Blocks.FIRE.defaultBlockState());

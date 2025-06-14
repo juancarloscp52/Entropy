@@ -44,7 +44,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
             var maxY = minY + 3;
             var maxZ = minZ + 1;
 
-            var world = player.serverLevel();
+            var world = player.level();
 
             // Replace blocks around with golden blocks
             for (int ix = minX; ix <= maxX; ix++) {

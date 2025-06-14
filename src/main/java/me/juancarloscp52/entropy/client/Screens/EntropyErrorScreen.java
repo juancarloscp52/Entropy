@@ -17,13 +17,15 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
-import java.util.List;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.CommonColors;
 import net.minecraft.util.FormattedCharSequence;
+
+import java.util.List;
 
 public class EntropyErrorScreen extends Screen {
     Screen parent;
@@ -49,7 +51,7 @@ public class EntropyErrorScreen extends Screen {
         List<FormattedCharSequence> lines = font.split(message, this.width / 2);
         for (int i = 0; i < lines.size(); i++) {
             FormattedCharSequence line = lines.get(i);
-            drawContext.drawString(font, line, this.width / 4, this.height / 2 - (lines.size() * 9 / 2) + i * 9, 16777215);
+            drawContext.drawString(font, line, this.width / 4, this.height / 2 - (lines.size() * 9 / 2) + i * 9, CommonColors.WHITE);
         }
     }
 

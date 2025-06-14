@@ -33,7 +33,7 @@ public class ShaderManager {
     public static void render(ResourceLocation postEffectId, Minecraft minecraft, GraphicsResourceAllocator graphicsResourceAllocator) {
         PostChain postChain = minecraft.getShaderManager().getPostChain(postEffectId, LevelTargetBundle.MAIN_TARGETS);
         if (postChain != null) {
-            postChain.process(minecraft.getMainRenderTarget(), graphicsResourceAllocator, null);
+            postChain.process(minecraft.getMainRenderTarget(), graphicsResourceAllocator);
         }
     }
 }

@@ -27,7 +27,7 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
         ServerEventHandler eventHandler = Entropy.getInstance().eventHandler;
         List<ServerLevel> worlds = new ArrayList<>();
         for(var player : eventHandler.getActivePlayers()) {
-            ServerLevel playerWorld = player.serverLevel();
+            ServerLevel playerWorld = player.level();
             if(!worlds.contains(playerWorld))
                 worlds.add(playerWorld);
         }
