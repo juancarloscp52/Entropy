@@ -33,7 +33,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.core.Registry;
@@ -157,10 +157,9 @@ public class EntropyClient implements ClientModInitializer {
             }
         });
 
-        HudRenderCallback.EVENT.register((drawContext, tickCounter) -> {
+        HudElementRegistry.addLast(ResourceLocation.fromNamespaceAndPath("entropy", "overlay"), (drawContext, tickCounter) -> {
             if (clientEventHandler != null)
                 clientEventHandler.render(drawContext, tickCounter);
-
         });
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
