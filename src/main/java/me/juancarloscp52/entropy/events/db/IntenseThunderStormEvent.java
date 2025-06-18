@@ -46,7 +46,7 @@ public class IntenseThunderStormEvent extends AbstractTimedEvent {
 
         if (getTickCount() % 10 == 0) {
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverPlayerEntity.serverLevel(), EntitySpawnReason.EVENT);
+                LightningBolt lightningEntity = EntityType.LIGHTNING_BOLT.create(serverPlayerEntity.level(), EntitySpawnReason.EVENT);
                 lightningEntity.snapTo(Vec3.atCenterOf(serverPlayerEntity.level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, new BlockPos(serverPlayerEntity.getBlockX() + (random.nextInt(50) - 25), serverPlayerEntity.getBlockY() + 50 + (random.nextInt(10) - 5), serverPlayerEntity.getBlockZ() + (random.nextInt(60) - 25)))));
                 serverPlayerEntity.level().addFreshEntity(lightningEntity);
             });

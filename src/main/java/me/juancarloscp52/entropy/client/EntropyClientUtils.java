@@ -1,15 +1,13 @@
 package me.juancarloscp52.entropy.client;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.ResourceLocation;
 
 public class EntropyClientUtils {
     public static void renderOverlay(GuiGraphics guiGraphics, ResourceLocation texture, int color) {
         guiGraphics.blit(
-            RenderType::guiTexturedOverlay,
+            RenderPipelines.GUI_TEXTURED,
             texture,
             0,
             0,

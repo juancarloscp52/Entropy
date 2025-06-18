@@ -22,9 +22,7 @@ import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 
 public class RollCreditsEvent extends AbstractTimedEvent {
 
@@ -47,11 +45,6 @@ public class RollCreditsEvent extends AbstractTimedEvent {
             this.client.mouseHandler.grabMouse();
         }
         super.endClient();
-    }
-
-    @Override
-    @Environment(EnvType.CLIENT)
-    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
     }
 
     @Override

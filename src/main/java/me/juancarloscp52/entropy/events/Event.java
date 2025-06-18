@@ -29,6 +29,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.ARGB;
+import net.minecraft.util.CommonColors;
 import net.minecraft.util.Mth;
 
 
@@ -70,7 +71,7 @@ public interface Event {
         Component eventName = getDescription();
 
         int size = client.font.width(eventName);
-        drawContext.drawString(client.font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, ARGB.color(255,255, 255, 255));
+        drawContext.drawString(client.font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, CommonColors.WHITE);
         if (!this.hasEnded()) {
             drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 5, y + 8, ARGB.color(150,70, 70, 70));
             drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 35 + Mth.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ARGB.color(200,255, 255, 255));

@@ -33,7 +33,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.inventory.tooltip.MenuTooltipPositioner;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -204,10 +204,12 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
             checkbox.render(drawContext, mouseX, mouseY, tickDelta);
 
             if(!eventInfo.typeReference.value().isEnabled()) {
-                drawContext.blitSprite(RenderType::guiTextured, ICON_OVERLAY_LOCATION, x, y - 6, 32, 32);
+                drawContext.blitSprite(RenderPipelines.GUI_TEXTURED, ICON_OVERLAY_LOCATION, x, y - 6, 32, 32);
 
-                if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight)
-                    Minecraft.getInstance().screen.setTooltipForNextRenderPass(ACCESSIBILITY_TOOLTIP, new MenuTooltipPositioner(checkbox.getRectangle()), false);
+                if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight) {
+                    Minecraft minecraft = Minecraft.getInstance();
+                    drawContext.setTooltipForNextFrame(minecraft.font, ACCESSIBILITY_TOOLTIP.toCharSequence(minecraft), new MenuTooltipPositioner(checkbox.getRectangle()), mouseX, mouseY, hovered);
+                }
             }
         }
 

@@ -17,7 +17,7 @@ public class VexAttackEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
-            var world = serverPlayerEntity.serverLevel();
+            var world = serverPlayerEntity.level();
             var random = serverPlayerEntity.getRandom();
             var difficulty = world.getDifficulty();
             var vexAmount = random.nextInt(difficulty == Difficulty.HARD ? 4 : difficulty == Difficulty.NORMAL ? 3 : 2) + 1;

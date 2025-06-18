@@ -21,7 +21,7 @@ public class WardenEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
-                    Warden warden = EntityType.WARDEN.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
+                    Warden warden = EntityType.WARDEN.spawn(serverPlayerEntity.level(), serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT);
                     if(warden!=null) {
                         warden.setHealth(4);
                         warden.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 9999, 5));

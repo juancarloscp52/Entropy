@@ -1,15 +1,21 @@
 #version 150
 
+#moj_import <minecraft:globals.glsl>
+
 uniform sampler2D InSampler;
 
 in vec2 texCoord;
 in vec2 oneTexel;
 
-uniform vec2 InSize;
+layout(std140) uniform SamplerInfo {
+    vec2 OutSize;
+    vec2 InSize;
+};
 
-uniform float GameTime;
-uniform vec2 Frequency;
-uniform vec2 WobbleAmount;
+layout(std140) uniform WobbleConfig {
+    vec2 Frequency;
+    vec2 WobbleAmount;
+};
 
 out vec4 fragColor;
 

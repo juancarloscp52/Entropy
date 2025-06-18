@@ -19,7 +19,7 @@ public class RideClosestMobEvent extends AbstractInstantEvent {
         for (var serverPlayerEntity : Entropy.getInstance().eventHandler.getActivePlayers()) {
             var playerPos = serverPlayerEntity.position();
             var box = new AABB(playerPos.add(64, 64, 64), playerPos.add(-64, -64, -64));
-            var mob = serverPlayerEntity.serverLevel().getNearestEntity(LivingEntity.class,
+            var mob = serverPlayerEntity.level().getNearestEntity(LivingEntity.class,
                     TargetingConditions.forCombat(), serverPlayerEntity,
                     playerPos.x(), playerPos.y(), playerPos.z(), box);
             if (mob != null)

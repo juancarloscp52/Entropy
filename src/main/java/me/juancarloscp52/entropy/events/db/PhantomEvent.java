@@ -34,7 +34,7 @@ public class PhantomEvent extends AbstractInstantEvent {
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             for(int i =0; i<3;i++){
-                Phantom phantom = EntityType.PHANTOM.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().relative(Direction.UP,5), EntitySpawnReason.EVENT);
+                Phantom phantom = EntityType.PHANTOM.spawn(serverPlayerEntity.level(), serverPlayerEntity.blockPosition().relative(Direction.UP,5), EntitySpawnReason.EVENT);
                 if(null!=phantom)
                     phantom.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE,460));
             }

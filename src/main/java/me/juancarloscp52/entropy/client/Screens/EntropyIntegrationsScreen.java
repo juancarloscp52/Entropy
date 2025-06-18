@@ -32,6 +32,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.util.CommonColors;
 import net.minecraft.util.FormattedCharSequence;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -286,11 +287,11 @@ public class EntropyIntegrationsScreen extends Screen {
         super.render(drawContext, mouseX, mouseY, delta);
         EntropyConfigurationScreen.drawLogo(drawContext);
         if(platformIntegrationValue !=0){
-            drawContext.drawString(this.font, tokenTranslatable, this.width / 2 - 10 - font.width(tokenTranslatable), 66, 16777215);
-            drawContext.drawString(this.font, channelTranslatable, this.width / 2 - 10 - font.width(channelTranslatable), 96, 16777215);
+            drawContext.drawString(this.font, tokenTranslatable, this.width / 2 - 10 - font.width(tokenTranslatable), 66, CommonColors.WHITE);
+            drawContext.drawString(this.font, channelTranslatable, this.width / 2 - 10 - font.width(channelTranslatable), 96, CommonColors.WHITE);
         }
         if(platformIntegrationValue == 3) {
-            var color = youtubeAuthState == 0 ? 0xFFAA00 : youtubeAuthState == 1 ? 0x00AA00 : 0xAA0000;
+            var color = youtubeAuthState == 0 ? 0xFFFFAA00 : youtubeAuthState == 1 ? 0xFF00AA00 : 0xFFAA0000;
             drawContext.drawString(this.font, youtubeAuthStatus, this.width / 2 - font.width(youtubeAuthStatus) / 2, 116, color);
         }
     }

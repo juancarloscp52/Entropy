@@ -13,22 +13,20 @@
         }
       ],
       "output": "swap",
-      "uniforms": [
-        {
-          "name": "Frequency",
-          "type": "vec2",
-          "values": [ 254, 128 ]
-        },
-        {
-          "name": "GameTime",
-          "type": "float"
-        },
-        {
-          "name": "WobbleAmount",
-          "type": "vec2",
-          "values": [ 0.002, 0.002 ]
-        }
-      ]
+      "uniforms": {
+        "WobbleConfig": [
+          {
+            "name": "Frequency",
+            "type": "vec2",
+            "value": [ 254, 128 ]
+          },
+          {
+            "name": "WobbleAmount",
+            "type": "vec2",
+            "value": [ 0.002, 0.002 ]
+          }
+        ]
+      }
     },
     {
       "vertex_shader": "minecraft:post/blit",
@@ -39,13 +37,15 @@
           "target": "swap"
         }
       ],
-      "uniforms": [
-        {
-          "name": "ColorModulate",
-          "type": "vec4",
-          "values": [ 1.0, 1.0, 1.0, 1.0 ]
-        }
-      ],
+      "uniforms": {
+        "BlitConfig": [
+          {
+            "name": "ColorModulate",
+            "type": "vec4",
+            "value": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        ]
+      },
       "output": "minecraft:main"
     }
   ]

@@ -32,7 +32,7 @@ public class SinkingEvent extends AbstractTimedEvent {
     public void tick() {
         if(tickCount%30==0){
             Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                ServerLevel world = serverPlayerEntity.serverLevel();
+                ServerLevel world = serverPlayerEntity.level();
                 int x = serverPlayerEntity.getBlockX(), y =serverPlayerEntity.getBlockY(), z = serverPlayerEntity.getBlockZ();
                 for (int j = -1;j<2;j++){
                     for (int k = -1;k<2;k++){

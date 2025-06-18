@@ -17,7 +17,6 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.EntropySettings.UIStyle;
@@ -30,11 +29,13 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.CommonColors;
 import net.minecraft.util.Mth;
+import org.joml.Matrix3x2fStack;
 
 
 public class EntropyConfigurationScreen extends Screen {
@@ -100,15 +101,15 @@ public class EntropyConfigurationScreen extends Screen {
 
         drawLogo(drawContext);
         Component title = Component.translatable("entropy.options.title");
-        drawContext.drawString(this.font, title, this.width / 2 - font.width(title)/2, 10, 16777215);
+        drawContext.drawString(this.font, title, this.width / 2 - font.width(title)/2, 10, CommonColors.WHITE);
     }
 
     public static void drawLogo(final GuiGraphics drawContext) {
-        PoseStack matrices = drawContext.pose();
-        matrices.pushPose();
-        matrices.scale(0.2f, 0.2f, 0.2f);
-        drawContext.blit(RenderType::guiTextured, LOGO, 0, 0, 0, 0, 188, 187, 256, 256);
-        matrices.popPose();
+        Matrix3x2fStack matrices = drawContext.pose();
+        matrices.pushMatrix();
+        matrices.scale(0.2f, 0.2f);
+        drawContext.blit(RenderPipelines.GUI_TEXTURED, LOGO, 0, 0, 0, 0, 188, 187, 256, 256);
+        matrices.popMatrix();
     }
 
     private void onDone() {

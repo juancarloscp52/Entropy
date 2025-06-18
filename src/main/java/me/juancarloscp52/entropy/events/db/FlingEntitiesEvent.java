@@ -33,7 +33,7 @@ public class FlingEntitiesEvent extends AbstractInstantEvent {
 
         eventHandler.getActivePlayers().forEach(player -> {
             player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 140));
-            ServerLevel playerWorld = player.serverLevel();
+            ServerLevel playerWorld = player.level();
             if(!worlds.contains(playerWorld))
                 worlds.add(playerWorld);
         });

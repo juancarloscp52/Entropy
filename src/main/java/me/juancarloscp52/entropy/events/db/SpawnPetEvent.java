@@ -62,7 +62,7 @@ public class SpawnPetEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
             RandomSource random = player.getRandom();
 
-            petType.spawn(player.serverLevel(), pet -> {
+            petType.spawn(player.level(), pet -> {
                 pet.tame(player);
                 // Some stuff that doesn't have an interface in the base game
                 if (pet instanceof Cat cat) {

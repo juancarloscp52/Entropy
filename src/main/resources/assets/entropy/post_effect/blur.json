@@ -16,18 +16,20 @@
                 }
             ],
             "output": "swap",
-            "uniforms": [
-                {
-                    "name": "BlurDir",
-                    "type": "vec2",
-                    "values": [ 1.0, 0.0 ]
-                },
-                {
-                    "name": "Radius",
-                    "type": "float",
-                    "values": [ 15.0 ]
-                }
-            ]
+            "uniforms": {
+                "BlurConfig": [
+                    {
+                        "name": "BlurDir",
+                        "type": "vec2",
+                        "value": [ 1.0, 0.0 ]
+                    },
+                    {
+                        "name": "Radius",
+                        "type": "float",
+                        "value": 15.0
+                    }
+                ]
+            }
         },
         {
             "vertex_shader": "minecraft:post/blur",
@@ -40,18 +42,20 @@
                 }
             ],
             "output": "minecraft:main",
-            "uniforms": [
-                {
-                    "name": "BlurDir",
-                    "type": "vec2",
-                    "values": [ 0.0, 1.0 ]
-                },
-                {
-                    "name": "Radius",
-                    "type": "float",
-                    "values": [ 15.0 ]
-                }
-            ]
+            "uniforms": {
+                "BlurConfig": [
+                    {
+                        "name": "BlurDir",
+                        "type": "vec2",
+                        "value": [ 0.0, 1.0 ]
+                    },
+                    {
+                        "name": "Radius",
+                        "type": "float",
+                        "value": 15.0
+                    }
+                ]
+            }
         }, {
             "vertex_shader": "minecraft:post/blur",
             "fragment_shader": "minecraft:post/box_blur",
@@ -63,19 +67,21 @@
                 }
             ],
             "output": "swap",
-            "uniforms": [
-                {
-                    "name": "BlurDir",
-                    "type": "vec2",
-                    "values": [ 1.0, 0.0 ],
-                    "RadiusMultiplier" : 0.5
-                },
-                {
-                    "name": "Radius",
-                    "type": "float",
-                    "values": [ 15.0 ]
-                }
-            ]
+            "uniforms": {
+                "BlurConfig": [
+                    {
+                        "name": "BlurDir",
+                        "type": "vec2",
+                        "value": [ 1.0, 0.0 ],
+                        "RadiusMultiplier": 0.5
+                    },
+                    {
+                        "name": "Radius",
+                        "type": "float",
+                        "value": 15.0
+                    }
+                ]
+            }
         },
         {
             "vertex_shader": "minecraft:post/blur",
@@ -88,19 +94,21 @@
                 }
             ],
             "output": "minecraft:main",
-            "uniforms": [
-                {
-                    "name": "BlurDir",
-                    "type": "vec2",
-                    "values": [ 0.0, 1.0 ],
-                    "RadiusMultiplier" : 0.5
-                },
-                {
-                    "name": "Radius",
-                    "type": "float",
-                    "values": [ 15.0 ]
-                }
-            ]
+            "uniforms": {
+                "BlurConfig": [
+                    {
+                        "name": "BlurDir",
+                        "type": "vec2",
+                        "value": [ 0.0, 1.0 ],
+                        "RadiusMultiplier": 0.5
+                    },
+                    {
+                        "name": "Radius",
+                        "type": "float",
+                        "value": 15.0
+                    }
+                ]
+            }
         },
         {
             "vertex_shader": "minecraft:post/blit",
@@ -111,13 +119,15 @@
                     "target": "minecraft:main"
                 }
             ],
-            "uniforms": [
-                {
-                    "name": "ColorModulate",
-                    "type": "vec4",
-                    "values": [ 1.0, 1.0, 1.0, 1.0 ]
-                }
-            ],
+            "uniforms": {
+                "BlitConfig": [
+                    {
+                        "name": "ColorModulate",
+                        "type": "vec4",
+                        "value": [ 1.0, 1.0, 1.0, 1.0 ]
+                    }
+                ]
+            },
             "output": "previous"
         }
     ]

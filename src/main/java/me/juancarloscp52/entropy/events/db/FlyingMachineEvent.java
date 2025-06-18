@@ -16,9 +16,9 @@ public class FlyingMachineEvent extends AbstractInstantEvent {
     public void init() {
         for (var player : Entropy.getInstance().eventHandler.getActivePlayers()) {
             if(player.getRandom().nextInt(2) == 0)
-                spawnEastWest(player.serverLevel(), player.blockPosition().offset(1, 2, -4));
+                spawnEastWest(player.level(), player.blockPosition().offset(1, 2, -4));
             else
-                spawnNorthSouth(player.serverLevel(), player.blockPosition().offset(-4, 2, 1));
+                spawnNorthSouth(player.level(), player.blockPosition().offset(-4, 2, 1));
         }
     }
 

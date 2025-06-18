@@ -19,7 +19,7 @@ public class SpawnRainbowSheepEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(
                 serverPlayerEntity -> {
                     for (int i = 0; i < 5; i++) {
-                        EntityType.SHEEP.spawn(serverPlayerEntity.serverLevel(), sheepEntity -> {
+                        EntityType.SHEEP.spawn(serverPlayerEntity.level(), sheepEntity -> {
                             sheepEntity.setCustomName(Component.nullToEmpty("jeb_"));
                             sheepEntity.setCustomNameVisible(false);
                         }, serverPlayerEntity.blockPosition(), EntitySpawnReason.EVENT, true,false);

@@ -34,7 +34,7 @@ public class SlimeEvent extends AbstractInstantEvent {
             Random random = new Random();
             int slimes = random.nextInt(4,12);
             for(int i = 0; i<slimes; i++){
-                EntityType.SLIME.spawn(serverPlayerEntity.serverLevel(), serverPlayerEntity.blockPosition().offset(random.nextInt(-4,5),random.nextInt(2),random.nextInt(-4,5)), EntitySpawnReason.EVENT);
+                EntityType.SLIME.spawn(serverPlayerEntity.level(), serverPlayerEntity.blockPosition().offset(random.nextInt(-4,5),random.nextInt(2),random.nextInt(-4,5)), EntitySpawnReason.EVENT);
             }
         });
     }

@@ -60,7 +60,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
     public void initClient() {
         client = Minecraft.getInstance();
         Variables.customFog = true;
-        client.getSoundManager().pause();
+        client.getSoundManager().pauseAllExcept(SoundSource.UI);
 
     }
 
@@ -97,11 +97,11 @@ public class HerobrineEvent extends AbstractTimedEvent {
     public void tickClient() {
         Player player = client.player;
         if (getTickCount() % 10 == 0) {
-            playStepSound(getLandingPos(), player.getCommandSenderWorld().getBlockState(getLandingPos()));
+            playStepSound(getLandingPos(), player.level().getBlockState(getLandingPos()));
         }
 
         if (getTickCount() % 70 == 0) {
-            player.getCommandSenderWorld().playSound(player, player.blockPosition(), EntropyClient.herobrineAmbience, SoundSource.BLOCKS, 1, 0.9f);
+            player.level().playSound(player, player.blockPosition(), EntropyClient.herobrineAmbience, SoundSource.BLOCKS, 1, 0.9f);
         }
 
         super.tickClient();
@@ -120,9 +120,9 @@ public class HerobrineEvent extends AbstractTimedEvent {
         int j = Mth.floor(player.position().y - 0.20000000298023224D);
         int k = Mth.floor(player.position().z);
         BlockPos blockPos = new BlockPos(i, j, k);
-        if (player.getCommandSenderWorld().getBlockState(blockPos).isAir()) {
+        if (player.level().getBlockState(blockPos).isAir()) {
             BlockPos blockPos2 = blockPos.below();
-            BlockState blockState = player.getCommandSenderWorld().getBlockState(blockPos2);
+            BlockState blockState = player.level().getBlockState(blockPos2);
             Block block = blockState.getBlock();
             if (block.defaultBlockState().is(BlockTags.FENCES) || block.defaultBlockState().is(BlockTags.WALLS) || block instanceof FenceGateBlock) {
                 return blockPos2;
@@ -135,7 +135,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
     private void playStepSound(BlockPos pos, BlockState state) {
         Player player = client.player;
         if (!state.liquid()) {
-            BlockState blockState = player.getCommandSenderWorld().getBlockState(pos.above());
+            BlockState blockState = player.level().getBlockState(pos.above());
             SoundType blockSoundGroup = blockState.is(Blocks.SNOW) ? blockState.getSoundType() : state.getSoundType();
             player.playSound(blockSoundGroup.getStepSound(), blockSoundGroup.getVolume() * 0.25F, blockSoundGroup.getPitch());
         }

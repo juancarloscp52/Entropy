@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagPro
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.world.level.block.Blocks;
+
 import java.util.concurrent.CompletableFuture;
 
 public class EntropyBlockTagProvider extends BlockTagProvider {
@@ -15,14 +16,14 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
 
     @Override
     protected void addTags(Provider wrapperLookup) {
-        getOrCreateTagBuilder(BlockTags.IGNORED_BY_MIDAS_TOUCH).addTag(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.AIR,
+        valueLookupBuilder(BlockTags.IGNORED_BY_MIDAS_TOUCH).addTag(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.AIR,
                 Blocks.GOLD_BLOCK,
                 Blocks.GOLD_ORE,
                 Blocks.RAW_GOLD_BLOCK,
                 Blocks.NETHER_GOLD_ORE);
-        getOrCreateTagBuilder(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
-        getOrCreateTagBuilder(BlockTags.NOT_REPLACED_BY_ZEUS_ULT).add(Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
-        getOrCreateTagBuilder(BlockTags.SHOWN_DURING_XRAY).addOptionalTag(ConventionalBlockTags.ORES).add(Blocks.COAL_BLOCK,
+        valueLookupBuilder(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.BEDROCK, Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
+        valueLookupBuilder(BlockTags.NOT_REPLACED_BY_ZEUS_ULT).add(Blocks.END_PORTAL, Blocks.END_PORTAL_FRAME);
+        valueLookupBuilder(BlockTags.SHOWN_DURING_XRAY).addOptionalTag(ConventionalBlockTags.ORES).add(Blocks.COAL_BLOCK,
                 Blocks.IRON_ORE,
                 Blocks.RAW_IRON_BLOCK,
                 Blocks.IRON_BLOCK,
@@ -38,7 +39,7 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
                 Blocks.REDSTONE_BLOCK,
                 Blocks.BEDROCK,
                 Blocks.OBSIDIAN);
-        getOrCreateTagBuilder(BlockTags.VOID_SIGHT_BREAKS).addOptionalTag(ConventionalBlockTags.CHESTS).add(Blocks.BARREL,
+        valueLookupBuilder(BlockTags.VOID_SIGHT_BREAKS).addOptionalTag(ConventionalBlockTags.CHESTS).add(Blocks.BARREL,
                 Blocks.FURNACE,
                 Blocks.BLAST_FURNACE,
                 Blocks.SMOKER);
