@@ -56,7 +56,7 @@ public class ClientEventHandler {
 
         if (Entropy.getInstance().settings.integrations && integrations) {
             votingClient = new VotingClient();
-            IntegrationType type = IntegrationType.values()[EntropyClient.getInstance().integrationsSettings.integrationType - 1];
+            IntegrationType type = IntegrationType.values()[EntropyClient.getInstance().integrationsSettings.getIntegrationTypeValue() - 1];
             votingClient.setIntegrations(type.create(this, votingClient));
             votingClient.enable();
         }

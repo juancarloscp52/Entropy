@@ -60,9 +60,9 @@ public class TwitchIntegration extends ListenerAdapter implements Integration {
                 .setEncoding(StandardCharsets.UTF_8)
                 .addServer("irc.chat.twitch.tv", 6697)
                 .setSocketFactory(SSLSocketFactory.getDefault())
-                .setName(settings.channel.toLowerCase())
-                .setServerPassword(settings.authToken.startsWith("oauth:") ? settings.authToken : "oauth:" + settings.authToken)
-                .addAutoJoinChannel("#" + settings.channel.toLowerCase())
+                .setName(settings.twitch.channel.toLowerCase())
+                .setServerPassword(settings.twitch.token.startsWith("oauth:") ? settings.twitch.token : "oauth:" + settings.twitch.token)
+                .addAutoJoinChannel("#" + settings.twitch.channel.toLowerCase())
                 .addListener(this)
                 .setAutoSplitMessage(false)
                 .buildConfiguration();
@@ -130,12 +130,12 @@ public class TwitchIntegration extends ListenerAdapter implements Integration {
         for (int i = 0; i < events.size(); i++)
             stringBuilder.append(String.format("[ %d - %s ] ", 1 + i + altOffset, events.get(i).getString()));
 
-        ircChatBot.sendIRC().message("#" + settings.channel.toLowerCase(), "/me [Entropy Bot] " + stringBuilder);
+        ircChatBot.sendIRC().message("#" + settings.twitch.channel.toLowerCase(), "/me [Entropy Bot] " + stringBuilder);
     }
 
     @Override
     public void sendMessage(String message) {
-        ircChatBot.sendIRC().message("#" + settings.channel.toLowerCase(), "/me [Entropy Bot] " + message);
+        ircChatBot.sendIRC().message("#" + settings.twitch.channel.toLowerCase(), "/me [Entropy Bot] " + message);
     }
 
     @Override

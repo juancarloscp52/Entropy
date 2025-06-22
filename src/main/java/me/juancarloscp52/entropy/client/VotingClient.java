@@ -149,13 +149,15 @@ public class VotingClient {
             return;
 
         double ratio = this.totalVotesCount > 0 ? (double) this.totalVotes[i] / this.totalVotesCount : 0;
-        int altOffset = (this.voteID % 2) == 0 && (EntropyClient.getInstance().integrationsSettings.integrationType!=2) ? 4 : 0;
+        final EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
+        final boolean anyNonDiscordEnabled = settings.twitch.enabled || settings.youtube.enabled;
+        int altOffset = (this.voteID % 2) == 0 && anyNonDiscordEnabled ? 4 : 0;
         drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, ARGB.color(150,0, 0, 0));
-        if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage)
+        if(settings.showCurrentPercentage)
             drawContext.fill(10, 31 + (i * 18), 10 + Mth.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));
         drawContext.drawString(client.font, Component.translatableEscape("entropy.votes.display",1 + i + altOffset, events.get(i)), 15, 34 + (i * 18), ARGB.color(255,255, 255, 255));
 
-        if(EntropyClient.getInstance().integrationsSettings.showCurrentPercentage){
+        if(settings.showCurrentPercentage){
             Component percentage = Component.translatableEscape("entropy.votes.percentage", Mth.floor(ratio * 100));
             drawContext.drawString(client.font, percentage, pollWidth + 10 + 42 - client.font.width(percentage), 34 + (i * 18), ARGB.color(255,255, 255, 255));
         }

@@ -93,8 +93,8 @@ public class YoutubeApi {
                                     var refreshToken = map.get("refresh_token");
                                     if (accessToken != null && refreshToken != null) {
                                         var integrationsSettings = EntropyClient.getInstance().integrationsSettings;
-                                        integrationsSettings.youtubeAccessToken = accessToken.toString();
-                                        integrationsSettings.youtubeRefreshToken = refreshToken.toString();
+                                        integrationsSettings.youtube.accessToken = accessToken.toString();
+                                        integrationsSettings.youtube.refreshToken = refreshToken.toString();
                                         EntropyClient.getInstance().saveSettings();
                                         Entropy.getInstance().saveSettings();
 
@@ -211,7 +211,7 @@ public class YoutubeApi {
                         throw new NullPointerException("access token or refresh token was null");
 
                     var integrationsSettings = EntropyClient.getInstance().integrationsSettings;
-                    integrationsSettings.youtubeAccessToken = accessToken.toString();
+                    integrationsSettings.youtube.accessToken = accessToken.toString();
                     EntropyClient.getInstance().saveSettings();
                     Entropy.getInstance().saveSettings();
 
