@@ -2,10 +2,11 @@ package me.juancarloscp52.entropy.client.integrations.discord;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import me.juancarloscp52.entropy.client.integrations.IntegrationSettings;
 
 import java.util.Objects;
 
-public class DiscordIntegrationSettings {
+public class DiscordIntegrationSettings implements IntegrationSettings {
     public static final Codec<DiscordIntegrationSettings> CODEC = RecordCodecBuilder.create(i  -> i.group(
         Codec.BOOL.optionalFieldOf("enabled", false).forGetter(s -> s.enabled),
         Codec.STRING.optionalFieldOf("token", "").forGetter(s -> s.token),
@@ -41,4 +42,9 @@ public class DiscordIntegrationSettings {
     public boolean enabled = false;
     public String token = "";
     public long channel = -1;
+
+    @Override
+    public boolean enabled() {
+        return enabled;
+    }
 }

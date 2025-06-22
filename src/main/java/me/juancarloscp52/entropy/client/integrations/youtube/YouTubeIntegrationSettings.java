@@ -2,10 +2,11 @@ package me.juancarloscp52.entropy.client.integrations.youtube;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import me.juancarloscp52.entropy.client.integrations.IntegrationSettings;
 
 import java.util.Objects;
 
-public class YouTubeIntegrationSettings {
+public class YouTubeIntegrationSettings implements IntegrationSettings {
     public static final Codec<YouTubeIntegrationSettings> CODEC = RecordCodecBuilder.create(i -> i.group(
         Codec.BOOL.optionalFieldOf("enabled", false).forGetter(s -> s.enabled),
         Codec.STRING.optionalFieldOf("client_id", "").forGetter(s -> s.clientId),
@@ -47,4 +48,9 @@ public class YouTubeIntegrationSettings {
     public String secret = "";
     public String accessToken = "";
     public String refreshToken = "";
+
+    @Override
+    public boolean enabled() {
+        return enabled;
+    }
 }
