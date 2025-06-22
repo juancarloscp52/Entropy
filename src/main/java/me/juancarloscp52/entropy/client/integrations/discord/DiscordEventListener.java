@@ -67,7 +67,7 @@ public class DiscordEventListener extends ListenerAdapter {
             List<UnicodeEmoji> emojisToRemove = new ArrayList<>();
             UnicodeEmoji addedEmoji = event.getReaction().getEmoji().asUnicode();
 
-            Stream.of("1️⃣", "2️⃣", "3️⃣", "4️⃣").map(Emoji::fromUnicode).forEach(emojisToRemove::add);
+            Stream.of("1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣").map(Emoji::fromUnicode).forEach(emojisToRemove::add);
 
             if(emojisToRemove.contains(addedEmoji)) {
                 Message message = event.retrieveMessage().complete();
@@ -75,6 +75,9 @@ public class DiscordEventListener extends ListenerAdapter {
                 int index = emojisToRemove.indexOf(addedEmoji);
 
                 emojisToRemove.remove(index);
+                if (index > 3) {
+                    index -= 4;
+                }
                 discordIntegration.votingClient.processVote(index, event.getUserId());
 
                 for(UnicodeEmoji emoji : emojisToRemove) {
@@ -100,7 +103,20 @@ public class DiscordEventListener extends ListenerAdapter {
                 case "4️⃣":
                     discordIntegration.votingClient.removeVote(3, event.getUserId());
                     break;
-                default: break;
+                case "5️⃣":
+                    discordIntegration.votingClient.removeVote(0, event.getUserId());
+                    break;
+                case "6️⃣":
+                    discordIntegration.votingClient.removeVote(1, event.getUserId());
+                    break;
+                case "7️⃣":
+                    discordIntegration.votingClient.removeVote(2, event.getUserId());
+                    break;
+                case "8️⃣":
+                    discordIntegration.votingClient.removeVote(3, event.getUserId());
+                    break;
+                default:
+                    break;
             }
         }
     }

@@ -68,6 +68,6 @@ public class EntropyIntegrationsSettings {
     }
 
     public boolean shouldUseAlternateOffsets() {
-        return getIntegrationTypeValue() != 2;
+        return twitch.enabled || youtube.enabled;
     }
 }
