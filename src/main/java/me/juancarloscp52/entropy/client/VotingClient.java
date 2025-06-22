@@ -40,7 +40,7 @@ public class VotingClient {
     int pollWidth = 195;
     int totalVotesCount = 0;
     boolean enabled = false;
-    Integration integration;
+    List<Integration> integrations;
     Minecraft client = Minecraft.getInstance();
 
     OverlayServer overlayServer;
@@ -56,7 +56,7 @@ public class VotingClient {
 
     public void disable() {
         enabled = false;
-        integration.stop();
+        integrations.forEach(Integration::stop);
         overlayServer.stop();
     }
     public void removeVote(int index, String userId) {
@@ -129,8 +129,8 @@ public class VotingClient {
         }
     }
 
-    public void setIntegrations(Integration integration) {
-        this.integration = integration;
+    public void setIntegrations(List<Integration> integrations) {
+        this.integrations = integrations;
     }
 
     public void render(GuiGraphics drawContext) {
@@ -165,12 +165,12 @@ public class VotingClient {
 
     public void sendPoll(int voteID, List<Component> events) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
-            integration.sendPoll(voteID, events);
+            integrations.forEach(i -> i.sendPoll(voteID, events));
         this.overlayServer.onNewVote(voteID, events);
     }
     public void sendMessage(String message) {
         if (EntropyClient.getInstance().integrationsSettings.sendChatMessages)
-            integration.sendMessage(message);
+            integrations.forEach(i -> i.sendMessage(message));
     }
     public void sendVotes() {
         if (voteID == -1)
@@ -181,6 +181,8 @@ public class VotingClient {
     }
 
     public int getColor(int alpha) {
-        return integration.getColor(alpha);
+        // [slicedlime] This is quite arbitrary when using multiple - the functionality is questionable in the first place
+        // Should just pick a color that is readable and stick with it
+        return integrations.getFirst().getColor(alpha);
     }
 }

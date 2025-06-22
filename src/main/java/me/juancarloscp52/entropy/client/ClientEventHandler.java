@@ -23,6 +23,7 @@ import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.UIStyles.GTAVUIRenderer;
 import me.juancarloscp52.entropy.client.UIStyles.MinecraftUIRenderer;
 import me.juancarloscp52.entropy.client.UIStyles.UIRenderer;
+import me.juancarloscp52.entropy.client.integrations.Integration;
 import me.juancarloscp52.entropy.client.integrations.IntegrationType;
 import me.juancarloscp52.entropy.events.Event;
 import net.minecraft.client.DeltaTracker;
@@ -30,6 +31,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClientEventHandler {
@@ -45,19 +47,23 @@ public class ClientEventHandler {
     final short timerDurationFinal;
     boolean serverIntegrations;
 
-    public ClientEventHandler(short timerDuration, short baseEventDuration, boolean integrations) {
+    public ClientEventHandler(short timerDuration, short baseEventDuration, boolean enableIntegrations) {
         this.client = Minecraft.getInstance();
         this.timerDuration = timerDuration;
         this.timerDurationFinal = timerDuration;
         this.eventCountDown = timerDuration;
-        this.serverIntegrations = integrations;
+        this.serverIntegrations = enableIntegrations;
 
         Entropy.getInstance().settings.baseEventDuration = baseEventDuration;
 
-        if (Entropy.getInstance().settings.integrations && integrations) {
+        if (Entropy.getInstance().settings.integrations && enableIntegrations) {
             votingClient = new VotingClient();
-            IntegrationType type = IntegrationType.values()[EntropyClient.getInstance().integrationsSettings.getIntegrationTypeValue() - 1];
-            votingClient.setIntegrations(type.create(this, votingClient));
+            final EntropyIntegrationsSettings integrationsSettings = EntropyClient.getInstance().integrationsSettings;
+            final List<Integration> integrations = Arrays.stream(IntegrationType.values())
+                .filter(type -> type.settings(integrationsSettings).enabled())
+                .map(type -> type.create(this, votingClient))
+                .toList();
+            votingClient.setIntegrations(integrations);
             votingClient.enable();
         }
 

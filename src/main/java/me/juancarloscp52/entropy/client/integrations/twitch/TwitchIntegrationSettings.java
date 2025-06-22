@@ -2,10 +2,11 @@ package me.juancarloscp52.entropy.client.integrations.twitch;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import me.juancarloscp52.entropy.client.integrations.IntegrationSettings;
 
 import java.util.Objects;
 
-public class TwitchIntegrationSettings {
+public class TwitchIntegrationSettings implements IntegrationSettings {
     public static final Codec<TwitchIntegrationSettings> CODEC = RecordCodecBuilder.create(i -> i.group(
         Codec.BOOL.optionalFieldOf("enabled", false).forGetter(s -> s.enabled),
         Codec.STRING.optionalFieldOf("token", "").forGetter(s -> s.token),
@@ -41,4 +42,9 @@ public class TwitchIntegrationSettings {
     public boolean enabled = false;
     public String token = "";
     public String channel = "";
+
+    @Override
+    public boolean enabled() {
+        return enabled;
+    }
 }
