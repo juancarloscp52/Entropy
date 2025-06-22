@@ -53,20 +53,6 @@ public class EntropyIntegrationsSettings {
     public boolean showCurrentPercentage = true;
     public boolean showUpcomingEvents = true;
 
-    @Deprecated(forRemoval = true)
-    public int getIntegrationTypeValue() {
-        if (twitch.enabled) {
-            return 1;
-        }
-        else if (discord.enabled) {
-            return 2;
-        }
-        else if (youtube.enabled) {
-            return 3;
-        }
-        return 0;
-    }
-
     public boolean shouldUseAlternateOffsets() {
         return twitch.enabled || youtube.enabled;
     }

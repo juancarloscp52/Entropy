@@ -18,21 +18,29 @@
 package me.juancarloscp52.entropy.client.Screens;
 
 import me.juancarloscp52.entropy.Entropy;
-import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeApi;
-import net.minecraft.client.gui.GuiGraphics;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.StringWidget;
 import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.client.gui.components.tabs.GridLayoutTab;
+import net.minecraft.client.gui.components.tabs.TabManager;
+import net.minecraft.client.gui.components.tabs.TabNavigationBar;
+import net.minecraft.client.gui.layouts.CommonLayouts;
+import net.minecraft.client.gui.layouts.GridLayout;
+import net.minecraft.client.gui.layouts.HeaderAndFooterLayout;
+import net.minecraft.client.gui.layouts.LinearLayout;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.util.CommonColors;
 import net.minecraft.util.FormattedCharSequence;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,31 +50,16 @@ import java.util.concurrent.Executors;
 
 public class EntropyIntegrationsScreen extends Screen {
     public static final Logger LOGGER = LogManager.getLogger();
-    EntropySettings settings = Entropy.getInstance().settings;
-    EntropyIntegrationsSettings integrationsSettings = EntropyClient.getInstance().integrationsSettings;
+    EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
 
-    Button platformIntegration;
-    Button help;
-    int platformIntegrationValue = 0;
+    private final TabManager tabManager = new TabManager(this::addRenderableWidget, this::removeWidget);
+    private TabNavigationBar tabNavigationBar;
+    private final HeaderAndFooterLayout layout = new HeaderAndFooterLayout(this);
 
-    EditBox twitchToken;
-    EditBox twitchChannel;
-    EditBox discordToken;
-    EditBox discordChannel;
-    EditBox youtubeClientId;
-    EditBox youtubeSecret;
-    Component youtubeAuthStatus;
-    int youtubeAuthState = 0;
-    Button youtubeAuth;
-    Component tokenTranslatable;
-    Component channelTranslatable;
-    Checkbox sendChatMessages;
-    Checkbox showPollStatus;
-    Checkbox showUpcomingEvents;
-
-    Button done;
-
-    private ExecutorService executor;
+    private GeneralTab general;
+    private TwitchTab twitch;
+    private DiscordTab discord;
+    private YouTubeTab youtube;
 
     Screen parent;
 
@@ -76,262 +69,252 @@ public class EntropyIntegrationsScreen extends Screen {
     }
 
     protected void init() {
-        platformIntegrationValue = integrationsSettings.getIntegrationTypeValue();
-        platformIntegration = Button.builder(Component.translatable("entropy.options.integrations.integrationSelector", getPlatform()), button -> {
-            platformIntegrationValue++;
-            if(platformIntegrationValue>=4)
-                platformIntegrationValue=0;
-            changeContent();
-            button.setMessage(Component.translatable("entropy.options.integrations.integrationSelector", getPlatform()));
-        }).pos(this.width/2-100,30).width(200).build();
-        this.addRenderableWidget(platformIntegration);
+        general = new GeneralTab();
+        twitch = new TwitchTab();
+        discord = new DiscordTab();
+        youtube = new YouTubeTab();
+        tabNavigationBar = TabNavigationBar.builder(this.tabManager, this.width).addTabs(general, twitch, discord, youtube).build();
+        addRenderableWidget(tabNavigationBar);
 
-        twitchToken = new EditBox(this.font, this.width / 2 + 10, 60, 125, 20, Component.translatable("entropy.options.integrations.twitch.OAuthToken"));
-        twitchToken.setMaxLength(64);
-        twitchToken.setValue(integrationsSettings.twitch.token);
-        twitchToken.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
-        this.addRenderableWidget(twitchToken);
-        twitchChannel = new EditBox(this.font, this.width / 2 + 10, 90, 125, 20, Component.translatable("entropy.options.integrations.twitch.channelName"));
-        twitchChannel.setValue(integrationsSettings.twitch.channel);
-        this.addRenderableWidget(twitchChannel);
+        LinearLayout linearLayout = layout.addToFooter(LinearLayout.horizontal().spacing(8));
+        linearLayout.addChild(Button.builder(CommonComponents.GUI_DONE, (button) -> onDone()).build());
+        linearLayout.addChild(Button.builder(CommonComponents.GUI_CANCEL, (button) -> onClose()).build());
 
-
-        discordToken = new EditBox(this.font, this.width / 2 + 10, 60, 125, 20, Component.translatable("entropy.options.integrations.discord.token"));
-        discordToken.setMaxLength(128);
-        discordToken.setValue(integrationsSettings.discord.token);
-        discordToken.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
-        this.addRenderableWidget(discordToken);
-        discordChannel = new EditBox(this.font, this.width / 2 + 10, 90, 125, 20, Component.translatable("entropy.options.integrations.discord.channelId"));
-        discordChannel.setValue(String.valueOf(integrationsSettings.discord.channel));
-        discordChannel.setMaxLength(128);
-        this.addRenderableWidget(discordChannel);
-
-
-        youtubeClientId = new EditBox(this.font, this.width / 2 + 10, 60, 125, 20, Component.translatable("entropy.options.integrations.youtube.clientId"));
-        youtubeClientId.setMaxLength(128);
-        youtubeClientId.setValue(integrationsSettings.youtube.clientId);
-        youtubeSecret = new EditBox(this.font, this.width / 2 + 10, 90, 125, 20, Component.translatable("entropy.options.integrations.youtube.secret"));
-        this.addRenderableWidget(youtubeClientId);
-        youtubeSecret.setMaxLength(64);
-        youtubeSecret.setValue(integrationsSettings.youtube.secret);
-        youtubeSecret.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
-        this.addRenderableWidget(youtubeSecret);
-        youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.checkingAccessToken");
-        youtubeAuth = Button.builder(Component.translatable("entropy.options.integrations.youtube.authorize"), onPress -> {
-            youtubeAuth.setMessage(Component.translatable("entropy.options.integrations.youtube.authorizing"));
-            youtubeAuthState = 0;
-            youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.authorizing");
-            changeContent();
-
-            YoutubeApi.authorize(youtubeClientId.getValue(), youtubeSecret.getValue(), (isSuccessful, message) -> {
-                youtubeAuth.setMessage(Component.translatable("entropy.options.integrations.youtube.authorize"));
-
-                if(isSuccessful) {
-                    // Checking if we can get broadcasts, if not, then we may have exceeded the quota
-                    var broadcasts = YoutubeApi.getLiveBroadcasts(integrationsSettings.youtube.accessToken);
-                    if(broadcasts == null) {
-                        youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.quotaExceeded");
-                        youtubeAuthState = 2;
-                    }
-                    else {
-                        youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.accessTokenValid");
-                        youtubeAuthState = 1;
-                    }
-                }
-                else {
-                    youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.accessTokenInvalid");
-                    youtubeAuthState = 2;
-                }
-                changeContent();
-            });
-        }).pos(this.width / 2 - 100, 130).width(200).build();
-        this.addRenderableWidget(youtubeAuth);
-
-        executor = Executors.newCachedThreadPool();
-        executor.execute(() -> {
-            var isAccessTokenValid = YoutubeApi.validateAccessToken(integrationsSettings.youtube.accessToken);
-            if(!isAccessTokenValid)
-                isAccessTokenValid = YoutubeApi.refreshAccessToken(youtubeClientId.getValue(), youtubeSecret.getValue(), integrationsSettings.youtube.refreshToken);
-
-            if(isAccessTokenValid) {
-                // Checking if we can get broadcasts, if not, then we may have exceeded the quota
-                var broadcasts = YoutubeApi.getLiveBroadcasts(integrationsSettings.youtube.accessToken);
-                if(broadcasts == null) {
-                    youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.quotaExceeded");
-                    youtubeAuthState = 2;
-                }
-                else {
-                    youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.accessTokenValid");
-                    youtubeAuthState = 1;
-                }
-            }
-            else {
-                youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.accessTokenInvalid");
-                youtubeAuthState = 2;
-            }
-            changeContent();
+        layout.visitWidgets((abstractWidget) -> {
+            abstractWidget.setTabOrderGroup(1);
+            addRenderableWidget(abstractWidget);
         });
 
-        Component showPollStatusText = Component.translatable("entropy.options.integrations.showPollStatus");
-        showPollStatus = Checkbox.builder(showPollStatusText, font).pos(this.width / 2 - ((font.width(showPollStatusText))+20), 140).selected(integrationsSettings.showCurrentPercentage).build();
-        this.addRenderableWidget(showPollStatus);
-
-        Component showUpcomingEventsText = Component.translatable("entropy.options.integrations.showUpcomingEvents");
-        showUpcomingEvents = Checkbox.builder(showUpcomingEventsText, font).pos(this.width / 2 + (20), 140).selected(integrationsSettings.showUpcomingEvents).build();
-        this.addRenderableWidget(showUpcomingEvents);
-
-        Component sendChatMessagesText = Component.translatable("entropy.options.integrations.twitch.sendChatFeedBack");
-        sendChatMessages = Checkbox.builder(sendChatMessagesText, font).pos(this.width / 2 - ((font.width(sendChatMessagesText) / 2) + 11), 145).selected(integrationsSettings.sendChatMessages).build();
-        this.addRenderableWidget(sendChatMessages);
-
-        this.done = Button.builder(CommonComponents.GUI_DONE, button -> onDone()).pos(this.width / 2 - 100, this.height - 30).width(200).build();
-        this.addRenderableWidget(done);
-        this.addRenderableWidget(
-                help = Button.builder(Component.translatable("entropy.options.questionMark"), (button -> {
-                })).pos((this.width / 2) + 110, 30).width(20).tooltip(Tooltip.create(
-                        Component.translatable(
-                            switch(platformIntegrationValue) {
-                                case 1 -> "entropy.options.integrations.twitch.help";
-                                case 2 -> "entropy.options.integrations.discord.help";
-                                default -> "entropy.options.integrations.youtube.help"; }))).build());
-
-        changeContent();
+        tabNavigationBar.selectTab(0, false);
+        repositionElements();
     }
 
-    public void changeContent(){
-        switch (platformIntegrationValue) {
-            case 1 -> {
-                twitchChannel.setVisible(true);
-                twitchToken.setVisible(true);
-                sendChatMessages.visible = true;
-                showPollStatus.visible = true;
-                showUpcomingEvents.visible = true;
-                discordChannel.setVisible(false);
-                discordToken.setVisible(false);
-                youtubeClientId.setVisible(false);
-                youtubeSecret.setVisible(false);
-                youtubeAuth.visible = false;
-                help.visible=true;
-                tokenTranslatable = Component.translatable("entropy.options.integrations.twitch.OAuthToken");
-                channelTranslatable = Component.translatable("entropy.options.integrations.twitch.channelName");
-                showPollStatus.setY(140);
-                showUpcomingEvents.setY(140);
-                sendChatMessages.setY(165);
-                sendChatMessages.setMessage(Component.translatable("entropy.options.integrations.twitch.sendChatFeedBack"));
-            }
-            case 2 -> {
-                twitchChannel.setVisible(false);
-                twitchToken.setVisible(false);
-                sendChatMessages.visible = false;
-                showPollStatus.visible = true;
-                showUpcomingEvents.visible = true;
-                discordChannel.setVisible(true);
-                discordToken.setVisible(true);
-                youtubeClientId.setVisible(false);
-                youtubeSecret.setVisible(false);
-                youtubeAuth.visible = false;
-                help.visible=true;
-                tokenTranslatable = Component.translatable("entropy.options.integrations.discord.token");
-                channelTranslatable = Component.translatable("entropy.options.integrations.discord.channelId");
-                showPollStatus.setY(140);
-                showUpcomingEvents.setY(140);
-                sendChatMessages.setY(165);
-            }
-            case 3 -> {
-                twitchChannel.setVisible(false);
-                twitchToken.setVisible(false);
-                sendChatMessages.visible = true;
-                showPollStatus.visible = true;
-                showUpcomingEvents.visible = true;
-                discordChannel.setVisible(false);
-                discordToken.setVisible(false);
-                youtubeClientId.setVisible(true);
-                youtubeSecret.setVisible(true);
-                youtubeAuth.visible = true;
-                help.visible=true;
-                tokenTranslatable = Component.translatable("entropy.options.integrations.youtube.clientId");
-                channelTranslatable = Component.translatable("entropy.options.integrations.youtube.secret");
-                showPollStatus.setY(160);
-                showUpcomingEvents.setY(160);
-                sendChatMessages.setY(185);
-                sendChatMessages.setMessage(Component.translatable("entropy.options.integrations.youtube.sendChatFeedBack"));
-            }
-            default -> {
-                twitchChannel.setVisible(false);
-                twitchToken.setVisible(false);
-                sendChatMessages.visible = false;
-                showPollStatus.visible = false;
-                showUpcomingEvents.visible = false;
-                discordChannel.setVisible(false);
-                discordToken.setVisible(false);
-                youtubeClientId.setVisible(false);
-                youtubeSecret.setVisible(false);
-                youtubeAuth.visible = false;
-                help.visible=false;
-                tokenTranslatable = Component.translatable("");
-                channelTranslatable = Component.translatable("");
-                showPollStatus.setY(140);
-                showUpcomingEvents.setY(140);
-                sendChatMessages.setY(165);
-            }
-        }
-        help.setTooltip(Tooltip.create(
-                Component.translatable(
-                    switch(platformIntegrationValue) {
-                        case 1 -> "entropy.options.integrations.twitch.help";
-                        case 2 -> "entropy.options.integrations.discord.help";
-                        default -> "entropy.options.integrations.youtube.help"; })));
-    }
-
-    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
-        super.render(drawContext, mouseX, mouseY, delta);
-        EntropyConfigurationScreen.drawLogo(drawContext);
-        if(platformIntegrationValue !=0){
-            drawContext.drawString(this.font, tokenTranslatable, this.width / 2 - 10 - font.width(tokenTranslatable), 66, CommonColors.WHITE);
-            drawContext.drawString(this.font, channelTranslatable, this.width / 2 - 10 - font.width(channelTranslatable), 96, CommonColors.WHITE);
-        }
-        if(platformIntegrationValue == 3) {
-            var color = youtubeAuthState == 0 ? 0xFFFFAA00 : youtubeAuthState == 1 ? 0xFF00AA00 : 0xFFAA0000;
-            drawContext.drawString(this.font, youtubeAuthStatus, this.width / 2 - font.width(youtubeAuthStatus) / 2, 116, color);
+    public void repositionElements() {
+        if (tabNavigationBar != null) {
+            tabNavigationBar.setWidth(width);
+            tabNavigationBar.arrangeElements();
+            final int bottom = tabNavigationBar.getRectangle().bottom();
+            ScreenRectangle screenRectangle = new ScreenRectangle(0, bottom, width, height - layout.getFooterHeight() - bottom);
+            tabManager.setTabArea(screenRectangle);
+            layout.setHeaderHeight(bottom);
+            layout.arrangeElements();
         }
     }
 
     private void onDone() {
         YoutubeApi.stopHttpServer();
 
-        settings.integrations = platformIntegrationValue > 0;
-        integrationsSettings.twitch.enabled = platformIntegrationValue == 1;
-        integrationsSettings.twitch.token = twitchToken.getValue();
-        integrationsSettings.twitch.channel = twitchChannel.getValue();
+        settings.twitch.enabled = twitch.enabled.selected();
+        settings.twitch.token = twitch.token.getValue();
+        settings.twitch.channel = twitch.channel.getValue();
 
-        integrationsSettings.discord.enabled = platformIntegrationValue == 2;
-        integrationsSettings.discord.token = discordToken.getValue();
-        integrationsSettings.discord.channel = Long.parseLong(discordChannel.getValue());
+        settings.discord.enabled = discord.enabled.selected();
+        settings.discord.token = discord.token.getValue();
+        settings.discord.channel = Long.parseLong(discord.channel.getValue());
 
-        integrationsSettings.youtube.enabled = platformIntegrationValue == 3;
-        integrationsSettings.youtube.clientId = youtubeClientId.getValue();
-        integrationsSettings.youtube.secret = youtubeSecret.getValue();
+        settings.youtube.enabled = youtube.enabled.selected();
+        settings.youtube.clientId = youtube.clientId.getValue();
+        settings.youtube.secret = youtube.secret.getValue();
 
-        integrationsSettings.sendChatMessages = sendChatMessages.selected();
-        integrationsSettings.showCurrentPercentage = showPollStatus.selected();
-        integrationsSettings.showUpcomingEvents = showUpcomingEvents.selected();
+        settings.sendChatMessages = general.sendChatMessages.selected();
+        settings.showCurrentPercentage = general.showPollStatus.selected();
+        settings.showUpcomingEvents = general.showUpcomingEvents.selected();
 
         EntropyClient.getInstance().saveSettings();
-        Entropy.getInstance().saveSettings();
-        onClose();
-    }
 
-    private String getPlatform(){
-        return switch (platformIntegrationValue) {
-            case 1 -> I18n.get("entropy.options.integrations.twitch");
-            case 2 -> I18n.get("entropy.options.integrations.discord");
-            case 3 -> I18n.get("entropy.options.integrations.youtube");
-            default -> I18n.get("entropy.options.off");
-        };
+        Entropy.getInstance().settings.integrations = settings.twitch.enabled || settings.discord.enabled || settings.youtube.enabled;
+        Entropy.getInstance().saveSettings();
+
+        onClose();
     }
 
     @Override
     public void onClose() {
-        this.minecraft.setScreen(this.parent);
+        minecraft.setScreen(parent);
+    }
+
+    @Environment(EnvType.CLIENT)
+    class GeneralTab extends GridLayoutTab {
+        private final Checkbox sendChatMessages;
+        private final Checkbox showPollStatus;
+        private final Checkbox showUpcomingEvents;
+
+        public GeneralTab() {
+            super(Component.translatable("entropy.options.integrations.general"));
+
+            GridLayout.RowHelper rowHelper = layout.columnSpacing(10).rowSpacing(8).createRowHelper(1);
+
+            showPollStatus = Checkbox.builder(Component.translatable("entropy.options.integrations.showPollStatus"), font)
+                .selected(settings.showCurrentPercentage)
+                .build();
+            rowHelper.addChild(showPollStatus);
+
+            showUpcomingEvents = Checkbox.builder(Component.translatable("entropy.options.integrations.showUpcomingEvents"), font)
+                .selected(settings.showUpcomingEvents)
+                .build();
+            rowHelper.addChild(showUpcomingEvents);
+
+            sendChatMessages = Checkbox.builder(Component.translatable("entropy.options.integrations.sendChatFeedBack"), font)
+                .selected(settings.sendChatMessages)
+                .build();
+            rowHelper.addChild(sendChatMessages);
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    class TwitchTab extends GridLayoutTab {
+        private final Checkbox enabled;
+        private final EditBox token;
+        private final EditBox channel;
+
+        public TwitchTab() {
+            super(Component.translatable("entropy.options.integrations.twitch"));
+
+            GridLayout.RowHelper rowHelper = layout.columnSpacing(10).rowSpacing(8).createRowHelper(1);
+
+            enabled = Checkbox.builder(Component.translatable("entropy.options.enabled"), font)
+                .tooltip(Tooltip.create(Component.translatable("entropy.options.integrations.twitch.help")))
+                .selected(settings.twitch.enabled)
+                .build();
+            rowHelper.addChild(enabled);
+
+            token = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.twitch.OAuthToken"));
+            token.setMaxLength(64);
+            token.setValue(settings.twitch.token);
+            token.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
+            rowHelper.addChild(
+                CommonLayouts.labeledElement(font, token, Component.translatable("entropy.options.integrations.twitch.OAuthToken")),
+                rowHelper.newCellSettings().alignHorizontallyCenter()
+            );
+
+            channel = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.twitch.channelName"));
+            channel.setValue(settings.twitch.channel);
+            rowHelper.addChild(
+                CommonLayouts.labeledElement(font, channel, Component.translatable("entropy.options.integrations.twitch.channelName")),
+                rowHelper.newCellSettings().alignHorizontallyCenter()
+            );
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    class DiscordTab extends GridLayoutTab {
+        private final Checkbox enabled;
+        private final EditBox token;
+        private final EditBox channel;
+
+        public DiscordTab() {
+            super(Component.translatable("entropy.options.integrations.discord"));
+
+            GridLayout.RowHelper rowHelper = layout.columnSpacing(10).rowSpacing(8).createRowHelper(1);
+
+            enabled = Checkbox.builder(Component.translatable("entropy.options.enabled"), font)
+                .tooltip(Tooltip.create(Component.translatable("entropy.options.integrations.discord.help")))
+                .selected(settings.discord.enabled)
+                .build();
+            rowHelper.addChild(enabled);
+
+            token = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.discord.token"));
+            token.setMaxLength(128);
+            token.setValue(settings.discord.token);
+            token.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
+            rowHelper.addChild(
+                CommonLayouts.labeledElement(font, token, Component.translatable("entropy.options.integrations.discord.token")),
+                rowHelper.newCellSettings().alignHorizontallyCenter()
+            );
+            channel = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.discord.channelId"));
+            channel.setValue(String.valueOf(settings.discord.channel));
+            channel.setMaxLength(128);
+            rowHelper.addChild(
+                CommonLayouts.labeledElement(font, channel, Component.translatable("entropy.options.integrations.discord.channelId")),
+                rowHelper.newCellSettings().alignHorizontallyCenter()
+            );
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    class YouTubeTab extends GridLayoutTab {
+        private final Checkbox enabled;
+        private final EditBox clientId;
+        private final EditBox secret;
+        private final StringWidget authStatus;
+        private Button youtubeAuth = null;
+        private final ExecutorService executor;
+
+        public YouTubeTab() {
+            super(Component.translatable("entropy.options.integrations.youtube"));
+
+            GridLayout.RowHelper rowHelper = layout.columnSpacing(10).rowSpacing(4).createRowHelper(1);
+
+            enabled = Checkbox.builder(Component.translatable("entropy.options.enabled"), font)
+                .tooltip(Tooltip.create(Component.translatable("entropy.options.integrations.youtube.help")))
+                .selected(settings.youtube.enabled)
+                .build();
+            rowHelper.addChild(enabled);
+
+            clientId = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.youtube.clientId"));
+            clientId.setMaxLength(128);
+            clientId.setValue(settings.youtube.clientId);
+            rowHelper.addChild(
+                CommonLayouts.labeledElement(font, clientId, Component.translatable("entropy.options.integrations.youtube.clientId")),
+                rowHelper.newCellSettings().alignHorizontallyCenter()
+            );
+
+            secret = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.youtube.secret"));
+            secret.setMaxLength(64);
+            secret.setValue(settings.youtube.secret);
+            secret.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
+            rowHelper.addChild(
+                CommonLayouts.labeledElement(font, secret, Component.translatable("entropy.options.integrations.youtube.secret")),
+                rowHelper.newCellSettings().alignHorizontallyCenter()
+            );
+
+            authStatus = new StringWidget(200, 20, Component.translatable("entropy.options.integrations.youtube.checkingAccessToken").withStyle(ChatFormatting.GOLD), font);
+            rowHelper.addChild(authStatus);
+
+            youtubeAuth = Button.builder(Component.translatable("entropy.options.integrations.youtube.authorize"), onPress -> {
+                youtubeAuth.setMessage(Component.translatable("entropy.options.integrations.youtube.authorizing"));
+                authStatus.setMessage(Component.translatable("entropy.options.integrations.youtube.authorizing"));
+
+                YoutubeApi.authorize(clientId.getValue(), secret.getValue(), (isSuccessful, message) -> {
+                    youtubeAuth.setMessage(Component.translatable("entropy.options.integrations.youtube.authorize"));
+
+                    if (isSuccessful) {
+                        // Checking if we can get broadcasts, if not, then we may have exceeded the quota
+                        var broadcasts = YoutubeApi.getLiveBroadcasts(settings.youtube.accessToken);
+                        if (broadcasts == null) {
+                            authStatus.setMessage(Component.translatable("entropy.options.integrations.youtube.quotaExceeded").withStyle(ChatFormatting.DARK_RED));
+                        }
+                        else {
+                            authStatus.setMessage(Component.translatable("entropy.options.integrations.youtube.accessTokenValid").withStyle(ChatFormatting.DARK_GREEN));
+                        }
+                    }
+                    else {
+                        authStatus.setMessage(Component.translatable("entropy.options.integrations.youtube.accessTokenInvalid").withStyle(ChatFormatting.DARK_RED));
+                    }
+                });
+            }).width(200).build();
+            rowHelper.addChild(youtubeAuth);
+
+            executor = Executors.newCachedThreadPool();
+            executor.execute(() -> {
+                boolean isAccessTokenValid = YoutubeApi.validateAccessToken(settings.youtube.accessToken);
+                if (!isAccessTokenValid)
+                    isAccessTokenValid = YoutubeApi.refreshAccessToken(clientId.getValue(), secret.getValue(), settings.youtube.refreshToken);
+
+                if (isAccessTokenValid) {
+                    // Checking if we can get broadcasts, if not, then we may have exceeded the quota
+                    var broadcasts = YoutubeApi.getLiveBroadcasts(settings.youtube.accessToken);
+                    if (broadcasts == null) {
+                        authStatus.setMessage(Component.translatable("entropy.options.integrations.youtube.quotaExceeded").withStyle(ChatFormatting.DARK_RED));
+                    }
+                    else {
+                        authStatus.setMessage(Component.translatable("entropy.options.integrations.youtube.accessTokenValid").withStyle(ChatFormatting.DARK_GREEN));
+                    }
+                }
+                else {
+                    authStatus.setMessage(Component.translatable("entropy.options.integrations.youtube.accessTokenInvalid").withStyle(ChatFormatting.DARK_RED));
+                }
+            });
+        }
     }
 }
