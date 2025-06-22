@@ -150,8 +150,7 @@ public class VotingClient {
 
         double ratio = this.totalVotesCount > 0 ? (double) this.totalVotes[i] / this.totalVotesCount : 0;
         final EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
-        final boolean anyNonDiscordEnabled = settings.twitch.enabled || settings.youtube.enabled;
-        int altOffset = (this.voteID % 2) == 0 && anyNonDiscordEnabled ? 4 : 0;
+        int altOffset = (this.voteID % 2) == 0 && settings.shouldUseAlternateOffsets() ? 4 : 0;
         drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, ARGB.color(150,0, 0, 0));
         if(settings.showCurrentPercentage)
             drawContext.fill(10, 31 + (i * 18), 10 + Mth.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));

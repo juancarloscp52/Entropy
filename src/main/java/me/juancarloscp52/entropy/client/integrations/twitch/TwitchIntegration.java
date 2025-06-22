@@ -42,7 +42,7 @@ import java.util.concurrent.Executors;
 public class TwitchIntegration extends ListenerAdapter implements Integration {
 
     private final Configuration config;
-    EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
+    private final EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
     private PircBotX ircChatBot;
     private ExecutorService botExecutor;
     private final VotingClient votingClient;

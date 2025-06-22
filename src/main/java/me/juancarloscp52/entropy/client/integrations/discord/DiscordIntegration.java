@@ -18,6 +18,7 @@
 package me.juancarloscp52.entropy.client.integrations.discord;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
+import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.Integration;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -39,6 +40,8 @@ public class DiscordIntegration implements Integration {
     public MessageChannel channel;
     public long lastId =-1;
     public final VotingClient votingClient;
+    private final EntropyIntegrationsSettings settings = EntropyClient.getInstance().integrationsSettings;
+
     public DiscordIntegration (VotingClient votingClient){
         this.votingClient = votingClient;
         this.start();
@@ -70,22 +73,39 @@ public class DiscordIntegration implements Integration {
         poll.setColor(new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
         poll.setDescription("Entropy: Chaos Mod");
         poll.setTitle("\uD83D\uDDF3️ Vote For The Next Event");
-        poll.addField("1️⃣  " + events.get(0).getString(), "", false);
-        poll.addField("2️⃣  " + events.get(1).getString(), "", false);
-        poll.addField("3️⃣  " + events.get(2).getString(), "", false);
-        poll.addField("4️⃣  " + events.get(3).getString(), "", false);
+        poll.addField(getReaction(voteID, 1) + "  " + events.get(0).getString(), "", false);
+        poll.addField(getReaction(voteID, 2) + "  " + events.get(1).getString(), "", false);
+        poll.addField(getReaction(voteID, 3) + "  " + events.get(2).getString(), "", false);
+        poll.addField(getReaction(voteID, 4) + "  " + events.get(3).getString(), "", false);
         poll.setFooter("React to this message with one of these emojis","https://media.forgecdn.net/avatars/356/538/637516966184620115.png");
         try{
             this.channel.sendMessageEmbeds(poll.build()).queue(message -> {
                 setLastId(message.getIdLong());
-                message.addReaction(Emoji.fromUnicode("1️⃣")).queue();
-                message.addReaction(Emoji.fromUnicode("2️⃣")).queue();
-                message.addReaction(Emoji.fromUnicode("3️⃣")).queue();
-                message.addReaction(Emoji.fromUnicode("4️⃣")).queue();
+                message.addReaction(Emoji.fromUnicode(getReaction(voteID, 1))).queue();
+                message.addReaction(Emoji.fromUnicode(getReaction(voteID, 2))).queue();
+                message.addReaction(Emoji.fromUnicode(getReaction(voteID, 3))).queue();
+                message.addReaction(Emoji.fromUnicode(getReaction(voteID, 4))).queue();
             });
         }catch (NullPointerException e){
             System.err.println("Could not send discord poll. Channel was null.");
         }
+    }
+
+    private String getReaction(final int voteID, int option) {
+        if (settings.shouldUseAlternateOffsets() && voteID % 2 == 0) {
+            option += 4;
+        }
+        return switch (option) {
+            case 1 -> "1️⃣";
+            case 2 -> "2️⃣";
+            case 3 -> "3️⃣";
+            case 4 -> "4️⃣";
+            case 5 -> "5️⃣";
+            case 6 -> "6️⃣";
+            case 7 -> "7️⃣";
+            case 8 -> "8️⃣";
+            default -> "⚠";
+        };
     }
 
     private void setLastId(long id){
