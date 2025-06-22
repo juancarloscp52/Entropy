@@ -12,15 +12,17 @@ public class YouTubeIntegrationSettings implements IntegrationSettings {
         Codec.STRING.optionalFieldOf("client_id", "").forGetter(s -> s.clientId),
         Codec.STRING.optionalFieldOf("secret", "").forGetter(s -> s.secret),
         Codec.STRING.optionalFieldOf("access_token", "").forGetter(s -> s.accessToken),
-        Codec.STRING.optionalFieldOf("refresh_token", "").forGetter(s -> s.refreshToken)
+        Codec.STRING.optionalFieldOf("refresh_token", "").forGetter(s -> s.refreshToken),
+        Codec.INT.optionalFieldOf("poll_interval", 4800).forGetter(s -> s.pollInterval)
     ).apply(i, YouTubeIntegrationSettings::new));
 
-    public YouTubeIntegrationSettings(final boolean enabled, final String clientId, final String secret, final String accessToken, final String refreshToken) {
+    public YouTubeIntegrationSettings(final boolean enabled, final String clientId, final String secret, final String accessToken, final String refreshToken, final int pollInterval) {
         this.enabled = enabled;
         this.clientId = clientId;
         this.secret = secret;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.pollInterval = pollInterval;
     }
 
     public YouTubeIntegrationSettings() {
@@ -48,6 +50,7 @@ public class YouTubeIntegrationSettings implements IntegrationSettings {
     public String secret = "";
     public String accessToken = "";
     public String refreshToken = "";
+    public int pollInterval = 4800;
 
     @Override
     public boolean enabled() {

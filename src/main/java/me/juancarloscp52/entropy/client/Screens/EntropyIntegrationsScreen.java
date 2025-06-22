@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.client.Screens;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
+import me.juancarloscp52.entropy.client.Screens.Widgets.EntropySliderWidget;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeApi;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -45,6 +46,7 @@ import net.minecraft.util.FormattedCharSequence;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -115,6 +117,7 @@ public class EntropyIntegrationsScreen extends Screen {
         settings.youtube.enabled = youtube.enabled.selected();
         settings.youtube.clientId = youtube.clientId.getValue();
         settings.youtube.secret = youtube.secret.getValue();
+        settings.youtube.pollInterval = (int) (youtube.pollInterval.getValue() * 1000);
 
         settings.sendChatMessages = general.sendChatMessages.selected();
         settings.showCurrentPercentage = general.showPollStatus.selected();
@@ -239,6 +242,7 @@ public class EntropyIntegrationsScreen extends Screen {
         private final StringWidget authStatus;
         private Button youtubeAuth = null;
         private final ExecutorService executor;
+        private final EntropySliderWidget pollInterval;
 
         public YouTubeTab() {
             super(Component.translatable("entropy.options.integrations.youtube"));
@@ -315,6 +319,10 @@ public class EntropyIntegrationsScreen extends Screen {
                     authStatus.setMessage(Component.translatable("entropy.options.integrations.youtube.accessTokenInvalid").withStyle(ChatFormatting.DARK_RED));
                 }
             });
+
+            pollInterval = new EntropySliderWidget(0, 0, 200, 20, "entropy.options.integrations.youtube.pollInterval", settings.youtube.pollInterval / 1000.0, 2, 10, value -> Component.literal(String.format(Locale.ROOT, "%1.1f", value)), value -> {});
+            pollInterval.setTooltip(Tooltip.create(Component.translatable("entropy.options.integrations.youtube.pollInterval.tooltip")));
+            rowHelper.addChild(pollInterval);
         }
     }
 }

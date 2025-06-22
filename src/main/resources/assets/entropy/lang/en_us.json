@@ -192,6 +192,8 @@
   "entropy.options.integrations.youtube.returnToGame": "Access token acquired, you can close this tab and return to the game.",
   "entropy.options.integrations.youtube.error.auth": "Failed to authorize",
   "entropy.options.integrations.youtube.quotaExceeded": "Quota Exceeded",
+  "entropy.options.integrations.youtube.pollInterval": "Polling Interval: %ds",
+  "entropy.options.integrations.youtube.pollInterval.tooltip": "How often to query the YouTube servers. Lower values give quicker response times, but also use up the quota quicker.",
 
   "entropy.options.disableEvents": "Disable Events",
   "entropy.options.search": "Search...",
