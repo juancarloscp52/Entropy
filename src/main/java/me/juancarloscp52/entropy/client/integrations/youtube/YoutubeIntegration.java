@@ -47,14 +47,14 @@ public class YoutubeIntegration implements Integration {
     @Override
     public void start() {
         _executor.execute(() -> {
-            _isAccessTokenValid = YoutubeApi.validateAccessToken(_settings.youtubeAccessToken);
+            _isAccessTokenValid = YoutubeApi.validateAccessToken(_settings.youtube.accessToken);
             if (!_isAccessTokenValid)
-                _isAccessTokenValid = YoutubeApi.refreshAccessToken(_settings.youtubeClientId, _settings.youtubeSecret,
-                        _settings.youtubeRefreshToken);
+                _isAccessTokenValid = YoutubeApi.refreshAccessToken(_settings.youtube.clientId, _settings.youtube.secret,
+                        _settings.youtube.refreshToken);
             if (!_isAccessTokenValid)
                 return;
 
-            var broadcasts = YoutubeApi.getLiveBroadcasts(_settings.youtubeAccessToken);
+            var broadcasts = YoutubeApi.getLiveBroadcasts(_settings.youtube.accessToken);
             if (broadcasts == null) {
                 LOGGER.warn("[Youtube integration] Failed to fetch live broadcasts");
                 return;
@@ -68,19 +68,19 @@ public class YoutubeIntegration implements Integration {
             LOGGER.info("[Youtube integration] Started listening for chat messages for broadcast with the title \""
                     + broadcast.snippet.title + "\" on the channel \"" + broadcast.snippet.channelId + "\"");
 
-            _nextPageToken = YoutubeApi.getChatMessagesLastPage(_settings.youtubeAccessToken, _liveChatId);
+            _nextPageToken = YoutubeApi.getChatMessagesLastPage(_settings.youtube.accessToken, _liveChatId);
 
             _isRunning = true;
             while (_isRunning && _isAccessTokenValid) {
                 try {
-                    var messages = YoutubeApi.getChatMessages(_settings.youtubeAccessToken, _liveChatId,
+                    var messages = YoutubeApi.getChatMessages(_settings.youtube.accessToken, _liveChatId,
                             _nextPageToken);
                     if (messages == null) {
                         int failCounter = 0;
                         do {
                             failCounter++;
-                            _isAccessTokenValid = YoutubeApi.refreshAccessToken(_settings.youtubeClientId,
-                                    _settings.youtubeSecret, _settings.youtubeRefreshToken);
+                            _isAccessTokenValid = YoutubeApi.refreshAccessToken(_settings.youtube.clientId,
+                                    _settings.youtube.secret, _settings.youtube.refreshToken);
                             Thread.sleep(1000);
                         } while (failCounter < 4 && !_isAccessTokenValid);
                     } else {
@@ -93,7 +93,7 @@ public class YoutubeIntegration implements Integration {
                         }
 
                         while (_messagesToSend.size() > 0) {
-                            YoutubeApi.sendChatMessage(_settings.youtubeAccessToken, _liveChatId,
+                            YoutubeApi.sendChatMessage(_settings.youtube.accessToken, _liveChatId,
                                     _messagesToSend.get(0));
                             _messagesToSend.remove(0);
                         }

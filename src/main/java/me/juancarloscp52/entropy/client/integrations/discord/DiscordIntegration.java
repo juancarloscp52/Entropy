@@ -46,7 +46,7 @@ public class DiscordIntegration implements Integration {
     @Override
     public void start() {
         try {
-            jda = JDABuilder.createDefault(EntropyClient.getInstance().integrationsSettings.discordToken).setActivity(Activity.playing("Entropy: Chaos Mod")).build();
+            jda = JDABuilder.createDefault(EntropyClient.getInstance().integrationsSettings.discord.token).setActivity(Activity.playing("Entropy: Chaos Mod")).build();
             jda.addEventListener(new DiscordEventListener(this));
         } catch(Exception e) {
             System.err.println("Error occured while connecting to Discord");

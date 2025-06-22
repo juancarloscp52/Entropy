@@ -17,7 +17,11 @@
 
 package me.juancarloscp52.entropy.client;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.stream.JsonWriter;
+import com.mojang.serialization.JsonOps;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventType;
@@ -40,6 +44,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.GsonHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -174,12 +179,15 @@ public class EntropyClient implements ClientModInitializer {
 
     public void loadSettings() {
         File file = new File("./config/entropy/entropyIntegrationSettings.json");
-        Gson gson = new Gson();
         if (file.exists()) {
             try {
                 FileReader fileReader = new FileReader(file);
-                integrationsSettings = gson.fromJson(fileReader, EntropyIntegrationsSettings.class);
+                final JsonObject json = GsonHelper.parse(fileReader);
                 fileReader.close();
+                if (json.has("integrationType")) {
+                    convertToNewFormat(json);
+                }
+                integrationsSettings = EntropyIntegrationsSettings.CODEC.parse(JsonOps.INSTANCE, json).result().orElseGet(EntropyIntegrationsSettings::new);
             } catch (IOException e) {
                 LOGGER.warn("Could not load entropy integration settings: " + e.getLocalizedMessage());
             }
@@ -189,15 +197,52 @@ public class EntropyClient implements ClientModInitializer {
         }
     }
 
+    private void convertToNewFormat(final JsonObject json) {
+        final int integrationType = json.remove("integrationType").getAsInt();
+        convert(json, "sendChatMessages", json, "send_chat_messages");
+        convert(json, "showCurrentPercentage", json, "show_current_percentage");
+        convert(json, "showUpcomingEvents", json, "show_upcoming_events");
+
+        final JsonObject twitch = new JsonObject();
+        convert(json, "authToken", twitch, "token");
+        convert(json, "channel", twitch, "channel");
+        twitch.add("enabled", new JsonPrimitive(integrationType == 1));
+        json.add("twitch", twitch);
+
+        final JsonObject discord = new JsonObject();
+        convert(json, "discordToken", discord, "token");
+        convert(json, "discordChannel", discord, "channel");
+        discord.add("enabled", new JsonPrimitive(integrationType == 2));
+        json.add("discord", discord);
+
+        final JsonObject youtube = new JsonObject();
+        convert(json, "youtubeClientId", youtube, "client_id");
+        convert(json, "youtubeSecret", youtube, "secret");
+        convert(json, "youtubeAccessToken", youtube, "access_token");
+        convert(json, "youtubeRefreshToken", youtube, "refresh_token");
+        youtube.add("enabled", new JsonPrimitive(integrationType == 3));
+        json.add("youtube", youtube);
+    }
+
+    private void convert(final JsonObject source, final String sourceKey, final JsonObject target, final String targetKey) {
+        final JsonElement contents = source.remove(sourceKey);
+        if (contents != null) {
+            target.add(targetKey, contents);
+        }
+    }
+
     public void saveSettings() {
-        Gson gson = new Gson();
         File file = new File("./config/entropy/entropyIntegrationSettings.json");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
         try {
+            final JsonElement json = EntropyIntegrationsSettings.CODEC.encodeStart(JsonOps.INSTANCE, integrationsSettings).getOrThrow();
             FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(gson.toJson(integrationsSettings));
+            JsonWriter jsonWriter = new JsonWriter(fileWriter);
+            jsonWriter.setSerializeNulls(false);
+            jsonWriter.setIndent("    ");
+            GsonHelper.writeValue(jsonWriter, json, null);
             fileWriter.close();
         } catch (IOException e) {
             LOGGER.warn("Could not save entropy integration settings: " + e.getLocalizedMessage());

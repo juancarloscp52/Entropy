@@ -17,21 +17,53 @@
 
 package me.juancarloscp52.entropy.client;
 
-public class EntropyIntegrationsSettings {
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegrationSettings;
+import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrationSettings;
+import me.juancarloscp52.entropy.client.integrations.youtube.YouTubeIntegrationSettings;
 
-    public int integrationType = 0;
-    public String authToken = "";
-    public String channel = "";
+public class EntropyIntegrationsSettings {
+    public static final Codec<EntropyIntegrationsSettings> CODEC = RecordCodecBuilder.create(i -> i.group(
+        DiscordIntegrationSettings.CODEC.fieldOf("discord").orElseGet(DiscordIntegrationSettings::new).forGetter(s -> s.discord),
+        TwitchIntegrationSettings.CODEC.fieldOf("twitch").orElseGet(TwitchIntegrationSettings::new).forGetter(s -> s.twitch),
+        YouTubeIntegrationSettings.CODEC.fieldOf("youtube").orElseGet(YouTubeIntegrationSettings::new).forGetter(s -> s.youtube),
+        Codec.BOOL.optionalFieldOf("send_chat_messages", true).forGetter(s -> s.sendChatMessages),
+        Codec.BOOL.optionalFieldOf("show_current_percentage", true).forGetter(s -> s.showCurrentPercentage),
+        Codec.BOOL.optionalFieldOf("show_upcoming_events", true).forGetter(s -> s.showUpcomingEvents)
+    ).apply(i, EntropyIntegrationsSettings::new));
+
+    public EntropyIntegrationsSettings(final DiscordIntegrationSettings discord, final TwitchIntegrationSettings twitch, final YouTubeIntegrationSettings youtube, final boolean sendChatMessages, final boolean showCurrentPercentage, final boolean showUpcomingEvents) {
+        this.discord = discord;
+        this.twitch = twitch;
+        this.youtube = youtube;
+        this.sendChatMessages = sendChatMessages;
+        this.showCurrentPercentage = showCurrentPercentage;
+        this.showUpcomingEvents = showUpcomingEvents;
+    }
+
+    public EntropyIntegrationsSettings() {
+    }
+
+    public DiscordIntegrationSettings discord = new DiscordIntegrationSettings();
+    public TwitchIntegrationSettings twitch = new TwitchIntegrationSettings();
+    public YouTubeIntegrationSettings youtube = new YouTubeIntegrationSettings();
+
     public boolean sendChatMessages = true;
     public boolean showCurrentPercentage = true;
-
     public boolean showUpcomingEvents = true;
 
-    public String discordToken = "";
-    public long discordChannel = -1;
-    public String youtubeClientId = "";
-    public String youtubeSecret = "";
-    public String youtubeAccessToken = "";
-    public String youtubeRefreshToken = "";
-
+    @Deprecated(forRemoval = true)
+    public int getIntegrationTypeValue() {
+        if (twitch.enabled) {
+            return 1;
+        }
+        else if (discord.enabled) {
+            return 2;
+        }
+        else if (youtube.enabled) {
+            return 3;
+        }
+        return 0;
+    }
 }

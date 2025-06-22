@@ -43,8 +43,8 @@ public class DiscordEventListener extends ListenerAdapter {
 
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        if(EntropyClient.getInstance().integrationsSettings.discordChannel!=-1){
-            discordIntegration.channel= discordIntegration.jda.getTextChannelById(EntropyClient.getInstance().integrationsSettings.discordChannel);
+        if(EntropyClient.getInstance().integrationsSettings.discord.channel!=-1){
+            discordIntegration.channel= discordIntegration.jda.getTextChannelById(EntropyClient.getInstance().integrationsSettings.discord.channel);
         }
     }
 
@@ -54,7 +54,7 @@ public class DiscordEventListener extends ListenerAdapter {
         Message msg = event.getMessage();
         if (msg.getContentRaw().equals("!entropy join")){
             discordIntegration.channel = msg.getChannel();
-            EntropyClient.getInstance().integrationsSettings.discordChannel=msg.getChannel().getIdLong();
+            EntropyClient.getInstance().integrationsSettings.discord.channel=msg.getChannel().getIdLong();
             EntropyClient.getInstance().saveSettings();
             discordIntegration.channel.sendMessage("Joined Text Channel " + discordIntegration.channel.getName()).queue();
         }

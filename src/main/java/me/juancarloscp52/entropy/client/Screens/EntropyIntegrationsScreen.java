@@ -76,7 +76,7 @@ public class EntropyIntegrationsScreen extends Screen {
     }
 
     protected void init() {
-        platformIntegrationValue=integrationsSettings.integrationType;
+        platformIntegrationValue = integrationsSettings.getIntegrationTypeValue();
         platformIntegration = Button.builder(Component.translatable("entropy.options.integrations.integrationSelector", getPlatform()), button -> {
             platformIntegrationValue++;
             if(platformIntegrationValue>=4)
@@ -88,32 +88,32 @@ public class EntropyIntegrationsScreen extends Screen {
 
         twitchToken = new EditBox(this.font, this.width / 2 + 10, 60, 125, 20, Component.translatable("entropy.options.integrations.twitch.OAuthToken"));
         twitchToken.setMaxLength(64);
-        twitchToken.setValue(integrationsSettings.authToken);
+        twitchToken.setValue(integrationsSettings.twitch.token);
         twitchToken.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
         this.addRenderableWidget(twitchToken);
         twitchChannel = new EditBox(this.font, this.width / 2 + 10, 90, 125, 20, Component.translatable("entropy.options.integrations.twitch.channelName"));
-        twitchChannel.setValue(integrationsSettings.channel);
+        twitchChannel.setValue(integrationsSettings.twitch.channel);
         this.addRenderableWidget(twitchChannel);
 
 
         discordToken = new EditBox(this.font, this.width / 2 + 10, 60, 125, 20, Component.translatable("entropy.options.integrations.discord.token"));
         discordToken.setMaxLength(128);
-        discordToken.setValue(integrationsSettings.discordToken);
+        discordToken.setValue(integrationsSettings.discord.token);
         discordToken.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
         this.addRenderableWidget(discordToken);
         discordChannel = new EditBox(this.font, this.width / 2 + 10, 90, 125, 20, Component.translatable("entropy.options.integrations.discord.channelId"));
-        discordChannel.setValue(String.valueOf(integrationsSettings.discordChannel));
+        discordChannel.setValue(String.valueOf(integrationsSettings.discord.channel));
         discordChannel.setMaxLength(128);
         this.addRenderableWidget(discordChannel);
 
 
         youtubeClientId = new EditBox(this.font, this.width / 2 + 10, 60, 125, 20, Component.translatable("entropy.options.integrations.youtube.clientId"));
         youtubeClientId.setMaxLength(128);
-        youtubeClientId.setValue(integrationsSettings.youtubeClientId);
+        youtubeClientId.setValue(integrationsSettings.youtube.clientId);
         youtubeSecret = new EditBox(this.font, this.width / 2 + 10, 90, 125, 20, Component.translatable("entropy.options.integrations.youtube.secret"));
         this.addRenderableWidget(youtubeClientId);
         youtubeSecret.setMaxLength(64);
-        youtubeSecret.setValue(integrationsSettings.youtubeSecret);
+        youtubeSecret.setValue(integrationsSettings.youtube.secret);
         youtubeSecret.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
         this.addRenderableWidget(youtubeSecret);
         youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.checkingAccessToken");
@@ -128,7 +128,7 @@ public class EntropyIntegrationsScreen extends Screen {
 
                 if(isSuccessful) {
                     // Checking if we can get broadcasts, if not, then we may have exceeded the quota
-                    var broadcasts = YoutubeApi.getLiveBroadcasts(integrationsSettings.youtubeAccessToken);
+                    var broadcasts = YoutubeApi.getLiveBroadcasts(integrationsSettings.youtube.accessToken);
                     if(broadcasts == null) {
                         youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.quotaExceeded");
                         youtubeAuthState = 2;
@@ -149,13 +149,13 @@ public class EntropyIntegrationsScreen extends Screen {
 
         executor = Executors.newCachedThreadPool();
         executor.execute(() -> {
-            var isAccessTokenValid = YoutubeApi.validateAccessToken(integrationsSettings.youtubeAccessToken);
+            var isAccessTokenValid = YoutubeApi.validateAccessToken(integrationsSettings.youtube.accessToken);
             if(!isAccessTokenValid)
-                isAccessTokenValid = YoutubeApi.refreshAccessToken(youtubeClientId.getValue(), youtubeSecret.getValue(), integrationsSettings.youtubeRefreshToken);
+                isAccessTokenValid = YoutubeApi.refreshAccessToken(youtubeClientId.getValue(), youtubeSecret.getValue(), integrationsSettings.youtube.refreshToken);
 
             if(isAccessTokenValid) {
                 // Checking if we can get broadcasts, if not, then we may have exceeded the quota
-                var broadcasts = YoutubeApi.getLiveBroadcasts(integrationsSettings.youtubeAccessToken);
+                var broadcasts = YoutubeApi.getLiveBroadcasts(integrationsSettings.youtube.accessToken);
                 if(broadcasts == null) {
                     youtubeAuthStatus = Component.translatable("entropy.options.integrations.youtube.quotaExceeded");
                     youtubeAuthState = 2;
@@ -300,13 +300,17 @@ public class EntropyIntegrationsScreen extends Screen {
         YoutubeApi.stopHttpServer();
 
         settings.integrations = platformIntegrationValue > 0;
-        integrationsSettings.integrationType = platformIntegrationValue;
-        integrationsSettings.authToken = twitchToken.getValue();
-        integrationsSettings.channel = twitchChannel.getValue();
-        integrationsSettings.youtubeClientId = youtubeClientId.getValue();
-        integrationsSettings.youtubeSecret = youtubeSecret.getValue();
-        integrationsSettings.discordChannel = Long.parseLong(discordChannel.getValue());
-        integrationsSettings.discordToken = discordToken.getValue();
+        integrationsSettings.twitch.enabled = platformIntegrationValue == 1;
+        integrationsSettings.twitch.token = twitchToken.getValue();
+        integrationsSettings.twitch.channel = twitchChannel.getValue();
+
+        integrationsSettings.discord.enabled = platformIntegrationValue == 2;
+        integrationsSettings.discord.token = discordToken.getValue();
+        integrationsSettings.discord.channel = Long.parseLong(discordChannel.getValue());
+
+        integrationsSettings.youtube.enabled = platformIntegrationValue == 3;
+        integrationsSettings.youtube.clientId = youtubeClientId.getValue();
+        integrationsSettings.youtube.secret = youtubeSecret.getValue();
 
         integrationsSettings.sendChatMessages = sendChatMessages.selected();
         integrationsSettings.showCurrentPercentage = showPollStatus.selected();
