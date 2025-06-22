@@ -58,10 +58,10 @@ public class EntropyConfigurationScreen extends Screen {
         int buttonX = this.width / 2 - 100;
         int buttonWidth = 200;
 
-        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration",(settings.baseEventDuration-300)/MAX_DURATION,(slider, translationKey, value) -> Component.translatable("entropy.options.eventDuration", Mth.floor((value*(MAX_DURATION/20D))+15)), value -> settings.baseEventDuration = (short) ((MAX_DURATION*value)+300));
+        eventDurationWidget = new EntropySliderWidget(this.width / 2 - 160, 50, 150, 20,"entropy.options.eventDuration", settings.baseEventDuration / 20.0, 15, 180, value -> Component.literal("" + Mth.floor(value)), value -> settings.baseEventDuration = (short) (value * 20));
         this.addRenderableWidget(eventDurationWidget);
 
-        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", (settings.timerDuration-300)/MAX_DURATION,(slider, translationKey, value) -> Component.translatable("entropy.options.timerDuration", Mth.floor((value*(MAX_DURATION/20D))+15)),value -> settings.timerDuration = (short) ((MAX_DURATION*value)+300));
+        timerDurationWidget = new EntropySliderWidget(this.width / 2 + 10, 50, 150, 20, "entropy.options.timerDuration", settings.timerDuration / 20.0, 15, 180, value -> Component.literal("" + Mth.floor(value)), value -> settings.timerDuration = (short) (value * 20));
         this.addRenderableWidget(timerDurationWidget);
 
 

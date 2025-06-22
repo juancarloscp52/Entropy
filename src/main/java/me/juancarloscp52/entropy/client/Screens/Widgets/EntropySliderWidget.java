@@ -23,16 +23,28 @@ import net.minecraft.network.chat.Component;
 
 public class EntropySliderWidget extends AbstractSliderButton {
 
-    String translationKey;
-    MessageSupplier messageSupplier;
-    ValueUpdater valueUpdater;
+    private final String translationKey;
+    private final ValueFormatter formatter;
+    private final ValueUpdater valueUpdater;
+    private final double min;
+    private final double max;
 
-    public EntropySliderWidget(int x, int y, int width, int height, String translationKey, double value, MessageSupplier messageSupplier, ValueUpdater valueUpdater) {
-        super(x, y, width, height, Component.translatable(translationKey), value);
-        this.translationKey=translationKey;
-        this.messageSupplier=messageSupplier;
-        this.valueUpdater=valueUpdater;
+    public EntropySliderWidget(int x, int y, int width, int height, String translationKey, double value, double min, double max, ValueFormatter formatter, ValueUpdater valueUpdater) {
+        super(x, y, width, height, Component.translatable(translationKey), fractionFromValue(value, min, max));
+        this.translationKey = translationKey;
+        this.formatter = formatter;
+        this.valueUpdater = valueUpdater;
+        this.min = min;
+        this.max = max;
         this.updateMessage();
+    }
+
+    private static double fractionFromValue(final double value, final double min, final double max) {
+        return (value - min) / (max - min);
+    }
+
+    public double getValue() {
+        return min + value * (max - min);
     }
 
     protected void updateMessage() {
@@ -40,18 +52,20 @@ public class EntropySliderWidget extends AbstractSliderButton {
 
     @Override
     public Component getMessage() {
-        return this.messageSupplier.updateMessage(this,this.translationKey,this.value);
+        return Component.translatable(translationKey, formatter.format(getValue()));
     }
 
     @Override
     protected void applyValue() {
-        valueUpdater.applyValue(this.value);
+        valueUpdater.applyValue(getValue());
     }
 
-    public interface MessageSupplier {
-        Component updateMessage(EntropySliderWidget slider,String translationKey, double value);
+    @FunctionalInterface
+    public interface ValueFormatter {
+        Component format(double value);
     }
 
+    @FunctionalInterface
     public interface ValueUpdater {
         void applyValue(double value);
     }
