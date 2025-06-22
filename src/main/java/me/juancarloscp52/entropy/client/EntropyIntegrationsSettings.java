@@ -66,4 +66,8 @@ public class EntropyIntegrationsSettings {
         }
         return 0;
     }
+
+    public boolean shouldUseAlternateOffsets() {
+        return getIntegrationTypeValue() != 2;
+    }
 }
