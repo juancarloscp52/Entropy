@@ -10,7 +10,7 @@ Play Entropy with friends! Each random event happens around each player. Each co
 To change Entropy Settings on multiplayer, please change the parameters inside the config/entropy.json file in the server folder.
 
 ## Twitch Integration:
-Entropy includes integration with Twitch! Viewers of a streamer can vote the next event using the stream chat! (Integration for more platforms like Youtube streaming and Discord is planned).
+Entropy includes integration with Twitch! Viewers of a streamer can vote the next event using the stream chat!
 
 To enable Twitch Integration you'll need a Twitch OAuth Access token, you can generate using [this tool](https://twitchtokengenerator.com/) (or any other OAuth token generator tool).
 Write your OAuth Access Token and your channel name in Entropy Settings.
@@ -19,12 +19,13 @@ In a similar fashion to the twitch integration, Entropy also includes the abilit
 
 It requires the creation of a Google Cloud Platform project and some configuration. [Click here](https://youtu.be/i2cn_IXLoFE) for a video tutorial, there's also a written guide in that video's description
 
-NOTICE: YouTube implements a daily limit of requests limiting the amount of time the mod can be played with YouTube integration. In order to increase the playable time, YouTube integration votes will be counted less often, making the vote bars look laggy. Usually the quota is reached after around 3 hours.
+NOTICE: YouTube implements a daily limit of requests limiting the amount of time the mod can be played with YouTube integration. In order to increase the playable time, YouTube integration votes will be counted less often, making the vote bars look laggy. Usually the quota is reached after around 3 hours. You can change the delay between each check in the YouTube integration settings.
 
 ## Discord Integration:
 Users of a discord server can vote the next event by using the Entropy Discord integration. TUTORIAL: https://www.youtube.com/watch?v=waj82ownAKw
+
 ## Gameplay:
-Click Image to watch the videos.
+Click the image to watch the video.
 
 [![Entropy: Chaos Mod - slicedlime vs chat](https://img.youtube.com/vi/qGuIEfpSfto/0.jpg)](https://www.youtube.com/watch?v=qGuIEfpSfto "Entropy: Chaos Mod - slicedlime vs chat")
 
