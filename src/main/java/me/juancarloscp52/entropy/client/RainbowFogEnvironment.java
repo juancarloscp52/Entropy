@@ -3,6 +3,7 @@ package me.juancarloscp52.entropy.client;
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.color.ColorLerper;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.fog.FogData;
 import net.minecraft.client.renderer.fog.environment.FogEnvironment;
@@ -11,20 +12,20 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.material.FogType;
 import org.jetbrains.annotations.Nullable;
 
-public class HerobrineFogEnvironment extends FogEnvironment {
+public class RainbowFogEnvironment extends FogEnvironment {
     @Override
     public void setupFog(FogData fogData, Entity entity, BlockPos blockPos, ClientLevel clientLevel, float f, DeltaTracker deltaTracker) {
-        fogData.environmentalStart = -150.0F;
-        fogData.environmentalEnd = 100.0F;
+        fogData.environmentalStart = 10.0F;
+        fogData.environmentalEnd = 150.0F;
     }
 
     @Override
     public int getBaseColor(ClientLevel clientLevel, Camera camera, int i, float f) {
-        return 0xFF000000;
+        return ColorLerper.getLerpedColor(ColorLerper.Type.SHEEP, clientLevel.getGameTime());
     }
 
     @Override
     public boolean isApplicable(@Nullable FogType fogType, Entity entity) {
-        return fogType == FogType.ATMOSPHERIC && Variables.herobrineFog;
+        return fogType == FogType.ATMOSPHERIC && Variables.rainbowFog;
     }
 }

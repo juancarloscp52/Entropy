@@ -40,6 +40,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.client.renderer.fog.environment.FogEnvironment;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -52,6 +53,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Environment(EnvType.CLIENT)
@@ -169,7 +171,9 @@ public class EntropyClient implements ClientModInitializer {
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             GameRendererAccessor gameRenderer = (GameRendererAccessor) client.gameRenderer;
-            ((FogRendererAccessor) gameRenderer.getFogRenderer()).getFogEnvironments().addFirst(new HerobrineFogEnvironment());
+            List<FogEnvironment> fogEnvironments = ((FogRendererAccessor) gameRenderer.getFogRenderer()).getFogEnvironments();
+            fogEnvironments.addFirst(new HerobrineFogEnvironment());
+            fogEnvironments.add(1, new RainbowFogEnvironment());
         });
 
         //Registry.registerReference()
