@@ -161,6 +161,7 @@
   "events.entropy.rainbow_trails": "Regenbogenspuren",
   "events.entropy.armor_trim": "Verziert",
   "events.entropy.bouncy_blocks": "Elastische Blöcke",
+  "events.entropy.racing_balloon": "Rennballon",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",
