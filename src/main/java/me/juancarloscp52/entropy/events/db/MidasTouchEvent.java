@@ -15,7 +15,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HoeItem;
@@ -105,9 +104,8 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
             // Replace items that player holding in his hand and everything that player
             // wearing with golden variants
-            Inventory inv = player.getInventory();
-            for (int i = 0; i < inv.getContainerSize(); i++) {
-                var itemStack = inv.getItem(i);
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                var itemStack = player.getItemBySlot(slot);
                 if (itemStack.isEmpty() || itemStack.is(EntropyTags.ItemTags.IGNORED_BY_MIDAS_TOUCH) || itemStack.is(EntropyTags.ItemTags.MIDAS_TOUCH_GOLDEN_ITEMS))
                     continue;
                 var item = itemStack.getItem();
@@ -191,7 +189,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
                             break;
                     }
                 }
-                inv.setItem(i, newItemStack);
+                player.setItemSlot(slot, newItemStack);
             }
         }
 
