@@ -1,9 +1,9 @@
 {
     "events.entropy.upside_down": "Кверх ногами",
     "events.entropy.creeper": "Крипер!",
-    "events.entropy.close_random_tp": "Сдвиг игрока на несколько метров",
+    "events.entropy.random_tp.close": "Сдвиг игрока на несколько метров",
+    "events.entropy.random_tp.far": "Телепорт игрока на случайную точку",
     "events.entropy.teleport_spawn": "Телепорт на спавн",
-    "events.entropy.far_random_tp": "Телепорт игрока на случайную точку",
     "events.entropy.low_render_distance": "Низкая дальность прорисовки",
     "events.entropy.where_is_everything": "Повреждение мира",
     "events.entropy.timelapse": "Таймлапс",

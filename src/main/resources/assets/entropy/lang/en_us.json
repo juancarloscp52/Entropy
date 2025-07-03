@@ -1,9 +1,9 @@
 {
   "events.entropy.upside_down": "Upside down",
   "events.entropy.creeper": "Creeper!",
-  "events.entropy.close_random_tp": "Teleport Player A Few Meters",
+  "events.entropy.random_tp.close": "Teleport Player A Few Meters",
+  "events.entropy.random_tp.far": "Teleport Player To A Random Location",
   "events.entropy.teleport_spawn": "Teleport To Spawn",
-  "events.entropy.far_random_tp": "Teleport Player To A Random Location",
   "events.entropy.low_render_distance": "Low Render Distance",
   "events.entropy.where_is_everything": "Corrupt World",
   "events.entropy.timelapse": "Timelapse",
