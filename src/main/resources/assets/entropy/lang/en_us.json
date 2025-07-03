@@ -165,6 +165,7 @@
   "events.entropy.armor_trim": "Trimmed",
   "events.entropy.bouncy_blocks": "Bouncy Blocks",
   "events.entropy.balloon_race": "Balloon Race",
+  "events.entropy.rainbow_fog": "Rainbow Fog",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",

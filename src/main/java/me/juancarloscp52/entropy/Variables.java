@@ -27,7 +27,8 @@ public class Variables {
     public static boolean invertedFov = false;
     public static boolean wobble = false;
     public static boolean monitor = false;
-    public static boolean customFog = false;
+    public static boolean herobrineFog = false;
+    public static boolean rainbowFog = false;
     public static boolean forcedFov = false;
     public static boolean ignoreVariableFov = false;
     public static int fov = 0;
