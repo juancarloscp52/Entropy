@@ -59,7 +59,7 @@ public class EventRegistry {
         register(registry, "blur", BlurEvent.TYPE);
         register(registry, "chicken_rain", ChickenRainEvent.TYPE);
         register(registry, "cinematic_screen", CinematicScreenEvent.TYPE);
-        register(registry, "close_random_tp", CloseRandomTPEvent.TYPE);
+        register(registry, "random_tp", RandomTPEvent.TYPE);
         register(registry, "creeper", CreeperEvent.TYPE);
         register(registry, "crt", CRTEvent.TYPE);
         register(registry, "drop_hand_item", DropHandItemEvent.TYPE);
@@ -67,7 +67,6 @@ public class EventRegistry {
         register(registry, "dvd", DVDEvent.TYPE);
         register(registry, "explode_nearby_entities", ExplodeNearbyEntitiesEvent.TYPE);
         register(registry, "extreme_explosion", ExtremeExplosionEvent.TYPE);
-        register(registry, "far_random_tp", FarRandomTPEvent.TYPE);
         register(registry, "force_forward", ForceForwardEvent.TYPE);
         register(registry, "force_jump_extreme", ForceJump2Event.TYPE);
         register(registry, "force_jump", ForceJumpEvent.TYPE);

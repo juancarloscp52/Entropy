@@ -25,8 +25,7 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
     );
     public static final EventType<FakeTeleportEvent> TYPE = EventType.builder(FakeTeleportEvent::new).streamCodec(STREAM_CODEC).build();
     private static final List<EventType<?>> TELEPORT_EVENTS = Arrays.asList(
-        CloseRandomTPEvent.TYPE,
-        FarRandomTPEvent.TYPE,
+        RandomTPEvent.TYPE,
         SkyBlockEvent.TYPE,
         SkyEvent.TYPE,
         Teleport0Event.TYPE,
