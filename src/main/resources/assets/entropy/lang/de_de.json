@@ -1,9 +1,9 @@
 {
   "events.entropy.upside_down": "Kopfüber",
   "events.entropy.creeper": "Creeper!",
-  "events.entropy.close_random_tp": "Spieler ein paar Meter teleportieren",
+  "events.entropy.random_tp.close": "Spieler ein paar Meter teleportieren",
+  "events.entropy.random_tp.far": "Spieler an einen zufälligen Ort teleportieren",
   "events.entropy.teleport_spawn": "Zum Spawn teleportieren",
-  "events.entropy.far_random_tp": "Spieler an einen zufälligen Ort teleportieren",
   "events.entropy.low_render_distance": "Geringe Sichtweite",
   "events.entropy.where_is_everything": "Fehlerhafte Welt",
   "events.entropy.timelapse": "Zeitraffer",

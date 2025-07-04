@@ -1,9 +1,9 @@
 {
     "events.entropy.upside_down": "Кверх ногами",
     "events.entropy.creeper": "Крипер!",
-    "events.entropy.close_random_tp": "Сдвиг игрока на несколько метров",
+    "events.entropy.random_tp.close": "Сдвиг игрока на несколько метров",
+    "events.entropy.random_tp.far": "Телепорт игрока на случайную точку",
     "events.entropy.teleport_spawn": "Телепорт на спавн",
-    "events.entropy.far_random_tp": "Телепорт игрока на случайную точку",
     "events.entropy.low_render_distance": "Низкая дальность прорисовки",
     "events.entropy.where_is_everything": "Повреждение мира",
     "events.entropy.timelapse": "Таймлапс",
@@ -161,7 +161,7 @@
     "events.entropy.rainbow_trails": "Радужный след",
     "events.entropy.rainbow_sheep_everywhere": "jeb_",
     "events.entropy.armor_trim": "Украсить броню",
-  
+
     "entropy.title": "Entropy: мод на хаос",
     "entropy.command.unknownEvent": "Неизвестное событие: %s",
     "entropy.command.invalidClientSide": "Событие %s не может быть запущено в одиночной игре",
@@ -191,7 +191,7 @@
     "entropy.options.integrations.youtube.returnToGame": "Токен доступа получен, вы можете закрыть вкладку и вернуться к игре.",
     "entropy.options.integrations.youtube.error.auth": "Авторизация провалилась",
     "entropy.options.integrations.youtube.quotaExceeded": "Квота превышена",
-  
+
     "entropy.options.disableEvents": "Выключить события",
     "entropy.options.search": "Поиск...",
     "entropy.options.eventDuration": "Период события: %d с",
