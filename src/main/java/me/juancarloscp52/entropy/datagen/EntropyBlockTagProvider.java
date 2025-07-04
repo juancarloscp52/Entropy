@@ -17,6 +17,8 @@ public class EntropyBlockTagProvider extends BlockTagProvider {
     @Override
     protected void addTags(Provider wrapperLookup) {
         valueLookupBuilder(BlockTags.IGNORED_BY_MIDAS_TOUCH).addTag(BlockTags.NOT_REPLACED_BY_EVENTS).add(Blocks.AIR,
+                Blocks.WATER,
+                Blocks.LAVA,
                 Blocks.GOLD_BLOCK,
                 Blocks.GOLD_ORE,
                 Blocks.RAW_GOLD_BLOCK,
