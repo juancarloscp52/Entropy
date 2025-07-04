@@ -151,6 +151,8 @@
   "events.entropy.creative_flight": "Zeit zum Fliegen!",
   "events.entropy.fake_teleport": "Vorgetäuschte Teleportation",
   "events.entropy.fake_fake_teleport": "Vorgetäuschte vorgetäuschte Teleportation",
+  "events.entropy.fake_teleport.vote": "%s (Vorgetäuschte Teleportation)",
+  "events.entropy.fake_fake_teleport.vote": "%s (Vorgetäuschte vorgetäuschte Teleportation)",
   "events.entropy.forcefield": "Kraftfeld",
   "events.entropy.entity_magnet": "Entitätenmagnet",
   "events.entropy.one_punch": "Ein Schlag",

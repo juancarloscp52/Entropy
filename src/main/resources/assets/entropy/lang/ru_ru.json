@@ -151,6 +151,8 @@
     "events.entropy.creative_flight": "Время полетать!",
     "events.entropy.fake_teleport": "Фальшивый телепорт",
     "events.entropy.fake_fake_teleport": "Фальшивый фальшивый телепорт",
+    "events.entropy.fake_teleport.vote": "%s (Фальшивый телепорт)",
+    "events.entropy.fake_fake_teleport.vote": "%s (Фальшивый фальшивый телепорт)",
     "events.entropy.forcefield": "Силовое поле",
     "events.entropy.entity_magnet": "Магнит для сущностей",
     "events.entropy.one_punch": "С одного удара",
@@ -161,7 +163,7 @@
     "events.entropy.rainbow_trails": "Радужный след",
     "events.entropy.rainbow_sheep_everywhere": "jeb_",
     "events.entropy.armor_trim": "Украсить броню",
-  
+
     "entropy.title": "Entropy: мод на хаос",
     "entropy.command.unknownEvent": "Неизвестное событие: %s",
     "entropy.command.invalidClientSide": "Событие %s не может быть запущено в одиночной игре",
@@ -191,7 +193,7 @@
     "entropy.options.integrations.youtube.returnToGame": "Токен доступа получен, вы можете закрыть вкладку и вернуться к игре.",
     "entropy.options.integrations.youtube.error.auth": "Авторизация провалилась",
     "entropy.options.integrations.youtube.quotaExceeded": "Квота превышена",
-  
+
     "entropy.options.disableEvents": "Выключить события",
     "entropy.options.search": "Поиск...",
     "entropy.options.eventDuration": "Период события: %d с",

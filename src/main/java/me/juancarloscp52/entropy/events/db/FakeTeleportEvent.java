@@ -5,9 +5,11 @@ import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.events.EventType;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -69,7 +71,17 @@ public class FakeTeleportEvent extends AbstractInstantEvent {
 
     @Override
     public Component getDescription() {
-        return hasEnded() ? super.getDescription() : teleportEvent.getDescription();
+        return hasEnded() ? getVoteDescription() : teleportEvent.getDescription();
+    }
+
+    @Override
+    public Component getVoteDescription() {
+        final MutableComponent description = Component.translatable(getType().getLanguageKey() + ".vote", teleportEvent.getDescription());
+        if (!getType().isEnabled()) {
+            return description.withStyle(ChatFormatting.STRIKETHROUGH);
+        }
+
+        return description;
     }
 
     @Override

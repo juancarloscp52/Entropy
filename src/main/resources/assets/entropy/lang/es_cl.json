@@ -151,6 +151,8 @@
   "events.entropy.so_sweet": "¡Que dulce!",
   "events.entropy.fake_teleport": "Teletransporte falso",
   "events.entropy.fake_fake_teleport": "Falso teletransporte falso",
+  "events.entropy.fake_teleport.vote": "%s (Teletransporte falso)",
+  "events.entropy.fake_fake_teleport.vote": "%s (Falso teletransporte falso)",
   "events.entropy.forcefield": "Campo de fuerza",
   "events.entropy.entity_magnet": "Imán de entidates",
   "events.entropy.one_punch": "De un puñetazo",

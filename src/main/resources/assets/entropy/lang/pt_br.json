@@ -151,6 +151,8 @@
   "events.entropy.creative_flight": "Hora de voar!",
   "events.entropy.fake_teleport": "Teleporte falso",
   "events.entropy.fake_fake_teleport": "Teleporte falso falso",
+  "events.entropy.fake_teleport.vote": "%s (Teleporte falso)",
+  "events.entropy.fake_fake_teleport.vote": "%s (Teleporte falso falso)",
   "events.entropy.forcefield": "Repelente de entidades",
   "events.entropy.entity_magnet": "Ímã de entidades",
   "events.entropy.one_punch": "Um soco = um morto",
