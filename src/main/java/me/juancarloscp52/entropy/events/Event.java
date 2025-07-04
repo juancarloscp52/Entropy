@@ -72,7 +72,7 @@ public interface Event {
 
         int size = client.font.width(eventName);
         drawContext.drawString(client.font, eventName, client.getWindow().getGuiScaledWidth() - size - 40, y, CommonColors.WHITE);
-        if (!this.hasEnded()) {
+        if (!this.hasEnded() && getDuration() > 0) {
             drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 5, y + 8, ARGB.color(150,70, 70, 70));
             drawContext.fill(client.getWindow().getGuiScaledWidth() - 35, y + 1, client.getWindow().getGuiScaledWidth() - 35 + Mth.floor(30 * (getTickCount() / (double) getDuration())), y + 8, ARGB.color(200,255, 255, 255));
         }
