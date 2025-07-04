@@ -2,6 +2,8 @@
   "values": [
     "#entropy:not_replaced_by_events",
     "minecraft:air",
+    "minecraft:water",
+    "minecraft:lava",
     "minecraft:gold_block",
     "minecraft:gold_ore",
     "minecraft:raw_gold_block",
