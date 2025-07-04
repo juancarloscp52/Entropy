@@ -151,6 +151,8 @@
   "events.entropy.creative_flight": "Time To Fly!",
   "events.entropy.fake_teleport": "Fake Teleport",
   "events.entropy.fake_fake_teleport": "Fake Fake Teleport",
+  "events.entropy.fake_teleport.vote": "%s (Fake Teleport)",
+  "events.entropy.fake_fake_teleport.vote": "%s (Fake Fake Teleport)",
   "events.entropy.forcefield": "Forcefield",
   "events.entropy.entity_magnet": "Entity Magnet",
   "events.entropy.one_punch": "One Punch",
