@@ -19,8 +19,8 @@ import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RacingBalloonEvent extends AbstractTimedEvent {
-    public static final EventType<RacingBalloonEvent> TYPE = EventType.builder(RacingBalloonEvent::new).build();
+public class BalloonRaceEvent extends AbstractTimedEvent {
+    public static final EventType<BalloonRaceEvent> TYPE = EventType.builder(BalloonRaceEvent::new).build();
     private final List<HappyGhast> ghasts = new ArrayList<>();
 
     @Override

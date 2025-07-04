@@ -162,7 +162,7 @@
   "events.entropy.rainbow_sheep_everywhere": "jeb_",
   "events.entropy.armor_trim": "Trimmed",
   "events.entropy.bouncy_blocks": "Bouncy Blocks",
-  "events.entropy.racing_balloon": "Racing Balloon",
+  "events.entropy.balloon_race": "Balloon Race",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unknown event: %s",

@@ -213,7 +213,7 @@ public class EventRegistry {
         register(registry, "rainbow_sheep_everywhere", RainbowSheepEverywhereEvent.TYPE);
         register(registry, "armor_trim", ArmorTrimEvent.TYPE);
         register(registry, "bouncy_blocks", BouncyBlocksEvent.TYPE);
-        register(registry, "racing_balloon", RacingBalloonEvent.TYPE);
+        register(registry, "balloon_race", BalloonRaceEvent.TYPE);
         return FabricRegistryBuilder.from(registry).buildAndRegister();
     }
 
