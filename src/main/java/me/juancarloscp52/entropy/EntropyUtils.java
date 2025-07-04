@@ -1,5 +1,6 @@
 package me.juancarloscp52.entropy;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
@@ -16,12 +17,20 @@ import java.util.stream.Stream;
 public class EntropyUtils {
 
     public static void teleportPlayer(final ServerPlayer serverPlayerEntity, final double x, final double y, final double z) {
+        teleportPlayer(serverPlayerEntity, serverPlayerEntity.level(), x, y, z);
+    }
+
+    public static void teleportPlayer(final ServerPlayer serverPlayerEntity, final ServerLevel level, final double x, final double y, final double z) {
         serverPlayerEntity.stopRiding();
-        serverPlayerEntity.teleportTo(serverPlayerEntity.level(), x, y, z, Set.of(), serverPlayerEntity.getYRot(), serverPlayerEntity.getXRot(), true);
+        serverPlayerEntity.teleportTo(level, x, y, z, Set.of(), serverPlayerEntity.getYRot(), serverPlayerEntity.getXRot(), true);
     }
 
     public static void teleportPlayer(final ServerPlayer serverPlayerEntity, final Vec3 pos) {
-        teleportPlayer(serverPlayerEntity, pos.x(), pos.y(), pos.z());
+        teleportPlayer(serverPlayerEntity, serverPlayerEntity.level(), pos.x(), pos.y(), pos.z());
+    }
+
+    public static void teleportPlayer(final ServerPlayer serverPlayerEntity, final ServerLevel level, final Vec3 pos) {
+        teleportPlayer(serverPlayerEntity, level, pos.x(), pos.y(), pos.z());
     }
 
     public static void clearPlayerArea(ServerPlayer serverPlayerEntity){

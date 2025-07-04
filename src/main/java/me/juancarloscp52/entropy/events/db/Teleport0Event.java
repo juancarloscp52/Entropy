@@ -22,6 +22,8 @@ import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 
 public class Teleport0Event extends AbstractInstantEvent {
 
@@ -33,7 +35,8 @@ public class Teleport0Event extends AbstractInstantEvent {
     public void init() {
         server = Entropy.getInstance().eventHandler.server;
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            EntropyUtils.teleportPlayer(serverPlayerEntity, serverPlayerEntity.level().getSharedSpawnPos().getCenter());
+            ServerLevel overworld = serverPlayerEntity.getServer().getLevel(Level.OVERWORLD);
+            EntropyUtils.teleportPlayer(serverPlayerEntity, overworld, overworld.getSharedSpawnPos().getCenter());
             EntropyUtils.clearPlayerArea(serverPlayerEntity);
         });
 
