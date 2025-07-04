@@ -149,7 +149,7 @@ public class VotingServer {
     public ClientboundNewPoll getNewPollPacket() {
         return new ClientboundNewPoll(voteID, events.isEmpty()
             ? List.of(Component.translatable("entropy.votes.no_event"))
-            : events.stream().map(Event::getDescription).toList()
+            : events.stream().map(Event::getVoteDescription).toList()
         );
     }
 

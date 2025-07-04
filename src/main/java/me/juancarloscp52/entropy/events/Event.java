@@ -91,6 +91,10 @@ public interface Event {
         return description;
     }
 
+    default Component getVoteDescription() {
+        return getDescription();
+    }
+
     void tick();
 
     @Environment(EnvType.CLIENT)
