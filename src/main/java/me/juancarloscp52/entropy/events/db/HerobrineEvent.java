@@ -22,6 +22,7 @@ import me.juancarloscp52.entropy.Variables;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.EntropyClientUtils;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
+import me.juancarloscp52.entropy.events.EventCategory;
 import me.juancarloscp52.entropy.events.EventType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -45,7 +46,7 @@ import java.util.Random;
 
 public class HerobrineEvent extends AbstractTimedEvent {
 
-    public static final EventType<HerobrineEvent> TYPE = EventType.builder(HerobrineEvent::new).build();
+    public static final EventType<HerobrineEvent> TYPE = EventType.builder(HerobrineEvent::new).category(EventCategory.FOG).build();
     private static final ResourceLocation VIGNETTE_TEXTURE = ResourceLocation.fromNamespaceAndPath("entropy", "textures/vignette.png");
     Random random;
     Minecraft client;
@@ -59,7 +60,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Environment(EnvType.CLIENT)
     public void initClient() {
         client = Minecraft.getInstance();
-        Variables.customFog = true;
+        Variables.herobrineFog = true;
         client.getSoundManager().pauseAllExcept(SoundSource.UI);
 
     }
@@ -67,7 +68,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
     @Override
     @Environment(EnvType.CLIENT)
     public void endClient() {
-        Variables.customFog = false;
+        Variables.herobrineFog = false;
         client = Minecraft.getInstance();
         client.getSoundManager().stop(EntropyClient.herobrineAmbienceID, SoundSource.BLOCKS);
         client.getSoundManager().resume();
