@@ -23,7 +23,6 @@ import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.item.Items;
 
@@ -37,8 +36,7 @@ public class HorseEvent extends AbstractInstantEvent {
             if(horse==null)
                 return;
             horse.setItemSlot(EquipmentSlot.SADDLE, Items.SADDLE.getDefaultInstance());
-            horse.getAttribute(Attributes.MAX_HEALTH).setBaseValue(2);
-            horse.setHealth(2);
+            horse.tameWithName(serverPlayerEntity);
         });
     }
 
