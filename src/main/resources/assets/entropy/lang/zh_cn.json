@@ -1,9 +1,9 @@
 {
   "events.entropy.upside_down": "上下颠倒",
   "events.entropy.creeper": "苦力怕!",
-  "events.entropy.close_random_tp": "近距离随机传送",
+  "events.entropy.random_tp.close": "近距离随机传送",
+  "events.entropy.random_tp.far": "远距离随机传送",
   "events.entropy.teleport_spawn": "传送回重生点",
-  "events.entropy.far_random_tp": "远距离随机传送",
   "events.entropy.low_render_distance": "低视距",
   "events.entropy.where_is_everything": "世界损坏",
   "events.entropy.timelapse": "斗转星移",
