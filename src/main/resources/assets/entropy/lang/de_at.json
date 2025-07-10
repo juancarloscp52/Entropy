@@ -164,6 +164,7 @@
   "events.entropy.armor_trim": "Verziert",
   "events.entropy.bouncy_blocks": "Elastische Blöcke",
   "events.entropy.balloon_race": "Ballonrennen",
+  "events.entropy.rainbow_fog": "Regenbogennebel",
 
   "entropy.title": "Entropy: Chaos Mod",
   "entropy.command.unknownEvent": "Unbekanntes Ereignis: %s",

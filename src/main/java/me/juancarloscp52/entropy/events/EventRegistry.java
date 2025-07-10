@@ -214,6 +214,7 @@ public class EventRegistry {
         register(registry, "armor_trim", ArmorTrimEvent.TYPE);
         register(registry, "bouncy_blocks", BouncyBlocksEvent.TYPE);
         register(registry, "balloon_race", BalloonRaceEvent.TYPE);
+        register(registry, "rainbow_fog", RainbowFogEvent.TYPE);
         return FabricRegistryBuilder.from(registry).buildAndRegister();
     }
 

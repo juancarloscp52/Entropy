@@ -4,6 +4,7 @@ public enum EventCategory {
     ATTACK,
     CAMERA,
     DROPS,
+    FOG,
     FOV,
     HEALTH,
     INVISIBILITY,
