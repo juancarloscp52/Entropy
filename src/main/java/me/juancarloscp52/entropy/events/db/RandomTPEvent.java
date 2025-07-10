@@ -21,7 +21,10 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.EventType;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.dimension.DimensionType;
 
 import java.util.Arrays;
@@ -30,7 +33,11 @@ import java.util.Random;
 
 public class RandomTPEvent extends AbstractInstantEvent {
     public static final List<Distance> DISTANCES = Arrays.asList(new Distance(50, "close"), new Distance(2500, "far"));
-    public static final EventType<RandomTPEvent> TYPE = EventType.builder(RandomTPEvent::createRandom).build();
+    public static final StreamCodec<RegistryFriendlyByteBuf, RandomTPEvent> STREAM_CODEC = StreamCodec.composite(
+            Distance.STREAM_CODEC, RandomTPEvent::distance,
+            RandomTPEvent::new
+    );
+    public static final EventType<RandomTPEvent> TYPE = EventType.builder(RandomTPEvent::createRandom).streamCodec(STREAM_CODEC).build();
     private final Distance distance;
     int count = 0;
 
@@ -90,5 +97,15 @@ public class RandomTPEvent extends AbstractInstantEvent {
         return TYPE;
     }
 
-    public record Distance(int value, String name) {}
+    public Distance distance() {
+        return distance;
+    }
+
+    public record Distance(int value, String name) {
+        public static final StreamCodec<RegistryFriendlyByteBuf, Distance> STREAM_CODEC = StreamCodec.composite(
+                ByteBufCodecs.VAR_INT, Distance::value,
+                ByteBufCodecs.STRING_UTF8, Distance::name,
+                Distance::new
+        );
+    }
 }
