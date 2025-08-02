@@ -23,7 +23,7 @@ import me.juancarloscp52.entropy.events.EventCategory;
 import me.juancarloscp52.entropy.events.EventType;
 
 public class BlurEvent extends AbstractTimedEvent {
-    public static final EventType<BlurEvent> TYPE = EventType.builder(BlurEvent::new).category(EventCategory.SHADER).build();
+    public static final EventType<BlurEvent> TYPE = EventType.builder(BlurEvent::new).category(EventCategory.SHADER).disabledByAccessibilityMode().build();
 
     @Override
     public void initClient() {
