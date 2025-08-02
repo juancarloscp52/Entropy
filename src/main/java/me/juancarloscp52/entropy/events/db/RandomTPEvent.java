@@ -21,6 +21,7 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.EntropyUtils;
 import me.juancarloscp52.entropy.events.AbstractInstantEvent;
 import me.juancarloscp52.entropy.events.EventType;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -55,12 +56,13 @@ public class RandomTPEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
             String netherSafety = "";
             DimensionType dimensionType = player.level().dimensionType();
+            CommandSourceStack commandSourceStack = player.createCommandSourceStack().withPermission(4);
 
             if (dimensionType.hasCeiling())
                 netherSafety = " under " + (dimensionType.logicalHeight() - 1);
 
             player.stopRiding();
-            Entropy.getInstance().eventHandler.server.getCommands().performPrefixedCommand(player.createCommandSourceStack(), "spreadplayers " + player.position().x() + " " + player.position().z() + " 0 " + distance.value() + netherSafety + " false " + player.getName().getString());
+            Entropy.getInstance().eventHandler.server.getCommands().performPrefixedCommand(commandSourceStack, "spreadplayers " + player.position().x() + " " + player.position().z() + " 0 " + distance.value() + netherSafety + " false " + player.getName().getString());
             EntropyUtils.clearPlayerArea(player);
         });
     }

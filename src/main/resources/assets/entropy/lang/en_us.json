@@ -1,6 +1,7 @@
 {
   "events.entropy.upside_down": "Upside down",
   "events.entropy.creeper": "Creeper!",
+  "events.entropy.random_tp": "Teleport Player Randomly",
   "events.entropy.random_tp.close": "Teleport Player A Few Meters",
   "events.entropy.random_tp.far": "Teleport Player To A Random Location",
   "events.entropy.teleport_spawn": "Teleport To Spawn",

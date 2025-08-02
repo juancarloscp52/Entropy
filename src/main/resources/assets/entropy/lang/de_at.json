@@ -1,6 +1,7 @@
 {
   "events.entropy.upside_down": "Kopfüber",
   "events.entropy.creeper": "Creeper!",
+  "events.entropy.random_tp": "Spieler zufällig teleportieren",
   "events.entropy.random_tp.close": "Spieler ein paar Meter teleportieren",
   "events.entropy.random_tp.far": "Spieler an einen zufälligen Ort teleportieren",
   "events.entropy.teleport_spawn": "Zum Spawn teleportieren",
