@@ -22,6 +22,7 @@ import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.events.EventCategory;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.HashMap;
@@ -29,46 +30,43 @@ import java.util.Map;
 
 public class HalfHeartedEvent extends AbstractTimedEvent {
     public static final EventType<HalfHeartedEvent> TYPE = EventType.builder(HalfHeartedEvent::new).category(EventCategory.HEALTH).build();
-    private Map<ServerPlayer,Float> previousHealth = new HashMap<>();
+    private Map<ServerPlayer,Health> previousHealth = new HashMap<>();
+
+    private record Health(float current, double max) {}
 
     @Override
     public void init() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1);
-            previousHealth.put(serverPlayerEntity, serverPlayerEntity.getHealth());
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(this::adjustPlayerHealth);
+    }
 
-            if (serverPlayerEntity.getHealth() > 1)
-                serverPlayerEntity.setHealth(1);
-        });
+    private void adjustPlayerHealth(ServerPlayer serverPlayerEntity) {
+        AttributeInstance maxHealthAttribute = serverPlayerEntity.getAttribute(Attributes.MAX_HEALTH);
+        previousHealth.computeIfAbsent(serverPlayerEntity, player -> new Health(player.getHealth(), maxHealthAttribute.getBaseValue()));
+        maxHealthAttribute.setBaseValue(1);
+
+        if (serverPlayerEntity.getHealth() > 1)
+            serverPlayerEntity.setHealth(1);
     }
 
     @Override
     public void end() {
-        Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            serverPlayerEntity.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
-            serverPlayerEntity.setHealth(previousHealth.get(serverPlayerEntity));
-        });
+        Entropy.getInstance().eventHandler.getActivePlayers().forEach(this::endPlayer);
         super.end();
     }
 
     @Override
     public void endPlayer(ServerPlayer player) {
-        player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20);
-        player.setHealth(previousHealth.get(player));
+        Health health = previousHealth.get(player);
+        if (health != null) {
+            player.getAttribute(Attributes.MAX_HEALTH).setBaseValue(health.max());
+            player.setHealth(health.current());
+        }
     }
 
     @Override
     public void tick() {
         if (this.getTickCount() % 20 == 0) {
-            Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-                serverPlayerEntity.getAttribute(Attributes.MAX_HEALTH).setBaseValue(1);
-
-                if(!previousHealth.containsKey(serverPlayerEntity))
-                    previousHealth.put(serverPlayerEntity, serverPlayerEntity.getHealth());
-
-                if (serverPlayerEntity.getHealth() > 1)
-                    serverPlayerEntity.setHealth(1);
-            });
+            Entropy.getInstance().eventHandler.getActivePlayers().forEach(this::adjustPlayerHealth);
         }
         super.tick();
     }
