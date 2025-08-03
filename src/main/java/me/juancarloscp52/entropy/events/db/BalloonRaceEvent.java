@@ -38,6 +38,7 @@ public class BalloonRaceEvent extends AbstractTimedEvent {
 
     @Override
     public void end() {
+        super.end();
         ghasts.forEach(happyGhast -> happyGhast.remove(Entity.RemovalReason.DISCARDED));
     }
 
