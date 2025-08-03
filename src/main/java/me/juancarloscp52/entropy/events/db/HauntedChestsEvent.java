@@ -7,6 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,38 +29,30 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
         if(tickCount % 20 == 0) {
             Player player = Minecraft.getInstance().player;
             BlockPos.MutableBlockPos pos = player.blockPosition().mutable();
-            Level world = player.level();
-            boolean chestOpened = false;
-            boolean chestClosed = false;
+            Level level = player.level();
 
             for(int x = -16; x <= 16; x += 16) {
                 for(int z = -16; z <= 16; z += 16) {
                     pos.set(pos.getX() + x, pos.getY(), pos.getZ() + z);
 
-                    LevelChunk chunk = world.getChunkAt(pos);
+                    LevelChunk chunk = level.getChunkAt(pos);
 
                     for(BlockEntity be : chunk.getBlockEntitiesPos().stream().map(chunk::getBlockEntity).toList()) {
                         if(player.getRandom().nextInt(10) >= 7 && be instanceof ChestBlockEntity chest) {
                             if(openedChests.contains(chest)) {
                                 chest.stopOpen(player);
                                 openedChests.remove(chest);
-                                chestClosed = true;
+                                level.playSound(player, chest.getBlockPos(), SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 1f, 1f);
                             }
                             else {
                                 chest.startOpen(player);
                                 openedChests.add(chest);
-                                chestOpened = true;
+                                level.playSound(player, chest.getBlockPos(), SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 1f, 1f);
                             }
                         }
                     }
                 }
             }
-
-            if(chestOpened)
-                player.playSound(SoundEvents.CHEST_OPEN, 1f, 1f);
-
-            if(chestClosed)
-                player.playSound(SoundEvents.CHEST_CLOSE, 1f, 1f);
         }
     }
 
@@ -69,10 +62,12 @@ public class HauntedChestsEvent extends AbstractTimedEvent {
         super.endClient();
         Player player = Minecraft.getInstance().player;
 
-        if(openedChests.size() > 0) {
-            openedChests.forEach(chest -> chest.stopOpen(player));
+        if(!openedChests.isEmpty()) {
+            openedChests.forEach(chest -> {
+                chest.stopOpen(player);
+                chest.getLevel().playSound(player, chest.getBlockPos(), SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 1f, 1f);
+            });
             openedChests.clear();
-            player.playSound(SoundEvents.CHEST_CLOSE, 1f, 1f);
         }
     }
 
