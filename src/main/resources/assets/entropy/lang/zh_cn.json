@@ -188,5 +188,17 @@
   "entropy.options.ui.gtav": "Chaos 模组",
   "entropy.options.ui.minecraft": "Minecraft",
   "entropy.votes.display": "%s: %s",
-  "entropy.votes.percentage": "%s %%"
+  "entropy.votes.percentage": "%s %%",
+  "entropy.options.votingMode.majority": "投票选定",
+  "entropy.options.votingMode.majority.tooltip": "得票最多的事件将被选中",
+  "entropy.options.ui.minecraft.tooltip": "计时器将以BOSS栏的样式显示",
+  "entropy.options.ui.gtav.tooltip": "计时器将在屏幕顶部显示为自定义渲染栏",
+  "entropy.options.votingMode.proportional": "概率选中",
+  "entropy.options.votingMode.proportional.tooltip": "所有事件都有机会被选中。一项事件获得的选票越多，被选中的可能性就越大。示例：如果一个事件获得了 42% 的选票，则它有 42% 的被选中机会",
+  "entropy.options.accessibilityMode": "Entropy辅助功能设置",
+  "entropy.options.accessibilityMode.explanation": "辅助功能模式会自动停用某些包含闪烁、抖动或可能令人作呕的图像的事件。如果服务器在您激活辅助功能模式时尝试运行此类事件，则该事件将显示为划掉并且根本不运行",
+  "entropy.events.RainbowPathEvent": "彩虹桥",
+  "entropy.events.InfestationEvent": "末日毒变",
+  "entropy.events.OnePunchEvent": "一拳超人",
+  "entropy.events.NothingEvent": "无"
 }
