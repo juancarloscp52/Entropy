@@ -25,13 +25,13 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.CommonColors;
 
 public class PumpkinViewEvent extends AbstractTimedEvent {
 
     public static final EventType<PumpkinViewEvent> TYPE = EventType.builder(PumpkinViewEvent::new).build();
-    private static final ResourceLocation PUMPKIN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/misc/pumpkinblur.png");
+    private static final Identifier PUMPKIN_TEXTURE = Identifier.withDefaultNamespace("textures/misc/pumpkinblur.png");
     Minecraft client;
 
     @Override

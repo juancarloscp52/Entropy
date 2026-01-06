@@ -20,7 +20,7 @@ package me.juancarloscp52.entropy.events.db;
 import me.juancarloscp52.entropy.events.AbstractAttributeEvent;
 import me.juancarloscp52.entropy.events.EventCategory;
 import me.juancarloscp52.entropy.events.EventType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -31,7 +31,7 @@ public class HyperSpeedEvent extends AbstractAttributeEvent {
 
     @Override
     public List<ActiveModifier> getModifiers() {
-        return List.of(new ActiveModifier(Attributes.MOVEMENT_SPEED, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("entropy", "hyperspeed"), 5d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
+        return List.of(new ActiveModifier(Attributes.MOVEMENT_SPEED, new AttributeModifier(Identifier.fromNamespaceAndPath("entropy", "hyperspeed"), 5d, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)));
     }
 
     @Override

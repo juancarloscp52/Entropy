@@ -32,14 +32,14 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.CommonColors;
 import net.minecraft.util.Mth;
 import org.joml.Matrix3x2fStack;
 
 
 public class EntropyConfigurationScreen extends Screen {
-    private static final ResourceLocation LOGO = ResourceLocation.fromNamespaceAndPath("entropy", "textures/logo-with-text.png");
+    private static final Identifier LOGO = Identifier.fromNamespaceAndPath("entropy", "textures/logo-with-text.png");
     private static final double MAX_DURATION = 3300D; //165 seconds + 15 seconds minimum for a total range of 15s-180s
     EntropySettings settings = Entropy.getInstance().settings;
 
@@ -71,24 +71,21 @@ public class EntropyConfigurationScreen extends Screen {
         Button integrationSettings = Button.builder(Component.translatable("entropy.options.integrations.title"), button -> this.minecraft.setScreen(new EntropyIntegrationsScreen(this))).width(buttonWidth).pos(buttonX, 100).build();
         this.addRenderableWidget(integrationSettings);
 
-        CycleButton<VotingMode> votingModeButton = CycleButton.<VotingMode>builder(votingMode -> votingMode.text)
+        CycleButton<VotingMode> votingModeButton = CycleButton.<VotingMode>builder(votingMode -> votingMode.text, () -> settings.votingMode)
                 .withValues(VotingMode.values())
-                .withInitialValue(settings.votingMode)
                 .withTooltip(votingMode -> Tooltip.create(votingMode.tooltip))
                 .create(buttonX, 125, buttonWidth, 20, Component.translatable("entropy.options.votingMode"), (button, newValue) -> settings.votingMode = newValue);
         this.addRenderableWidget(votingModeButton);
 
         // UI style button
-        CycleButton<UIStyle> uiStyleButton = CycleButton.<UIStyle>builder(uiStyle -> uiStyle.text)
+        CycleButton<UIStyle> uiStyleButton = CycleButton.<UIStyle>builder(uiStyle -> uiStyle.text, () -> settings.UIstyle)
                 .withValues(UIStyle.values())
-                .withInitialValue(settings.UIstyle)
                 .withTooltip(uiStyle -> Tooltip.create(uiStyle.tooltip))
                 .create(buttonX, 150, buttonWidth, 20, Component.translatable("entropy.options.ui"), (button, newValue) -> settings.UIstyle = newValue);
         this.addRenderableWidget(uiStyleButton);
 
-        this.addRenderableWidget(CycleButton.<Boolean>builder(bool -> Component.translatable("entropy.options." + (bool ? "enabled" : "disabled")))
+        this.addRenderableWidget(CycleButton.<Boolean>builder(bool -> Component.translatable("entropy.options." + (bool ? "enabled" : "disabled")), () -> settings.accessibilityMode)
                 .withValues(true, false)
-                .withInitialValue(settings.accessibilityMode)
                 .withTooltip(bool -> Tooltip.create(Component.translatable("entropy.options.accessibilityMode.explanation")))
                 .create(buttonX, 175, buttonWidth, 20, Component.translatable("entropy.options.accessibilityMode"), (button, newValue) -> settings.accessibilityMode = newValue));
 

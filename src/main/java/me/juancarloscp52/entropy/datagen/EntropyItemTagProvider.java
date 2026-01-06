@@ -5,7 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.ItemTagProvider;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -19,7 +19,7 @@ public class EntropyItemTagProvider extends ItemTagProvider{
 
     @Override
     protected void addTags(Provider wrapperLookup) {
-        TagKey<Item> spawnEggsTag = TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.fromNamespaceAndPath("c", "spawn_eggs"));
+        TagKey<Item> spawnEggsTag = TagKey.create(BuiltInRegistries.ITEM.key(), Identifier.fromNamespaceAndPath("c", "spawn_eggs"));
 
         valueLookupBuilder(ItemTags.BANNED).addTag(spawnEggsTag).add(Items.DEBUG_STICK,
                 Items.COMMAND_BLOCK,

@@ -21,16 +21,16 @@ import com.mojang.blaze3d.resource.GraphicsResourceAllocator;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelTargetBundle;
 import net.minecraft.client.renderer.PostChain;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ShaderManager {
-    public static final ResourceLocation BLACK_AND_WHITE = ResourceLocation.fromNamespaceAndPath("entropy", "black_and_white");
-    public static final ResourceLocation BLUR = ResourceLocation.fromNamespaceAndPath("entropy", "blur");
-    public static final ResourceLocation CRT = ResourceLocation.fromNamespaceAndPath("entropy", "crt");
-    public static final ResourceLocation INVERTED = ResourceLocation.withDefaultNamespace("invert");
-    public static final ResourceLocation WOBBLE = ResourceLocation.fromNamespaceAndPath("entropy", "wobble");
+    public static final Identifier BLACK_AND_WHITE = Identifier.fromNamespaceAndPath("entropy", "black_and_white");
+    public static final Identifier BLUR = Identifier.fromNamespaceAndPath("entropy", "blur");
+    public static final Identifier CRT = Identifier.fromNamespaceAndPath("entropy", "crt");
+    public static final Identifier INVERTED = Identifier.withDefaultNamespace("invert");
+    public static final Identifier WOBBLE = Identifier.fromNamespaceAndPath("entropy", "wobble");
 
-    public static void render(ResourceLocation postEffectId, Minecraft minecraft, GraphicsResourceAllocator graphicsResourceAllocator) {
+    public static void render(Identifier postEffectId, Minecraft minecraft, GraphicsResourceAllocator graphicsResourceAllocator) {
         PostChain postChain = minecraft.getShaderManager().getPostChain(postEffectId, LevelTargetBundle.MAIN_TARGETS);
         if (postChain != null) {
             postChain.process(minecraft.getMainRenderTarget(), graphicsResourceAllocator);

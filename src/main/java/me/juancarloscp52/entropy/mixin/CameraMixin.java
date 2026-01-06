@@ -21,7 +21,7 @@ import me.juancarloscp52.entropy.Variables;
 import net.minecraft.client.Camera;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -43,7 +43,7 @@ public abstract class CameraMixin {
     @Shadow private float eyeHeight;
 
     @Inject(method = "setup",at=@At("TAIL"))
-    private void update(BlockGetter area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci){
+    private void update(Level area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci){
         if(!Variables.topView)
             return;
         this.setRotation(0, +90);

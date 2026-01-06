@@ -43,7 +43,7 @@ import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.client.renderer.fog.environment.FogEnvironment;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.GsonHelper;
 import org.apache.logging.log4j.LogManager;
@@ -60,7 +60,7 @@ import java.util.Optional;
 public class EntropyClient implements ClientModInitializer {
 
     public static final Logger LOGGER = LogManager.getLogger();
-    public static final ResourceLocation herobrineAmbienceID = ResourceLocation.fromNamespaceAndPath("entropy", "ambient.herobrine");
+    public static final Identifier herobrineAmbienceID = Identifier.fromNamespaceAndPath("entropy", "ambient.herobrine");
     public static EntropyClient instance;
     public static SoundEvent herobrineAmbience = SoundEvent.createVariableRangeEvent(herobrineAmbienceID);
     public ClientEventHandler clientEventHandler;
@@ -164,7 +164,7 @@ public class EntropyClient implements ClientModInitializer {
             }
         });
 
-        HudElementRegistry.addLast(ResourceLocation.fromNamespaceAndPath("entropy", "overlay"), (drawContext, tickCounter) -> {
+        HudElementRegistry.addLast(Identifier.fromNamespaceAndPath("entropy", "overlay"), (drawContext, tickCounter) -> {
             if (clientEventHandler != null)
                 clientEventHandler.render(drawContext, tickCounter);
         });

@@ -29,7 +29,7 @@ import me.juancarloscp52.entropy.networking.ClientboundTick;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.flag.FeatureFlagSet;
@@ -140,7 +140,7 @@ public class ServerEventHandler {
 
         final FeatureFlagSet featureFlagSet = event.getType().requiredFeatures();
         if (!featureFlagSet.isSubsetOf(server.overworld().enabledFeatures())) {
-            final Optional<String> missing = FeatureFlags.REGISTRY.toNames(featureFlagSet.subtract(server.overworld().enabledFeatures())).stream().map(ResourceLocation::toString).reduce((s, t) -> s + ", " + t);
+            final Optional<String> missing = FeatureFlags.REGISTRY.toNames(featureFlagSet.subtract(server.overworld().enabledFeatures())).stream().map(Identifier::toString).reduce((s, t) -> s + ", " + t);
             Entropy.LOGGER.info("Tried to run event that requires disabled features, missing: {}", missing.orElse("unknown"));
             return false;
         }

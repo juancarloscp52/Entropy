@@ -37,8 +37,8 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 
 import java.util.Comparator;
@@ -82,7 +82,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         Stream<ButtonEntry> buttonEntries = getEntries().filter(filterMode::allowsVisibility);
 
         if (!searchText.isBlank()) {
-            buttonEntries = buttonEntries.filter(buttonEntry -> buttonEntry.eventInfo.name.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventInfo.typeReference.key().location().toString().contains(lowerCasedNewText));
+            buttonEntries = buttonEntries.filter(buttonEntry -> buttonEntry.eventInfo.name.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventInfo.typeReference.key().identifier().toString().contains(lowerCasedNewText));
         }
 
         setScrollAmount(0.0D);
@@ -92,7 +92,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
 
     @Environment(EnvType.CLIENT)
     public static class ButtonEntry extends ContainerObjectSelectionList.Entry<EntropyEventListWidget.ButtonEntry> {
-        private static final ResourceLocation ICON_OVERLAY_LOCATION = ResourceLocation.withDefaultNamespace("world_list/warning_highlighted");
+        private static final Identifier ICON_OVERLAY_LOCATION = Identifier.withDefaultNamespace("world_list/warning_highlighted");
         private static final Tooltip ACCESSIBILITY_TOOLTIP = Tooltip.create(Component.translatable("entropy.options.accessibilityMode.eventDisabled"));
         public final Checkbox checkbox;
         public final EventInfo eventInfo;
@@ -119,8 +119,8 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         private static boolean isEventDisabledInSettings(Holder.Reference<EventType<?>> typeReference) {
             return Entropy.getInstance().settings.disabledEventTypes
                 .stream()
-                .map(ResourceKey::location)
-                .anyMatch(key -> typeReference.key().location().equals(key));
+                .map(ResourceKey::identifier)
+                .anyMatch(key -> typeReference.key().identifier().equals(key));
         }
 
         @Override

@@ -73,8 +73,7 @@ public class EntropyEventConfigurationScreen extends Screen {
         this.addRenderableWidget(search);
 
         // Filter events button
-        filterEvents = CycleButton.<EntropyEventListWidget.FilterMode>builder(mode -> mode.text)
-                .withInitialValue(FilterMode.ALL)
+        filterEvents = CycleButton.<EntropyEventListWidget.FilterMode>builder(mode -> mode.text, () -> FilterMode.ALL)
                 .withValues(FilterMode.values())
                 .create(this.width / 2 + 40, 29, 120, 20, Component.translatable("entropy.options.filterEvents"), (button, newValue) -> list.updateVisibleEntries(search.getValue(), newValue));
         this.addRenderableWidget(filterEvents);
