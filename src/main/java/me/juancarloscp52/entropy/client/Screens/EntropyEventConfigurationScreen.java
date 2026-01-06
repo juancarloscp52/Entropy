@@ -52,7 +52,6 @@ public class EntropyEventConfigurationScreen extends Screen {
     @Override
     protected void init() {
         list = addRenderableWidget(new EntropyEventListWidget(Minecraft.getInstance(), this.width, this.height - 65 - 30, 0, 65, 25));
-        list.addAllFromRegistry();
         this.addWidget(list);
         // Done button
         Button done = Button.builder(CommonComponents.GUI_DONE, button -> onDone()).pos(this.width / 2 - 100, this.height - 26).width(200).build();

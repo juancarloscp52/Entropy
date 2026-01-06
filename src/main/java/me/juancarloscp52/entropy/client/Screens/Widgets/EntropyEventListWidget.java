@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.EventRegistry;
 import me.juancarloscp52.entropy.events.EventType;
-import me.juancarloscp52.entropy.mixin.AbstractScrollAreaAccessor;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -41,15 +40,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 public class EntropyEventListWidget extends ContainerObjectSelectionList<EntropyEventListWidget.ButtonEntry> {
-    public final List<ButtonEntry> visibleEntries = new ArrayList<>();
+    private final List<EventInfo> eventInfos;
     private final Font textRenderer;
 
     public EntropyEventListWidget(Minecraft minecraftClient, int width, int height, int x, int y, int itemHeight) {
@@ -57,24 +55,16 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         this.setX(x);
         this.centerListVertically = false;
         this.textRenderer = minecraftClient.font;
-    }
-
-    public void addAllFromRegistry() {
-        EventRegistry.EVENTS
+        eventInfos = EventRegistry.EVENTS
             .listElements()
             .map(typeReference -> new EventInfo(Component.translatable(typeReference.value().getLanguageKey()).getString(), typeReference))
             .sorted(Comparator.comparing(EventInfo::name))
-            .forEach(this::addEvent);
+            .toList();
+        getEntries().forEach(this::addEntry);
     }
 
-    public int addEvent(EventInfo eventInfo) {
-        return this.addEntry(EntropyEventListWidget.ButtonEntry.create(eventInfo, textRenderer));
-    }
-
-    @Override
-    protected int addEntry(ButtonEntry entry) {
-        this.visibleEntries.add(entry);
-        return super.addEntry(entry);
+    public Stream<ButtonEntry> getEntries() {
+        return eventInfos.stream().map(eventInfo -> EntropyEventListWidget.ButtonEntry.create(eventInfo, textRenderer));
     }
 
     @Override
@@ -87,86 +77,17 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         return super.scrollBarX() + 32;
     }
 
-    @Override
-    protected int getItemCount() {
-        return this.visibleEntries.size();
-    }
-
-    @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        final double mouseX = event.x();
-        final double mouseY = event.y();
-        final int button = event.button();
-        this.updateScrolling(event);
-        if (!this.isMouseOver(mouseX, mouseY)) {
-            return false;
-        } else {
-            ButtonEntry entry = this.getEntryAtPositionRespectingSearch(mouseX, mouseY);
-            if (entry != null) {
-                if (entry.mouseClicked(event, doubleClick)) {
-                    this.setFocused(entry);
-                    this.setDragging(true);
-                    return true;
-                }
-            } else if (button == 0) {
-                super.mouseClicked(event, doubleClick);
-                return true;
-            }
-
-            return ((AbstractScrollAreaAccessor) this).getScrolling();
-        }
-    }
-
-    protected ButtonEntry getEntryAtPositionRespectingSearch(double x, double y) {
-        int i = this.getRowWidth() / 2;
-        int j = this.getX() + this.width / 2;
-        int k = j - i;
-        int l = j + i;
-        int m = Mth.floor(y - (double)this.getY()) + (int)this.scrollAmount() - 4;
-        int n = m / this.defaultEntryHeight;
-        return x < (double)this.scrollBarX() && x >= (double)k && x <= (double)l && n >= 0 && m >= 0 && n < this.getItemCount() ? this.visibleEntries.get(n) : null;
-    }
-
-    @Override
-    protected void renderListItems(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
-        int entryCount = this.children().size();
-        int drawIndex = 0;
-
-        for (int index = 0; index < entryCount; ++index) {
-            int rowTop = this.getRowTop(drawIndex);
-            int rowBottom = rowTop + this.defaultEntryHeight;
-
-            EntropyEventListWidget.ButtonEntry entry = this.children().get(index);
-            if (entry.checkbox.visible) {
-                drawIndex++;
-
-                if (rowBottom >= this.getY() && rowTop <= this.getBottom())
-                    this.renderItem(drawContext, mouseX, mouseY, delta, entry);
-            }
-        }
-    }
-
     public void updateVisibleEntries(String searchText, FilterMode filterMode) {
         String lowerCasedNewText = searchText.toLowerCase(Locale.ROOT);
-        visibleEntries.clear();
+        Stream<ButtonEntry> buttonEntries = getEntries().filter(filterMode::allowsVisibility);
 
-        if (searchText.isBlank())
-            children().stream().forEach(buttonEntry -> {
-                buttonEntry.checkbox.visible = filterMode.allowsVisibility(buttonEntry);
-
-                if(buttonEntry.checkbox.visible)
-                    visibleEntries.add(buttonEntry);
-            });
-        else {
-            children().stream().forEach(buttonEntry -> {
-                buttonEntry.checkbox.visible = filterMode.allowsVisibility(buttonEntry) && (buttonEntry.eventInfo.name.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventInfo.typeReference.key().location().toString().contains(lowerCasedNewText));
-
-                if(buttonEntry.checkbox.visible)
-                    visibleEntries.add(buttonEntry);
-            });
+        if (!searchText.isBlank()) {
+            buttonEntries = buttonEntries.filter(buttonEntry -> buttonEntry.eventInfo.name.toLowerCase(Locale.ROOT).contains(lowerCasedNewText) || buttonEntry.eventInfo.typeReference.key().location().toString().contains(lowerCasedNewText));
         }
 
         setScrollAmount(0.0D);
+        clearEntries();
+        buttonEntries.forEach(this::addEntry);
     }
 
     @Environment(EnvType.CLIENT)
