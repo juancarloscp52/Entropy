@@ -53,8 +53,8 @@ public abstract class EntityMixin {
     @Shadow
     public abstract double getZ();
 
-    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;Z)Z", at = @At("HEAD"), cancellable = true)
-    private void preventMounting(Entity entityToMount, boolean force, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "startRiding(Lnet/minecraft/world/entity/Entity;ZZ)Z", at = @At("HEAD"), cancellable = true)
+    private void preventMounting(Entity entityToMount, boolean force, boolean sendGameEvent, CallbackInfoReturnable<Boolean> cir) {
         if(Variables.forceRiding && vehicle != null)
             cir.setReturnValue(false);
     }
@@ -75,7 +75,7 @@ public abstract class EntityMixin {
             if (stack.isEmpty()) {
                 cir.setReturnValue(null);
                 cir.cancel();
-            } else if (this.level.isClientSide) {
+            } else if (this.level.isClientSide()) {
                 cir.setReturnValue(null);
                 cir.cancel();
             } else {

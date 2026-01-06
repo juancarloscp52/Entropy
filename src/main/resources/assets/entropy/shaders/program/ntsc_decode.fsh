@@ -1,10 +1,8 @@
-#version 150
+#version 330
 
 uniform sampler2D InSampler;
-uniform sampler2D BaseSampler;
 
 in vec2 texCoord;
-in vec2 oneTexel;
 
 layout(std140) uniform SamplerInfo {
     vec2 OutSize;
@@ -40,6 +38,7 @@ const vec4 W = vec4(Pi2 * CCFrequency * ScanTime);
 out vec4 fragColor;
 
 void main() {
+    vec2 oneTexel = 1.0 / InSize;
     vec4 YAccum = Zero;
     vec4 IAccum = Zero;
     vec4 QAccum = Zero;

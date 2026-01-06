@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LivingEntityRendererMixin {
 
     @Inject(method = "isEntityUpsideDown", at = @At("HEAD"), cancellable = true)
-    private static void flipUpsidedownEvent(LivingEntity entity, CallbackInfoReturnable<Boolean> cir){
+    private void flipUpsidedownEvent(LivingEntity entity, CallbackInfoReturnable<Boolean> cir){
         if(Variables.flipEntities){
             cir.setReturnValue(true);
         }

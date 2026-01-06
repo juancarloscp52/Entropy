@@ -27,8 +27,11 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 
@@ -46,9 +49,9 @@ public class EntropyEventConfigurationScreen extends Screen {
         this.parent = parent;
     }
 
+    @Override
     protected void init() {
         list = addRenderableWidget(new EntropyEventListWidget(Minecraft.getInstance(), this.width, this.height - 65 - 30, 0, 65, 25));
-        list.addAllFromRegistry();
         this.addWidget(list);
         // Done button
         Button done = Button.builder(CommonComponents.GUI_DONE, button -> onDone()).pos(this.width / 2 - 100, this.height - 26).width(200).build();
@@ -77,16 +80,18 @@ public class EntropyEventConfigurationScreen extends Screen {
         this.addRenderableWidget(filterEvents);
     }
 
+    @Override
     public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
         super.render(drawContext, mouseX, mouseY, delta);
         drawContext.drawString(font, this.title, this.width / 2 - font.width(this.title) / 2, 12, 0xFFE0E0E0);
         EntropyConfigurationScreen.drawLogo(drawContext);
     }
 
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (super.mouseReleased(mouseX, mouseY, button)) {
+    @Override
+    public boolean mouseReleased(MouseButtonEvent event) {
+        if (super.mouseReleased(event)) {
             return true;
-        } else return this.list.mouseReleased(mouseX, mouseY, button);
+        } else return this.list.mouseReleased(event);
     }
 
     private void onDone() {
@@ -100,17 +105,19 @@ public class EntropyEventConfigurationScreen extends Screen {
     }
 
     private void onCheckAll() {
+        MouseButtonInfo info = new MouseButtonInfo(GLFW.GLFW_MOUSE_BUTTON_LEFT, 0);
         this.list.children().forEach(buttonEntry -> {
             if (buttonEntry.checkbox.visible && !buttonEntry.checkbox.selected() && buttonEntry.eventInfo.typeReference().value().isEnabled()) {
-                buttonEntry.checkbox.onPress();
+                buttonEntry.checkbox.onPress(info);
             }
         });
     }
 
     private void onUncheckAll() {
+        MouseButtonInfo info = new MouseButtonInfo(GLFW.GLFW_MOUSE_BUTTON_LEFT, 0);
         this.list.children().forEach(buttonEntry -> {
             if (buttonEntry.checkbox.visible && buttonEntry.checkbox.selected() && buttonEntry.eventInfo.typeReference().value().isEnabled()) {
-                buttonEntry.checkbox.onPress();
+                buttonEntry.checkbox.onPress(info);
             }
         });
     }

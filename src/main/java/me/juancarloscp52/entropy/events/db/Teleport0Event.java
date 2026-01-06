@@ -35,8 +35,8 @@ public class Teleport0Event extends AbstractInstantEvent {
     public void init() {
         server = Entropy.getInstance().eventHandler.server;
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
-            ServerLevel overworld = serverPlayerEntity.getServer().getLevel(Level.OVERWORLD);
-            EntropyUtils.teleportPlayer(serverPlayerEntity, overworld, overworld.getSharedSpawnPos().getCenter());
+            ServerLevel overworld = serverPlayerEntity.level().getServer().getLevel(Level.OVERWORLD);
+            EntropyUtils.teleportPlayer(serverPlayerEntity, overworld, overworld.getRespawnData().pos().getCenter());
             EntropyUtils.clearPlayerArea(serverPlayerEntity);
         });
 

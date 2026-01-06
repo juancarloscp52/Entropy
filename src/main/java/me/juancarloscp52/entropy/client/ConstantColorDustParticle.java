@@ -7,6 +7,7 @@ import net.minecraft.client.particle.DustParticleBase;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.util.RandomSource;
 
 public class ConstantColorDustParticle extends DustParticleBase<ConstantColorDustParticleOptions>{
     protected ConstantColorDustParticle(ClientLevel world, double x, double y, double z, double velocityX, double velocityY, double velocityZ, ConstantColorDustParticleOptions parameters, SpriteSet spriteProvider) {
@@ -28,7 +29,8 @@ public class ConstantColorDustParticle extends DustParticleBase<ConstantColorDus
             this.spriteProvider = spriteProvider;
         }
 
-        public Particle createParticle(ConstantColorDustParticleOptions dustParticleEffect, ClientLevel clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ) {
+        @Override
+        public Particle createParticle(ConstantColorDustParticleOptions dustParticleEffect, ClientLevel clientWorld, double x, double y, double z, double velocityX, double velocityY, double velocityZ, RandomSource random) {
             return new ConstantColorDustParticle(clientWorld, x, y, z, velocityX, velocityY, velocityZ, dustParticleEffect, spriteProvider);
         }
     }

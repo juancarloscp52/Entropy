@@ -1,11 +1,10 @@
-#version 150
+#version 330
 
 #moj_import <minecraft:globals.glsl>
 
 uniform sampler2D InSampler;
 
 in vec2 texCoord;
-in vec2 oneTexel;
 
 layout(std140) uniform SamplerInfo {
     vec2 OutSize;

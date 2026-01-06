@@ -23,7 +23,7 @@ public class RideClosestMobEvent extends AbstractInstantEvent {
                     TargetingConditions.forCombat(), serverPlayerEntity,
                     playerPos.x(), playerPos.y(), playerPos.z(), box);
             if (mob != null)
-                serverPlayerEntity.startRiding(mob, true);
+                serverPlayerEntity.startRiding(mob, true, true);
         }
     }
 
