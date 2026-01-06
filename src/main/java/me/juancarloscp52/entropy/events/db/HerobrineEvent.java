@@ -30,7 +30,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ARGB;
@@ -47,7 +47,7 @@ import java.util.Random;
 public class HerobrineEvent extends AbstractTimedEvent {
 
     public static final EventType<HerobrineEvent> TYPE = EventType.builder(HerobrineEvent::new).category(EventCategory.FOG).build();
-    private static final ResourceLocation VIGNETTE_TEXTURE = ResourceLocation.fromNamespaceAndPath("entropy", "textures/vignette.png");
+    private static final Identifier VIGNETTE_TEXTURE = Identifier.fromNamespaceAndPath("entropy", "textures/vignette.png");
     Random random;
     Minecraft client;
 

@@ -71,8 +71,8 @@ public class GameRendererMixin {
                 fov *= Mth.lerp(tickDelta, this.oldFovModifier, this.fovModifier);
             }
 
-            if (camera.getEntity() instanceof LivingEntity && ((LivingEntity) camera.getEntity()).isDeadOrDying()) {
-                float f = Math.min((float) ((LivingEntity) camera.getEntity()).deathTime + tickDelta, 20.0F);
+            if (camera.entity() instanceof LivingEntity && ((LivingEntity) camera.entity()).isDeadOrDying()) {
+                float f = Math.min((float) ((LivingEntity) camera.entity()).deathTime + tickDelta, 20.0F);
                 fov /= ((1.0F - 500.0F / (f + 500.0F)) * 2.0F + 1.0F);
             }
             FogType cameraSubmersionType = camera.getFluidInCamera();

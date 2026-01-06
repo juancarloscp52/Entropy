@@ -21,7 +21,7 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class NetworkingConstants {
     public static final CustomPacketPayload.Type<ServerboundJoinHandshake> JOIN_HANDSHAKE = registerC2S("join-handshake", ServerboundJoinHandshake.CODEC);
@@ -49,6 +49,6 @@ public class NetworkingConstants {
     }
 
     private static <T extends CustomPacketPayload> CustomPacketPayload.Type<T> register(final String name) {
-        return new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("entropy", name));
+        return new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath("entropy", name));
     }
 }

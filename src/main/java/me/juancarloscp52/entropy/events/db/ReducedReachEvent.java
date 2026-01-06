@@ -19,7 +19,7 @@ package me.juancarloscp52.entropy.events.db;
 
 import me.juancarloscp52.entropy.events.AbstractAttributeEvent;
 import me.juancarloscp52.entropy.events.EventType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -31,8 +31,8 @@ public class ReducedReachEvent extends AbstractAttributeEvent {
     @Override
     protected List<ActiveModifier> getModifiers() {
         return List.of(
-            new ActiveModifier(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("entropy", "block_reach"), -2.5d, AttributeModifier.Operation.ADD_VALUE)),
-            new ActiveModifier(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(ResourceLocation.fromNamespaceAndPath("entropy", "entity_reach"), -2.5d, AttributeModifier.Operation.ADD_VALUE))
+            new ActiveModifier(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(Identifier.fromNamespaceAndPath("entropy", "block_reach"), -2.5d, AttributeModifier.Operation.ADD_VALUE)),
+            new ActiveModifier(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(Identifier.fromNamespaceAndPath("entropy", "entity_reach"), -2.5d, AttributeModifier.Operation.ADD_VALUE))
         );
     }
 

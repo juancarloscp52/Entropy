@@ -26,6 +26,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.permissions.LevelBasedPermissionSet;
 import net.minecraft.world.level.dimension.DimensionType;
 
 import java.util.Arrays;
@@ -56,7 +57,7 @@ public class RandomTPEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(player -> {
             String netherSafety = "";
             DimensionType dimensionType = player.level().dimensionType();
-            CommandSourceStack commandSourceStack = player.createCommandSourceStack().withPermission(4);
+            CommandSourceStack commandSourceStack = player.createCommandSourceStack().withPermission(LevelBasedPermissionSet.ADMIN);
 
             if (dimensionType.hasCeiling())
                 netherSafety = " under " + (dimensionType.logicalHeight() - 1);
