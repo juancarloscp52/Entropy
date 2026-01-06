@@ -184,7 +184,7 @@ public class EntropyIntegrationsScreen extends Screen {
             token = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.twitch.OAuthToken"));
             token.setMaxLength(64);
             token.setValue(settings.twitch.token);
-            token.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
+            token.addFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
             rowHelper.addChild(
                 CommonLayouts.labeledElement(font, token, Component.translatable("entropy.options.integrations.twitch.OAuthToken")),
                 rowHelper.newCellSettings().alignHorizontallyCenter()
@@ -219,7 +219,7 @@ public class EntropyIntegrationsScreen extends Screen {
             token = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.discord.token"));
             token.setMaxLength(128);
             token.setValue(settings.discord.token);
-            token.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
+            token.addFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
             rowHelper.addChild(
                 CommonLayouts.labeledElement(font, token, Component.translatable("entropy.options.integrations.discord.token")),
                 rowHelper.newCellSettings().alignHorizontallyCenter()
@@ -266,7 +266,7 @@ public class EntropyIntegrationsScreen extends Screen {
             secret = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.youtube.secret"));
             secret.setMaxLength(64);
             secret.setValue(settings.youtube.secret);
-            secret.setFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
+            secret.addFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
             rowHelper.addChild(
                 CommonLayouts.labeledElement(font, secret, Component.translatable("entropy.options.integrations.youtube.secret")),
                 rowHelper.newCellSettings().alignHorizontallyCenter()

@@ -38,7 +38,7 @@ public class SlimePyramidEvent extends AbstractInstantEvent {
                 slime2.setPos(player.position().add(addX, 0, addY));
                 player.level().addFreshEntity(slime2);
 
-                slime2.startRiding(slime, true);
+                slime2.startRiding(slime, true, true);
                 slime = slime2;
             }
         }

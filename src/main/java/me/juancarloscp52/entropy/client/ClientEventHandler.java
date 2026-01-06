@@ -100,7 +100,7 @@ public class ClientEventHandler {
 
         Minecraft client = Minecraft.getInstance();
 
-        if (client.getDebugOverlay().showDebugScreen())
+        if (client.debugEntries.isF3Visible())
             return;
 
         double time = timerDuration - eventCountDown;

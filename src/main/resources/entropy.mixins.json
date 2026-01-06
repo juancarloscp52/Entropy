@@ -14,7 +14,6 @@
     "WolfInvoker"
   ],
   "client": [
-    "AbstractScrollAreaAccessor",
     "BossHealthOverlayAccessor",
     "BossHealthOverlayMixin",
     "CameraMixin",
@@ -32,7 +31,7 @@
     "MultiPlayerGameModeAccessor",
     "OptionsScreenMixin",
     "ScreenEffectRendererMixin",
-    "SheepWoolLayerMixin",
+    "SheepRendererMixin",
     "SoundEngineMixin"
   ],
   "injectors": {

@@ -33,6 +33,7 @@ import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.inventory.tooltip.MenuTooltipPositioner;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.Holder;
@@ -76,6 +77,7 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         return super.addEntry(entry);
     }
 
+    @Override
     public int getRowWidth() {
         return 400;
     }
@@ -91,20 +93,23 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        this.updateScrolling(mouseX, mouseY, button);
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        final double mouseX = event.x();
+        final double mouseY = event.y();
+        final int button = event.button();
+        this.updateScrolling(event);
         if (!this.isMouseOver(mouseX, mouseY)) {
             return false;
         } else {
             ButtonEntry entry = this.getEntryAtPositionRespectingSearch(mouseX, mouseY);
             if (entry != null) {
-                if (entry.mouseClicked(mouseX, mouseY, button)) {
+                if (entry.mouseClicked(event, doubleClick)) {
                     this.setFocused(entry);
                     this.setDragging(true);
                     return true;
                 }
             } else if (button == 0) {
-                super.mouseClicked(mouseX, mouseY, button);
+                super.mouseClicked(event, doubleClick);
                 return true;
             }
 
@@ -117,28 +122,26 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         int j = this.getX() + this.width / 2;
         int k = j - i;
         int l = j + i;
-        int m = Mth.floor(y - (double)this.getY()) - this.headerHeight + (int)this.scrollAmount() - 4;
-        int n = m / this.itemHeight;
+        int m = Mth.floor(y - (double)this.getY()) + (int)this.scrollAmount() - 4;
+        int n = m / this.defaultEntryHeight;
         return x < (double)this.scrollBarX() && x >= (double)k && x <= (double)l && n >= 0 && m >= 0 && n < this.getItemCount() ? this.visibleEntries.get(n) : null;
     }
 
     @Override
     protected void renderListItems(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
-        int rowLeft = this.getRowLeft();
-        int rowWidth = this.getRowWidth();
-        int entryHeight = this.itemHeight - 4;
         int entryCount = this.children().size();
         int drawIndex = 0;
 
         for (int index = 0; index < entryCount; ++index) {
             int rowTop = this.getRowTop(drawIndex);
-            int rowBottom = rowTop + this.itemHeight;
+            int rowBottom = rowTop + this.defaultEntryHeight;
 
-            if (this.getEntry(index).checkbox.visible) {
+            EntropyEventListWidget.ButtonEntry entry = this.children().get(index);
+            if (entry.checkbox.visible) {
                 drawIndex++;
 
                 if (rowBottom >= this.getY() && rowTop <= this.getBottom())
-                    this.renderItem(drawContext, mouseX, mouseY, delta, index, rowLeft, rowTop, rowWidth, entryHeight);
+                    this.renderItem(drawContext, mouseX, mouseY, delta, entry);
             }
         }
     }
@@ -199,25 +202,26 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
                 .anyMatch(key -> typeReference.key().location().equals(key));
         }
 
-        public void render(GuiGraphics drawContext, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-            checkbox.setPosition(x + 32, y);
+        @Override
+        public void renderContent(GuiGraphics drawContext, int mouseX, int mouseY, boolean isHovering, float tickDelta) {
+            checkbox.setPosition(getX() + 32, getY());
             checkbox.render(drawContext, mouseX, mouseY, tickDelta);
 
             if(!eventInfo.typeReference.value().isEnabled()) {
-                drawContext.blitSprite(RenderPipelines.GUI_TEXTURED, ICON_OVERLAY_LOCATION, x, y - 6, 32, 32);
+                drawContext.blitSprite(RenderPipelines.GUI_TEXTURED, ICON_OVERLAY_LOCATION, getX(), getY() - 6, 32, 32);
 
-                if(mouseX >= x && mouseX <= x + 32 && mouseY >= y && mouseY <= y + entryHeight) {
+                if(mouseX >= getX() && mouseX <= getX() + 32 && mouseY >= getY() && mouseY <= getY() + getHeight()) {
                     Minecraft minecraft = Minecraft.getInstance();
-                    drawContext.setTooltipForNextFrame(minecraft.font, ACCESSIBILITY_TOOLTIP.toCharSequence(minecraft), new MenuTooltipPositioner(checkbox.getRectangle()), mouseX, mouseY, hovered);
+                    drawContext.setTooltipForNextFrame(minecraft.font, ACCESSIBILITY_TOOLTIP.toCharSequence(minecraft), new MenuTooltipPositioner(checkbox.getRectangle()), mouseX, mouseY, isHovering);
                 }
             }
         }
 
         @Override
-        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
             if(checkbox.active) {
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
-                this.checkbox.onPress();
+                this.checkbox.onPress(event);
             }
 
             return true;

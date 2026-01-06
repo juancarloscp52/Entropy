@@ -1,9 +1,8 @@
-#version 150
+#version 330
 
 uniform sampler2D InSampler;
 
 in vec2 texCoord;
-in vec2 oneTexel;
 
 layout(std140) uniform SamplerInfo {
     vec2 OutSize;

@@ -19,7 +19,7 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
         float yOffset = (Mth.cos(tickCount) + 1.0F) / 2.0F;
         Vector3f color = HSBtoRGB(((tickCount * 5) % 360) / 360.0F, 1.0F, 1.0F);
 
-        Minecraft.getInstance().player.clientLevel.entitiesForRendering().forEach(entity -> {
+        Minecraft.getInstance().level.entitiesForRendering().forEach(entity -> {
             if(entity.getType().is(EntityTypeTags.NO_RAINBOW_TRAIL))
                 return;
 

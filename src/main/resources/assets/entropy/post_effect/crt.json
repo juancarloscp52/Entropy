@@ -5,7 +5,7 @@
   },
   "passes": [
     {
-      "vertex_shader": "minecraft:post/sobel",
+      "vertex_shader": "minecraft:core/screenquad",
       "fragment_shader": "minecraft:post/bits",
       "inputs": [
         {
@@ -30,7 +30,7 @@
       "output": "swap"
     },
     {
-      "vertex_shader": "minecraft:post/sobel",
+      "vertex_shader": "minecraft:core/screenquad",
       "fragment_shader": "entropy:program/scan_pincushion",
       "inputs": [
         {
@@ -41,7 +41,7 @@
       "output": "swap2"
     },
     {
-      "vertex_shader": "minecraft:post/sobel",
+      "vertex_shader": "minecraft:core/screenquad",
       "fragment_shader": "entropy:program/ntsc_encode",
       "inputs": [
         {
@@ -52,16 +52,12 @@
       "output": "swap"
     },
     {
-      "vertex_shader": "minecraft:post/sobel",
+      "vertex_shader": "minecraft:core/screenquad",
       "fragment_shader": "entropy:program/ntsc_decode",
       "inputs": [
         {
           "sampler_name": "In",
           "target": "swap"
-        },
-        {
-          "sampler_name": "Base",
-          "target": "minecraft:main"
         }
       ],
       "output": "minecraft:main"

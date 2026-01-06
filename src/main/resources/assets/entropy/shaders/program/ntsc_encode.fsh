@@ -1,9 +1,8 @@
-#version 150
+#version 330
 
 uniform sampler2D InSampler;
 
 in vec2 texCoord;
-in vec2 oneTexel;
 
 layout(std140) uniform SamplerInfo {
     vec2 OutSize;
@@ -27,6 +26,7 @@ const vec4 InvCRange = vec4(1.0 / 3.2366);
 out vec4 fragColor;
 
 void main() {
+    vec2 oneTexel = 1.0 / InSize;
     vec2 InverseP = vec2(P, 0.0) * oneTexel;
 
     // UVs for four linearly-interpolated samples spread 0.25 texels apart
