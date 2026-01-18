@@ -101,6 +101,7 @@ public class ClientEventHandler {
         Minecraft client = Minecraft.getInstance();
 
         if (client.debugEntries.isOverlayVisible())
+
             return;
 
         double time = timerDuration - eventCountDown;
