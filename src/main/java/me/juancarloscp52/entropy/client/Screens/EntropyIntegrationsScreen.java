@@ -62,6 +62,7 @@ public class EntropyIntegrationsScreen extends Screen {
     private TwitchTab twitch;
     private DiscordTab discord;
     private YouTubeTab youtube;
+    private KickTab kick;
 
     Screen parent;
 
@@ -75,7 +76,8 @@ public class EntropyIntegrationsScreen extends Screen {
         twitch = new TwitchTab();
         discord = new DiscordTab();
         youtube = new YouTubeTab();
-        tabNavigationBar = TabNavigationBar.builder(this.tabManager, this.width).addTabs(general, twitch, discord, youtube).build();
+        kick = new KickTab();
+        tabNavigationBar = TabNavigationBar.builder(this.tabManager, this.width).addTabs(general, twitch, discord, youtube, kick).build();
         addRenderableWidget(tabNavigationBar);
 
         LinearLayout linearLayout = layout.addToFooter(LinearLayout.horizontal().spacing(8));
@@ -119,13 +121,17 @@ public class EntropyIntegrationsScreen extends Screen {
         settings.youtube.secret = youtube.secret.getValue();
         settings.youtube.pollInterval = (int) (youtube.pollInterval.getValue() * 1000);
 
+        settings.kick.enabled = kick.enabled.selected();
+        settings.kick.chatroomId = kick.chatroomId.getValue();
+        settings.kick.clientBearerToken = kick.clientBearerToken.getValue();
+
         settings.sendChatMessages = general.sendChatMessages.selected();
         settings.showCurrentPercentage = general.showPollStatus.selected();
         settings.showUpcomingEvents = general.showUpcomingEvents.selected();
 
         EntropyClient.getInstance().saveSettings();
 
-        Entropy.getInstance().settings.integrations = settings.twitch.enabled || settings.discord.enabled || settings.youtube.enabled;
+        Entropy.getInstance().settings.integrations = settings.twitch.enabled || settings.discord.enabled || settings.youtube.enabled || settings.kick.enabled;
         Entropy.getInstance().saveSettings();
 
         onClose();
@@ -161,6 +167,42 @@ public class EntropyIntegrationsScreen extends Screen {
                 .selected(settings.sendChatMessages)
                 .build();
             rowHelper.addChild(sendChatMessages);
+        }
+    }
+
+    @Environment(EnvType.CLIENT)
+    class KickTab extends GridLayoutTab {
+        private final Checkbox enabled;
+        private final EditBox chatroomId;
+        private final EditBox clientBearerToken;
+
+        public KickTab() {
+            super(Component.translatable("entropy.options.integrations.kick"));
+
+            GridLayout.RowHelper rowHelper = layout.columnSpacing(10).rowSpacing(8).createRowHelper(1);
+
+            enabled = Checkbox.builder(Component.translatable("entropy.options.enabled"), font)
+                    .tooltip(Tooltip.create(Component.translatable("entropy.options.integrations.kick.help")))
+                    .selected(settings.kick.enabled)
+                    .build();
+            rowHelper.addChild(enabled);
+
+            chatroomId = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.kick.chatroomId"));
+            chatroomId.setMaxLength(128);
+            chatroomId.setValue(settings.kick.chatroomId);
+            rowHelper.addChild(
+                    CommonLayouts.labeledElement(font, chatroomId, Component.translatable("entropy.options.integrations.kick.chatroomId")),
+                    rowHelper.newCellSettings().alignHorizontallyCenter()
+            );
+
+            clientBearerToken = new EditBox(font, 200, 20, Component.translatable("entropy.options.integrations.kick.clientBearerToken"));
+            clientBearerToken.setMaxLength(60);
+            clientBearerToken.setValue(settings.kick.clientBearerToken);
+            clientBearerToken.addFormatter((s, integer) -> FormattedCharSequence.forward("*".repeat(s.length()), Style.EMPTY));
+            rowHelper.addChild(
+                    CommonLayouts.labeledElement(font, clientBearerToken, Component.translatable("entropy.options.integrations.kick.clientBearerToken")),
+                    rowHelper.newCellSettings().alignHorizontallyCenter()
+            );
         }
     }
 

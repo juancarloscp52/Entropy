@@ -182,6 +182,7 @@
   "entropy.options.integrations.twitch": "Twitch",
   "entropy.options.integrations.discord": "Discord",
   "entropy.options.integrations.youtube": "YouTube",
+  "entropy.options.integrations.kick": "Kick",
   "entropy.options.integrations.twitch.OAuthToken": "Twitch OAuth Token:",
   "entropy.options.integrations.twitch.channelName": "Twitch Channel Name:",
   "entropy.options.integrations.discord.token": "Discord Bot Token:",
@@ -199,6 +200,8 @@
   "entropy.options.integrations.youtube.quotaExceeded": "Quota Exceeded",
   "entropy.options.integrations.youtube.pollInterval": "Polling Interval: %ds",
   "entropy.options.integrations.youtube.pollInterval.tooltip": "How often to query the YouTube servers. Lower values give quicker response times, but also use up the quota quicker.",
+  "entropy.options.integrations.kick.chatroomId": "Chatroom id",
+  "entropy.options.integrations.kick.clientBearerToken": "Client bearer token",
 
   "entropy.options.disableEvents": "Disable Events",
   "entropy.options.search": "Search...",

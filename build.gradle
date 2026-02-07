@@ -67,9 +67,10 @@ dependencies {
     include 'com.neovisionaries:nv-websocket-client:2.14'
     include 'com.squareup.okhttp3:okhttp:3.14.9'
     include 'com.squareup.okio:okio:1.17.2'
-    include 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
-    include 'com.fasterxml.jackson.core:jackson-annotations:2.10.1'
-    include 'com.fasterxml.jackson.core:jackson-core:2.10.1'
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.21.0")
+    include("com.fasterxml.jackson.core:jackson-databind:2.21.0")
+    include("com.fasterxml.jackson.core:jackson-core:2.21.0")
+    include("com.fasterxml.jackson.core:jackson-annotations:2.21")
 
     // Websocket Server for Overlay
     implementation 'org.java-websocket:Java-WebSocket:1.5.3'

@@ -20,6 +20,7 @@ package me.juancarloscp52.entropy.client;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegrationSettings;
+import me.juancarloscp52.entropy.client.integrations.kick.KickIntegrationSettings;
 import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegrationSettings;
 import me.juancarloscp52.entropy.client.integrations.youtube.YouTubeIntegrationSettings;
 
@@ -28,15 +29,17 @@ public class EntropyIntegrationsSettings {
         DiscordIntegrationSettings.CODEC.fieldOf("discord").orElseGet(DiscordIntegrationSettings::new).forGetter(s -> s.discord),
         TwitchIntegrationSettings.CODEC.fieldOf("twitch").orElseGet(TwitchIntegrationSettings::new).forGetter(s -> s.twitch),
         YouTubeIntegrationSettings.CODEC.fieldOf("youtube").orElseGet(YouTubeIntegrationSettings::new).forGetter(s -> s.youtube),
+            KickIntegrationSettings.CODEC.fieldOf("kick").orElseGet(KickIntegrationSettings::new).forGetter(s -> s.kick),
         Codec.BOOL.optionalFieldOf("send_chat_messages", true).forGetter(s -> s.sendChatMessages),
         Codec.BOOL.optionalFieldOf("show_current_percentage", true).forGetter(s -> s.showCurrentPercentage),
         Codec.BOOL.optionalFieldOf("show_upcoming_events", true).forGetter(s -> s.showUpcomingEvents)
     ).apply(i, EntropyIntegrationsSettings::new));
 
-    public EntropyIntegrationsSettings(final DiscordIntegrationSettings discord, final TwitchIntegrationSettings twitch, final YouTubeIntegrationSettings youtube, final boolean sendChatMessages, final boolean showCurrentPercentage, final boolean showUpcomingEvents) {
+    public EntropyIntegrationsSettings(final DiscordIntegrationSettings discord, final TwitchIntegrationSettings twitch, final YouTubeIntegrationSettings youtube, final KickIntegrationSettings kick, final boolean sendChatMessages, final boolean showCurrentPercentage, final boolean showUpcomingEvents) {
         this.discord = discord;
         this.twitch = twitch;
         this.youtube = youtube;
+        this.kick = kick;
         this.sendChatMessages = sendChatMessages;
         this.showCurrentPercentage = showCurrentPercentage;
         this.showUpcomingEvents = showUpcomingEvents;
@@ -48,12 +51,13 @@ public class EntropyIntegrationsSettings {
     public DiscordIntegrationSettings discord = new DiscordIntegrationSettings();
     public TwitchIntegrationSettings twitch = new TwitchIntegrationSettings();
     public YouTubeIntegrationSettings youtube = new YouTubeIntegrationSettings();
+    public KickIntegrationSettings kick = new KickIntegrationSettings();
 
     public boolean sendChatMessages = true;
     public boolean showCurrentPercentage = true;
     public boolean showUpcomingEvents = true;
 
     public boolean shouldUseAlternateOffsets() {
-        return twitch.enabled || youtube.enabled;
+        return twitch.enabled || youtube.enabled || kick.enabled;
     }
 }

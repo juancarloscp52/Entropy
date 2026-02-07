@@ -4,6 +4,7 @@ import me.juancarloscp52.entropy.client.ClientEventHandler;
 import me.juancarloscp52.entropy.client.EntropyIntegrationsSettings;
 import me.juancarloscp52.entropy.client.VotingClient;
 import me.juancarloscp52.entropy.client.integrations.discord.DiscordIntegration;
+import me.juancarloscp52.entropy.client.integrations.kick.KickIntegration;
 import me.juancarloscp52.entropy.client.integrations.twitch.TwitchIntegration;
 import me.juancarloscp52.entropy.client.integrations.youtube.YoutubeIntegration;
 
@@ -14,6 +15,7 @@ public enum IntegrationType {
     TWITCH((handler, client) -> new TwitchIntegration(client), s -> s.twitch),
     DISCORD((handler, client) -> new DiscordIntegration(client), s -> s.discord),
     YOUTUBE(YoutubeIntegration::new, s -> s.youtube),
+    KICK((handler, client) -> new KickIntegration(), s -> s.kick)
     ;
 
     private final BiFunction<ClientEventHandler, VotingClient, Integration> constructor;
