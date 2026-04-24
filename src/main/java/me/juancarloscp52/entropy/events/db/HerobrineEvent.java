@@ -28,7 +28,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
@@ -77,7 +77,7 @@ public class HerobrineEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
+    public void render(GuiGraphicsExtractor drawContext, DeltaTracker tickCounter) {
         float sin = 0.75f + Mth.abs(0.25f * Mth.sin(getTickCount() * 0.0625f));
         EntropyClientUtils.renderOverlay(drawContext, VIGNETTE_TEXTURE, ARGB.colorFromFloat(1.0F, sin, sin, sin));
     }

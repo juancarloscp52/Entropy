@@ -19,7 +19,7 @@ package me.juancarloscp52.entropy.client.Screens;
 
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.events.Event;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.WinScreen;
 
 public class EntropyCreditsScreen extends WinScreen {
@@ -36,8 +36,8 @@ public class EntropyCreditsScreen extends WinScreen {
     }
 
     @Override
-    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
-        super.render(drawContext, mouseX, mouseY, delta);
+    public void extractRenderState(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(drawContext, mouseX, mouseY, delta);
         EntropyClient.getInstance().clientEventHandler.render(drawContext, minecraft.getDeltaTracker());
     }
 

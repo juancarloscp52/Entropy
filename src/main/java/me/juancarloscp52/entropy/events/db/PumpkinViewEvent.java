@@ -24,7 +24,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.CommonColors;
 
@@ -42,7 +42,7 @@ public class PumpkinViewEvent extends AbstractTimedEvent {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
+    public void render(GuiGraphicsExtractor drawContext, DeltaTracker tickCounter) {
         EntropyClientUtils.renderOverlay(drawContext, PUMPKIN_TEXTURE, CommonColors.WHITE);
     }
 

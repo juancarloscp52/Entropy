@@ -20,7 +20,7 @@ public class RainbowTrailsEvent extends AbstractTimedEvent {
         Vector3f color = HSBtoRGB(((tickCount * 5) % 360) / 360.0F, 1.0F, 1.0F);
 
         Minecraft.getInstance().level.entitiesForRendering().forEach(entity -> {
-            if(entity.getType().is(EntityTypeTags.NO_RAINBOW_TRAIL))
+            if(entity.is(EntityTypeTags.NO_RAINBOW_TRAIL))
                 return;
 
             Quaterniond relativePosition = new Quaterniond(-0.5D + xOffset, 0.0D, -0.5D, 0.0D);

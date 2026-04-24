@@ -25,7 +25,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.Tooltip;
@@ -124,9 +124,9 @@ public class EntropyEventListWidget extends ContainerObjectSelectionList<Entropy
         }
 
         @Override
-        public void renderContent(GuiGraphics drawContext, int mouseX, int mouseY, boolean isHovering, float tickDelta) {
+        public void extractContent(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, boolean isHovering, float tickDelta) {
             checkbox.setPosition(getX() + 32, getY());
-            checkbox.render(drawContext, mouseX, mouseY, tickDelta);
+            checkbox.extractContents(drawContext, mouseX, mouseY, tickDelta);
 
             if(!eventInfo.typeReference.value().isEnabled()) {
                 drawContext.blitSprite(RenderPipelines.GUI_TEXTURED, ICON_OVERLAY_LOCATION, getX(), getY() - 6, 32, 32);

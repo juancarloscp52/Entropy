@@ -28,7 +28,7 @@ import me.juancarloscp52.entropy.client.integrations.IntegrationType;
 import me.juancarloscp52.entropy.events.Event;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -91,7 +91,7 @@ public class ClientEventHandler {
         }
     }
 
-    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
+    public void render(GuiGraphicsExtractor drawContext, DeltaTracker tickCounter) {
         // Render active event effects
         currentEvents.forEach(event -> {
             if (!event.hasEnded() && !client.player.isSpectator())

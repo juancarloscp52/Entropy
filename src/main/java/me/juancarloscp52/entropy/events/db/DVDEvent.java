@@ -22,7 +22,7 @@ import me.juancarloscp52.entropy.events.EventCategory;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.CommonColors;
 import net.minecraft.util.Mth;
 
@@ -52,7 +52,7 @@ public class DVDEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
+    public void render(GuiGraphicsExtractor drawContext, DeltaTracker tickCounter) {
         renderDVDOverlay(drawContext, tickCounter);
     }
 
@@ -79,7 +79,7 @@ public class DVDEvent extends AbstractTimedEvent {
         return (short) (super.getDuration() * 0.75d);
     }
 
-    private void renderDVDOverlay(GuiGraphics drawContext, DeltaTracker tickCounter) {
+    private void renderDVDOverlay(GuiGraphicsExtractor drawContext, DeltaTracker tickCounter) {
         if (client == null)
             return;
         int height = client.getWindow().getGuiScaledHeight();

@@ -50,7 +50,7 @@ public abstract class BlockStateBaseMixin {
 
     // getFaceOcclusionShape needs to be modified in order to work with Sodium. Without it if block is next to the stone then only face next to the air is rendered.
     @Inject(at = @At("HEAD"), method = "getFaceOcclusionShape", cancellable = true)
-    public void getCullingFace(CallbackInfoReturnable<VoxelShape> ci) {
+    public void getCullingFace(Direction direction, CallbackInfoReturnable<VoxelShape> ci) {
         if (Variables.xrayActive) {
             if (((BlockStateBase) (Object) this).is(BlockTags.SHOWN_DURING_XRAY))
                 ci.setReturnValue(Shapes.block());

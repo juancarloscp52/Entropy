@@ -19,20 +19,26 @@ package me.juancarloscp52.entropy.mixin;
 
 import me.juancarloscp52.entropy.Variables;
 import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin {
     @Unique
     final int cameraYDistance = 8;
+
+    @Shadow private Entity entity;
+
+    @Shadow private Minecraft minecraft;
 
     @Shadow protected abstract void setRotation(float yaw, float pitch);
 
@@ -42,13 +48,24 @@ public abstract class CameraMixin {
 
     @Shadow private float eyeHeight;
 
-    @Inject(method = "setup",at=@At("TAIL"))
-    private void update(Level area, Entity focusedEntity, boolean thirdPerson, boolean inverseView, float tickDelta, CallbackInfo ci){
+    @Inject(method = "update",at=@At("TAIL"))
+    private void update(DeltaTracker deltaTracker, CallbackInfo ci){
         if(!Variables.topView)
             return;
+        Entity focusedEntity = this.entity;
+        if (focusedEntity == null) {
+            return;
+        }
+        float tickDelta = deltaTracker.getGameTimeDeltaPartialTick(true);
         this.setRotation(0, +90);
         this.setPosition(Mth.lerp(tickDelta, focusedEntity.xo, focusedEntity.getX()), Mth.lerp(tickDelta, focusedEntity.yo+cameraYDistance, focusedEntity.getY()+cameraYDistance) + (double)Mth.lerp(tickDelta, this.eyeHeightOld+cameraYDistance, this.eyeHeight+cameraYDistance), Mth.lerp(tickDelta, focusedEntity.zo, focusedEntity.getZ()));
     }
 
+    @Inject(method = "getFov", at = @At("RETURN"), cancellable = true)
+    private void changeFov(CallbackInfoReturnable<Float> cir) {
+        if (Variables.forcedFov) {
+            cir.setReturnValue((float) Variables.fov);
+        }
+    }
 
 }

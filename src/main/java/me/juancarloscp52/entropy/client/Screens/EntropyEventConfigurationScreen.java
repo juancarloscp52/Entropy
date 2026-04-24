@@ -22,7 +22,7 @@ import me.juancarloscp52.entropy.EntropySettings;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropyEventListWidget.FilterMode;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.EditBox;
@@ -80,9 +80,9 @@ public class EntropyEventConfigurationScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
-        super.render(drawContext, mouseX, mouseY, delta);
-        drawContext.drawString(font, this.title, this.width / 2 - font.width(this.title) / 2, 12, 0xFFE0E0E0);
+    public void extractRenderState(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(drawContext, mouseX, mouseY, delta);
+        drawContext.text(font, this.title, this.width / 2 - font.width(this.title) / 2, 12, 0xFFE0E0E0);
         EntropyConfigurationScreen.drawLogo(drawContext);
     }
 

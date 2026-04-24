@@ -23,7 +23,7 @@ import me.juancarloscp52.entropy.events.EventCategory;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.CommonColors;
 import net.minecraft.util.Mth;
 
@@ -56,7 +56,7 @@ public class CinematicScreenEvent extends AbstractTimedEvent {
     }
 
     @Override
-    public void render(GuiGraphics drawContext, DeltaTracker tickCounter) {
+    public void render(GuiGraphicsExtractor drawContext, DeltaTracker tickCounter) {
         client = Minecraft.getInstance();
         int borderHeight = Mth.floor(client.getWindow().getGuiScaledHeight() * 0.12f);
         drawContext.fill(0, 0, client.getWindow().getGuiScaledWidth(), borderHeight, CommonColors.BLACK);

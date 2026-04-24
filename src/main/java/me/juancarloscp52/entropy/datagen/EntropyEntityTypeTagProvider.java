@@ -1,15 +1,15 @@
 package me.juancarloscp52.entropy.datagen;
 
 import me.juancarloscp52.entropy.EntropyTags.EntityTypeTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.EntityTypeTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider.EntityTypeTagsProvider;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.world.entity.EntityType;
 
 import java.util.concurrent.CompletableFuture;
 
-public class EntropyEntityTypeTagProvider extends EntityTypeTagProvider {
-    public EntropyEntityTypeTagProvider(FabricDataOutput output, CompletableFuture<Provider> completableFuture) {
+public class EntropyEntityTypeTagProvider extends EntityTypeTagsProvider {
+    public EntropyEntityTypeTagProvider(FabricPackOutput output, CompletableFuture<Provider> completableFuture) {
         super(output, completableFuture);
     }
 

@@ -14,12 +14,12 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
  */
 public abstract class BossHealthOverlayMixin {
 
-    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/components/BossHealthOverlay;drawBar(Lnet/minecraft/client/gui/GuiGraphics;IILnet/minecraft/world/BossEvent;)V"),index = 2)
+    @ModifyArg(method = "extractRenderState", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/components/BossHealthOverlay;extractBar(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IILnet/minecraft/world/BossEvent;)V"),index = 2)
     public int applyScreenBorderToBossBar(int y){
         return y + (Entropy.getInstance().settings.UIstyle == EntropySettings.UIStyle.GTAV ? 10:0);
     }
 
-    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/GuiGraphics;drawString(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"),index = 3)
+    @ModifyArg(method = "extractRenderState", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Lnet/minecraft/network/chat/Component;III)V"),index = 3)
     public int applyScreenBorderToBossName(int y){
         return y + (Entropy.getInstance().settings.UIstyle == EntropySettings.UIStyle.GTAV ? 10:0);
     }

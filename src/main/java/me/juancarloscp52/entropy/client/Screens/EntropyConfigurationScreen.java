@@ -23,7 +23,7 @@ import me.juancarloscp52.entropy.EntropySettings.UIStyle;
 import me.juancarloscp52.entropy.EntropySettings.VotingMode;
 import me.juancarloscp52.entropy.client.EntropyClient;
 import me.juancarloscp52.entropy.client.Screens.Widgets.EntropySliderWidget;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.CycleButton;
@@ -93,15 +93,15 @@ public class EntropyConfigurationScreen extends Screen {
         this.addRenderableWidget(done);
     }
 
-    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
-        super.render(drawContext, mouseX, mouseY, delta);
+    public void extractRenderState(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(drawContext, mouseX, mouseY, delta);
 
         drawLogo(drawContext);
         Component title = Component.translatable("entropy.options.title");
-        drawContext.drawString(this.font, title, this.width / 2 - font.width(title)/2, 10, CommonColors.WHITE);
+        drawContext.text(this.font, title, this.width / 2 - font.width(title)/2, 10, CommonColors.WHITE);
     }
 
-    public static void drawLogo(final GuiGraphics drawContext) {
+    public static void drawLogo(final GuiGraphicsExtractor drawContext) {
         Matrix3x2fStack matrices = drawContext.pose();
         matrices.pushMatrix();
         matrices.scale(0.2f, 0.2f);

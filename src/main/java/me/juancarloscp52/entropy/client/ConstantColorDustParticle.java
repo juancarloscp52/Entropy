@@ -1,7 +1,7 @@
 package me.juancarloscp52.entropy.client;
 
 import me.juancarloscp52.entropy.server.ConstantColorDustParticleOptions;
-import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider;
+import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteSet;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.DustParticleBase;
 import net.minecraft.client.particle.Particle;
@@ -25,7 +25,7 @@ public class ConstantColorDustParticle extends DustParticleBase<ConstantColorDus
     public static class Factory implements ParticleProvider<ConstantColorDustParticleOptions> {
         private final SpriteSet spriteProvider;
 
-        public Factory(FabricSpriteProvider spriteProvider) {
+        public Factory(FabricSpriteSet spriteProvider) {
             this.spriteProvider = spriteProvider;
         }
 

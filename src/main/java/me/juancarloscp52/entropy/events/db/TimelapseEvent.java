@@ -21,6 +21,8 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.clock.WorldClock;
+import net.minecraft.world.level.storage.ServerLevelData;
 
 public class TimelapseEvent extends AbstractTimedEvent {
     public static final EventType<TimelapseEvent> TYPE = EventType.builder(TimelapseEvent::new).build();
@@ -28,7 +30,9 @@ public class TimelapseEvent extends AbstractTimedEvent {
     @Override
     public void tick() {
         for (ServerLevel serverWorld : Entropy.getInstance().eventHandler.server.getAllLevels()) {
-            serverWorld.setDayTime(serverWorld.getDayTime() + (long) 125);
+            serverWorld.dimensionType().defaultClock().ifPresent(clock ->
+                serverWorld.clockManager().addTicks(clock, 125)
+            );
         }
         super.tick();
     }

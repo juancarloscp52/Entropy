@@ -39,7 +39,7 @@ public class FlingEntitiesEvent extends AbstractInstantEvent {
         });
         worlds.forEach(world -> {
             world.getAllEntities().forEach(entity -> {
-                if(entity instanceof LivingEntity livingEntity && !livingEntity.getType().is(EntityTypeTags.DO_NOT_FLING)) {
+                if(entity instanceof LivingEntity livingEntity && !livingEntity.is(EntityTypeTags.DO_NOT_FLING)) {
                     fling(livingEntity);
                     livingEntity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 140));
                 }

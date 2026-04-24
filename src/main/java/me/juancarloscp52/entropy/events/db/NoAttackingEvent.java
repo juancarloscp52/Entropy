@@ -5,7 +5,7 @@ import com.mojang.blaze3d.platform.InputConstants.Key;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.events.EventCategory;
 import me.juancarloscp52.entropy.events.EventType;
-import net.fabricmc.fabric.mixin.client.keybinding.KeyMappingAccessor;
+import net.fabricmc.fabric.mixin.client.keymapping.KeyMappingAccessor;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;

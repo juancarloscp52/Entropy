@@ -21,16 +21,17 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.AbstractTimedEvent;
 import me.juancarloscp52.entropy.events.EventType;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.gamerules.GameRules;
 
 public class SpinningMobsEvent extends AbstractTimedEvent {
     public static final EventType<SpinningMobsEvent> TYPE = EventType.builder(SpinningMobsEvent::new).build();
     int rotation;
     MinecraftServer server;
+
     @Override
     public void init() {
         server = Entropy.getInstance().eventHandler.server;
-        server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "gamerule sendCommandFeedback false");
-
+        server.getGameRules().set(GameRules.SEND_COMMAND_FEEDBACK, false, server);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class SpinningMobsEvent extends AbstractTimedEvent {
 
     @Override
     public void end() {
-        server.getCommands().performPrefixedCommand(server.createCommandSourceStack(), "gamerule sendCommandFeedback true");
+        server.getGameRules().set(GameRules.SEND_COMMAND_FEEDBACK, true, server);
         super.end();
     }
 

@@ -17,7 +17,7 @@
 
 package me.juancarloscp52.entropy.client.Screens;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
@@ -46,12 +46,12 @@ public class EntropyErrorScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics drawContext, int mouseX, int mouseY, float delta) {
-        super.render(drawContext, mouseX, mouseY, delta);
+    public void extractRenderState(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta) {
+        super.extractRenderState(drawContext, mouseX, mouseY, delta);
         List<FormattedCharSequence> lines = font.split(message, this.width / 2);
         for (int i = 0; i < lines.size(); i++) {
             FormattedCharSequence line = lines.get(i);
-            drawContext.drawString(font, line, this.width / 4, this.height / 2 - (lines.size() * 9 / 2) + i * 9, CommonColors.WHITE);
+            drawContext.text(font, line, this.width / 4, this.height / 2 - (lines.size() * 9 / 2) + i * 9, CommonColors.WHITE);
         }
     }
 

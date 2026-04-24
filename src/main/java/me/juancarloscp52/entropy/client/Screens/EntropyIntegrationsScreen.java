@@ -93,7 +93,7 @@ public class EntropyIntegrationsScreen extends Screen {
 
     public void repositionElements() {
         if (tabNavigationBar != null) {
-            tabNavigationBar.setWidth(width);
+            tabNavigationBar.updateWidth(width);
             tabNavigationBar.arrangeElements();
             final int bottom = tabNavigationBar.getRectangle().bottom();
             ScreenRectangle screenRectangle = new ScreenRectangle(0, bottom, width, height - layout.getFooterHeight() - bottom);

@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 
 public class ForcefieldEvent extends AbstractTimedEvent {
     public static final EventType<ForcefieldEvent> TYPE = EventType.builder(ForcefieldEvent::new).build();
-    private static final Predicate<Entity> ALLOWED_ENTITY = EntitySelector.ENTITY_STILL_ALIVE.and(entity -> !entity.getType().is(EntityTypeTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET));
+    private static final Predicate<Entity> ALLOWED_ENTITY = EntitySelector.ENTITY_STILL_ALIVE.and(entity -> !entity.is(EntityTypeTags.IGNORED_BY_FORCEFIELD_AND_ENTITY_MAGNET));
 
     @Override
     public void tick() {

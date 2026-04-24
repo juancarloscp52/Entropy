@@ -39,7 +39,7 @@ public class InvisibleEveryoneEvent extends AbstractTimedEvent {
     }
 
     public boolean shouldBeInvisible(Entity entity) {
-        return entity instanceof LivingEntity && !entity.getType().is(EntityTypeTags.NOT_INVISIBLE);
+        return entity instanceof LivingEntity && !entity.is(EntityTypeTags.NOT_INVISIBLE);
     }
 
     @Override

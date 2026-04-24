@@ -125,12 +125,13 @@ public class SkyBlockEvent extends AbstractInstantEvent {
                         var sandPos = startPos.offset(-ix, iy, iz);
 
                         // Prevent sand from falling
-                        world.getBlockTicks().removeContainer(new ChunkPos(sandPos));
+                        ChunkPos sandChunk = ChunkPos.containing(sandPos);
+                        world.getBlockTicks().removeContainer(sandChunk);
 
                         world.setBlockAndUpdate(sandPos, Blocks.SAND.defaultBlockState());
 
                         // Restore tick scheduler
-                        world.getBlockTicks().addContainer(new ChunkPos(sandPos), new LevelChunkTicks<Block>());
+                        world.getBlockTicks().addContainer(sandChunk, new LevelChunkTicks<Block>());
                     }
 
             // Cactus

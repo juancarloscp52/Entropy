@@ -30,7 +30,7 @@ public class DeathSightEvent extends AbstractTimedEvent {
                 var difficulty = serverPlayerEntity.level().getDifficulty();
                 var dmg = difficulty == Difficulty.HARD ? 3 : difficulty == Difficulty.NORMAL ? 5 : 7;
                 var entity = hitRes.getEntity();
-                if (entity instanceof LivingEntity && !entity.getType().is(EntityTypeTags.DO_NOT_DAMAGE))
+                if (entity instanceof LivingEntity && !entity.is(EntityTypeTags.DO_NOT_DAMAGE))
                     entity.hurt(entity.damageSources().playerAttack(serverPlayerEntity), dmg);
             }
         }

@@ -29,7 +29,7 @@ public class IgniteNearbyEntitiesEvent extends AbstractInstantEvent {
     @Override
     public void init() {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> serverPlayerEntity.level().getEntities(serverPlayerEntity, new AABB(serverPlayerEntity.position().add(50, 50, 50), serverPlayerEntity.position().add(-50, -50, -50))).forEach(entity -> {
-            if(!entity.getType().is(EntityTypeTags.DO_NOT_IGNITE))
+            if(!entity.is(EntityTypeTags.DO_NOT_IGNITE))
                 entity.igniteForSeconds(30);
         }));
     }

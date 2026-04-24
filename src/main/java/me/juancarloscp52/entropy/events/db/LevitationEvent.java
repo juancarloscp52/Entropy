@@ -35,12 +35,11 @@ public class LevitationEvent extends AbstractInstantEvent {
         Entropy.getInstance().eventHandler.getActivePlayers().forEach(serverPlayerEntity -> {
             serverPlayerEntity.level().getEntities(serverPlayerEntity, new AABB(serverPlayerEntity.position().add(50, 50, 50), serverPlayerEntity.position().add(-50, -50, -50))).forEach(
                     entity ->  {
-                        if(!(entity instanceof Player) && entity instanceof LivingEntity livingEntity && !livingEntity.getType().is(EntityTypeTags.DO_NOT_LEVITATE)){
+                        if(!(entity instanceof Player) && entity instanceof LivingEntity livingEntity && !livingEntity.is(EntityTypeTags.DO_NOT_LEVITATE)){
                             livingEntity.addEffect(new MobEffectInstance(MobEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
                         }
-                    }
-                    );
-            if(!serverPlayerEntity.getType().is(EntityTypeTags.DO_NOT_LEVITATE))
+                    });
+            if(!serverPlayerEntity.is(EntityTypeTags.DO_NOT_LEVITATE))
                 serverPlayerEntity.addEffect(new MobEffectInstance(MobEffects.LEVITATION,(int) (Entropy.getInstance().settings.baseEventDuration*0.5),4, true, false));
         });
     }

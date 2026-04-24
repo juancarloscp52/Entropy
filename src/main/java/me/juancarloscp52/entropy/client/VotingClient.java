@@ -22,7 +22,7 @@ import me.juancarloscp52.entropy.client.websocket.OverlayServer;
 import me.juancarloscp52.entropy.networking.ServerboundVotes;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
@@ -133,9 +133,9 @@ public class VotingClient {
         this.integrations = integrations;
     }
 
-    public void render(GuiGraphics drawContext) {
+    public void render(GuiGraphicsExtractor drawContext) {
         if(EntropyClient.getInstance().integrationsSettings.showUpcomingEvents) {
-            drawContext.drawString(client.font, Component.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, ARGB.color(255,255, 255, 255));
+            drawContext.text(client.font, Component.translatable("entropy.voting.total", this.totalVotesCount), 10, 20, ARGB.color(255,255, 255, 255));
 
             for (int i = 0; i < 4; i++) {
                 renderPollElement(drawContext, i);
@@ -143,7 +143,7 @@ public class VotingClient {
         }
     }
 
-    public void renderPollElement(GuiGraphics drawContext, int i) {
+    public void renderPollElement(GuiGraphicsExtractor drawContext, int i) {
 
         if (this.events == null)
             return;
@@ -154,11 +154,11 @@ public class VotingClient {
         drawContext.fill(10, 31 + (i * 18), pollWidth+45+ 10 , 35 + (i * 18) + 10, ARGB.color(150,0, 0, 0));
         if(settings.showCurrentPercentage)
             drawContext.fill(10, 31 + (i * 18), 10 + Mth.floor((pollWidth+45) * ratio), (35 + (i * 18) + 10), this.getColor(150));
-        drawContext.drawString(client.font, Component.translatableEscape("entropy.votes.display",1 + i + altOffset, events.get(i)), 15, 34 + (i * 18), ARGB.color(255,255, 255, 255));
+        drawContext.text(client.font, Component.translatableEscape("entropy.votes.display",1 + i + altOffset, events.get(i)), 15, 34 + (i * 18), ARGB.color(255,255, 255, 255));
 
         if(settings.showCurrentPercentage){
             Component percentage = Component.translatableEscape("entropy.votes.percentage", Mth.floor(ratio * 100));
-            drawContext.drawString(client.font, percentage, pollWidth + 10 + 42 - client.font.width(percentage), 34 + (i * 18), ARGB.color(255,255, 255, 255));
+            drawContext.text(client.font, percentage, pollWidth + 10 + 42 - client.font.width(percentage), 34 + (i * 18), ARGB.color(255,255, 255, 255));
         }
 
     }

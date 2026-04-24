@@ -1,11 +1,11 @@
 package me.juancarloscp52.entropy.client;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 
 public class EntropyClientUtils {
-    public static void renderOverlay(GuiGraphics guiGraphics, Identifier texture, int color) {
+    public static void renderOverlay(GuiGraphicsExtractor guiGraphics, Identifier texture, int color) {
         guiGraphics.blit(
             RenderPipelines.GUI_TEXTURED,
             texture,

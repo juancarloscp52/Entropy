@@ -1,16 +1,16 @@
 package me.juancarloscp52.entropy.datagen;
 
 import me.juancarloscp52.entropy.EntropyTags.BlockTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider.BlockTagProvider;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalBlockTags;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider.BlockTagsProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.concurrent.CompletableFuture;
 
-public class EntropyBlockTagProvider extends BlockTagProvider {
-    public EntropyBlockTagProvider(FabricDataOutput output, CompletableFuture<Provider> completableFuture) {
+public class EntropyBlockTagProvider extends BlockTagsProvider {
+    public EntropyBlockTagProvider(FabricPackOutput output, CompletableFuture<Provider> completableFuture) {
         super(output, completableFuture);
     }
 

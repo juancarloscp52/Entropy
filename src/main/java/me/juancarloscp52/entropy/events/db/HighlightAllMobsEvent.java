@@ -27,7 +27,7 @@ public class HighlightAllMobsEvent extends AbstractTimedEvent {
         }
         for(var world : worlds)
             for(var entity : world.getAllEntities())
-                if(entity instanceof Mob && !entity.getType().is(EntityTypeTags.DO_NOT_HIGHLIGHT))
+                if(entity instanceof Mob && !entity.is(EntityTypeTags.DO_NOT_HIGHLIGHT))
                     ((Mob)entity).addEffect(new MobEffectInstance(MobEffects.GLOWING, 2));
         super.tick();
     }

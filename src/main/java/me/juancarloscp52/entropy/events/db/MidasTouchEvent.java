@@ -71,7 +71,7 @@ public class MidasTouchEvent extends AbstractTimedEvent {
 
             // Kill mobs around and spawn golden items
             var box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
-            var mobs = world.getEntities(player, box, x -> x instanceof LivingEntity && x.isAlive() && !x.getType().is(EntropyTags.EntityTypeTags.IGNORED_BY_MIDAS_TOUCH));
+            var mobs = world.getEntities(player, box, x -> x instanceof LivingEntity && x.isAlive() && !x.is(EntropyTags.EntityTypeTags.IGNORED_BY_MIDAS_TOUCH));
             for (var mob : mobs) {
 
                 ItemStack itemStack;

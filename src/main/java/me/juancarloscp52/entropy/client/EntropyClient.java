@@ -26,7 +26,6 @@ import me.juancarloscp52.entropy.Entropy;
 import me.juancarloscp52.entropy.events.Event;
 import me.juancarloscp52.entropy.events.EventType;
 import me.juancarloscp52.entropy.mixin.FogRendererAccessor;
-import me.juancarloscp52.entropy.mixin.GameRendererAccessor;
 import me.juancarloscp52.entropy.networking.ClientboundJoinSync;
 import me.juancarloscp52.entropy.networking.NetworkingConstants;
 import me.juancarloscp52.entropy.networking.ServerboundJoinHandshake;
@@ -36,7 +35,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -170,15 +169,14 @@ public class EntropyClient implements ClientModInitializer {
         });
 
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
-            GameRendererAccessor gameRenderer = (GameRendererAccessor) client.gameRenderer;
-            List<FogEnvironment> fogEnvironments = ((FogRendererAccessor) gameRenderer.getFogRenderer()).getFogEnvironments();
+            List<FogEnvironment> fogEnvironments = FogRendererAccessor.getFogEnvironments();
             fogEnvironments.addFirst(new HerobrineFogEnvironment());
             fogEnvironments.add(1, new RainbowFogEnvironment());
         });
 
         //Registry.registerReference()
         Registry.register(BuiltInRegistries.SOUND_EVENT, herobrineAmbienceID, herobrineAmbience);
-        ParticleFactoryRegistry.getInstance().register(Entropy.CONSTANT_COLOR_DUST, ConstantColorDustParticle.Factory::new);
+        ParticleProviderRegistry.getInstance().register(Entropy.CONSTANT_COLOR_DUST, ConstantColorDustParticle.Factory::new);
     }
 
     public void loadSettings() {

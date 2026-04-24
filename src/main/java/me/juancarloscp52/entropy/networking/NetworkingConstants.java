@@ -38,13 +38,13 @@ public class NetworkingConstants {
 
     private static <T extends CustomPacketPayload> CustomPacketPayload.Type<T> registerC2S(String name, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
         final CustomPacketPayload.Type<T> type = register(name);
-        PayloadTypeRegistry.playC2S().register(type, codec);
+        PayloadTypeRegistry.serverboundPlay().register(type, codec);
         return type;
     }
 
     private static <T extends CustomPacketPayload> CustomPacketPayload.Type<T> registerS2C(String name, StreamCodec<? super RegistryFriendlyByteBuf, T> codec) {
         final CustomPacketPayload.Type<T> type = register(name);
-        PayloadTypeRegistry.playS2C().register(type, codec);
+        PayloadTypeRegistry.clientboundPlay().register(type, codec);
         return type;
     }
 

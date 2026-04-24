@@ -27,5 +27,7 @@ import java.util.List;
 @Mixin(FogRenderer.class)
 public interface FogRendererAccessor {
     @Accessor("FOG_ENVIRONMENTS")
-    List<FogEnvironment> getFogEnvironments();
+    static List<FogEnvironment> getFogEnvironments() {
+        throw new AssertionError();
+    }
 }

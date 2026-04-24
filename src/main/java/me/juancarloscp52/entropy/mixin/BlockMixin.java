@@ -69,9 +69,9 @@ public class BlockMixin {
         if (Variables.randomDrops || Variables.luckyDrops) {
             if (world instanceof ServerLevel serverLevel && !stack.isEmpty() && serverLevel.getGameRules().get(GameRules.BLOCK_DROPS)) {
                 float radius = 0.5F;
-                double xOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
-                double yOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
-                double zOffset = (double) (world.random.nextFloat() * radius) + 0.25D;
+                double xOffset = (double) (world.getRandom().nextFloat() * radius) + 0.25D;
+                double yOffset = (double) (world.getRandom().nextFloat() * radius) + 0.25D;
+                double zOffset = (double) (world.getRandom().nextFloat() * radius) + 0.25D;
                 ItemEntity itemEntity = new ItemEntity(serverLevel, (double) pos.getX() + xOffset, (double) pos.getY() + yOffset, (double) pos.getZ() + zOffset, computeItemStack(stack, serverLevel));
                 itemEntity.setDefaultPickUpDelay();
                 serverLevel.addFreshEntity(itemEntity);
